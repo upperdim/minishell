@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/09 14:32:18 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/11 19:28:12 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
+
+// ** ------------------------- MACROS AND ENUMS ------------------------- ** //
 
 /* Command, a program */
 # define TOKEN_CMD 101
@@ -34,6 +36,6 @@
 /* Double quote ("') */
 # define TOKEN_QUOTE_D 109
 
-
+//_--------------------------------------------------------------------------_//
 
 #endif
