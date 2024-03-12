@@ -6,11 +6,15 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/09 08:44:12 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/12 15:38:39 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+
 int	main(int argc, char *argv[])
 {
+	(void)argc;
+	(void)argv;
 	return (0);
 }

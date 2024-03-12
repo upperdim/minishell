@@ -7,3 +7,6 @@ debbugger/*
 en.subject.pdf
 *.code-workspace
 notes.txt
+minishell
+.vscode
+notes.h
