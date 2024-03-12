@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/12 15:38:39 by tunsal           ###   ########.fr       */
+/*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
+/*   Updated: 2024/03/12 15:31:01 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef PARSER_H
+# define PARSER_H
 
-int	main(int argc, char *argv[])
+enum	e_token
 {
-	(void)argc;
-	(void)argv;
-	return (0);
-}
+	CMD,
+	ARG,
+	PIPE,
+	REDIR_OVER_L,
+	REDIR_OVER_R,
+	REDIR_APPD_L,
+	REDIR_APPD_R,
+	QUOTE_S,
+	QUOTE_D
+};
+
+#endif
