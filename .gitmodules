@@ -1,3 +1,4 @@
 [submodule "lib/libft"]
 	path = lib/libft
 	url = https://github.com/JorFik/libft.git
+	ignore = untracked
