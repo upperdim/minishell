@@ -6,4 +6,4 @@ a.out
 debbugger/*
 minishell
 .vscode
-local/*
+local/
