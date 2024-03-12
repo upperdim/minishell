@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/11 21:14:58 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/12 12:28:16 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 # include "libft.h"
 # include <stdio.h>//printf
 # include <stdlib.h>//malloc
-# include <unistd.h>//write
+# include <unistd.h>//write access read close fork
 # include <fcntl.h>//open
-# include <sys/wait.h>//waitpid
+# include <sys/wait.h>//waitpid wait
 
 //_--------------------------------------------------------------------------_//
 
@@ -123,15 +123,95 @@ ssize_t	write(int fd, const void *buf, size_t count);
 	@param ... the flags needed if flags include O_CREAT.
 	@note//_RETURNS
 	@return The file descriptor of the file opened, or -1 if an error occurred.
+	@note//_NOTES
+	@note The file descriptor returned by `open` is the lowest file descriptor
+		not currently open for the process.
+	@note//_WARNINGS
+	@warning The open file descriptors need to be closed with `close` when they
+		are no longer needed.
  */
 int		open(const char *pathname, int flags, ...);
 
+/**
+	@note//_DESCRIPTION
+	@brief #### Check file access permissions.
+	@brief Checks whether the calling process can access the file in the path
+		`pathname` with the permissions specified by `mode`.
+	@note//_PARAMETERS
+	@param pathname The path to the file to be checked.
+	@param mode The permissions to be checked. The permissions can be combined
+		using the bitwise OR operator.
+	@note//_RETURNS
+	@return 0 if the file can be accessed with the permissions specified by
+		`mode`, or -1 if an error occurred.
+	@note//_NOTES
+	@note available permissions are: R_OK, W_OK, X_OK, F_OK. Read, Write, Execute
+		and File exists respectively.
+ */
+int		access(const char *pathname, int mode);
+
+/**
+	@note//_DESCRIPTION
+	@brief #### Read from a file descriptor.
+	@brief The function reads `count` bytes from the file referred to by the file
+		descriptor `fd` into the buffer pointed by `buf`.
+	@note//_PARAMETERS
+	@param fd The file descriptor to read from.
+	@param buf The buffer to store the data read.
+	@param count The number of bytes to read.
+	@note//_RETURNS
+	@return The number of bytes read, or -1 if an error occurred.
+ */
+ssize_t	read(int fd, void *buf, size_t count);
+
+/**
+	@note//_DESCRIPTION
+	@brief #### Close a file descriptor. (USE 'ft_close' INSTEAD)
+	@brief The function closes the file descriptor `fd`, so that it no longer
+		refers to any file and may be reused.
+	@note//_PARAMETERS
+	@param fd The file descriptor to close.
+	@note//_RETURNS
+	@return 0 if the file descriptor was successfully closed, or -1 if an error
+		occurred.
+	@note//_NOTES
+	@note The file descriptor `fd` must be open for writing.
+	@note Try using the function `ft_close` instead of `close`, it will set the
+		file descriptor to -1 after closing it.
+ */
+int		close(int fd);
+
+/**
+	@note//_DESCRIPTION
+	@brief #### Create a new process.
+	@brief The function creates a new process by duplicating the calling
+		process.
+	@note//_RETURNS
+	@return 0 in the child process, and the child's process ID in the parent
+		process.
+	@note//_NOTES
+	@note The child process is an exact copy of the parent process at the moment
+		of the `fork` call.
+ */
+pid_t	fork(void);
+
+/**
+	@note//_DESCRIPTION
+	@brief #### Wait for a child process to terminate.
+	@brief The function suspends the execution of the calling process until one
+		of its child processes terminates.
+	@note//_PARAMETERS
+	@param status Tells under which conditions the function should return.
+	@note//_RETURNS
+	@return The process ID of the terminated child process, or -1 if an error
+		occurred.
+	@note//_NOTES
+	@note
+	@note//_WARNINGS
+	@warning
+ */
+pid_t	wait(int *status);
 /*
-	access
-	read
-	close
-	fork
-	wait
 char	*readline(void);
 	rl_clear_history
 	rl_on_new_line
