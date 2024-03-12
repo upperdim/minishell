@@ -3,3 +3,6 @@
 *.a
 demo.c
 a.out
+debbugger/*
+en.subject.pdf
+*.code-workspace
