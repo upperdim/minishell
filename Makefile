@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+         #
+#    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/12 15:20:24 by tunsal           ###   ########.fr        #
+#    Updated: 2024/03/15 17:01:15 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,14 +18,14 @@ CFLAGS = -Wall -Wextra -Werror -Wunreachable-code
 
 LIB_DIR = lib
 LIBFT_PATH = $(LIB_DIR)/libft
-LDFLAGS = -L$(LIBFT_PATH) -lft
+LDFLAGS = -L$(LIBFT_PATH) -lft -lreadline
 
 
 HEADERS_DIR = includes/ $(LIBFT_PATH)/h_files/
 INCLUDES = $(addprefix -I, $(HEADERS_DIR))
 
 
-C_FILES = parser/parser.c main.c
+C_FILES = parser/parser.c main.c error_handler.c exec.c
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(C_FILES))
 
