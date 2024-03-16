@@ -6,7 +6,7 @@
 #    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/15 17:01:15 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/16 21:42:17 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ OBJ+ = $(addprefix $(SRC_DIR), $(BONUS_FILES:.c=.o))
 
 all: $(NAME)
 
-$(NAME) : fetch_libft $(OBJ)
+$(NAME) : lib/libft/libft.a $(OBJ)
 	@echo "	Compiling $@..."
 	@$(CC) -o $@ $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
@@ -44,14 +44,10 @@ $(NAME) : fetch_libft $(OBJ)
 	@echo "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
 
-fetch_libft: submodule
-	@echo "	fetching libft..."
-	@make -C $(LIBFT_PATH) --silent;
-.PHONY: fetch_libft
-
-submodule:
+lib/libft/libft.a:
 	@git submodule update --init --recursive
-.PHONY: submodule
+	@echo "	Creating libft.a..."
+	@make -C $(LIBFT_PATH) --silent;
 
 clean:
 	@echo "	Ereasing Files .o"
@@ -67,19 +63,23 @@ fclean: clean
 re: fclean all
 .PHONY: re
 
-bonus: fetch_libft $(OBJ+) $(OBJ)
+bonus: lib/libft/libft.a $(OBJ+) $(OBJ)
 	@echo "	Compiling $(NAME) with bonus..."
 	@$(CC) -o $(NAME) $(OBJ+) $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
 # Debug
-DEBUGGER = debugger/
+DEBUG_DIR = debugger
 DEBUG_FLAGS = -fsanitize=address -g3
+
 c:
-	@$(RM) $(DEBUGGER)* 
+	@$(RM) $(DEBUG_DIR)/* 
 	@$(RM) *.out *.dSYM *.gch test
 .PHONY: c
-debug: c a_files
-	@$(CC) $(CFLAGS) $(SRC) $(DEBUG_FLAGS) $(INCLUDES) $(LDFLAGS)
-	@mv a.out.dSYM $(DEBUGGER)
-	@mv a.out $(DEBUGGER)
+
+debug: $(DEBUG_DIR)/a.out
 .PHONY: debug
+
+$(DEBUG_DIR)/a.out: lib/libft/libft.a includes/minishell.h
+	@$(CC) $(CFLAGS) $(SRC) $(DEBUG_FLAGS) $(INCLUDES) $(LDFLAGS)
+	@mv a.out.dSYM $(DEBUG_DIR)
+	@mv a.out $(DEBUG_DIR)

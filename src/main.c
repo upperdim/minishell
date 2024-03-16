@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/16 15:12:00 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/16 21:23:26 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ char	*get_prompt(void)
 void	control_c(int sig)
 {
 	(void)sig;
-	ft_printf("\n");
-	ft_printf("\n");
-	main();
+	return ;
 }
 
 int	main(void)
@@ -66,7 +64,8 @@ int	main(void)
 	line = NULL;
 	mallocated = NULL;
 	act.sa_handler = control_c;
-	// signal(SIGINT, control_c);
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = SA_NODEFER;
 	sigaction(SIGINT, &act, NULL);
 	while (1)
 	{
@@ -74,6 +73,8 @@ int	main(void)
 		prompt = get_prompt();
 		line = readline(prompt);
 		ft_free_n_null((void **)&prompt);
+		if (!line)
+			break ;
 		line = parse_line(line, mallocated);
 		if (!line)
 			continue ;
@@ -96,6 +97,6 @@ int	main(void)
 	}
 	ft_free_n_null((void **)&line);
 	rl_clear_history();
-	system("leaks minishell");
+	// system("leaks minishell");
 	return (0);
 }

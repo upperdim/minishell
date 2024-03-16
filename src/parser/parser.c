@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/15 17:19:41 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/16 20:33:51 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*parse_line(char *line, t_mallocated *mallocated)
 	char	*tmp;
 
 	(void)mallocated;
+	if (!line)
+		return (NULL);
 	if (*line)
 		add_history(line);
 	else
