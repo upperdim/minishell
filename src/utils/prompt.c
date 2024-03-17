@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 14:38:51 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/17 20:34:34 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ char	*prompt(t_mallocated *to_free)
 	input = readline(prompt);
 	ft_free_n_null((void **)&prompt);
 	if (!input)
-		errors((int [3]){EXIT, 0, 0}, NULL, to_free);
+		check((int [3]){EXIT, 0, 0}, NULL, to_free);
 	return (input);
 }

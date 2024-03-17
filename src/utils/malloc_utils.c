@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:02:07 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 14:17:31 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/17 20:34:25 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	needs_free(void *ptr, int index, t_mallocated *to_free)
 		return ;
 	}
 	new = ft_calloc(sizeof(t_mallocated), 1);
-	errors((int [3]){IF_NULL, 0, 0}, new, to_free);
+	check((int [3]){IF_NULL, 0, 0}, new, to_free);
 	new->index = index;
 	new->ptr = ptr;
 	new->next = NULL;

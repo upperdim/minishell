@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/17 15:06:22 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/17 20:32:56 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,6 @@ void	pwd(char *input, t_mallocated *to_free);
 void	cd(char *input, t_mallocated *to_free);
 int		main(void);
 char	*parse_line(char *line, t_mallocated *mallocated);
-void	errors(int check[3], void *if_null, t_mallocated *mallocated);
+void	check(int check[3], void *if_null, t_mallocated *mallocated);
 
 #endif

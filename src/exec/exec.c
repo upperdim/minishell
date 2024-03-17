@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 14:39:59 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/17 20:34:07 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	exec_cmd(char *cmd, char **argv)
 
 	pid = fork();
 	if (pid == -1)
-		errors(&pid, "Error forking", NULL);
+		check(&pid, "Error forking", NULL);
 	if (pid == 0)
 	{
 		execve(cmd, argv, NULL);
-		errors(&pid, "Error execve", NULL);
+		check(&pid, "Error execve", NULL);
 	}
 	else
 	{

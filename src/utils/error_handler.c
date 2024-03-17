@@ -6,13 +6,13 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:08:41 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 14:34:22 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/17 20:35:42 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	errors(int check[3], void *if_null, t_mallocated *mallocated)
+void	check(int check[3], void *if_null, t_mallocated *mallocated)
 {
 	extern int	errno;
 

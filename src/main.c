@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/17 14:57:24 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/17 20:34:13 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ int	main(void)
 			continue ;
 		builtins(input, to_free);
 	}
-	return (errors((int [3]){EXIT, 0, 0}, NULL, to_free), 0);
+	return (check((int [3]){EXIT, 0, 0}, NULL, to_free), 0);
 }
