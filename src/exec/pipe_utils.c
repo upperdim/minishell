@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 17:59:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 18:31:09 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/17 19:35:09 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	setup_out_pipe(int p_fd[2], t_mallocated *to_free)
 {
-	errors((int [3]){ft_close(p_fd[P_READ]), 0, 0}, NULL, to_free);
-	errors((int [3]){dup2(p_fd[P_WRITE], STDOUT_FILENO), 0, 0}, NULL, to_free);
-	errors((int [3]){ft_close(p_fd[P_WRITE]), 0, 0}, NULL, to_free);
+	check((int [3]){ft_close(&p_fd[OUT]), 0, 0}, NULL, to_free);
+	check((int [3]){dup2(p_fd[IN], STDOUT_FILENO), 0, 0}, NULL, to_free);
+	check((int [3]){ft_close(&p_fd[IN]), 0, 0}, NULL, to_free);
 }
 
 void	setup_in_pipe(int p_fd[2], t_mallocated *to_free)
 {
-	errors((int [3]){ft_close(p_fd[P_WRITE]), 0, 0}, NULL, to_free);
-	errors((int [3]){dup2(p_fd[P_READ], STDIN_FILENO), 0, 0}, NULL, to_free);
-	errors((int [3]){ft_close(p_fd[P_READ]), 0, 0}, NULL, to_free);
+	check((int [3]){ft_close(&p_fd[IN]), 0, 0}, NULL, to_free);
+	check((int [3]){dup2(p_fd[OUT], STDIN_FILENO), 0, 0}, NULL, to_free);
+	check((int [3]){ft_close(&p_fd[OUT]), 0, 0}, NULL, to_free);
 }
 
 char	**format_path(char *env_path)
@@ -54,6 +54,7 @@ char	*check_for_cmd(char *cmd, t_mallocated *to_free)
 	char	**path;
 
 	i = 0;
+	path_2_cmd = NULL;
 	path = format_path(getenv("PATH"));
 	while (path[i])
 	{
@@ -67,7 +68,7 @@ char	*check_for_cmd(char *cmd, t_mallocated *to_free)
 		i++;
 	}
 	if (!tmp)
-		errors((int [3]){-1, UNKNOWN_COMMAND, 0}, NULL, to_free);
+		check((int [3]){-1, UNKNOWN_COMMAND, 0}, NULL, to_free);
 	return (path_2_cmd);
 }
 //! Original function from pipex needs to be modified
@@ -82,7 +83,7 @@ char	*check_for_cmd(char *cmd, t_mallocated *to_free)
 // 	argv_i = 2 + flags.here_doc;
 // 	fd->argvs = (char ***)ft_calloc((flags.cmd_count + 1), sizeof(char **));
 // 	if (fd->argvs == NULL)
-// 		errors(-1, "Error creating fd->argvs", fd, flags);
+// 		check(-1, "Error creating fd->argvs", fd, flags);
 // 	while (argv_i <= flags.last_cmd)
 // 	{
 // 		cmd_n_args = ft_split(argv[argv_i], ' ');

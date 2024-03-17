@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:02:07 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 17:48:27 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/17 20:18:47 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	full_free(t_mallocated *to_free)
 		}
 		tmp = to_free->next;
 		ft_free_n_null(&to_free->ptr);
-		ft_free_n_null((void **)&to_free);
+		if (to_free->index != -1 && !to_free->next)
+			ft_free_n_null((void **)&to_free);
 		to_free = tmp;
 	}
 }
@@ -53,7 +54,7 @@ void	needs_free(void *ptr, int index, t_mallocated *to_free)
 		return ;
 	}
 	new = ft_calloc(sizeof(t_mallocated), 1);
-	errors((int [3]){IF_NULL, 0, 0}, new, to_free);
+	check((int [3]){IF_NULL, 0, 0}, new, to_free);
 	new->index = index;
 	new->ptr = ptr;
 	new->next = NULL;
@@ -70,15 +71,16 @@ void	rm_from_free(t_mallocated *to_free, int index)
 		tmp = tmp->next;
 	if (tmp->index != index)
 		return ;
-	if (!tmp->next)
+	if (!tmp->next || tmp == to_free)
 	{
 		tmp->index = -1;
 		ft_free_n_null(&(tmp->ptr));
 		return ;
 	}
-	while (to_free->next != tmp)
+	while (to_free->next != tmp && to_free != tmp)
 		to_free = to_free->next;
-	to_free->next = tmp->next;
+	if (to_free->next && to_free->next == tmp)
+		to_free->next = tmp->next;
 	ft_free_n_null(&tmp->ptr);
 	ft_free_n_null((void **)&tmp);
 }

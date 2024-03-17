@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/17 18:01:58 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/17 20:20:39 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@
 
 typedef struct s_mallocated
 {
-	char				index;
+	int					index;
 	void				*ptr;
 	struct s_mallocated	*next;
 }	t_mallocated;
 
-enum	e_mindex
+enum	e_mallocated_index
 {
 	INPUT,
 	HOSTNAME
@@ -58,17 +58,25 @@ enum	e_check
 	IF_NULL = -5012002,
 	EXIT = -20020105,
 	STATUS = 0,
-	WHERE,
+	ERROR,
 	INSTRUCTION,
+};
+
+enum	e_error_codes
+{
+	UNKNOWN_COMMAND = 131,
+	EPIPE,
+	EFORK,
 };
 
 enum	e_pipes
 {
-	P_READ,
-	P_WRITE,
+	IN,
+	OUT
 };
 
 // ** ---------------------------- FUNCTIONS ---------------------------- ** //
+char	*check_for_cmd(char *cmd, t_mallocated *to_free);
 void	setup_in_pipe(int p_fd[2], t_mallocated *to_free);
 void	setup_out_pipe(int p_fd[2], t_mallocated *to_free);
 void	env(char *input);
@@ -84,6 +92,6 @@ void	pwd(char *input, t_mallocated *to_free);
 void	cd(char *input, t_mallocated *to_free);
 int		main(void);
 char	*parse_line(char *line, t_mallocated *mallocated);
-void	errors(int check[3], void *if_null, t_mallocated *mallocated);
+void	check(int check[3], void *if_null, t_mallocated *mallocated);
 
 #endif
