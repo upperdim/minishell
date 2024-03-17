@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:02:07 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 14:17:31 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/17 17:48:27 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	needs_free(void *ptr, int index, t_mallocated *to_free)
 	last->next = new;
 }
 
-void	rm_from_to_free(t_mallocated *to_free, int index)
+void	rm_from_free(t_mallocated *to_free, int index)
 {
 	t_mallocated	*tmp;
 

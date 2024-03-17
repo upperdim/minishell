@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/17 15:06:22 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/17 18:01:58 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_mallocated
 enum	e_mindex
 {
 	INPUT,
+	HOSTNAME
 };
 
 enum	e_check
@@ -61,14 +62,22 @@ enum	e_check
 	INSTRUCTION,
 };
 
+enum	e_pipes
+{
+	P_READ,
+	P_WRITE,
+};
+
 // ** ---------------------------- FUNCTIONS ---------------------------- ** //
+void	setup_in_pipe(int p_fd[2], t_mallocated *to_free);
+void	setup_out_pipe(int p_fd[2], t_mallocated *to_free);
 void	env(char *input);
 void	exit_bash(char *input, t_mallocated *to_free);
 void	echo(char *input);
 void	builtins(char *input, t_mallocated *to_free);
 char	*prompt(t_mallocated *to_free);
 void	set_signal_handlers(void);
-void	rm_from_to_free(t_mallocated *to_free, int index);
+void	rm_from_free(t_mallocated *to_free, int index);
 void	full_free(t_mallocated *to_free);
 void	needs_free(void *ptr, int index, t_mallocated *to_free);
 void	pwd(char *input, t_mallocated *to_free);

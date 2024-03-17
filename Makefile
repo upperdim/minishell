@@ -6,7 +6,7 @@
 #    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/17 14:52:06 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/17 15:49:28 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,7 @@ bonus: lib/libft/libft.a $(OBJ+) $(OBJ)
 	@$(CC) -o $(NAME) $(OBJ+) $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
 # Debug
-DEBUG_DIR = debugger
+DEBUG_DIR = debug
 DEBUG_FLAGS = -fsanitize=address -g3
 
 c:
