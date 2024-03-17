@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/17 14:55:06 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 14:56:41 by JFikents         ###   ########.fr       */
+/*   Created: 2024/03/17 13:24:27 by JFikents          #+#    #+#             */
+/*   Updated: 2024/03/17 13:26:42 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_bash(char *input, t_mallocated *to_free)
+void	control_c(int sig)
 {
-	if (ft_strnstr(input, "exit", 4))
-		errors((int [3]){EXIT, 0, 0}, NULL, to_free);
+	(void)sig;
+	return ;
+}
+
+void	set_signal_handlers(void)
+{
+	struct sigaction	act;
+
+	act.sa_handler = control_c;
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = SA_NODEFER;
+	sigaction(SIGINT, &act, NULL);
 }

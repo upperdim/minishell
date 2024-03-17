@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/17 14:55:06 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 14:56:41 by JFikents         ###   ########.fr       */
+/*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
+/*   Updated: 2024/03/17 15:32:57 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_bash(char *input, t_mallocated *to_free)
+void	builtins(char *input, t_mallocated *to_free)
 {
-	if (ft_strnstr(input, "exit", 4))
-		errors((int [3]){EXIT, 0, 0}, NULL, to_free);
+	cd(input, to_free);
+	echo(input);
+	env(input);
+	exit_bash(input, to_free);
+	// export(input, to_free); Not implemented yet
+	pwd(input, to_free);
+	// unset(input, to_free); Not implemented yet
 }

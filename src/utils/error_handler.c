@@ -6,24 +6,11 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:08:41 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/15 16:45:48 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/17 14:34:22 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	full_free(t_mallocated *mallocated)
-{
-	t_mallocated	*tmp;
-
-	while (mallocated)
-	{
-		tmp = mallocated->next;
-		ft_free_n_null(&mallocated->ptr);
-		ft_free_n_null((void **)&mallocated);
-		mallocated = tmp;
-	}
-}
 
 void	errors(int check[3], void *if_null, t_mallocated *mallocated)
 {
@@ -34,7 +21,16 @@ void	errors(int check[3], void *if_null, t_mallocated *mallocated)
 		ft_putstr_fd("minishell: ", 2);
 		perror(NULL);
 		full_free(mallocated);
+		rl_clear_history();
+		system("leaks minishell");
 		exit(errno);
+	}
+	else if (check[STATUS] == EXIT)
+	{
+		full_free(mallocated);
+		rl_clear_history();
+		system("leaks minishell");
+		exit(0);
 	}
 }
 		// ft_putstr_fd(get_where(check), 2);

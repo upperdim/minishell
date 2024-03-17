@@ -6,7 +6,7 @@
 #    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/16 21:42:17 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/17 14:52:06 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,13 +25,25 @@ HEADERS_DIR = includes/ $(LIBFT_PATH)/h_files/
 INCLUDES = $(addprefix -I, $(HEADERS_DIR))
 
 
-C_FILES = parser/parser.c main.c error_handler.c exec.c
+BUILTIN_FILES = cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c
+BUILTINS = $(addprefix builtins/, $(BUILTIN_FILES))
+
+UTILS_FILES = error_handler.c malloc_utils.c signal_handler.c prompt.c
+UTILS = $(addprefix utils/, $(UTILS_FILES))
+
+EXEC_FILES = exec.c
+EXEC = $(addprefix exec/, $(EXEC_FILES))
+
+PARSER_FILES = parser.c
+PARSER = $(addprefix parser/, $(PARSER_FILES))
+
+C_FILES = main.c $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
+
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(C_FILES))
 
-
-OBJ = $(addprefix $(SRC_DIR), $(C_FILES:.c=.o))
-OBJ+ = $(addprefix $(SRC_DIR), $(BONUS_FILES:.c=.o))
+OBJ = $(SRC:%.c=%.o)
+OBJ+ = $(BONUS_SRC:.c=.o)
 
 
 all: $(NAME)
