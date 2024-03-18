@@ -3,7 +3,7 @@
 *.a
 demo.c
 a.out
-debbugger/*
 minishell
 .vscode
 local/
+debug/*

@@ -6,7 +6,7 @@
 #    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/17 14:52:06 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/17 19:40:45 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ BUILTINS = $(addprefix builtins/, $(BUILTIN_FILES))
 UTILS_FILES = error_handler.c malloc_utils.c signal_handler.c prompt.c
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 
-EXEC_FILES = exec.c
+EXEC_FILES = exec.c pipe_utils.c
 EXEC = $(addprefix exec/, $(EXEC_FILES))
 
 PARSER_FILES = parser.c
@@ -48,7 +48,7 @@ OBJ+ = $(BONUS_SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME) : lib/libft/libft.a $(OBJ)
+$(NAME) : lib/libft/libft.a $(OBJ) includes/minishell.h
 	@echo "	Compiling $@..."
 	@$(CC) -o $@ $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
@@ -80,7 +80,7 @@ bonus: lib/libft/libft.a $(OBJ+) $(OBJ)
 	@$(CC) -o $(NAME) $(OBJ+) $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
 # Debug
-DEBUG_DIR = debugger
+DEBUG_DIR = debug
 DEBUG_FLAGS = -fsanitize=address -g3
 
 c:
@@ -91,7 +91,7 @@ c:
 debug: $(DEBUG_DIR)/a.out
 .PHONY: debug
 
-$(DEBUG_DIR)/a.out: lib/libft/libft.a includes/minishell.h
+$(DEBUG_DIR)/a.out: c lib/libft/libft.a includes/minishell.h
 	@$(CC) $(CFLAGS) $(SRC) $(DEBUG_FLAGS) $(INCLUDES) $(LDFLAGS)
 	@mv a.out.dSYM $(DEBUG_DIR)
 	@mv a.out $(DEBUG_DIR)

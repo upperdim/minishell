@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/17 20:34:13 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/17 19:28:57 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(void)
 	set_signal_handlers();
 	while (1)
 	{
-		rm_from_to_free(to_free, INPUT);
+		rm_from_free(to_free, INPUT);
 		input = prompt(to_free);
 		input = parse_line(input, to_free);
 		if (!input)
