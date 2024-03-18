@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 19:58:16 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:39:33 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ static char	*format_hostname(char *hostname, t_mallocated *to_free)
 	if (!hostname)
 		return (NULL);
 	point_position = ft_strchr(hostname, '.');
-	temp = ft_substr(hostname, 0, point_position - hostname);
+	temp = ft_substr(hostname, 0, point_position - hostname + 1);
 	hostname = temp;
+	point_position = ft_strchr(hostname, '.');
 	if (point_position)
 		*point_position = ':';
 	rm_from_free(to_free, HOSTNAME);
@@ -65,6 +66,8 @@ static char	*hostname(t_mallocated *to_free)
 	waitpid(pid, &status, 0);
 	check((int [3]){status, 0, 0}, NULL, to_free);
 	read(pipe_fd[OUT], &hostname, 100);
+	ft_close(&pipe_fd[OUT]);
+	ft_close(&pipe_fd[IN]);
 	return (format_hostname(hostname, to_free));
 }
 
