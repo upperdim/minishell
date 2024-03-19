@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 17:59:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 19:35:09 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:17:14 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	setup_out_pipe(int p_fd[2], t_mallocated *to_free)
 {
-	check((int [3]){ft_close(&p_fd[OUT]), 0, 0}, NULL, to_free);
-	check((int [3]){dup2(p_fd[IN], STDOUT_FILENO), 0, 0}, NULL, to_free);
-	check((int [3]){ft_close(&p_fd[IN]), 0, 0}, NULL, to_free);
+	check((int [3]){ft_close(&p_fd[PIPE_FD_READ]), 0, 0}, NULL, to_free);
+	check((int [3]){dup2(p_fd[PIPE_FD_WRITE], STDOUT_FILENO), 0, 0}, NULL, to_free);
+	check((int [3]){ft_close(&p_fd[PIPE_FD_WRITE]), 0, 0}, NULL, to_free);
 }
 
 void	setup_in_pipe(int p_fd[2], t_mallocated *to_free)
 {
-	check((int [3]){ft_close(&p_fd[IN]), 0, 0}, NULL, to_free);
-	check((int [3]){dup2(p_fd[OUT], STDIN_FILENO), 0, 0}, NULL, to_free);
-	check((int [3]){ft_close(&p_fd[OUT]), 0, 0}, NULL, to_free);
+	check((int [3]){ft_close(&p_fd[PIPE_FD_WRITE]), 0, 0}, NULL, to_free);
+	check((int [3]){dup2(p_fd[PIPE_FD_READ], STDIN_FILENO), 0, 0}, NULL, to_free);
+	check((int [3]){ft_close(&p_fd[PIPE_FD_READ]), 0, 0}, NULL, to_free);
 }
 
 char	**format_path(char *env_path)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/18 15:32:44 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:17:14 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ enum	e_error_codes
 
 enum	e_pipes
 {
-	OUT,
-	IN
+	PIPE_FD_READ,
+	PIPE_FD_WRITE
 };
 
 // ** ---------------------------- FUNCTIONS ---------------------------- ** //

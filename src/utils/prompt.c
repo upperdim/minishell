@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/18 15:39:33 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:17:14 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*format_hostname(char *hostname, t_mallocated *to_free)
 	return (hostname);
 }
 
-static char	*hostname(t_mallocated *to_free)
+static char	*get_hostname(t_mallocated *to_free)
 {
 	extern char	**environ;
 	char		hostname[100];
@@ -65,9 +65,9 @@ static char	*hostname(t_mallocated *to_free)
 	}
 	waitpid(pid, &status, 0);
 	check((int [3]){status, 0, 0}, NULL, to_free);
-	read(pipe_fd[OUT], &hostname, 100);
-	ft_close(&pipe_fd[OUT]);
-	ft_close(&pipe_fd[IN]);
+	read(pipe_fd[PIPE_FD_READ], &hostname, 100);
+	ft_close(&pipe_fd[PIPE_FD_READ]);
+	ft_close(&pipe_fd[PIPE_FD_WRITE]);
 	return (format_hostname(hostname, to_free));
 }
 
@@ -81,9 +81,11 @@ char	*prompt(t_mallocated *to_free)
 
 	temp = getcwd(NULL, 0);
 	directory = ft_strrchr(temp, '/');
-	ft_free_n_null((void **)&temp);
 	directory = ft_strdup(directory + 1);
-	host = ft_strjoin(CYAN"", hostname(to_free));
+	ft_free_n_null((void **)&temp);
+	// char *actual_hostname = get_hostname();
+	host = ft_strjoin(CYAN"", get_hostname(to_free)); // TODO: do freeing in this scope
+	// free(actual_hostname);
 	temp = ft_strjoin(host, directory);
 	ft_free_n_null((void **)&host);
 	ft_free_n_null((void **)&directory);
