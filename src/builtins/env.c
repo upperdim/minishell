@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:00:22 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/19 19:29:07 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/19 19:35:52 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	env(char *input)
 	extern char	**environ;
 	int			i;
 
+	(void)input;
 	i = 0;
 	while (environ[i])
 	{
