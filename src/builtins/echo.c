@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:57:51 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 15:05:48 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/19 19:26:20 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	echo(char *input)
 {
-	if (ft_strnstr(input, "echo ", 5))
-	{
-		ft_putstr_fd(input + 5, 1);
-		ft_putstr_fd("\n", 1);
-	}
+	ft_putstr_fd(input, 1);
+	ft_putstr_fd("\n", 1);
 }

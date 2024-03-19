@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:08:41 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 19:28:01 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/19 19:04:11 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ static void	ft_perror(int error_code)
 		ft_putstr_fd("unable to create pipe", 2);
 }
 
-void	check(int check[3], void *if_null, t_mallocated *mallocated)
+void	check(int check[3], void *check_if_null, t_mallocated *mallocated)
 {
 	extern int	errno;
 
-	if (check[STATUS] == -1 || (check[STATUS] == IF_NULL && !if_null))
+	if (check[STATUS] == -1 || (check[STATUS] == IF_NULL && !check_if_null))
 	{
 		ft_putstr_fd("minishell: ", 2);
 		if (!check[ERROR])

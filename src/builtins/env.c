@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:00:22 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 15:08:55 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/19 19:29:07 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,10 @@ void	env(char *input)
 	int			i;
 
 	i = 0;
-	if (ft_strnstr(input, "env", 3))
+	while (environ[i])
 	{
-		while (environ[i])
-		{
-			ft_putstr_fd(environ[i], 1);
-			ft_putstr_fd("\n", 1);
-			i++;
-		}
+		ft_putstr_fd(environ[i], 1);
+		ft_putstr_fd("\n", 1);
+		i++;
 	}
 }
