@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/22 18:10:11 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:28:38 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	builtins(char *input, t_alloc_list *to_free)
 	else if (ft_strnstr(input, "echo", 4))
 		echo(input + 4);
 	else if (ft_strnstr(input, "env", 3))
-		env();
+		env(input + 3);
 	else if (ft_strnstr(input, "exit", 4))
 		exit_bash(to_free);
 	// export(input, to_free); Not implemented yet
