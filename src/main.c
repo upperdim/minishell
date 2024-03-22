@@ -6,13 +6,13 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/17 19:28:57 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:00:43 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	initilizer(t_mallocated *to_free, char **input)
+static void	initilizer(t_alloc_list *to_free, char **input)
 {
 	to_free->ptr = NULL;
 	to_free->next = NULL;
@@ -22,19 +22,19 @@ static void	initilizer(t_mallocated *to_free, char **input)
 
 int	main(void)
 {
-	t_mallocated		to_free[1];
+	t_alloc_list		to_free[1];
 	char				*input;
 
 	initilizer(to_free, &input);
 	set_signal_handlers();
 	while (1)
 	{
-		rm_from_free(to_free, INPUT);
+		free_from_list(to_free, INPUT);
 		input = prompt(to_free);
 		input = parse_line(input, to_free);
 		if (!input)
 			continue ;
 		builtins(input, to_free);
 	}
-	return (check((int [3]){EXIT, 0, 0}, NULL, to_free), 0);
+	return (clean_exit(to_free), 0);
 }

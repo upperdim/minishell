@@ -6,15 +6,15 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:02:07 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/17 20:18:47 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/22 15:59:37 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_mallocated	*last_mallocated(t_mallocated *mallocated)
+static t_alloc_list	*last_in_list(t_alloc_list *mallocated)
 {
-	t_mallocated	*tmp;
+	t_alloc_list	*tmp;
 
 	tmp = mallocated;
 	while (tmp->next)
@@ -22,9 +22,9 @@ static t_mallocated	*last_mallocated(t_mallocated *mallocated)
 	return (tmp);
 }
 
-void	full_free(t_mallocated *to_free)
+void	free_all_list(t_alloc_list *to_free)
 {
-	t_mallocated	*tmp;
+	t_alloc_list	*tmp;
 
 	while (to_free)
 	{
@@ -42,10 +42,10 @@ void	full_free(t_mallocated *to_free)
 	}
 }
 
-void	needs_free(void *ptr, int index, t_mallocated *to_free)
+void	add_to_list(void *ptr, int index, t_alloc_list *to_free)
 {
-	t_mallocated	*new;
-	t_mallocated	*last;
+	t_alloc_list	*new;
+	t_alloc_list	*last;
 
 	if (to_free->index == -1)
 	{
@@ -53,18 +53,19 @@ void	needs_free(void *ptr, int index, t_mallocated *to_free)
 		to_free->ptr = ptr;
 		return ;
 	}
-	new = ft_calloc(sizeof(t_mallocated), 1);
-	check((int [3]){IF_NULL, 0, 0}, new, to_free);
+	new = ft_calloc(sizeof(t_alloc_list), 1);
+	if (!new)
+		clean_exit(to_free);
 	new->index = index;
 	new->ptr = ptr;
 	new->next = NULL;
-	last = last_mallocated(to_free);
+	last = last_in_list(to_free);
 	last->next = new;
 }
 
-void	rm_from_free(t_mallocated *to_free, int index)
+void	free_from_list(t_alloc_list *to_free, int index)
 {
-	t_mallocated	*tmp;
+	t_alloc_list	*tmp;
 
 	tmp = to_free;
 	while (tmp->index != index && tmp->next)

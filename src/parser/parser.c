@@ -6,13 +6,13 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/17 14:03:08 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:53:19 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*parse_line(char *input, t_mallocated *to_free)
+char	*parse_line(char *input, t_alloc_list *to_free)
 {
 	char	*tmp;
 
@@ -30,6 +30,6 @@ char	*parse_line(char *input, t_mallocated *to_free)
 		ft_free_n_null((void **)&input);
 		input = tmp;
 	}
-	needs_free(input, INPUT, to_free);
+	add_to_list(input, INPUT, to_free);
 	return (input);
 }

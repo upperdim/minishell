@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/19 20:17:14 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/22 18:21:04 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*get_user(void)
 	return (user);
 }
 
-static char	*format_hostname(char *hostname, t_mallocated *to_free)
+static char	*format_hostname(char *hostname, t_alloc_list *to_free)
 {
 	char	*temp;
 	char	*point_position;
@@ -39,12 +39,12 @@ static char	*format_hostname(char *hostname, t_mallocated *to_free)
 	point_position = ft_strchr(hostname, '.');
 	if (point_position)
 		*point_position = ':';
-	rm_from_free(to_free, HOSTNAME);
-	needs_free(hostname, HOSTNAME, to_free);
+	free_from_list(to_free, HOSTNAME);
+	add_to_list(hostname, HOSTNAME, to_free);
 	return (hostname);
 }
 
-static char	*get_hostname(t_mallocated *to_free)
+static char	*get_hostname(t_alloc_list *to_free)
 {
 	extern char	**environ;
 	char		hostname[100];
@@ -52,26 +52,38 @@ static char	*get_hostname(t_mallocated *to_free)
 	int			pipe_fd[2];
 	int			status;
 
-	status = pipe(pipe_fd);
-	check((int [3]){status, 0, 0}, NULL, to_free);
+	if (pipe(pipe_fd) == -1)
+		clean_exit(to_free);
 	pid = fork();
-	check((int [3]){pid, 0, 0}, NULL, to_free);
+	if (pid == -1)
+		clean_exit(to_free);
 	if (!pid)
 	{
-		setup_out_pipe(pipe_fd, to_free);
-		execve(check_for_cmd("hostname", to_free),
-			(char *[]){"hostname", NULL}, environ);
-		check((int [3]){-1, 0, 0}, NULL, to_free);
+		if (setup_out_pipe(pipe_fd));
+			clean_exit(to_free);
+		execve(check_for_cmd("hostname"), (char *[]){"hostname", NULL},
+			environ);
 	}
-	waitpid(pid, &status, 0);
-	check((int [3]){status, 0, 0}, NULL, to_free);
+	waitpid(pid, NULL, 0);
 	read(pipe_fd[PIPE_FD_READ], &hostname, 100);
 	ft_close(&pipe_fd[PIPE_FD_READ]);
 	ft_close(&pipe_fd[PIPE_FD_WRITE]);
 	return (format_hostname(hostname, to_free));
 }
 
-char	*prompt(t_mallocated *to_free)
+static char	*get_directory(void)
+{
+	char	*cwd;
+	char	*directory;
+
+	cwd = getcwd(NULL, 0);
+	directory = ft_strrchr(cwd, '/');
+	directory = ft_strdup(directory + 1);
+	ft_free_n_null((void **)&cwd);
+	return (directory);
+}
+
+char	*prompt(t_alloc_list *to_free)
 {
 	char	*temp;
 	char	*prompt;
@@ -79,10 +91,7 @@ char	*prompt(t_mallocated *to_free)
 	char	*input;
 	char	*host;
 
-	temp = getcwd(NULL, 0);
-	directory = ft_strrchr(temp, '/');
-	directory = ft_strdup(directory + 1);
-	ft_free_n_null((void **)&temp);
+	directory = get_directory();
 	// char *actual_hostname = get_hostname();
 	host = ft_strjoin(CYAN"", get_hostname(to_free)); // TODO: do freeing in this scope
 	// free(actual_hostname);
@@ -98,6 +107,6 @@ char	*prompt(t_mallocated *to_free)
 	input = readline(prompt);
 	ft_free_n_null((void **)&prompt);
 	if (!input)
-		check((int [3]){EXIT, 0, 0}, NULL, to_free);
+		clean_exit(to_free);
 	return (input);
 }

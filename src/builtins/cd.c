@@ -3,22 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:28:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/19 19:27:00 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/22 18:09:57 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cd(char *input, t_mallocated *to_free)
+void	cd(char *input)
 {
-	int	status;
+	extern int	errno;
+	int			status;
 
-	if (input[0])
+	status = 0;
+	if (*input == ' ')
+		input++;
+	if (*input)
 		status = chdir(input);
 	else
 		status = chdir(getenv("HOME"));
-	check((int [3]){status, 0, 0}, NULL, to_free);
+	if (status == -1)
+	{
+		ft_putstr_fd("minishell: cd:", 2);
+		ft_putstr_fd(input, 2);
+		ft_putstr_fd(": ", 2);
+		perror(NULL);
+		ft_putstr_fd("\n", 2);
+	}
 }

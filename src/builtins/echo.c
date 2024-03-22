@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:57:51 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/19 19:26:20 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/22 18:00:35 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	echo(char *input)
 {
-	ft_putstr_fd(input, 1);
+	while (*input == ' ')
+		input++;
+	if (*input)
+		ft_putstr_fd(input, 1);
 	ft_putstr_fd("\n", 1);
 }
