@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/22 18:21:04 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/22 18:25:46 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*get_hostname(t_alloc_list *to_free)
 		clean_exit(to_free);
 	if (!pid)
 	{
-		if (setup_out_pipe(pipe_fd));
+		if (setup_out_pipe(pipe_fd))
 			clean_exit(to_free);
 		execve(check_for_cmd("hostname"), (char *[]){"hostname", NULL},
 			environ);
