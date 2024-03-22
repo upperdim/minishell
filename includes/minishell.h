@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/22 18:20:24 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/22 18:43:46 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ enum	e_pipes
 // ** ---------------------------- FUNCTIONS ---------------------------- ** //
 
 void	ft_execve(char **argv, char **envp, int pipe_fd[2]);
-char	*prompt(t_alloc_list *to_free);
+char	*get_prompt(t_alloc_list *to_free);
 void	set_signal_handlers(void);
 void	free_from_list(t_alloc_list *to_free, int index);
 void	free_all_list(t_alloc_list *to_free);

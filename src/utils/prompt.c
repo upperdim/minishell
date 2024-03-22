@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/22 18:36:02 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/22 18:51:29 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,32 +26,27 @@ static char	*get_user(void)
 	return (user);
 }
 
-static char	*format_hostname(char *hostname, t_alloc_list *to_free)
+static char	*format_hostname(char *hostname)
 {
 	char	*temp;
 	char	*point_position;
 
-	if (!hostname)
-		return (NULL);
 	point_position = ft_strchr(hostname, '.');
 	temp = ft_substr(hostname, 0, point_position - hostname + 1);
 	hostname = temp;
 	point_position = ft_strchr(hostname, '.');
 	if (point_position)
 		*point_position = ':';
-	free_from_list(to_free, HOSTNAME);
-	add_to_list(hostname, HOSTNAME, to_free);
 	return (hostname);
 }
 
 static char	*get_hostname(t_alloc_list *to_free)
 {
-	extern char	**environ;
 	char		hostname[100];
 	pid_t		pid;
 	int			pipe_fd[2];
-	int			status;
 
+	ft_bzero(hostname, 100);
 	if (pipe(pipe_fd) == -1)
 		clean_exit(to_free);
 	pid = fork();
@@ -63,7 +58,9 @@ static char	*get_hostname(t_alloc_list *to_free)
 	read(pipe_fd[PIPE_FD_READ], &hostname, 100);
 	ft_close(&pipe_fd[PIPE_FD_READ]);
 	ft_close(&pipe_fd[PIPE_FD_WRITE]);
-	return (format_hostname(hostname, to_free));
+	if (!*hostname)
+		return (NULL);
+	return (format_hostname(hostname));
 }
 
 static char	*get_directory(void)
@@ -78,18 +75,17 @@ static char	*get_directory(void)
 	return (directory);
 }
 
-char	*prompt(t_alloc_list *to_free)
+char	*get_prompt(t_alloc_list *to_free)
 {
 	char	*temp;
 	char	*prompt;
 	char	*directory;
-	char	*input;
 	char	*host;
 
 	directory = get_directory();
-	// char *actual_hostname = get_hostname();
-	host = ft_strjoin(CYAN"", get_hostname(to_free)); // TODO: do freeing in this scope
-	// free(actual_hostname);
+	temp = get_hostname(to_free);
+	host = ft_strjoin(CYAN"", temp);
+	ft_free_n_null((void **)&temp);
 	temp = ft_strjoin(host, directory);
 	ft_free_n_null((void **)&host);
 	ft_free_n_null((void **)&directory);
@@ -99,9 +95,5 @@ char	*prompt(t_alloc_list *to_free)
 	ft_free_n_null((void **)&directory);
 	prompt = ft_strjoin(temp, "$ "WHITE);
 	ft_free_n_null((void **)&temp);
-	input = readline(prompt);
-	ft_free_n_null((void **)&prompt);
-	if (!input)
-		clean_exit(to_free);
-	return (input);
+	return (prompt);
 }
