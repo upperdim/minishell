@@ -6,7 +6,7 @@
 #    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/17 19:40:45 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/22 14:58:15 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ LIBFT_PATH = $(LIB_DIR)/libft
 LDFLAGS = -L$(LIBFT_PATH) -lft -lreadline
 
 
-HEADERS_DIR = includes/ $(LIBFT_PATH)/h_files/
+HEADERS_DIR = includes/ $(LIBFT_PATH)/includes/
 INCLUDES = $(addprefix -I, $(HEADERS_DIR))
 
 
