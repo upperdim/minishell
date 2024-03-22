@@ -60,6 +60,8 @@ enum	e_pipes
 };
 
 // ** ---------------------------- FUNCTIONS ---------------------------- ** //
+
+void	ft_execve(char **argv, char **envp, int pipe_fd[2]);
 char	*prompt(t_alloc_list *to_free);
 void	set_signal_handlers(void);
 void	free_from_list(t_alloc_list *to_free, int index);
