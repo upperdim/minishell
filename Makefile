@@ -6,7 +6,7 @@
 #    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/22 14:58:15 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/22 15:17:38 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,8 +42,7 @@ C_FILES = main.c $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(C_FILES))
 
-OBJ = $(SRC:%.c=%.o)
-OBJ+ = $(BONUS_SRC:.c=.o)
+OBJ = $(SRC:src/%.c=bin/%.o)
 
 
 all: $(NAME)
@@ -52,9 +51,12 @@ $(NAME) : lib/libft/libft.a $(OBJ) includes/minishell.h
 	@echo "	Compiling $@..."
 	@$(CC) -o $@ $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
-%.o : %.c
+bin/%.o : src/%.c bin
 	@echo "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
+
+bin/:
+	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
 
 lib/libft/libft.a:
 	@git submodule update --init --recursive
@@ -62,8 +64,9 @@ lib/libft/libft.a:
 	@make -C $(LIBFT_PATH) --silent;
 
 clean:
-	@echo "	Ereasing Files .o"
+	@echo "	Ereasing binaries..."
 	@$(RM) $(OBJ+) $(OBJ)
+	@$(RM) bin/
 .PHONY: clean
 
 fclean: clean

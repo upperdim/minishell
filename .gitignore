@@ -1,6 +1,5 @@
 .DS_Store
-*.o
-*.a
+bin/
 demo.c
 a.out
 minishell
