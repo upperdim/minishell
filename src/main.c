@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/22 18:57:52 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/22 20:21:06 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main(void)
 		input = parse_line(input, to_free);
 		if (!input)
 			continue ;
+		add_to_list(input, INPUT, to_free);
 		builtins(input, to_free);
 	}
 	return (clean_exit(to_free), 0);
