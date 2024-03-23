@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:28:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/23 16:42:36 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/22 19:18:16 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	cd(char *input)
 {
-	int	status;
+	int			status;
 
 	status = 0;
 	if (*input == ' ')
