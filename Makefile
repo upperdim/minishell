@@ -6,7 +6,7 @@
 #    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/22 15:17:38 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/23 16:18:55 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ bin/%.o : src/%.c bin
 	@echo "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
 
-bin/:
+bin:
 	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
 
 lib/libft/libft.a:
