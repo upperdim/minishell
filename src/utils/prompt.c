@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/22 18:51:29 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/23 18:16:37 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*format_hostname(char *hostname)
 	return (hostname);
 }
 
-static char	*get_hostname(t_alloc_list *to_free)
+static char	*get_hostname(void)
 {
 	char		hostname[100];
 	pid_t		pid;
@@ -48,10 +48,10 @@ static char	*get_hostname(t_alloc_list *to_free)
 
 	ft_bzero(hostname, 100);
 	if (pipe(pipe_fd) == -1)
-		clean_exit(to_free);
+		exit(EXIT_FAILURE);
 	pid = fork();
 	if (pid == -1)
-		clean_exit(to_free);
+		exit(EXIT_FAILURE);
 	if (!pid)
 		ft_execve((char *[]){check_for_cmd("hostname"), NULL}, NULL, pipe_fd);
 	waitpid(pid, NULL, 0);
@@ -75,7 +75,7 @@ static char	*get_directory(void)
 	return (directory);
 }
 
-char	*get_prompt(t_alloc_list *to_free)
+char	*get_prompt()
 {
 	char	*temp;
 	char	*prompt;
@@ -83,7 +83,7 @@ char	*get_prompt(t_alloc_list *to_free)
 	char	*host;
 
 	directory = get_directory();
-	temp = get_hostname(to_free);
+	temp = get_hostname();
 	host = ft_strjoin(CYAN"", temp);
 	ft_free_n_null((void **)&temp);
 	temp = ft_strjoin(host, directory);

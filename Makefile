@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
+#    By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/22 15:17:38 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/23 19:17:44 by tunsal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ INCLUDES = $(addprefix -I, $(HEADERS_DIR))
 BUILTIN_FILES = cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c
 BUILTINS = $(addprefix builtins/, $(BUILTIN_FILES))
 
-UTILS_FILES = error_handler.c malloc_utils.c signal_handler.c prompt.c
+UTILS_FILES = signal_handler.c prompt.c
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 
 EXEC_FILES = exec.c pipe_utils.c
@@ -55,7 +55,7 @@ bin/%.o : src/%.c bin
 	@echo "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
 
-bin/:
+bin:
 	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
 
 lib/libft/libft.a:

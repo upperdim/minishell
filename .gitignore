@@ -1,5 +1,7 @@
 .DS_Store
 bin/
+*.o
+*.a
 demo.c
 a.out
 minishell
