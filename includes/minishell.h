@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/23 18:21:56 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/23 19:10:27 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@
 # ifndef WHITE
 #  define WHITE "\x1b[0m"
 # endif
+
+/* ft_free_2d_arrays frees arrays of any size with this argument */
+# define FREE_ANY_SIZE -1
 
 typedef struct s_alloc_list
 {
@@ -77,6 +80,7 @@ int		setup_out_pipe(int p_fd[2]);
 void	builtins(char *input);
 void	echo(char *input);
 void	env(void);
+void	exit_bash(char **input);
 void	pwd(void);
 void	cd(char *input);
 
