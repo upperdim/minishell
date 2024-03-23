@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/23 18:15:57 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/23 18:35:00 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(void)
 		if (input == NULL)
 			continue ;
 		if (ft_strlen(input) > 0)
-			add_history(*input);
+			add_history(input);
 		free(input);
 		input = NULL;
 	}
