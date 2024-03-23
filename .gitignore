@@ -1,9 +1,10 @@
 .DS_Store
+bin/
 *.o
 *.a
 demo.c
 a.out
-debbugger/*
 minishell
 .vscode
 local/
+debug/*

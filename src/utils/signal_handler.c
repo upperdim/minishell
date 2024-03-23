@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/23 18:18:12 by tunsal           ###   ########.fr       */
+/*   Created: 2024/03/17 13:24:27 by JFikents          #+#    #+#             */
+/*   Updated: 2024/03/17 13:26:42 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parse_line(char *input)
+void	control_c(int sig)
 {
-	(void)input;
+	(void)sig;
+	return ;
+}
+
+void	set_signal_handlers(void)
+{
+	struct sigaction	act;
+
+	act.sa_handler = control_c;
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = SA_NODEFER;
+	sigaction(SIGINT, &act, NULL);
 }

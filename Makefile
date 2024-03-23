@@ -6,7 +6,7 @@
 #    By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/12 15:20:24 by tunsal           ###   ########.fr        #
+#    Updated: 2024/03/23 19:17:44 by tunsal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,44 +18,55 @@ CFLAGS = -Wall -Wextra -Werror -Wunreachable-code
 
 LIB_DIR = lib
 LIBFT_PATH = $(LIB_DIR)/libft
-LDFLAGS = -L$(LIBFT_PATH) -lft
+LDFLAGS = -L$(LIBFT_PATH) -lft -lreadline
 
 
-HEADERS_DIR = includes/ $(LIBFT_PATH)/h_files/
+HEADERS_DIR = includes/ $(LIBFT_PATH)/includes/
 INCLUDES = $(addprefix -I, $(HEADERS_DIR))
 
 
-C_FILES = parser/parser.c main.c
+BUILTIN_FILES = cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c
+BUILTINS = $(addprefix builtins/, $(BUILTIN_FILES))
+
+UTILS_FILES = signal_handler.c prompt.c
+UTILS = $(addprefix utils/, $(UTILS_FILES))
+
+EXEC_FILES = exec.c pipe_utils.c
+EXEC = $(addprefix exec/, $(EXEC_FILES))
+
+PARSER_FILES = parser.c
+PARSER = $(addprefix parser/, $(PARSER_FILES))
+
+C_FILES = main.c $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
+
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(C_FILES))
 
-
-OBJ = $(addprefix $(SRC_DIR), $(C_FILES:.c=.o))
-OBJ+ = $(addprefix $(SRC_DIR), $(BONUS_FILES:.c=.o))
+OBJ = $(SRC:src/%.c=bin/%.o)
 
 
 all: $(NAME)
 
-$(NAME) : fetch_libft $(OBJ)
+$(NAME) : lib/libft/libft.a $(OBJ) includes/minishell.h
 	@echo "	Compiling $@..."
 	@$(CC) -o $@ $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
-%.o : %.c
+bin/%.o : src/%.c bin
 	@echo "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
 
-fetch_libft: submodule
-	@echo "	fetching libft..."
-	@make -C $(LIBFT_PATH) --silent;
-.PHONY: fetch_libft
+bin:
+	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
 
-submodule:
+lib/libft/libft.a:
 	@git submodule update --init --recursive
-.PHONY: submodule
+	@echo "	Creating libft.a..."
+	@make -C $(LIBFT_PATH) --silent;
 
 clean:
-	@echo "	Ereasing Files .o"
+	@echo "	Ereasing binaries..."
 	@$(RM) $(OBJ+) $(OBJ)
+	@$(RM) bin/
 .PHONY: clean
 
 fclean: clean
@@ -67,19 +78,23 @@ fclean: clean
 re: fclean all
 .PHONY: re
 
-bonus: fetch_libft $(OBJ+) $(OBJ)
+bonus: lib/libft/libft.a $(OBJ+) $(OBJ)
 	@echo "	Compiling $(NAME) with bonus..."
 	@$(CC) -o $(NAME) $(OBJ+) $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
 # Debug
-DEBUGGER = debugger/
+DEBUG_DIR = debug
 DEBUG_FLAGS = -fsanitize=address -g3
+
 c:
-	@$(RM) $(DEBUGGER)* 
+	@$(RM) $(DEBUG_DIR)/* 
 	@$(RM) *.out *.dSYM *.gch test
 .PHONY: c
-debug: c a_files
-	@$(CC) $(CFLAGS) $(SRC) $(DEBUG_FLAGS) $(INCLUDES) $(LDFLAGS)
-	@mv a.out.dSYM $(DEBUGGER)
-	@mv a.out $(DEBUGGER)
+
+debug: $(DEBUG_DIR)/a.out
 .PHONY: debug
+
+$(DEBUG_DIR)/a.out: c lib/libft/libft.a includes/minishell.h
+	@$(CC) $(CFLAGS) $(SRC) $(DEBUG_FLAGS) $(INCLUDES) $(LDFLAGS)
+	@mv a.out.dSYM $(DEBUG_DIR)
+	@mv a.out $(DEBUG_DIR)
