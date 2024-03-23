@@ -3,44 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/22 20:21:06 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/23 18:15:57 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	initilizer(t_alloc_list *to_free, char **input)
+static void	initilizer(char **input)
 {
-	to_free->ptr = NULL;
-	to_free->next = NULL;
-	to_free->index = -1;
 	*input = NULL;
 }
 
 int	main(void)
 {
-	t_alloc_list		to_free[1];
+
 	char				*input;
 	char				*prompt;
 
-	initilizer(to_free, &input);
+	initilizer(&input);
 	set_signal_handlers();
 	while (1)
-	{
-		free_from_list(to_free, INPUT);
-		prompt = get_prompt(to_free);
+	{	
+		prompt = get_prompt();
 		input = readline(prompt);
 		ft_free_n_null((void **)&prompt);
-		if (!input)
-			clean_exit(to_free);
-		input = parse_line(input, to_free);
-		if (!input)
+		if (input == NULL)
+			return (0);
+		// parse_line(input);
+		if (input == NULL)
 			continue ;
-		add_to_list(input, INPUT, to_free);
-		builtins(input, to_free);
+		if (ft_strlen(input) > 0)
+			add_history(*input);
+		free(input);
+		input = NULL;
 	}
-	return (clean_exit(to_free), 0);
+	return (0);
 }

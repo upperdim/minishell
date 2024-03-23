@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/22 18:43:46 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/23 18:21:56 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,19 @@ enum	e_pipes
 // ** ---------------------------- FUNCTIONS ---------------------------- ** //
 
 void	ft_execve(char **argv, char **envp, int pipe_fd[2]);
-char	*get_prompt(t_alloc_list *to_free);
+char	*get_prompt(void);
 void	set_signal_handlers(void);
 void	free_from_list(t_alloc_list *to_free, int index);
 void	free_all_list(t_alloc_list *to_free);
 void	add_to_list(void *ptr, int index, t_alloc_list *to_free);
-char	*parse_line(char *line, t_alloc_list *mallocated);
+void	parse_line(char *line);
 void	clean_exit(t_alloc_list *mallocated);
 // EXEC
 char	*check_for_cmd(char *cmd);
 int		setup_in_pipe(int p_fd[2]);
 int		setup_out_pipe(int p_fd[2]);
 // BUILTINS
-void	builtins(char *input, t_alloc_list *to_free);
-void	exit_bash(t_alloc_list *to_free);
+void	builtins(char *input);
 void	echo(char *input);
 void	env(void);
 void	pwd(void);
