@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/23 18:40:40 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/22 20:28:38 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	builtins(char *input)
 	else if (ft_strnstr(input, "echo", 4))
 		echo(input + 4);
 	else if (ft_strnstr(input, "env", 3))
-		env();
+		env(input + 3);
 	else if (ft_strnstr(input, "exit", 4))
 		exit_bash(&input);
 	// export(input, to_free); Not implemented yet

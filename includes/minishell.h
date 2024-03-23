@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/23 19:10:27 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/22 20:28:21 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		setup_out_pipe(int p_fd[2]);
 // BUILTINS
 void	builtins(char *input);
 void	echo(char *input);
-void	env(void);
+void	env(char *input);
 void	exit_bash(char **input);
 void	pwd(void);
 void	cd(char *input);
