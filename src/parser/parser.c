@@ -3,33 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/22 17:53:19 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/23 18:18:12 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*parse_line(char *input, t_alloc_list *to_free)
+void	parse_line(char *input)
 {
-	char	*tmp;
-
-	if (!input)
-		return (NULL);
-	if (*input)
-		add_history(input);
-	else
-		return (ft_free_n_null((void **)&input), NULL);
-	tmp = ft_strtrim(input, " ");
-	if (ft_strlen(tmp) == ft_strlen(input))
-		ft_free_n_null((void **)&tmp);
-	else
-	{
-		ft_free_n_null((void **)&input);
-		input = tmp;
-	}
-	add_to_list(input, INPUT, to_free);
-	return (input);
+	(void)input;
 }
