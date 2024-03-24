@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+         #
+#    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/23 19:17:44 by tunsal           ###   ########.fr        #
+#    Updated: 2024/03/24 12:13:21 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ EXEC = $(addprefix exec/, $(EXEC_FILES))
 PARSER_FILES = parser.c
 PARSER = $(addprefix parser/, $(PARSER_FILES))
 
-C_FILES = main.c $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
+C_FILES = main_builtins.c $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(C_FILES))
