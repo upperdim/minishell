@@ -6,7 +6,7 @@
 #    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/24 12:13:21 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/24 12:57:24 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ EXEC = $(addprefix exec/, $(EXEC_FILES))
 PARSER_FILES = parser.c
 PARSER = $(addprefix parser/, $(PARSER_FILES))
 
-C_FILES = main_builtins.c $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
+C_FILES = main.c $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(C_FILES))
@@ -98,3 +98,33 @@ $(DEBUG_DIR)/a.out: c lib/libft/libft.a includes/minishell.h
 	@$(CC) $(CFLAGS) $(SRC) $(DEBUG_FLAGS) $(INCLUDES) $(LDFLAGS)
 	@mv a.out.dSYM $(DEBUG_DIR)
 	@mv a.out $(DEBUG_DIR)
+
+# UNIT TESTS
+TEST_FILES = test_main.c
+T_SRC = $(addprefix tests/, $(TEST_FILES))
+T_OBJ = $(T_SRC:tests/%.c=tests/bin/%.o) $(filter-out bin/main%, $(OBJ))
+
+clean_test:
+	@echo "	Ereasing test binaries..."
+	@$(RM) $(T_OBJ)
+	@$(RM) tests/bin/
+.PHONY: clean_test
+
+fclean_test: clean_test
+	@echo "	Ereasing test..."
+	@$(RM) test
+.PHONY: fclean_test
+
+re_test: fclean_test test
+.PHONY: re_test
+
+tests/bin:
+	@mkdir -p tests/bin
+
+tests/bin/%.o : tests/%.c tests/bin
+	@echo "	Compiling $@..."
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
+
+test: lib/libft/libft.a $(T_OBJ)
+	@echo "	Compiling tests..."
+	@$(CC) -o test $^ $(CFLAGS) $(INCLUDES) $(LDFLAGS)
