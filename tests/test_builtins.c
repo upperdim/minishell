@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 20:40:47 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/24 20:46:38 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void	test_builtins(void)
 	if (WIFEXITED(status))
 	{
 		if (WEXITSTATUS(status) == 123)
-			ft_putendl_fd("Test 1 exit status success", 1);
+			ft_putendl_fd(GREEN"Test 1 exit status success", 1);
 		else
-			ft_putendl_fd("Test 1 exit status failed", 1);
+			ft_putendl_fd(RED"Test 1 exit status failed", 1);
 	}
 	else
 		ft_putendl_fd("exit status is incorrect", 1);
@@ -86,9 +86,9 @@ void	test_builtins(void)
 	prompt = get_prompt();
 
 	if (ft_strncmp(line, prompt, ft_strlen(prompt)))
-		ft_putendl_fd("Test 1 prompt failed", 1);
+		ft_putendl_fd(RED"Test 1 prompt failed", 1);
 	else
-		ft_putendl_fd("Test 1 prompt success", 1);
+		ft_putendl_fd(GREEN"Test 1 prompt success", 1);
 	ft_free_n_null((void **)&line);
 	ft_free_n_null((void **)&prompt);
 
@@ -98,9 +98,9 @@ void	test_builtins(void)
 	cwd = getcwd(NULL, 0);
 
 	if (ft_strncmp(line, cwd, ft_strlen(cwd)))
-		ft_putendl_fd("Test 1 pwd failed", 1);
+		ft_putendl_fd(RED"Test 1 pwd failed", 1);
 	else
-		ft_putendl_fd("Test 1 pwd success", 1);
+		ft_putendl_fd(GREEN"Test 1 pwd success", 1);
 	ft_free_n_null((void **)&line);
 	ft_free_n_null((void **)&cwd);
 
@@ -113,9 +113,9 @@ void	test_builtins(void)
 	prompt = get_prompt();
 
 	if (ft_strncmp(line, prompt, ft_strlen(prompt)))
-		ft_putendl_fd("Test 2 prompt failed", 1);
+		ft_putendl_fd(RED"Test 2 prompt failed", 1);
 	else
-		ft_putendl_fd("Test 2 prompt success", 1);
+		ft_putendl_fd(GREEN"Test 2 prompt success", 1);
 	ft_free_n_null((void **)&line);
 	ft_free_n_null((void **)&prompt);
 
@@ -125,9 +125,9 @@ void	test_builtins(void)
 	cwd = getcwd(NULL, 0);
 
 	if (ft_strncmp(line, cwd, ft_strlen(cwd)))
-		ft_putendl_fd("Test 2 pwd failed", 1);
+		ft_putendl_fd(RED"Test 2 pwd failed", 1);
 	else
-		ft_putendl_fd("Test 2 pwd success", 1);
+		ft_putendl_fd(GREEN"Test 2 pwd success", 1);
 	ft_free_n_null((void **)&line);
 	ft_free_n_null((void **)&cwd);
 
@@ -138,9 +138,9 @@ void	test_builtins(void)
 	line = get_next_line(read_output_fd);
 
 	if (ft_strncmp(line, "Hello World", ft_strlen("Hello World")))
-		ft_putendl_fd("Test 1 echo failed", 1);
+		ft_putendl_fd(RED"Test 1 echo failed", 1);
 	else
-		ft_putendl_fd("Test 1 echo success", 1);
+		ft_putendl_fd(GREEN"Test 1 echo success", 1);
 	ft_free_n_null((void **)&line);
 
 
@@ -151,9 +151,9 @@ void	test_builtins(void)
 	
 	
 	if (ft_strncmp(line, "-nnnnnnnnnm Hello World", ft_strlen("-nnnnnnnnnm Hello World")))
-		ft_putendl_fd("Test 2 echo failed", 1);
+		ft_putendl_fd(RED"Test 2 echo failed", 1);
 	else
-		ft_putendl_fd("Test 2 echo success", 1);
+		ft_putendl_fd(GREEN"Test 2 echo success", 1);
 
 
 	//_ CHECKING ECHO TEST 3 _//
@@ -165,9 +165,9 @@ void	test_builtins(void)
 	ft_free_n_null((void **)&prompt);
 
 	if (ft_strncmp(line, echo_line, ft_strlen(echo_line)))
-		ft_putendl_fd("Test 3 echo failed", 1);
+		ft_putendl_fd(RED"Test 3 echo failed", 1);
 	else
-		ft_putendl_fd("Test 3 echo success", 1);
+		ft_putendl_fd(GREEN"Test 3 echo success", 1);
 	ft_free_n_null((void **)&line);
 	ft_free_n_null((void **)&echo_line);
 
@@ -179,9 +179,9 @@ void	test_builtins(void)
 	ft_free_n_null((void **)&prompt);
 
 	if (ft_strncmp(line, echo_line, ft_strlen(echo_line)))
-		ft_putendl_fd("Test 4 echo failed", 1);
+		ft_putendl_fd(RED"Test 4 echo failed", 1);
 	else
-		ft_putendl_fd("Test 4 echo success", 1);
+		ft_putendl_fd(GREEN"Test 4 echo success", 1);
 	ft_free_n_null((void **)&line);
 	ft_free_n_null((void **)&echo_line);
 
@@ -190,9 +190,9 @@ void	test_builtins(void)
 	line = get_next_line(read_output_fd);
 
 	if (ft_strncmp(line, "Hello World-n", ft_strlen("Hello World-n")))
-		ft_putendl_fd("Test 5 echo failed", 1);
+		ft_putendl_fd(RED"Test 5 echo failed", 1);
 	else
-		ft_putendl_fd("Test 5 echo success", 1);
+		ft_putendl_fd(GREEN"Test 5 echo success", 1);
 	ft_free_n_null((void **)&line);
 
 
@@ -202,9 +202,9 @@ void	test_builtins(void)
 	line = get_next_line(read_output_fd);
 
 	if (ft_strncmp(line, "Hello World -n", ft_strlen("Hello World -n")))
-		ft_putendl_fd("Test 6 echo failed", 1);
+		ft_putendl_fd(RED"Test 6 echo failed", 1);
 	else
-		ft_putendl_fd("Test 6 echo success", 1);
+		ft_putendl_fd(GREEN"Test 6 echo success", 1);
 	ft_free_n_null((void **)&line);
 
 
@@ -214,9 +214,9 @@ void	test_builtins(void)
 	line = get_next_line(read_output_fd);
 
 	if (ft_strncmp(line, "exit", ft_strlen("exit")))
-		ft_putendl_fd("Test 1 exit failed", 1);
+		ft_putendl_fd(RED"Test 1 exit failed", 1);
 	else
-		ft_putendl_fd("Test 1 exit success", 1);
+		ft_putendl_fd(GREEN"Test 1 exit success", 1);
 	ft_free_n_null((void **)&line);
 
 
