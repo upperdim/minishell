@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/24 12:14:32 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/24 12:28:54 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ int	main(void)
 		if (ft_strlen(input) > 0)
 			add_history(input);
 		builtins(input);
-		free(input);
-		input = NULL;
+		ft_free_n_null((void **)&input);
 	}
 	return (0);
 }

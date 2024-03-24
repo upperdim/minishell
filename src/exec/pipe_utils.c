@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 17:59:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/22 18:53:48 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/24 12:32:56 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char	*check_for_cmd(char *cmd)
 	return (abs_path_cmd);
 }
 
+// It handles the execution of the command but it still needs the fork before.
 void	ft_execve(char **argv, char **envp, int pipe_fd[2])
 {
 	extern char	**environ;
