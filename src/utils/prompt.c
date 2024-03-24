@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/23 18:16:37 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/24 15:54:25 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char	*get_directory(void)
 	return (directory);
 }
 
-char	*get_prompt()
+char	*get_prompt(void)
 {
 	char	*temp;
 	char	*prompt;
