@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+         #
+#    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/23 19:17:44 by tunsal           ###   ########.fr        #
+#    Updated: 2024/03/24 18:57:24 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,12 +51,10 @@ $(NAME) : lib/libft/libft.a $(OBJ) includes/minishell.h
 	@echo "	Compiling $@..."
 	@$(CC) -o $@ $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
-bin/%.o : src/%.c bin
+bin/%.o : src/%.c
 	@echo "	Compiling $@..."
-	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
-
-bin:
 	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
 
 lib/libft/libft.a:
 	@git submodule update --init --recursive
