@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 20:46:38 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/24 20:52:27 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ void	test_builtins(void)
 		ft_putendl_fd(RED"Test 2 echo failed", 1);
 	else
 		ft_putendl_fd(GREEN"Test 2 echo success", 1);
+	ft_free_n_null((void **)&line);
 
 
 	//_ CHECKING ECHO TEST 3 _//
@@ -219,7 +220,8 @@ void	test_builtins(void)
 		ft_putendl_fd(GREEN"Test 1 exit success", 1);
 	ft_free_n_null((void **)&line);
 
-
+	chdir("minishell");
+	ft_putstr_fd(WHITE, 1);
 	ft_close(&write_minishell);
 }
 
