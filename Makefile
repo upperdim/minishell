@@ -6,7 +6,7 @@
 #    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/24 18:46:14 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/24 19:57:38 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,7 +125,7 @@ $(DEBUG_DIR)/a.out: c lib/libft/libft.a includes/minishell.h
 	@mv a.out $(DEBUG_DIR)
 
 # UNIT TESTS
-TEST_FILES = test_main.c
+TEST_FILES = test_main.c test_builtins.c
 T_SRC = $(addprefix tests/, $(TEST_FILES))
 T_OBJ = $(T_SRC:tests/%.c=tests/bin/%.o) $(filter-out bin/main%, $(OBJ))
 

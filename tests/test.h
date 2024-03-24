@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_main.c                                        :+:      :+:    :+:   */
+/*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/24 12:26:18 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 19:51:42 by JFikents         ###   ########.fr       */
+/*   Created: 2024/03/24 19:49:22 by JFikents          #+#    #+#             */
+/*   Updated: 2024/03/24 19:51:27 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.h"
+#ifndef TEST_H
+# define TEST_H
 
-static void	compile_minishell(void)
-{
-	pid_t	pid;
+# include "minishell.h"
 
-	pid = fork();
-	if (pid == -1)
-		exit(EXIT_FAILURE);
-	if (!pid)
-		ft_execve((char *[]){check_for_cmd("make"), "re", "NO_COLOR=1", NULL},
-			NULL, NULL);
-	waitpid(pid, NULL, 0);
-}
+void	test_builtins(void);
 
-int	main(void)
-{
-	compile_minishell();
-	test_builtins();
-	return (0);
-}
+#endif
