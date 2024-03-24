@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 12:26:18 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 18:47:57 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/24 18:54:46 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	test_builtins(void)
 	int		fd_out;
 	int		check_pipe;
 
-	fd_out = open("tests/input.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
+	fd_out = open("tests/minishell.out", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	check_pipe = pipe(pipe_in);
 	pid = fork();
 	if (pid == -1)

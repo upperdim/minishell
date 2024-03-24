@@ -9,3 +9,4 @@ minishell*
 local/
 debug/*
 test
+tests/minishell.out
