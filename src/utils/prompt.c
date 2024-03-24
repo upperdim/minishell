@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 16:39:58 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/24 19:11:58 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,5 @@ char	*get_prompt(void)
 	ft_free_n_null((void **)&temp);
 	return (prompt);
 }
+
 #endif
