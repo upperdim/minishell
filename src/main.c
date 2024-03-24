@@ -6,11 +6,12 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/24 12:13:41 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/24 13:09:00 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#ifndef BUILTINS
 
 static void	initilizer(char **input)
 {
@@ -49,3 +50,4 @@ int	main(void)
 	}
 	return (0);
 }
+#endif

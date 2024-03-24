@@ -6,7 +6,7 @@
 #    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/24 12:13:21 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/24 15:23:41 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,26 +37,38 @@ EXEC = $(addprefix exec/, $(EXEC_FILES))
 PARSER_FILES = parser.c
 PARSER = $(addprefix parser/, $(PARSER_FILES))
 
-C_FILES = main_builtins.c $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
+C_FILES = main.c main_builtins.c $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(C_FILES))
 
 OBJ = $(SRC:src/%.c=bin/%.o)
+B_OBJ = $(SRC:src/%.c=bin_b/%.o)
 
 
-all: $(NAME)
+all: $(NAME) $(NAME)_builtins
 
-$(NAME) : lib/libft/libft.a $(OBJ) includes/minishell.h
-	@echo "	Compiling $@..."
-	@$(CC) -o $@ $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
+bin:
+	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
 
 bin/%.o : src/%.c bin
 	@echo "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
 
-bin:
-	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
+$(NAME) : lib/libft/libft.a $(OBJ) includes/minishell.h
+	@echo "	Compiling $@..."
+	@$(CC) -o $@ $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
+
+bin_b:
+	@mkdir -p bin_b/builtins bin_b/exec bin_b/parser bin_b/utils
+
+bin_b/%.o : src/%.c bin_b
+	@echo "	Compiling $@..."
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) -DBUILTINS
+
+$(NAME)_builtins : lib/libft/libft.a $(B_OBJ) includes/minishell.h
+	@echo "	Compiling $@..."
+	@$(CC) -o $@ $(B_OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
 lib/libft/libft.a:
 	@git submodule update --init --recursive
@@ -65,13 +77,16 @@ lib/libft/libft.a:
 
 clean:
 	@echo "	Ereasing binaries..."
-	@$(RM) $(OBJ+) $(OBJ)
+	@$(RM) $(OBJ+) $(OBJ) $(B_OBJ)
 	@$(RM) bin/
+	@$(RM) bin_b
+	@make -C $(LIBFT_PATH) clean
 .PHONY: clean
 
 fclean: clean
 	@echo "	Ereasing $(NAME)..."
 	@$(RM) $(NAME)
+	@$(RM) $(NAME)_builtins
 	@make -C $(LIBFT_PATH) fclean
 .PHONY: fclean
 
