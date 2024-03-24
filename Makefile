@@ -6,7 +6,7 @@
 #    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/24 18:57:24 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/24 19:17:39 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ INCLUDES = $(addprefix -I, $(HEADERS_DIR))
 BUILTIN_FILES = cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c
 BUILTINS = $(addprefix builtins/, $(BUILTIN_FILES))
 
-UTILS_FILES = signal_handler.c prompt.c
+UTILS_FILES = signal_handler.c prompt.c prompt_no_color.c
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 
 EXEC_FILES = exec.c pipe_utils.c
@@ -51,10 +51,19 @@ $(NAME) : lib/libft/libft.a $(OBJ) includes/minishell.h
 	@echo "	Compiling $@..."
 	@$(CC) -o $@ $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
+NO_COLOR ?= 0
+
+ifeq ($(NO_COLOR), 0)
 bin/%.o : src/%.c
 	@echo "	Compiling $@..."
 	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
+else
+bin/%.o : src/%.c
+	@echo "	Compiling $@..."
+	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) -DNO_COLOR
+endif
 
 lib/libft/libft.a:
 	@git submodule update --init --recursive

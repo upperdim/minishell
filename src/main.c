@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/23 20:36:08 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/24 19:14:37 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void	initilizer(char **input)
 
 static char	*get_input(void)
 {
-	char *prompt;
-	char *input;
+	char	*prompt;
+	char	*input;
 
 	prompt = get_prompt();
 	input = readline(prompt);
@@ -35,7 +35,7 @@ int	main(void)
 	initilizer(&input);
 	set_signal_handlers();
 	while (1)
-	{	
+	{
 		input = get_input();
 		if (input == NULL)
 			return (0);
