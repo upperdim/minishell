@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   prompt_no_color.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 16:39:58 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/24 16:48:42 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#ifndef NO_COLOR
+#ifdef NO_COLOR
 
 static char	*get_user(void)
 {
@@ -76,26 +76,27 @@ static char	*get_directory(void)
 	return (directory);
 }
 
+
 char	*get_prompt(void)
 {
-	char	*temp;
+	char	*tmp_prompt;
 	char	*prompt;
 	char	*directory;
 	char	*host;
+	char	*user;
 
 	directory = get_directory();
-	temp = get_hostname();
-	host = ft_strjoin(CYAN"", temp);
-	ft_free_n_null((void **)&temp);
-	temp = ft_strjoin(host, directory);
+	host = get_hostname();
+	user = get_user();
+	tmp_prompt = ft_strjoin(host, directory);
 	ft_free_n_null((void **)&host);
 	ft_free_n_null((void **)&directory);
-	directory = ft_strjoin(temp, BLUE" ");
-	ft_free_n_null((void **)&temp);
-	temp = ft_strjoin(directory, get_user());
-	ft_free_n_null((void **)&directory);
-	prompt = ft_strjoin(temp, "$ "WHITE);
-	ft_free_n_null((void **)&temp);
+	prompt = ft_strjoin(tmp_prompt, " ");
+	ft_free_n_null((void **)&tmp_prompt);
+	tmp_prompt = ft_strjoin(prompt, user);
+	ft_free_n_null((void **)&prompt);
+	prompt = ft_strjoin(tmp_prompt, "$ ");
+	ft_free_n_null((void **)&tmp_prompt);
 	return (prompt);
 }
 #endif

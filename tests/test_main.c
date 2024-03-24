@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 12:26:18 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 15:53:29 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/24 18:47:57 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static void	compile_minishell(void)
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	if (!pid)
-		ft_execve((char *[]){check_for_cmd("make"), NULL}, NULL, NULL);
+		ft_execve((char *[]){check_for_cmd("make"), "re", "NO_COLOR=1", NULL},
+			NULL, NULL);
 	waitpid(pid, NULL, 0);
 }
 

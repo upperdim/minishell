@@ -6,7 +6,7 @@
 #    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/24 15:23:41 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/24 18:46:14 by JFikents         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ INCLUDES = $(addprefix -I, $(HEADERS_DIR))
 BUILTIN_FILES = cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c
 BUILTINS = $(addprefix builtins/, $(BUILTIN_FILES))
 
-UTILS_FILES = signal_handler.c prompt.c
+UTILS_FILES = signal_handler.c prompt.c prompt_no_color.c
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 
 EXEC_FILES = exec.c pipe_utils.c
@@ -47,24 +47,34 @@ B_OBJ = $(SRC:src/%.c=bin_b/%.o)
 
 
 all: $(NAME) $(NAME)_builtins
+.PHONY: all
 
-bin:
+NO_COLOR ?= 0
+ifeq ($(NO_COLOR),0)
+bin/%.o : src/%.c #bin
+	@echo "	Compiling $@"
 	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
-
-bin/%.o : src/%.c bin
-	@echo "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
+
+bin_b/%.o : src/%.c #bin_b
+	@echo "	Compiling $@"
+	@mkdir -p bin_b/builtins bin_b/exec bin_b/parser bin_b/utils
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) -DBUILTINS
+else
+bin/%.o : src/%.c #bin
+	@echo "	Compiling $@"
+	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) -DNO_COLOR
+
+bin_b/%.o : src/%.c #bin_b
+	@echo "	Compiling $@"
+	@mkdir -p bin_b/builtins bin_b/exec bin_b/parser bin_b/utils
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) -DBUILTINS -DNO_COLOR
+endif
 
 $(NAME) : lib/libft/libft.a $(OBJ) includes/minishell.h
 	@echo "	Compiling $@..."
 	@$(CC) -o $@ $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
-
-bin_b:
-	@mkdir -p bin_b/builtins bin_b/exec bin_b/parser bin_b/utils
-
-bin_b/%.o : src/%.c bin_b
-	@echo "	Compiling $@..."
-	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) -DBUILTINS
 
 $(NAME)_builtins : lib/libft/libft.a $(B_OBJ) includes/minishell.h
 	@echo "	Compiling $@..."
