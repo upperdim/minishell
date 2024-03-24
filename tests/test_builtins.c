@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 20:55:47 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/24 21:06:50 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static pid_t	start_minishell(int *pipe_write)
 	int		fd_out;
 	int		check_pipe;
 
-	fd_out = open("tests/minishell.out", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd_out = open("tests/minishell_builtins.out", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	check_pipe = pipe(pipe_in);
 	if (check_pipe == -1)
 		exit(EXIT_FAILURE);
@@ -65,6 +65,8 @@ void	test_builtins(void)
 	ft_putendl_fd("echo Hello World -n", write_minishell);
 	system("leaks minishell_builtins");
 	ft_putendl_fd("exit 123", write_minishell);
+	usleep(100000);
+	kill(pid, SIGSTOP);
 	waitpid(pid, &status, WUNTRACED);
 
 
@@ -223,6 +225,7 @@ void	test_builtins(void)
 
 	chdir("minishell");
 	ft_putstr_fd(WHITE, 1);
+	kill(pid, SIGKILL);
 	ft_close(&write_minishell);
 }
 
