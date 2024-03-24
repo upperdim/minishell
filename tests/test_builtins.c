@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 20:52:27 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/24 20:55:47 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	test_builtins(void)
 	ft_putendl_fd("echo -n Hello World", write_minishell);
 	ft_putendl_fd("echo Hello World-n", write_minishell);
 	ft_putendl_fd("echo Hello World -n", write_minishell);
+	system("leaks minishell_builtins");
 	ft_putendl_fd("exit 123", write_minishell);
 	waitpid(pid, &status, WUNTRACED);
 
