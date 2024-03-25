@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 12:26:18 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 20:51:19 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:27:38 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	compile_minishell(void)
 int	main(void)
 {
 	compile_minishell();
+	unlink("tests/minishell_builtins.out");
 	test_builtins();
 	system("leaks test");
 	return (0);

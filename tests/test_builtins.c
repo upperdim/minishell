@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 21:06:50 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:34:21 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static pid_t	start_minishell(int *pipe_write)
 	int		fd_out;
 	int		check_pipe;
 
-	fd_out = open("tests/minishell_builtins.out", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd_out = open("tests/minishell_builtins.out", O_WRONLY | O_CREAT | O_APPEND, 0644);
 	check_pipe = pipe(pipe_in);
 	if (check_pipe == -1)
 		exit(EXIT_FAILURE);
@@ -70,7 +70,7 @@ void	test_builtins(void)
 	waitpid(pid, &status, WUNTRACED);
 
 
-	read_output_fd = open("tests/minishell.out", O_RDONLY);
+	read_output_fd = open("tests/minishell_builtins.out", O_RDONLY);
 
 	//_ CHECKING EXIT STATUS TEST 1 _//
 	if (WIFEXITED(status))
@@ -89,7 +89,10 @@ void	test_builtins(void)
 	prompt = get_prompt();
 
 	if (ft_strncmp(line, prompt, ft_strlen(prompt)))
+	{
 		ft_putendl_fd(RED"Test 1 prompt failed", 1);
+		ft_printf("line:\t\t%s\nCorrect prompt:\t%s\n", line, prompt);
+	}
 	else
 		ft_putendl_fd(GREEN"Test 1 prompt success", 1);
 	ft_free_n_null((void **)&line);
@@ -224,8 +227,10 @@ void	test_builtins(void)
 	ft_free_n_null((void **)&line);
 
 	chdir("minishell");
-	ft_putstr_fd(WHITE, 1);
 	kill(pid, SIGKILL);
+
+
+	ft_putstr_fd(WHITE, 1);
 	ft_close(&write_minishell);
 }
 
