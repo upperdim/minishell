@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+         #
+#    By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/24 19:57:38 by JFikents         ###   ########.fr        #
+#    Updated: 2024/03/26 20:50:25 by tunsal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,16 +15,17 @@ RM = rm -rf
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Wunreachable-code
 
-
 LIB_DIR = lib
 LIBFT_PATH = $(LIB_DIR)/libft
 LDFLAGS = -L$(LIBFT_PATH) -lft -lreadline
-
 
 HEADERS_DIR = includes/ $(LIBFT_PATH)/includes/
 INCLUDES = $(addprefix -I, $(HEADERS_DIR))
 
 
+################################################################################
+# Source files
+################################################################################
 BUILTIN_FILES = cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c
 BUILTINS = $(addprefix builtins/, $(BUILTIN_FILES))
 
@@ -37,48 +38,40 @@ EXEC = $(addprefix exec/, $(EXEC_FILES))
 PARSER_FILES = parser.c
 PARSER = $(addprefix parser/, $(PARSER_FILES))
 
-C_FILES = main.c main_builtins.c $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
+SRC_NO_MAIN = $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
+
+
+################################################################################
+# Creating binaries
+################################################################################
+SRC_MAIN = main.c $(SRC_NO_MAIN)
+SRC_TEST_MAIN = test_main.c test_builtins.c
+SRC_BUILTINS_MAIN = main_builtins.c $(SRC_NO_MAIN)
 
 SRC_DIR = src/
-SRC = $(addprefix $(SRC_DIR), $(C_FILES))
+SRC = $(addprefix $(SRC_DIR), $(SRC_MAIN))
+SRC_TEST = $(addprefix tests/, $(SRC_TEST_MAIN))
+SRC_BUILTINS = $(addprefix $(SRC_DIR), $(SRC_BUILTINS_MAIN))
 
 OBJ = $(SRC:src/%.c=bin/%.o)
-B_OBJ = $(SRC:src/%.c=bin_b/%.o)
+OBJ_TEST = $(SRC_TEST:tests/%.c=tests/bin/%.o) $(filter-out bin/main%, $(OBJ))
+OBJ_BUILTINS = $(SRC_BUILTINS:src/%.c=bin_builtins/%.o)
 
 
+################################################################################
+# Rules
+################################################################################
 all: $(NAME) $(NAME)_builtins
 .PHONY: all
 
-NO_COLOR ?= 0
-ifeq ($(NO_COLOR),0)
-bin/%.o : src/%.c #bin
+bin/%.o : src/%.c
 	@echo "	Compiling $@"
 	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
-	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
-
-bin_b/%.o : src/%.c #bin_b
-	@echo "	Compiling $@"
-	@mkdir -p bin_b/builtins bin_b/exec bin_b/parser bin_b/utils
-	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) -DBUILTINS
-else
-bin/%.o : src/%.c #bin
-	@echo "	Compiling $@"
-	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
-	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) -DNO_COLOR
-
-bin_b/%.o : src/%.c #bin_b
-	@echo "	Compiling $@"
-	@mkdir -p bin_b/builtins bin_b/exec bin_b/parser bin_b/utils
-	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) -DBUILTINS -DNO_COLOR
-endif
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) $(COLOR_FLAG)
 
 $(NAME) : lib/libft/libft.a $(OBJ) includes/minishell.h
 	@echo "	Compiling $@..."
 	@$(CC) -o $@ $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
-
-$(NAME)_builtins : lib/libft/libft.a $(B_OBJ) includes/minishell.h
-	@echo "	Compiling $@..."
-	@$(CC) -o $@ $(B_OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
 lib/libft/libft.a:
 	@git submodule update --init --recursive
@@ -87,9 +80,9 @@ lib/libft/libft.a:
 
 clean:
 	@echo "	Ereasing binaries..."
-	@$(RM) $(OBJ+) $(OBJ) $(B_OBJ)
+	@$(RM) $(OBJ+) $(OBJ) $(OBJ_BUILTINS)
 	@$(RM) bin/
-	@$(RM) bin_b
+	@$(RM) bin_builtins
 	@make -C $(LIBFT_PATH) clean
 .PHONY: clean
 
@@ -107,7 +100,10 @@ bonus: lib/libft/libft.a $(OBJ+) $(OBJ)
 	@echo "	Compiling $(NAME) with bonus..."
 	@$(CC) -o $(NAME) $(OBJ+) $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
+
+################################################################################
 # Debug
+################################################################################
 DEBUG_DIR = debug
 DEBUG_FLAGS = -fsanitize=address -g3
 
@@ -124,14 +120,13 @@ $(DEBUG_DIR)/a.out: c lib/libft/libft.a includes/minishell.h
 	@mv a.out.dSYM $(DEBUG_DIR)
 	@mv a.out $(DEBUG_DIR)
 
-# UNIT TESTS
-TEST_FILES = test_main.c test_builtins.c
-T_SRC = $(addprefix tests/, $(TEST_FILES))
-T_OBJ = $(T_SRC:tests/%.c=tests/bin/%.o) $(filter-out bin/main%, $(OBJ))
 
+################################################################################
+# Unit test
+################################################################################
 clean_test:
-	@echo "	Ereasing test binaries..."
-	@$(RM) $(T_OBJ)
+	@$(RM) $(OBJ_TEST)
+		@echo "	Ereasing test binaries..."
 	@$(RM) tests/bin/
 .PHONY: clean_test
 
@@ -149,7 +144,31 @@ tests/bin:
 tests/bin/%.o : tests/%.c tests/bin
 	@echo "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
+test: lib/libft/libft.a $(OBJ_TEST)
 
-test: lib/libft/libft.a $(T_OBJ)
 	@echo "	Compiling tests..."
 	@$(CC) -o test $^ $(CFLAGS) $(INCLUDES) $(LDFLAGS)
+
+
+################################################################################
+# Builtin test
+################################################################################
+bin_builtins/%.o : src/%.c
+	@echo "	Compiling $@"
+	@mkdir -p bin_builtins/builtins bin_builtins/exec bin_builtins/parser bin_builtins/utils
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) -DBUILTINS $(COLOR_FLAG)
+
+$(NAME)_builtins : lib/libft/libft.a $(OBJ_BUILTINS) includes/minishell.h
+	@echo "	Compiling $@..."
+	@$(CC) -o $@ $(OBJ_BUILTINS) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
+
+
+################################################################################
+# Colors
+################################################################################
+COLOR ?= 1
+ifeq ($(COLOR),1)
+COLOR_FLAG = 
+else
+COLOR_FLAG = -DNO_COLOR
+endif

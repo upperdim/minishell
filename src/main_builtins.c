@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/24 13:09:02 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/26 20:11:50 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#ifdef BUILTINS
 
 static void	initilizer(char **input)
 {
@@ -51,4 +50,3 @@ int	main(void)
 	}
 	return (0);
 }
-#endif
