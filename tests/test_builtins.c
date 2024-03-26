@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/25 15:57:16 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/26 21:01:17 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static pid_t	start_minishell_builtins(int *pipe_write)
 	int		fd_out;
 	int		check_pipe;
 
-	fd_out = open("tests/minishell_builtins.out", O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd_out = open("tests/minishell_builtins_log.txt", O_WRONLY | O_CREAT | O_APPEND, 0644);
 	check_pipe = pipe(pipe_in);
 	if (check_pipe == -1)
 		exit(EXIT_FAILURE);
@@ -74,7 +74,7 @@ void	test_builtins(void)
 	waitpid(pid, &status, WUNTRACED);
 
 
-	read_output_fd = open("tests/minishell_builtins.out", O_RDONLY);
+	read_output_fd = open("tests/minishell_builtins_log.txt", O_RDONLY);
 
 
 	//_ CHECKING PROMPT TEST 1_//
