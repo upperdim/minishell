@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 16:48:42 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/26 21:27:55 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static char	*get_directory(void)
 	ft_free_n_null((void **)&cwd);
 	return (directory);
 }
-
 
 char	*get_prompt(void)
 {
