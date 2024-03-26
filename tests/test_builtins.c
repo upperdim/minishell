@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/26 21:01:17 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/26 21:06:11 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	test_builtins(void)
 	char		*echo_line = NULL;
 	int			write_minishell = 0;
 	int			read_output_fd = 0;
+	int			fail_flag = 0;
 	int			status = 0;
 	int			i = 0;
 
@@ -244,10 +245,13 @@ void	test_builtins(void)
 	{
 		line = get_next_line(read_output_fd);
 		if (ft_strncmp(line, environ[i], ft_strlen(environ[i])))
+		{
 			ft_printf(RED"Output:\t%s\nExpected:\t%s\n\n", line, environ[i]);
+			fail_flag = 1;
+		}
 		ft_free_n_null((void **)&line);
 	}
-	if (!environ[i])
+	if (!environ[i] && !fail_flag)
 		ft_putendl_fd(GREEN"Test 1 env success", 1);
 	else
 		ft_putendl_fd(RED"Test 1 env failed", 1);
