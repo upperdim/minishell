@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:22 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 15:23:42 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:30:34 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 
 void	test_builtins(void);
 void	print_feedback(char *test, char *output, char *expected);
+pid_t	start_minishell_builtins(int *pipe_write);
+void	reset_tty(pid_t pid);
 
 void	echo_test_1(int read_output_fd);
 void	echo_test_2(int read_output_fd);
