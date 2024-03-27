@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 13:47:10 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:20:50 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static pid_t	start_minishell_builtins(int *pipe_write)
 	return (pid);
 }
 
-static void print_feedback(char *test, char *output, char *expected)
+void	print_feedback(char *test, char *output, char *expected)
 {
 	ft_printf(RED"%s failed\n", test);
 	ft_printf("Output:\t\t%s", output);
@@ -48,26 +48,9 @@ static void print_feedback(char *test, char *output, char *expected)
 	ft_printf("Expected:\t%s\n\n", expected);
 }
 
-void	test_builtins(void)
+static void send_commands_to_minishell(int write_minishell, pid_t pid,
+	int *status)
 {
-	extern char	**environ;
-	pid_t		pid = 0;
-	char		*cwd = NULL;
-	char		*line = NULL;
-	char		*prompt = NULL;
-	char		*tmp_line = NULL;
-	char		*echo_line = NULL;
-	char		*str_exit_status = NULL;
-	int			write_minishell = 0;
-	int			read_output_fd = 0;
-	int			fail_flag = 0;
-	int			status = 0;
-	int			i = 0;
-
-	pid = start_minishell_builtins(&write_minishell);
-
-
-//_ COMMANDS FOR MINISHELL _//
 	ft_putendl_fd("pwd", write_minishell);
 	ft_putendl_fd("cd ..", write_minishell);
 	ft_putendl_fd("pwd", write_minishell);
@@ -82,8 +65,27 @@ void	test_builtins(void)
 	ft_putendl_fd("exit -1", write_minishell);
 	usleep(100000);
 	kill(pid, SIGSTOP);
-	waitpid(pid, &status, WUNTRACED);
+	waitpid(pid, status, WUNTRACED);
+}
 
+void	test_builtins(void)
+{
+	extern char	**environ;
+	pid_t		pid = 0;
+	char		*cwd = NULL;
+	char		*line = NULL;
+	char		*prompt = NULL;
+	char		*tmp_line = NULL;
+	char		*str_exit_status = NULL;
+	int			write_minishell = 0;
+	int			read_output_fd = 0;
+	int			fail_flag = 0;
+	int			status = 0;
+	int			i = 0;
+
+	pid = start_minishell_builtins(&write_minishell);
+	send_commands_to_minishell(write_minishell, pid, &status);
+	
 
 	read_output_fd = open("tests/minishell_builtins_log.txt", O_RDONLY);
 
@@ -139,82 +141,13 @@ void	test_builtins(void)
 	ft_free_n_null((void **)&cwd);
 
 
-	//_ CHECKING ECHO TEST 1 _//
-	line = get_next_line(read_output_fd);
-	ft_free_n_null((void **)&line);
-	line = get_next_line(read_output_fd);
-
-	if (ft_strncmp(line, "Hello World", ft_strlen("Hello World")))
-		print_feedback("Test 1 echo", line, "Hello World");
-	else
-		ft_putendl_fd(GREEN"Test 1 echo success", 1);
-	ft_free_n_null((void **)&line);
-
-
-	//_ CHECKING ECHO TEST 2 _//
-	line = get_next_line(read_output_fd);
-	ft_free_n_null((void **)&line);
-	line = get_next_line(read_output_fd);
-	
-	
-	if (ft_strncmp(line, "-nnnnnnnnnm Hello World", ft_strlen("-nnnnnnnnnm Hello World")))
-		print_feedback("Test 2 echo", line, "-nnnnnnnnnm Hello World");
-	else
-		ft_putendl_fd(GREEN"Test 2 echo success", 1);
-	ft_free_n_null((void **)&line);
-
-
-	//_ CHECKING ECHO TEST 3 _//
-	line = get_next_line(read_output_fd);
-	ft_free_n_null((void **)&line);
-	line = get_next_line(read_output_fd);
-	prompt = get_prompt();
-	echo_line = ft_strjoin("Hello World", prompt);
-	ft_free_n_null((void **)&prompt);
-
-	if (ft_strncmp(line, echo_line, ft_strlen(echo_line)))
-		print_feedback("Test 3 echo", line, echo_line);
-	else
-		ft_putendl_fd(GREEN"Test 3 echo success", 1);
-	ft_free_n_null((void **)&line);
-	ft_free_n_null((void **)&echo_line);
-
-
-	//_ CHECKING ECHO TEST 4 _//
-	line = get_next_line(read_output_fd);
-	prompt = get_prompt();
-	echo_line = ft_strjoin("Hello World", prompt);
-	ft_free_n_null((void **)&prompt);
-
-	if (ft_strncmp(line, echo_line, ft_strlen(echo_line)))
-		print_feedback("Test 4 echo", line, echo_line);
-	else
-		ft_putendl_fd(GREEN"Test 4 echo success", 1);
-	ft_free_n_null((void **)&line);
-	ft_free_n_null((void **)&echo_line);
-
-
-	//_ CHECKING ECHO TEST 5 _//
-	line = get_next_line(read_output_fd);
-
-	if (ft_strncmp(line, "Hello World-n", ft_strlen("Hello World-n")))
-		print_feedback("Test 5 echo", line, "Hello World-n");
-	else
-		ft_putendl_fd(GREEN"Test 5 echo success", 1);
-	ft_free_n_null((void **)&line);
-
-
-	//_ CHECKING ECHO TEST 6 _//
-	line = get_next_line(read_output_fd);
-	ft_free_n_null((void **)&line);
-	line = get_next_line(read_output_fd);
-
-	if (ft_strncmp(line, "Hello World -n", ft_strlen("Hello World -n")))
-		print_feedback("Test 6 echo", line, "Hello World -n");
-	else
-		ft_putendl_fd(GREEN"Test 6 echo success", 1);
-	ft_free_n_null((void **)&line);
-
+	//_ CHECKING ECHO TESTS _//
+	echo_test_1(read_output_fd);
+	echo_test_2(read_output_fd);
+	echo_test_3(read_output_fd);
+	echo_test_4(read_output_fd);
+	echo_test_5(read_output_fd);
+	echo_test_6(read_output_fd);
 
 	//_ CHECKING ENV TEST 1 _//
 	line = get_next_line(read_output_fd);
