@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 13:08:42 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 13:27:32 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	test_builtins(void)
 	ft_putendl_fd("echo Hello World -n", write_minishell);
 	ft_putendl_fd("env", write_minishell);
 	system("leaks minishell_builtins");
-	ft_putendl_fd("exit 123", write_minishell);
+	ft_putendl_fd("exit -1", write_minishell);
 	usleep(100000);
 	kill(pid, SIGSTOP);
 	waitpid(pid, &status, WUNTRACED);
@@ -291,11 +291,11 @@ void	test_builtins(void)
 //_ CHECKING EXIT STATUS TEST 1 _//
 	if (WIFEXITED(status))
 	{
-		if (WEXITSTATUS(status) == 123)
+		if (WEXITSTATUS(status) == 255)
 			ft_putendl_fd(GREEN"Test 1 exit status success", 1);
 		else
 		{
-			ft_printf(RED"Output:\t\t%dExpected:\t%d\n\n", WEXITSTATUS(status), 123);
+			ft_printf(RED"Output:\t\t%dExpected:\t%d\n\n", WEXITSTATUS(status), 255);
 			ft_putendl_fd(RED"Test 1 exit status failed", 1);
 		}
 	}
