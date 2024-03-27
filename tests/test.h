@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:22 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 12:26:13 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 12:33:06 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,6 @@
 
 # ifndef DEFAULT
 #  define DEFAULT "\x1b[0m"
-# endif
-
-# ifndef COLOR
-# define COLOR 0
 # endif
 
 void	test_builtins(void);
