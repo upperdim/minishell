@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 12:08:49 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 12:26:26 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,7 +307,7 @@ void	test_builtins(void)
 	kill(pid, SIGKILL);
 
 
-	ft_putstr_fd(WHITE, 1);
+	ft_putstr_fd(DEFAULT, 1);
 	ft_close(&write_minishell);
 }
 
