@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/22 20:28:38 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:24:53 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+	// temp code until we are certain about `input`
+	// to do processing of the raw input read from the user
 void	builtins(char *input)
 {
 	char	*trimmed_input;
 
-	// temp code until we are certain about `input`
-	// to do processing of the raw input read from the user
 	trimmed_input = ft_strtrim(input, " ");
 	if (ft_strlen(trimmed_input) == ft_strlen(input))
 		ft_free_n_null((void **)&trimmed_input);

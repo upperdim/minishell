@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:03:55 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 15:09:49 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:24:26 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	exit_test_1(int read_output_fd, int status)
 		ft_free_n_null((void **)&output);
 		output = get_next_line(read_output_fd);
 		if (!output || !*output)
-			break;
+			break ;
 		ft_free_n_null((void **)&secundary_output);
 		secundary_output = get_next_line(read_output_fd);
 	}

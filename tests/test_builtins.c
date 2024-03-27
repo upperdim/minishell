@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 15:21:17 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:26:50 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static pid_t	start_minishell_builtins(int *pipe_write)
 	int		check_pipe;
 
 	fd_out = open("tests/minishell_builtins_log.txt", O_WRONLY | O_CREAT
-		| O_APPEND, 0644);
+			| O_APPEND, 0644);
 	check_pipe = pipe(pipe_in);
 	if (check_pipe == -1)
 		exit(EXIT_FAILURE);
@@ -51,7 +51,7 @@ void	print_feedback(char *test, char *output, char *expected)
 	ft_printf("Expected:\t%s\n\n", expected);
 }
 
-static pid_t send_commands_to_minishell(int *status)
+static pid_t	send_commands_to_minishell(int *status)
 {
 	pid_t	pid;
 	int		write_minishell;
@@ -130,7 +130,8 @@ static void	env_test(int read_output_fd)
 	while (environ[++i])
 	{
 		line = get_next_line(read_output_fd);
-		if (ft_strncmp(line, environ[i], ft_strchr(environ[i], '=') - environ[i]))
+		if (ft_strncmp(line, environ[i],
+				ft_strchr(environ[i], '=') - environ[i]))
 		{
 			ft_printf(RED"Output:\t\t%sExpected:\t%s\n\n", line, environ[i]);
 			fail_flag = 1;
@@ -138,7 +139,7 @@ static void	env_test(int read_output_fd)
 		ft_free_n_null((void **)&line);
 	}
 	if (!environ[i] && !fail_flag)
-	ft_putendl_fd(GREEN"Test 1 env success", 1);
+		ft_putendl_fd(GREEN"Test 1 env success", 1);
 }
 
 static void	reset_tty(pid_t pid)
