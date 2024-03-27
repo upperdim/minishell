@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 15:01:14 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:21:17 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ void	print_feedback(char *test, char *output, char *expected)
 	ft_printf("Expected:\t%s\n\n", expected);
 }
 
-static pid_t send_commands_to_minishell(int write_minishell, int *status)
+static pid_t send_commands_to_minishell(int *status)
 {
 	pid_t	pid;
+	int		write_minishell;
 
 	pid = start_minishell_builtins(&write_minishell);
 	ft_putendl_fd("pwd", write_minishell);
@@ -71,6 +72,7 @@ static pid_t send_commands_to_minishell(int write_minishell, int *status)
 	usleep(100000);
 	kill(pid, SIGSTOP);
 	waitpid(pid, status, WUNTRACED);
+	ft_close(&write_minishell);
 	return (pid);
 }
 
@@ -114,41 +116,14 @@ static void	prompt_test(int read_output_fd)
 	ft_free_n_null((void **)&prompt);
 }
 
-void	test_builtins(void)
+static void	env_test(int read_output_fd)
 {
+	int			i;
+	char		*line;
 	extern char	**environ;
-	pid_t		pid = 0;
-	char		*line = NULL;
-	char		*tmp_line = NULL;
-	char		*str_exit_status = NULL;
-	int			write_minishell = 0;
-	int			read_output_fd;
 	int			fail_flag;
-	int			status;
-	int			i = 0;
 
 	fail_flag = 0;
-	read_output_fd = open("tests/minishell_builtins_log.txt", O_RDONLY);
-	pid = send_commands_to_minishell(write_minishell, &status);
-	//_ CHECKING PROMPT TEST 1_//
-	prompt_test(read_output_fd);
-	//_ CHECKING PWD TEST 1 _//
-	pwd_test(read_output_fd);
-	//_ CHECKING PROMPT TEST 2 _//
-	line = get_next_line(read_output_fd);
-	ft_free_n_null((void **)&line);
-	chdir("..");
-	prompt_test(read_output_fd);
-	//_ CHECKING PWD TEST 2 _//
-	pwd_test(read_output_fd);
-	//_ CHECKING ECHO TESTS _//
-	echo_test_1(read_output_fd);
-	echo_test_2(read_output_fd);
-	echo_test_3(read_output_fd);
-	echo_test_4(read_output_fd);
-	echo_test_5(read_output_fd);
-	echo_test_6(read_output_fd);
-	//_ CHECKING ENV TEST 1 _//
 	line = get_next_line(read_output_fd);
 	ft_free_n_null((void **)&line);
 	i = -1;
@@ -164,34 +139,40 @@ void	test_builtins(void)
 	}
 	if (!environ[i] && !fail_flag)
 	ft_putendl_fd(GREEN"Test 1 env success", 1);
-	//_ CHECKING EXIT TEST 1 _//
-	line = get_next_line(read_output_fd);
-	tmp_line = get_next_line(read_output_fd);
-	while (line && tmp_line && *line && *tmp_line)
-	{
-		ft_free_n_null((void **)&line);
-		line = get_next_line(read_output_fd);
-		if (!line || !*line)
-			break;
-		ft_free_n_null((void **)&tmp_line);
-		tmp_line = get_next_line(read_output_fd);
-	}
-	if (!line || !*line)
-	{
-		ft_free_n_null((void **)&line);
-		line = tmp_line;
-	}
-	print_feedback("Test 1 exit", line, "exit");
-	ft_free_n_null((void **)&line);
-//_ CHECKING EXIT STATUS TEST 1 _//
-	str_exit_status = ft_itoa(WEXITSTATUS(status));
-	print_feedback("Test 1 exit status", str_exit_status, "255");
-	ft_free_n_null((void **)&str_exit_status);
-//_ RESETTING TTY _//
-	chdir("minishell");
-	kill(pid, SIGKILL);
-	ft_putstr_fd(DEFAULT, 1);
-	ft_close(&write_minishell);
 }
 
-	// unlink("tests/minishell.out");
+static void	reset_tty(pid_t pid)
+{
+	chdir("minishell");
+	if (pid)
+		kill(pid, SIGKILL);
+	ft_putstr_fd(DEFAULT, 1);
+}
+
+void	test_builtins(void)
+{
+	extern char	**environ;
+	pid_t		pid;
+	char		*line;
+	int			read_output_fd;
+	int			status;
+
+	read_output_fd = open("tests/minishell_builtins_log.txt", O_RDONLY);
+	pid = send_commands_to_minishell(&status);
+	prompt_test(read_output_fd);
+	pwd_test(read_output_fd);
+	line = get_next_line(read_output_fd);
+	ft_free_n_null((void **)&line);
+	chdir("..");
+	prompt_test(read_output_fd);
+	pwd_test(read_output_fd);
+	echo_test_1(read_output_fd);
+	echo_test_2(read_output_fd);
+	echo_test_3(read_output_fd);
+	echo_test_4(read_output_fd);
+	echo_test_5(read_output_fd);
+	echo_test_6(read_output_fd);
+	env_test(read_output_fd);
+	exit_test_1(read_output_fd, status);
+	reset_tty(pid);
+}
