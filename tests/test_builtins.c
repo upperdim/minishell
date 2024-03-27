@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 12:26:26 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 13:08:42 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ void	test_builtins(void)
 	while (environ[++i])
 	{
 		line = get_next_line(read_output_fd);
-		if (ft_strncmp(line, environ[i], ft_strlen(environ[i])))
+		if (ft_strncmp(line, environ[i], ft_strchr(environ[i], '=') - environ[i]))
 		{
 			ft_printf(RED"Output:\t\t%sExpected:\t%s\n\n", line, environ[i]);
 			fail_flag = 1;
