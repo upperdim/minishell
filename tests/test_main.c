@@ -20,7 +20,7 @@ static void	compile_minishell(void)
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	if (!pid)
-		ft_execve((char *[]){check_for_cmd("make"), "re", "COLOR=0", NULL},
+		ft_execve((char *[]){check_for_cmd("make"), "re", NULL},
 			NULL, NULL);
 	waitpid(pid, NULL, 0);
 }
