@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/22 20:28:21 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 12:16:05 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,31 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 
-# ifndef CYAN
-#  define CYAN "\x1b[38;5;14m"
-# endif
+# ifdef COLOR
 
-# ifndef BLUE
-#  define BLUE "\x1b[38;5;32m"
-# endif
+#  ifndef CYAN
+#   define CYAN "\x1b[38;5;14m"
+#  endif
+#  ifndef BLUE
+#   define BLUE "\x1b[38;5;32m"
+#  endif
+#  ifndef WHITE
+#   define WHITE "\x1b[0m"
+#  endif
 
-# ifndef WHITE
-#  define WHITE "\x1b[0m"
-# endif
+# else
+
+#  ifndef CYAN
+#   define CYAN ""
+#  endif
+#  ifndef BLUE
+#   define BLUE ""
+#  endif
+#  ifndef WHITE
+#   define WHITE ""
+#  endif
+
+# endif 
 
 /* ft_free_2d_arrays frees arrays of any size with this argument */
 # define FREE_ANY_SIZE -1

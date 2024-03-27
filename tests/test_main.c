@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 12:26:18 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/26 20:08:27 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/27 12:16:39 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	compile_minishell(void)
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	if (!pid)
-		ft_execve((char *[]){check_for_cmd("make"), "re", "COLOR=0", NULL},
+		ft_execve((char *[]){check_for_cmd("make"), "re", NULL},
 			NULL, NULL);
 	waitpid(pid, NULL, 0);
 }

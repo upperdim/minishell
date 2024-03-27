@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 19:11:58 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/26 21:37:08 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#ifndef NO_COLOR
 
 static char	*get_user(void)
 {
@@ -98,5 +97,3 @@ char	*get_prompt(void)
 	ft_free_n_null((void **)&temp);
 	return (prompt);
 }
-
-#endif

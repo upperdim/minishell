@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/03/11 19:23:27 by JFikents          #+#    #+#              #
-#    Updated: 2024/03/26 20:50:25 by tunsal           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = minishell
 RM = rm -rf
 CC = cc
@@ -29,7 +17,7 @@ INCLUDES = $(addprefix -I, $(HEADERS_DIR))
 BUILTIN_FILES = cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c
 BUILTINS = $(addprefix builtins/, $(BUILTIN_FILES))
 
-UTILS_FILES = signal_handler.c prompt.c prompt_no_color.c
+UTILS_FILES = signal_handler.c prompt.c
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 
 EXEC_FILES = exec.c pipe_utils.c
@@ -168,7 +156,7 @@ $(NAME)_builtins : lib/libft/libft.a $(OBJ_BUILTINS) includes/minishell.h
 ################################################################################
 COLOR ?= 1
 ifeq ($(COLOR),1)
-COLOR_FLAG = 
+COLOR_FLAG = -DCOLOR
 else
-COLOR_FLAG = -DNO_COLOR
+COLOR_FLAG = 
 endif
