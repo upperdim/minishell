@@ -42,7 +42,7 @@ SRC_TEST = $(addprefix tests/, $(SRC_TEST_MAIN))
 SRC_BUILTINS = $(addprefix $(SRC_DIR), $(SRC_BUILTINS_MAIN))
 
 OBJ = $(SRC:src/%.c=bin/%.o)
-OBJ_TEST = $(SRC_TEST:tests/%.c=tests/bin/%.o) $(filter-out bin/main%, $(OBJ))
+OBJ_TEST = $(SRC_TEST:tests/%.c=tests/bin/%.o) $(filter-out bin/main.o, $(OBJ))
 OBJ_BUILTINS = $(SRC_BUILTINS:src/%.c=bin_builtins/%.o)
 
 
@@ -126,14 +126,14 @@ fclean_test: clean_test
 re_test: fclean_test test
 .PHONY: re_test
 
-tests/bin:
+tests/bin/%.o : tests/%.c
 	@mkdir -p tests/bin
-
-tests/bin/%.o : tests/%.c tests/bin
 	@echo "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
-test: lib/libft/libft.a $(OBJ_TEST)
 
+test: lib/libft/libft.a $(OBJ_TEST)
+	@$(RM) bin/utils/prompt.o
+	@make bin/utils/prompt.o COLOR=0
 	@echo "	Compiling tests..."
 	@$(CC) -o test $^ $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
@@ -144,7 +144,7 @@ test: lib/libft/libft.a $(OBJ_TEST)
 bin_builtins/%.o : src/%.c
 	@echo "	Compiling $@"
 	@mkdir -p bin_builtins/builtins bin_builtins/exec bin_builtins/parser bin_builtins/utils
-	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) -DBUILTINS $(COLOR_FLAG)
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) $(COLOR_FLAG)
 
 $(NAME)_builtins : lib/libft/libft.a $(OBJ_BUILTINS) includes/minishell.h
 	@echo "	Compiling $@..."
