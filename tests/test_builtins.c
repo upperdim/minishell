@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 13:27:32 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 13:47:10 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ static pid_t	start_minishell_builtins(int *pipe_write)
 	return (pid);
 }
 
+static void print_feedback(char *test, char *output, char *expected)
+{
+	ft_printf(RED"%s failed\n", test);
+	ft_printf("Output:\t\t%s", output);
+	if (!ft_strchr(output, '\n'))
+		ft_putchar_fd('\n', 1);
+	ft_printf("Expected:\t%s\n\n", expected);
+}
+
 void	test_builtins(void)
 {
 	extern char	**environ;
@@ -48,6 +57,7 @@ void	test_builtins(void)
 	char		*prompt = NULL;
 	char		*tmp_line = NULL;
 	char		*echo_line = NULL;
+	char		*str_exit_status = NULL;
 	int			write_minishell = 0;
 	int			read_output_fd = 0;
 	int			fail_flag = 0;
@@ -83,10 +93,7 @@ void	test_builtins(void)
 	prompt = get_prompt();
 
 	if (ft_strncmp(line, prompt, ft_strlen(prompt)))
-	{
-		ft_putendl_fd(RED"Test 1 prompt failed", 1);
-		ft_printf("Output:\t\t%sExpected:\t%s\n\n", line, prompt);
-	}
+		print_feedback("Test 1 prompt", line, prompt);
 	else
 		ft_putendl_fd(GREEN"Test 1 prompt success", 1);
 	ft_free_n_null((void **)&line);
@@ -98,10 +105,7 @@ void	test_builtins(void)
 	cwd = getcwd(NULL, 0);
 
 	if (ft_strncmp(line, cwd, ft_strlen(cwd)))
-	{
-		ft_putendl_fd(RED"Test 1 pwd failed", 1);
-		ft_printf("Output:\t\t%sExpected:\t%s\n\n", line, cwd);
-	}
+		print_feedback("Test 1 pwd", line, cwd);
 	else
 		ft_putendl_fd(GREEN"Test 1 pwd success", 1);
 	ft_free_n_null((void **)&line);
@@ -116,10 +120,7 @@ void	test_builtins(void)
 	prompt = get_prompt();
 
 	if (ft_strncmp(line, prompt, ft_strlen(prompt)))
-	{
-		ft_putendl_fd(RED"Test 2 prompt failed", 1);
-		ft_printf("Output:\t\t%sExpected:\t%s\n\n", line, prompt);
-	}
+		print_feedback("Test 2 prompt", line, prompt);
 	else
 		ft_putendl_fd(GREEN"Test 2 prompt success", 1);
 	ft_free_n_null((void **)&line);
@@ -131,10 +132,7 @@ void	test_builtins(void)
 	cwd = getcwd(NULL, 0);
 
 	if (ft_strncmp(line, cwd, ft_strlen(cwd)))
-	{
-		ft_putendl_fd(RED"Test 2 pwd failed", 1);
-		ft_printf("Output:\t\t%sExpected:\t%s\n\n", line, cwd);
-	}
+		print_feedback("Test 2 pwd", line, cwd);
 	else
 		ft_putendl_fd(GREEN"Test 2 pwd success", 1);
 	ft_free_n_null((void **)&line);
@@ -147,10 +145,7 @@ void	test_builtins(void)
 	line = get_next_line(read_output_fd);
 
 	if (ft_strncmp(line, "Hello World", ft_strlen("Hello World")))
-	{
-		ft_putendl_fd(RED"Test 1 echo failed", 1);
-		ft_printf("Output:\t\t%sExpected:\t%s\n\n", line, "Hello World");
-	}
+		print_feedback("Test 1 echo", line, "Hello World");
 	else
 		ft_putendl_fd(GREEN"Test 1 echo success", 1);
 	ft_free_n_null((void **)&line);
@@ -163,10 +158,7 @@ void	test_builtins(void)
 	
 	
 	if (ft_strncmp(line, "-nnnnnnnnnm Hello World", ft_strlen("-nnnnnnnnnm Hello World")))
-	{
-		ft_putendl_fd(RED"Test 2 echo failed", 1);
-		ft_printf("Output:\t\t%sExpected:\t%s\n\n", line, "-nnnnnnnnnm Hello World");
-	}
+		print_feedback("Test 2 echo", line, "-nnnnnnnnnm Hello World");
 	else
 		ft_putendl_fd(GREEN"Test 2 echo success", 1);
 	ft_free_n_null((void **)&line);
@@ -181,10 +173,7 @@ void	test_builtins(void)
 	ft_free_n_null((void **)&prompt);
 
 	if (ft_strncmp(line, echo_line, ft_strlen(echo_line)))
-	{
-		ft_putendl_fd(RED"Test 3 echo failed", 1);
-		ft_printf("Output:\t\t%sExpected:\t%s\n\n", line, echo_line);
-	}
+		print_feedback("Test 3 echo", line, echo_line);
 	else
 		ft_putendl_fd(GREEN"Test 3 echo success", 1);
 	ft_free_n_null((void **)&line);
@@ -198,10 +187,7 @@ void	test_builtins(void)
 	ft_free_n_null((void **)&prompt);
 
 	if (ft_strncmp(line, echo_line, ft_strlen(echo_line)))
-	{
-		ft_putendl_fd(RED"Test 4 echo failed", 1);
-		ft_printf("Output:\t\t%sExpected:\t%s\n\n", line, echo_line);
-	}
+		print_feedback("Test 4 echo", line, echo_line);
 	else
 		ft_putendl_fd(GREEN"Test 4 echo success", 1);
 	ft_free_n_null((void **)&line);
@@ -212,10 +198,7 @@ void	test_builtins(void)
 	line = get_next_line(read_output_fd);
 
 	if (ft_strncmp(line, "Hello World-n", ft_strlen("Hello World-n")))
-	{
-		ft_putendl_fd(RED"Test 5 echo failed", 1);
-		ft_printf("Output:\t\t%sExpected:\t%s\n\n", line, "Hello World-n");
-	}
+		print_feedback("Test 5 echo", line, "Hello World-n");
 	else
 		ft_putendl_fd(GREEN"Test 5 echo success", 1);
 	ft_free_n_null((void **)&line);
@@ -227,10 +210,7 @@ void	test_builtins(void)
 	line = get_next_line(read_output_fd);
 
 	if (ft_strncmp(line, "Hello World -n", ft_strlen("Hello World -n")))
-	{
-		ft_putendl_fd(RED"Test 6 echo failed", 1);
-		ft_printf("Output:\t\t%sExpected:\t%s\n\n", line, "Hello World -n");
-	}
+		print_feedback("Test 6 echo", line, "Hello World -n");
 	else
 		ft_putendl_fd(GREEN"Test 6 echo success", 1);
 	ft_free_n_null((void **)&line);
@@ -279,28 +259,24 @@ void	test_builtins(void)
 	}
 
 	if (ft_strncmp(line, "exit", ft_strlen("exit")))
-	{
-		ft_putendl_fd(RED"Test 1 exit failed", 1);
-		ft_printf("Output:\t\t%sExpected:\t%s\n\n", line, "exit");
-	}
+		print_feedback("Test 1 exit", line, "exit");
 	else
 		ft_putendl_fd(GREEN"Test 1 exit success", 1);
 	ft_free_n_null((void **)&line);
 
 
 //_ CHECKING EXIT STATUS TEST 1 _//
+	str_exit_status = ft_itoa(WEXITSTATUS(status));
 	if (WIFEXITED(status))
 	{
 		if (WEXITSTATUS(status) == 255)
 			ft_putendl_fd(GREEN"Test 1 exit status success", 1);
 		else
-		{
-			ft_printf(RED"Output:\t\t%dExpected:\t%d\n\n", WEXITSTATUS(status), 255);
-			ft_putendl_fd(RED"Test 1 exit status failed", 1);
-		}
+			print_feedback("Test 1 exit status", str_exit_status, "255");
 	}
 	else
 		ft_putendl_fd("Didn't exit properly", 1);
+	ft_free_n_null((void **)&str_exit_status);
 
 
 	chdir("minishell");
