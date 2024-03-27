@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 14:29:52 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:01:14 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static pid_t	start_minishell_builtins(int *pipe_write)
 	int		fd_out;
 	int		check_pipe;
 
-	fd_out = open("tests/minishell_builtins_log.txt", O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd_out = open("tests/minishell_builtins_log.txt", O_WRONLY | O_CREAT
+		| O_APPEND, 0644);
 	check_pipe = pipe(pipe_in);
 	if (check_pipe == -1)
 		exit(EXIT_FAILURE);
@@ -38,6 +39,7 @@ static pid_t	start_minishell_builtins(int *pipe_write)
 	*pipe_write = pipe_in[PIPE_FD_WRITE];
 	return (pid);
 }
+
 void	print_feedback(char *test, char *output, char *expected)
 {
 	if (!ft_strncmp(output, expected, ft_strlen(expected)))
@@ -49,9 +51,11 @@ void	print_feedback(char *test, char *output, char *expected)
 	ft_printf("Expected:\t%s\n\n", expected);
 }
 
-static void send_commands_to_minishell(int write_minishell, pid_t pid,
-	int *status)
+static pid_t send_commands_to_minishell(int write_minishell, int *status)
 {
+	pid_t	pid;
+
+	pid = start_minishell_builtins(&write_minishell);
 	ft_putendl_fd("pwd", write_minishell);
 	ft_putendl_fd("cd ..", write_minishell);
 	ft_putendl_fd("pwd", write_minishell);
@@ -67,69 +71,76 @@ static void send_commands_to_minishell(int write_minishell, pid_t pid,
 	usleep(100000);
 	kill(pid, SIGSTOP);
 	waitpid(pid, status, WUNTRACED);
+	return (pid);
+}
+
+static void	pwd_test(int read_output_fd)
+{
+	static int	i = 1;
+	char		*output;
+	char		*cwd;
+	char		*test_str;
+	char		*test_num_str;
+
+	output = get_next_line(read_output_fd);
+	test_str = ft_strjoin("Test ", test_num_str = ft_itoa(i++));
+	ft_free_n_null((void **)&test_num_str);
+	test_num_str = ft_strjoin(test_str, " pwd");
+	ft_free_n_null((void **)&test_str);
+	test_str = test_num_str;
+	print_feedback(test_str, output, cwd = getcwd(NULL, 0));
+	ft_free_n_null((void **)&test_str);
+	ft_free_n_null((void **)&output);
+	ft_free_n_null((void **)&cwd);
+}
+
+static void	prompt_test(int read_output_fd)
+{
+	static int	i = 1;
+	char		*output;
+	char		*prompt;
+	char		*test_str;
+	char		*test_num_str;
+
+	output = get_next_line(read_output_fd);
+	test_str = ft_strjoin("Test ", test_num_str = ft_itoa(i++));
+	ft_free_n_null((void **)&test_num_str);
+	test_num_str = ft_strjoin(test_str, " prompt");
+	ft_free_n_null((void **)&test_str);
+	test_str = test_num_str;
+	print_feedback(test_str, output, prompt = get_prompt());
+	ft_free_n_null((void **)&test_str);
+	ft_free_n_null((void **)&output);
+	ft_free_n_null((void **)&prompt);
 }
 
 void	test_builtins(void)
 {
 	extern char	**environ;
 	pid_t		pid = 0;
-	char		*cwd = NULL;
 	char		*line = NULL;
-	char		*prompt = NULL;
 	char		*tmp_line = NULL;
 	char		*str_exit_status = NULL;
 	int			write_minishell = 0;
-	int			read_output_fd = 0;
-	int			fail_flag = 0;
-	int			status = 0;
+	int			read_output_fd;
+	int			fail_flag;
+	int			status;
 	int			i = 0;
 
-	pid = start_minishell_builtins(&write_minishell);
-	send_commands_to_minishell(write_minishell, pid, &status);
-	
-
+	fail_flag = 0;
 	read_output_fd = open("tests/minishell_builtins_log.txt", O_RDONLY);
-
-
+	pid = send_commands_to_minishell(write_minishell, &status);
 	//_ CHECKING PROMPT TEST 1_//
-	line = get_next_line(read_output_fd);
-	prompt = get_prompt();
-
-	print_feedback("Test 1 prompt", line, prompt);
-	ft_free_n_null((void **)&line);
-	ft_free_n_null((void **)&prompt);
-
-
+	prompt_test(read_output_fd);
 	//_ CHECKING PWD TEST 1 _//
-	line = get_next_line(read_output_fd);
-	cwd = getcwd(NULL, 0);
-
-	print_feedback("Test 1 pwd", line, cwd);
-	ft_free_n_null((void **)&line);
-	ft_free_n_null((void **)&cwd);
-
-
+	pwd_test(read_output_fd);
 	//_ CHECKING PROMPT TEST 2 _//
 	line = get_next_line(read_output_fd);
 	ft_free_n_null((void **)&line);
-	line = get_next_line(read_output_fd);
 	chdir("..");
-	prompt = get_prompt();
-
-	print_feedback("Test 2 prompt", line, prompt);
-	ft_free_n_null((void **)&line);
-	ft_free_n_null((void **)&prompt);
-
-
+	prompt_test(read_output_fd);
 	//_ CHECKING PWD TEST 2 _//
-	line = get_next_line(read_output_fd);
-	cwd = getcwd(NULL, 0);
-
-	print_feedback("Test 2 pwd", line, cwd);
-	ft_free_n_null((void **)&line);
-	ft_free_n_null((void **)&cwd);
-
-
+	pwd_test(read_output_fd);
 	//_ CHECKING ECHO TESTS _//
 	echo_test_1(read_output_fd);
 	echo_test_2(read_output_fd);
@@ -137,12 +148,10 @@ void	test_builtins(void)
 	echo_test_4(read_output_fd);
 	echo_test_5(read_output_fd);
 	echo_test_6(read_output_fd);
-
 	//_ CHECKING ENV TEST 1 _//
 	line = get_next_line(read_output_fd);
 	ft_free_n_null((void **)&line);
 	i = -1;
-
 	while (environ[++i])
 	{
 		line = get_next_line(read_output_fd);
@@ -155,8 +164,6 @@ void	test_builtins(void)
 	}
 	if (!environ[i] && !fail_flag)
 	ft_putendl_fd(GREEN"Test 1 env success", 1);
-
-
 	//_ CHECKING EXIT TEST 1 _//
 	line = get_next_line(read_output_fd);
 	tmp_line = get_next_line(read_output_fd);
@@ -174,26 +181,15 @@ void	test_builtins(void)
 		ft_free_n_null((void **)&line);
 		line = tmp_line;
 	}
-
 	print_feedback("Test 1 exit", line, "exit");
 	ft_free_n_null((void **)&line);
-
-
 //_ CHECKING EXIT STATUS TEST 1 _//
 	str_exit_status = ft_itoa(WEXITSTATUS(status));
-	if (WIFEXITED(status))
-	{
-		if (WEXITSTATUS(status) == 255)
-			ft_putendl_fd(GREEN"Test 1 exit status success", 1);
-			print_feedback("Test 1 exit status", str_exit_status, "255");
-}
+	print_feedback("Test 1 exit status", str_exit_status, "255");
 	ft_free_n_null((void **)&str_exit_status);
-
-
+//_ RESETTING TTY _//
 	chdir("minishell");
 	kill(pid, SIGKILL);
-
-
 	ft_putstr_fd(DEFAULT, 1);
 	ft_close(&write_minishell);
 }
