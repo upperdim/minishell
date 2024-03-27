@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 14:20:50 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:29:52 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ static pid_t	start_minishell_builtins(int *pipe_write)
 	*pipe_write = pipe_in[PIPE_FD_WRITE];
 	return (pid);
 }
-
 void	print_feedback(char *test, char *output, char *expected)
 {
+	if (!ft_strncmp(output, expected, ft_strlen(expected)))
+		return ((void) ft_printf(GREEN"%s success\n", test));
 	ft_printf(RED"%s failed\n", test);
 	ft_printf("Output:\t\t%s", output);
 	if (!ft_strchr(output, '\n'))
@@ -94,10 +95,7 @@ void	test_builtins(void)
 	line = get_next_line(read_output_fd);
 	prompt = get_prompt();
 
-	if (ft_strncmp(line, prompt, ft_strlen(prompt)))
-		print_feedback("Test 1 prompt", line, prompt);
-	else
-		ft_putendl_fd(GREEN"Test 1 prompt success", 1);
+	print_feedback("Test 1 prompt", line, prompt);
 	ft_free_n_null((void **)&line);
 	ft_free_n_null((void **)&prompt);
 
@@ -106,10 +104,7 @@ void	test_builtins(void)
 	line = get_next_line(read_output_fd);
 	cwd = getcwd(NULL, 0);
 
-	if (ft_strncmp(line, cwd, ft_strlen(cwd)))
-		print_feedback("Test 1 pwd", line, cwd);
-	else
-		ft_putendl_fd(GREEN"Test 1 pwd success", 1);
+	print_feedback("Test 1 pwd", line, cwd);
 	ft_free_n_null((void **)&line);
 	ft_free_n_null((void **)&cwd);
 
@@ -121,10 +116,7 @@ void	test_builtins(void)
 	chdir("..");
 	prompt = get_prompt();
 
-	if (ft_strncmp(line, prompt, ft_strlen(prompt)))
-		print_feedback("Test 2 prompt", line, prompt);
-	else
-		ft_putendl_fd(GREEN"Test 2 prompt success", 1);
+	print_feedback("Test 2 prompt", line, prompt);
 	ft_free_n_null((void **)&line);
 	ft_free_n_null((void **)&prompt);
 
@@ -133,10 +125,7 @@ void	test_builtins(void)
 	line = get_next_line(read_output_fd);
 	cwd = getcwd(NULL, 0);
 
-	if (ft_strncmp(line, cwd, ft_strlen(cwd)))
-		print_feedback("Test 2 pwd", line, cwd);
-	else
-		ft_putendl_fd(GREEN"Test 2 pwd success", 1);
+	print_feedback("Test 2 pwd", line, cwd);
 	ft_free_n_null((void **)&line);
 	ft_free_n_null((void **)&cwd);
 
@@ -165,15 +154,13 @@ void	test_builtins(void)
 		ft_free_n_null((void **)&line);
 	}
 	if (!environ[i] && !fail_flag)
-		ft_putendl_fd(GREEN"Test 1 env success", 1);
-	else
-		ft_putendl_fd(RED"Test 1 env failed", 1);
+	ft_putendl_fd(GREEN"Test 1 env success", 1);
 
 
 	//_ CHECKING EXIT TEST 1 _//
 	line = get_next_line(read_output_fd);
 	tmp_line = get_next_line(read_output_fd);
-	while (line && tmp_line)
+	while (line && tmp_line && *line && *tmp_line)
 	{
 		ft_free_n_null((void **)&line);
 		line = get_next_line(read_output_fd);
@@ -181,20 +168,14 @@ void	test_builtins(void)
 			break;
 		ft_free_n_null((void **)&tmp_line);
 		tmp_line = get_next_line(read_output_fd);
-		if (!*tmp_line)
-			break;
 	}
 	if (!line || !*line)
 	{
-		if (line)
-			ft_free_n_null((void **)&line);
+		ft_free_n_null((void **)&line);
 		line = tmp_line;
 	}
 
-	if (ft_strncmp(line, "exit", ft_strlen("exit")))
-		print_feedback("Test 1 exit", line, "exit");
-	else
-		ft_putendl_fd(GREEN"Test 1 exit success", 1);
+	print_feedback("Test 1 exit", line, "exit");
 	ft_free_n_null((void **)&line);
 
 
@@ -204,11 +185,8 @@ void	test_builtins(void)
 	{
 		if (WEXITSTATUS(status) == 255)
 			ft_putendl_fd(GREEN"Test 1 exit status success", 1);
-		else
 			print_feedback("Test 1 exit status", str_exit_status, "255");
-	}
-	else
-		ft_putendl_fd("Didn't exit properly", 1);
+}
 	ft_free_n_null((void **)&str_exit_status);
 
 
