@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:22 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 12:10:17 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/27 12:26:13 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 
 # ifndef GREEN
 #  define GREEN "\033[0;32m"
+# endif
+
+# ifndef DEFAULT
+#  define DEFAULT "\x1b[0m"
 # endif
 
 # ifndef COLOR
