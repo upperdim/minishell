@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/28 15:00:01 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:18:20 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static pid_t	send_commands_to_minishell(int *status)
 	ft_putendl_fd("echo -n Hello World", write_minishell);
 	ft_putendl_fd("echo Hello World-n", write_minishell);
 	ft_putendl_fd("echo Hello World -n", write_minishell);
+	ft_putendl_fd("cd ", write_minishell);
 	ft_putendl_fd("env", write_minishell);
 	system("leaks minishell_builtins");
 	ft_putendl_fd("exit -1", write_minishell);
@@ -110,8 +111,8 @@ void	test_1_builtins(void)
 	int			read_output_fd;
 	int			status;
 
-	read_output_fd = open("tests/minishell_builtins_log.txt", O_RDONLY);
 	pid = send_commands_to_minishell(&status);
+	read_output_fd = open("tests/minishell_builtins_log.txt", O_RDONLY);
 	prompt_test(read_output_fd);
 	pwd_test(read_output_fd);
 	line = get_next_line(read_output_fd);
@@ -125,6 +126,7 @@ void	test_1_builtins(void)
 	echo_test_4(read_output_fd);
 	echo_test_5(read_output_fd);
 	echo_test_6(read_output_fd);
+	// cd_test_1(read_output_fd);
 	env_test(read_output_fd);
 	exit_test_1(read_output_fd, status);
 	reset_tty(pid);
