@@ -33,8 +33,8 @@ SRC_NO_MAIN = $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
 # Creating binaries
 ################################################################################
 SRC_MAIN = main.c $(SRC_NO_MAIN)
-SRC_TEST_MAIN = test_main.c test_builtins.c test_echo.c test_echo_2.c\
-	test_exit.c test_utils.c
+SRC_TEST_MAIN = main_test.c test_builtins.c test_echo.c test_echo_2.c\
+	test_exit.c test_utils.c test_cd.c
 SRC_BUILTINS_MAIN = main_builtins.c $(SRC_NO_MAIN)
 
 SRC_DIR = src/

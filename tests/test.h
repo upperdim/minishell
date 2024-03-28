@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:22 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/27 15:32:50 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:26:13 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ void	echo_test_5(int read_output_fd);
 void	echo_test_6(int read_output_fd);
 
 void	exit_test_1(int read_output_fd, int status);
+
+void	cd_test_1(int read_output_fd);
 
 #endif

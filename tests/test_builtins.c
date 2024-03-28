@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/28 15:18:20 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:28:42 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ static void	env_test(int read_output_fd)
 	int			fail_flag;
 
 	fail_flag = 0;
-	line = get_next_line(read_output_fd);
-	ft_free_n_null((void **)&line);
 	i = -1;
 	while (environ[++i])
 	{
@@ -126,7 +124,7 @@ void	test_1_builtins(void)
 	echo_test_4(read_output_fd);
 	echo_test_5(read_output_fd);
 	echo_test_6(read_output_fd);
-	// cd_test_1(read_output_fd);
+	cd_test_1(read_output_fd);
 	env_test(read_output_fd);
 	exit_test_1(read_output_fd, status);
 	reset_tty(pid);
