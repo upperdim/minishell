@@ -104,7 +104,7 @@ debug: $(DEBUG_DIR)/a.out
 .PHONY: debug
 
 $(DEBUG_DIR)/a.out: c lib/libft/libft.a includes/minishell.h
-	@$(CC) $(CFLAGS) $(SRC) $(DEBUG_FLAGS) $(INCLUDES) $(LDFLAGS)
+	@$(CC) $(CFLAGS) $(SRC_BUILTINS) $(DEBUG_FLAGS) $(INCLUDES) $(LDFLAGS)
 	@mv a.out.dSYM $(DEBUG_DIR)
 	@mv a.out $(DEBUG_DIR)
 
