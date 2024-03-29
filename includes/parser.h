@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/12 15:31:01 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/29 13:15:58 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,7 @@ enum	e_token
 	QUOTE_S,
 	QUOTE_D
 };
+
+void	parse_line(char *line);
 
 #endif
