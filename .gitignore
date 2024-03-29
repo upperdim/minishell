@@ -14,3 +14,4 @@ local/
 debug/*
 test
 tests/minishell.out
+*.log
