@@ -9,9 +9,7 @@ function prepare_logs_dir
 	if [ ! -d "logs" ]; then
 		mkdir -p logs
 	fi
-	if [ -n "$NEW_LOGS" ]; then
-		$RM logs/*
-	fi
+	$RM logs/*
 };
 
 function check_norminette
