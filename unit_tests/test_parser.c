@@ -6,13 +6,32 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:45:26 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/29 13:16:24 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/29 15:06:20 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "libft.h"
+#include <stdlib.h>
 
 int	main(void)
 {
+	t_instruction	*result;
+
+	result = parse_line("");
+	if (result)
+	{
+		ft_printf("parse_line(\"\"): Failed\n");
+		ft_printf("Outputs: %p\nExpected: NULL\n", result);
+		free(result);
+		result = NULL;
+	}
+	system("\
+if [ $(leaks a.out | grep \"leaks for \" | awk '{print $3}') != 0 ]; then\n\
+	leaks a.out | grep \"Process \">> logs/result_parser.log\n\
+	echo \"Leaks found in parse_line(\\\"\\\")\" >> logs/result_parser.log\n\
+else\n\
+	echo \"\nNo leaks found in parse_line(\\\"\\\")\" >> logs/result_parser.log\n\
+fi");
 	return (0);
 }
