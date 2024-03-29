@@ -8,10 +8,9 @@ demo.c
 a.out
 minishell
 minishell_builtins
-tests/minishell_builtins_log.txt
+logs/minishell_builtins.log
 .vscode
 local/
 debug/*
 test
-tests/minishell.out
-*.log
+logs/result_parser.log

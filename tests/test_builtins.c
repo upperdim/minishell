@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/28 15:28:42 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/29 13:03:13 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	test_1_builtins(void)
 	int			status;
 
 	pid = send_commands_to_minishell(&status);
-	read_output_fd = open("tests/minishell_builtins_log.txt", O_RDONLY);
+	read_output_fd = open("logs/minishell_builtins.log", O_RDONLY);
 	prompt_test(read_output_fd);
 	pwd_test(read_output_fd);
 	line = get_next_line(read_output_fd);
