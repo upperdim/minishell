@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:22 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/28 15:26:13 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/03/28 18:37:49 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 # include "minishell.h"
 
 # ifndef RED
-#  define RED "\033[0;31m"
+#  define RED "\x1b[0;31m"
 # endif
 
 # ifndef GREEN
-#  define GREEN "\033[0;32m"
+#  define GREEN "\x1b[0;32m"
 # endif
 
 # ifndef DEFAULT
