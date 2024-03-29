@@ -9,7 +9,6 @@ function prepare_logs_dir
 	if [ ! -d "logs" ]; then
 		mkdir -p logs
 	fi
-	$RM logs/*
 };
 
 function check_norminette
