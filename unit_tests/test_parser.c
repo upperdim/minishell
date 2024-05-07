@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:45:26 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/07 14:29:59 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/07 14:37:59 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,10 +143,10 @@ int	main(void)
 	{
 		ft_printf("\nTest for parse_line(\"echo Hello World\"): Failed\n");
 		ft_feedback(error, result);
-		if (result)
-			free(result);
-		result = NULL;
 	}
+	if (result)
+		free(result);
+	result = NULL;
 	system("\
 if [ $(leaks a.out | grep \"leaks for \" | awk '{print $3}') != 0 ]; then\n\
 	leaks a.out | grep \"Process \">> logs/result_parser.log\n\
