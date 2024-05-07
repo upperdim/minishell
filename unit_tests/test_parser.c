@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:45:26 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/07 14:09:16 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/07 14:29:59 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,23 +105,46 @@ int	ft_check_output(t_instruction *result)
 	return (NO_RESULT);
 }
 
-int	main(void)
+void	ft_feedback(int error, t_instruction *result)
 {
-	t_instruction	*result;
-
-	result = parse_line("echo Hello World");
-	if (ft_check_output(result))
+	if (error == WRONG_CMD)
+		ft_printf("\tCmd: %s\n\tExpected: echo\n", result->cmd);
+	if (error == NO_ARGS)
+		ft_printf("\tArgs: NULL\n\tExpected: args = {\"Hello\", \"World\"}\n");
+	if (error == WRONG_ARGS)
 	{
-		ft_printf("\nTest for parse_line(\"echo Hello World\"): Failed\n");
-		ft_printf("Outputs\n\tCmd: %s\n\tExpected: echo\n", result->cmd);
 		if (result->args && result->args[0])
 			ft_printf("\tArgs[0]: %s\n\tExpected: Hello\n", result->args[0]);
 		if (result->args && result->args[1])
 			ft_printf("\tArgs[1]: %s\n\tExpected: World\n", result->args[1]);
-		if (!result->args)
-			ft_printf("\tArgs: NULL\n\tExpected: args[0] = Hello,");
-		ft_printf(" args[1] = World\n");
-		free(result);
+	}
+	if (error == WRONG_AND_INDEX)
+		ft_printf("\tAnd Index: %d\n\tExpected: 0\n", result->and_index);
+	if (error == WRONG_NEXT)
+		ft_printf("\tNext: %p\n\tExpected: NULL\n", result->next);
+	if (error == WRONG_PIPE_IN)
+		ft_printf("\tPipe In: %d\n\tExpected: -1\n", result->flags.pipe_in);
+	if (error == WRONG_PIPE_OUT)
+		ft_printf("\tPipe Out: %d\n\tExpected: -1\n", result->flags.pipe_out);
+	if (error == WRONG_REDIR)
+		ft_printf("\tRedir: %d\n\tExpected: 0\n", result->flags.redir);
+	if (error == NO_RESULT)
+		ft_printf("Output: NULL\nExpected: t_instruction\n");
+}
+
+int	main(void)
+{
+	t_instruction	*result;
+	int				error;
+
+	result = parse_line("echo Hello World");
+	error = ft_check_output(result);
+	if (error != NO_ERROR)
+	{
+		ft_printf("\nTest for parse_line(\"echo Hello World\"): Failed\n");
+		ft_feedback(error, result);
+		if (result)
+			free(result);
 		result = NULL;
 	}
 	system("\
@@ -131,4 +154,5 @@ if [ $(leaks a.out | grep \"leaks for \" | awk '{print $3}') != 0 ]; then\n\
 fi");
 	return (0);
 }
+
 #endif
