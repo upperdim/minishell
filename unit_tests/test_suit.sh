@@ -14,6 +14,8 @@ make -s lib/libft/libft.a
 $CC $CFLAGS $INCLUDES $LIBRARIES unit_tests/test_parser.c src/parser/parser.c
 echo -e "====\t\t$(date +%d\ %b\ %Y\ @\ %T)\t\t====" > logs/result_parser.log
 ./a.out >> logs/result_parser.log
+$CC $CFLAGS $INCLUDES $LIBRARIES unit_tests/test_parser.c src/parser/parser.c -DTEST=1
+./a.out >> logs/result_parser.log
 echo -e "====\t\t\tEND of the log\t\t\t====" >> logs/result_parser.log
 feedback
 $RM a.out
