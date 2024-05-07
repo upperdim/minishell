@@ -68,7 +68,7 @@ lib/libft/libft.a:
 	@make -C $(LIBFT_PATH) --silent;
 
 clean:
-	@echo "	Ereasing binaries..."
+	@echo "	Erasing binaries..."
 	@$(RM) $(OBJ+) $(OBJ) $(OBJ_BUILTINS)
 	@$(RM) bin/
 	@$(RM) bin_builtins
@@ -76,7 +76,7 @@ clean:
 .PHONY: clean
 
 fclean: clean
-	@echo "	Ereasing $(NAME)..."
+	@echo "	Erasing $(NAME)..."
 	@$(RM) $(NAME)
 	@$(RM) $(NAME)_builtins
 	@make -C $(LIBFT_PATH) fclean
@@ -115,12 +115,12 @@ $(DEBUG_DIR)/a.out: c lib/libft/libft.a includes/minishell.h
 ################################################################################
 clean_test:
 	@$(RM) $(OBJ_TEST)
-		@echo "	Ereasing test binaries..."
+		@echo "	Erasing test binaries..."
 	@$(RM) tests/bin/
 .PHONY: clean_test
 
 fclean_test: clean_test
-	@echo "	Ereasing test..."
+	@echo "	Erasing test..."
 	@$(RM) test
 .PHONY: fclean_test
 
