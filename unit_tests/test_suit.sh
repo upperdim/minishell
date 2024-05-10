@@ -17,6 +17,15 @@ function run_parser_test_1
 	done
 }
 
+function run_parser_test_2
+{
+	for TEST_NUMBER in {4..4};
+	do
+	$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser_2.c -DTEST=$TEST_NUMBER
+	./a.out >> logs/result_parser.log
+	done
+}
+
 check_norminette
 prepare_logs_dir
 make test
@@ -24,6 +33,7 @@ make test
 make -s lib/libft/libft.a
 echo -e "====\t\t$(date +%d\ %b\ %Y\ @\ %T)\t\t====" > logs/result_parser.log
 run_parser_test_1
+run_parser_test_2
 echo -e "====\t\t\tEND of the log\t\t\t====" >> logs/result_parser.log
 feedback
 $RM a.out
