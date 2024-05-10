@@ -6,11 +6,16 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/10 18:58:54 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:18:51 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_expand_env_var(char **input, t_split *new, char *end_point)
+{
+	return ;
+}
 
 static void	ft_free_split(t_split *split)
 {
@@ -47,6 +52,8 @@ static int	ft_check_quotes(char **input, t_split *new)
 		ft_free_n_null(&tmp_str);
 		ft_free_n_null(&prev_result);
 	}
+	if (closing_quote == '\"')
+		ft_expand_env_var(input, new, closing_quote);
 	*input = closing_quote + 1;
 	return (1);
 }
@@ -86,6 +93,8 @@ static void	ft_check_4_word(char **input, t_split *new)
 		new->result = ft_strjoin(new->result, tmp_str);
 		ft_free_n_null(&tmp_str);
 	}
+	if (ft_strchr(*input, '$') < space)
+		ft_expand_env_var(input, new, space);
 	*input = space;
 }
 
