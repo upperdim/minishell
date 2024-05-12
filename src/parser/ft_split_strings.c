@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/12 14:02:55 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 14:06:37 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	ft_check_quotes(char *input, t_split *new)
 	return (1);
 }
 
-static int	ft_start_next_str(char *input, t_split *new)
+static int	ft_init_next_token_if_space(char *input, t_split *new)
 {
 	int	index;
 
@@ -100,13 +100,10 @@ static int	ft_check_4_word(char *input, t_split *new)
 	while (ft_check_quotes(input, new))
 	{
 		index += ft_check_quotes(input, new);
-		if (input[index] == ' ')
-		{
-			check = ft_start_next_str(input, new);
-			if (check == -1)
-				return ;
-			index += check;
-		}
+		check = ft_init_next_token_if_space(input, new);
+		if (check == -1)
+			return ;
+		index += check;
 	}
 	space = ft_strchr(&input[index], ' ');
 	if (space == NULL)
@@ -126,7 +123,7 @@ static int	ft_check_4_word(char *input, t_split *new)
 		ft_expand_env_var(input, new, space);
 	*input = space + 1;
 	if (**input == ' ' && *input++)
-		ft_start_next_str(input, new);
+		ft_init_next_token_if_space(input, new);
 	return (index);
 }
 
