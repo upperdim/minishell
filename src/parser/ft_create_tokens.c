@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/12 15:20:52 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:33:38 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,10 @@ t_split	*ft_create_tokens(char *input)
 		return (NULL);
 	while (input != NULL && input[index] != '\0')
 	{
-		while (input[index] == ' ')
-			index++;
+		index += ft_init_next_token_if_space(input, new);
 		if (!input[index])
-			return ;
+			break ;
 		index = ft_check_4_word(&input[index], new);
-		ft_init_next_token_if_space(input, new);
 	}
 	return (new);
 }
