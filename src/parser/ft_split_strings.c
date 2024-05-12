@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/10 20:11:29 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 13:58:39 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@ static void	ft_free_split(t_split *split)
 	}
 }
 
+static int	ft_count_spaces(char *input)
+{
+	int	index;
+
+	index = 0;
+	while (input[index] != ' ')
+		index++;
+	return (index);
+}
+
 static int	ft_check_quotes(char *input, t_split *new)
 {
 	char	*closing_quote;
@@ -40,9 +50,7 @@ static int	ft_check_quotes(char *input, t_split *new)
 	char	*prev_result;
 	int		index;
 
-	index = 0;
-	while (input[index] == ' ')
-		index++;
+	index = ft_count_spaces(input);
 	if (input[index] != '\"' || input[index] != '\'')
 		return (0);
 	closing_quote = ft_strchr(&input[index + 1], input[index]);
@@ -67,9 +75,7 @@ static int	ft_start_next_str(char *input, t_split *new)
 {
 	int	index;
 
-	index = 0;
-	while (input[index] == ' ')
-		index++;
+	index = ft_count_spaces(input);
 	new->next = ft_calloc(1, sizeof(t_split));
 	if (!new->next)
 		return (ft_free_split(new), -1);
