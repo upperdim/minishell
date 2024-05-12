@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:00:43 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/12 15:06:41 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:20:18 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_init_next_token_if_space(char *input, t_split *new)
 	return (index);
 }
 
-char	*ft_find_delimmiter(char *input)
+char	*ft_find_limit(char *input)
 {
 	char	*space;
 	char	*single_quote;

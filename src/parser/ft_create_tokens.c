@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/12 15:13:19 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:20:52 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,31 @@ static int	ft_handle_quotes(char *input, t_split *new)
 
 static int	ft_check_4_word(char *input, t_split *new)
 {
-	char	*delimmiter;
+	char	*limiter;
 	char	*new_token;
-	char	*old_result;
-	int		index;
+	char	*old_token;
+	int		idx;
 	int		check;
 
-	index = 0;
-	delimmiter = ft_find_delimmiter(input);
-	while (input[index] == '\"' || input[index] == '\'')
+	idx = 0;
+	while (input[idx] == '\"' || input[idx] == '\'')
 	{
-		index += ft_handle_quotes(input, new);
+		idx += ft_handle_quotes(input, new);
 		check = ft_init_next_token_if_space(input, new);
 		if (check == -1)
 			return (-1);
-		index += check;
+		idx += check;
 	}
-	old_result = new->result;
-	new_token = ft_substr(&input[index], 0, delimmiter - &input[index]);
+	limiter = ft_find_limit(input);
+	old_token = new->result;
+	new_token = ft_substr(&input[idx], 0, limiter - &input[idx]);
 	if (!new_token)
 		return (ft_free_split(new), -1);
-	new->result = ft_strjoin(old_result, new_token);
-	ft_free_n_null((void **)&new_token);
-	ft_free_n_null((void **)&old_result);
-	if (ft_strchr(&input[index], '$') < delimmiter)
-		ft_expand_env_var(input, index, new, delimmiter);
-	return (index + delimmiter - &input[index] + 1);
+	new->result = ft_strjoin(old_token, new_token);
+	if (ft_strchr(&input[idx], '$') < limiter)
+		ft_expand_env_var(input, idx, new, limiter);
+	return (ft_free_n_null((void **)&old_token),
+		ft_free_n_null((void **)&new_token), idx + limiter - &input[idx] + 1);
 }
 
 t_split	*ft_create_tokens(char *input)
