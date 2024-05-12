@@ -6,7 +6,7 @@ CFLAGS="-Wall -Wextra -Werror -Wunreachable-code"
 INCLUDES="-Iincludes -Ilib/libft/includes"
 LIBRARIES="-Llib/libft -lft"
 
-PARSER_FILES="src/parser/parser.c"
+PARSER_FILES="src/parser/parser.c src/parser/ft_split_strings.c"
 
 function run_parser_test_1
 {

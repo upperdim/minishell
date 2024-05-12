@@ -23,7 +23,7 @@ UTILS = $(addprefix utils/, $(UTILS_FILES))
 EXEC_FILES = exec.c pipe_utils.c
 EXEC = $(addprefix exec/, $(EXEC_FILES))
 
-PARSER_FILES = parser.c
+PARSER_FILES = parser.c ft_split_strings.c
 PARSER = $(addprefix parser/, $(PARSER_FILES))
 
 SRC_NO_MAIN = $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)

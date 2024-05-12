@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/10 19:06:05 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:51:45 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_flags
 typedef struct s_instruction
 {
 	char					*cmd;
-	t_split					*args;
+	char					**args;
 	int						and_index;
 	struct s_instruction	*next;
 	t_flags					flags;
