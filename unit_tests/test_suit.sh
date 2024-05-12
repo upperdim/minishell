@@ -3,7 +3,7 @@ source unit_tests/utils_functions.sh
 
 CC=cc
 CFLAGS="-Wall -Wextra -Werror -Wunreachable-code"
-INCLUDES="-Iincludes -Ilib/libft/includes"
+INCLUDES="-Iincludes -Ilib/libft/includes -Iunit_tests/includes"
 LIBRARIES="-Llib/libft -lft"
 
 PARSER_FILES="src/parser/parser.c src/parser/ft_create_tokens.c src/parser/create_tokens_utilities.c"

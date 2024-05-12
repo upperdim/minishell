@@ -6,13 +6,11 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:45:26 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/10 17:19:49 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:28:06 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "libft.h"
-#include <stdlib.h>
+#include "test_parser.h"
 
 #if TEST == 1
 
@@ -61,20 +59,6 @@ fi");
 	return (0);
 }
 #elif TEST == 3
-
-enum e_error_type
-{
-	NO_ERROR,
-	NO_RESULT,
-	WRONG_CMD,
-	NO_ARGS,
-	WRONG_ARGS,
-	WRONG_AND_INDEX,
-	WRONG_NEXT,
-	WRONG_PIPE_IN,
-	WRONG_PIPE_OUT,
-	WRONG_REDIR
-};
 
 int	ft_check_output(t_instruction *result)
 {

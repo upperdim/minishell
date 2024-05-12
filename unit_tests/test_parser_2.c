@@ -6,29 +6,13 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 12:50:49 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/08 13:00:39 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:28:10 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "libft.h"
-#include <stdlib.h>
+#include "test_parser.h"
 
 #if TEST == 4
-
-enum e_error_type
-{
-	NO_ERROR,
-	NO_RESULT,
-	WRONG_CMD,
-	NO_ARGS,
-	WRONG_ARGS,
-	WRONG_AND_INDEX,
-	WRONG_NEXT,
-	WRONG_PIPE_IN,
-	WRONG_PIPE_OUT,
-	WRONG_REDIR
-};
 
 int	ft_check_output(t_instruction *result)
 {
