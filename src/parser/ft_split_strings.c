@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/12 13:58:39 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 14:02:55 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ static int	ft_start_next_str(char *input, t_split *new)
 	int	index;
 
 	index = ft_count_spaces(input);
+	if (index == 0)
+		return (0);
 	new->next = ft_calloc(1, sizeof(t_split));
 	if (!new->next)
 		return (ft_free_split(new), -1);
@@ -98,7 +100,7 @@ static int	ft_check_4_word(char *input, t_split *new)
 	while (ft_check_quotes(input, new))
 	{
 		index += ft_check_quotes(input, new);
-		if (input[index] == ' ' && index++)
+		if (input[index] == ' ')
 		{
 			check = ft_start_next_str(input, new);
 			if (check == -1)
