@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/10 19:53:07 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:11:16 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_instruction	*parse_line(char *input)
 	instruction = ft_calloc(1, sizeof(t_instruction));
 	if (!instruction)
 		return (NULL);
-	split_input = ft_split_strings(input);
+	split_input = ft_create_tokens(input);
 	pointer_to_free = split_input;
 	if (!split_input)
 		return (free(instruction), NULL);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_strings.c                                 :+:      :+:    :+:   */
+/*   ft_create_tokens.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/12 15:06:18 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:13:19 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	ft_check_4_word(char *input, t_split *new)
 	return (index + delimmiter - &input[index] + 1);
 }
 
-t_split	*ft_split_strings(char *input)
+t_split	*ft_create_tokens(char *input)
 {
 	t_split	*new;
 	int		index;
