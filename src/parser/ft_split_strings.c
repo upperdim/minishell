@@ -6,42 +6,11 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/12 14:22:55 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:06:18 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_expand_env_var(char *input, t_split *new, char *end_point)
-{
-	(void) input;
-	(void) new;
-	(void) end_point;
-	return ;
-}
-
-static void	ft_free_split(t_split *split)
-{
-	t_split	*tmp;
-
-	while (split)
-	{
-		tmp = split;
-		split = split->next;
-		ft_free_n_null((void **)&tmp->result);
-		ft_free_n_null((void **)&tmp);
-	}
-}
-
-static int	ft_count_spaces(char *input)
-{
-	int	index;
-
-	index = 0;
-	while (input[index] != ' ')
-		index++;
-	return (index);
-}
 
 static int	ft_handle_quotes(char *input, t_split *new)
 {
@@ -52,79 +21,52 @@ static int	ft_handle_quotes(char *input, t_split *new)
 
 	index = ft_count_spaces(input);
 	closing_quote = ft_strchr(&input[index + 1], input[index]);
-	if (!closing_quote)
-		return (1);
 	prev_result = new->result;
-	quoted_str = ft_substr(&input[index], 1, closing_quote - &input[index] - 1);
-	new->result = quoted_str;
-	if (prev_result)
+	if (closing_quote == NULL)
 	{
-		new->result = ft_strjoin(prev_result, quoted_str);
-		ft_free_n_null((void **)&quoted_str);
-		ft_free_n_null((void **)&prev_result);
+		if (input[index] == '\'')
+			new->result = ft_strjoin(prev_result, "\'");
+		else
+			new->result = ft_strjoin(prev_result, "\"");
+		return (ft_free_n_null((void **)&prev_result), 1);
 	}
-	if (*closing_quote == '\"')
-		ft_expand_env_var(&input[index], new, closing_quote);
-	index = closing_quote + 1 - input;
-	return (index);
-}
-
-static int	ft_init_next_token_if_space(char *input, t_split *new)
-{
-	int	index;
-
-	index = ft_count_spaces(input);
-	if (index == 0)
-		return (0);
-	new->next = ft_calloc(1, sizeof(t_split));
-	if (!new->next)
-		return (ft_free_split(new), -1);
-	new = new->next;
-	return (index);
+	quoted_str = ft_substr(&input[index], 1, closing_quote - &input[index] - 1);
+	new->result = ft_strjoin(prev_result, quoted_str);
+	ft_free_n_null((void **)&quoted_str);
+	ft_free_n_null((void **)&prev_result);
+	if (*closing_quote == '\"' && ft_strchr(quoted_str, '$'))
+		ft_expand_env_var(input, index, new, closing_quote);
+	return (index = closing_quote + 1 - input);
 }
 
 static int	ft_check_4_word(char *input, t_split *new)
 {
 	char	*delimmiter;
-	char	*tmp_str;
+	char	*new_token;
+	char	*old_result;
 	int		index;
 	int		check;
 
 	index = 0;
-	/*
-	TODO: refactor this function so the while checks for quotes, and I can use
-		the return value to advance the pointer
-	*/
+	delimmiter = ft_find_delimmiter(input);
 	while (input[index] == '\"' || input[index] == '\'')
 	{
 		index += ft_handle_quotes(input, new);
 		check = ft_init_next_token_if_space(input, new);
 		if (check == -1)
-			return ;
+			return (-1);
 		index += check;
 	}
-	delimmiter = ft_strchr(&input[index], ' ');
-	if (delimmiter == NULL)
-		delimmiter = ft_strchr(&input[index], '\'');
-	if (delimmiter == NULL)
-		delimmiter = ft_strchr(&input[index], '\"');
-	//TODO: check for quotes in the middle of the string
-	tmp_str = ft_substr(*input, 0, delimmiter - *input);
-	if (!tmp_str)
-		return (ft_free_split(new), 1);
-	if (!new->result)
-		new->result = tmp_str;
-	else
-	{
-		new->result = ft_strjoin(new->result, tmp_str);
-		ft_free_n_null((void **)&tmp_str);
-	}
-	if (ft_strchr(*input, '$') < delimmiter)
-		ft_expand_env_var(input, new, delimmiter);
-	*input = delimmiter + 1;
-	if (**input == ' ' && *input++)
-		ft_init_next_token_if_space(input, new);
-	return (index);
+	old_result = new->result;
+	new_token = ft_substr(&input[index], 0, delimmiter - &input[index]);
+	if (!new_token)
+		return (ft_free_split(new), -1);
+	new->result = ft_strjoin(old_result, new_token);
+	ft_free_n_null((void **)&new_token);
+	ft_free_n_null((void **)&old_result);
+	if (ft_strchr(&input[index], '$') < delimmiter)
+		ft_expand_env_var(input, index, new, delimmiter);
+	return (index + delimmiter - &input[index] + 1);
 }
 
 t_split	*ft_split_strings(char *input)
@@ -143,6 +85,7 @@ t_split	*ft_split_strings(char *input)
 		if (!input[index])
 			return ;
 		index = ft_check_4_word(&input[index], new);
+		ft_init_next_token_if_space(input, new);
 	}
 	return (new);
 }

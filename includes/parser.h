@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/10 19:51:45 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:07:07 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,11 @@ typedef struct s_instruction
 
 t_instruction	*parse_line(char *line);
 t_split			*ft_split_strings(char *input);
+void			ft_free_split(t_split *split);
+void			ft_expand_env_var(char *input, int index, t_split *new,
+					char *end_point);
+char			*ft_find_delimmiter(char *input);
+int				ft_count_spaces(char *input);
+int				ft_init_next_token_if_space(char *input, t_split *new);
 
 #endif
