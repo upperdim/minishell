@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:00:43 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/13 15:28:48 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:04:18 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*ft_find_limit(char *input)
 	space = ft_strchr(input, ' ');
 	single_quote = ft_strchr(input, '\'');
 	double_quote = ft_strchr(input, '\"');
+	delimmiter = NULL;
 	if (space != NULL
 		&& (space < single_quote || single_quote == NULL)
 		&& (space < double_quote || double_quote == NULL))

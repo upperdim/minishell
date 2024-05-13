@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/13 15:57:27 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:08:55 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ t_instruction	*parse_line(char *input)
 	instruction->flags.pipe_in = -1;
 	instruction->flags.pipe_out = -1;
 	instruction->next = NULL;
-	ft_printf("Command: %s\n", split_input->result);
 	ft_free_n_null((void **)&split_input);
 	return (instruction);
 }
