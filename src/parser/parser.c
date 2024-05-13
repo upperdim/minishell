@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/13 15:08:55 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:03:07 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_instruction	*parse_line(char *input)
 {
 	t_instruction	*instruction;
 	t_split			*split_input;
+	t_split			*tmp;
 	int				check;
 
 	if (!input || !*input)
@@ -66,7 +67,11 @@ t_instruction	*parse_line(char *input)
 			ft_free_split(split_input), NULL);
 	instruction->flags.pipe_in = -1;
 	instruction->flags.pipe_out = -1;
-	instruction->next = NULL;
-	ft_free_n_null((void **)&split_input);
+	while (split_input)
+	{
+		tmp = split_input;
+		split_input = split_input->next;
+		ft_free_n_null((void **)&tmp);
+	}
 	return (instruction);
 }
