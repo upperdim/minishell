@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/29 18:23:47 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:52:37 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	prompt_test(int read_output_fd)
 	char		*test_str;
 	char		*test_num_str;
 
-	output = get_next_line(read_output_fd);
+	output = get_test_input(read_output_fd);
 	test_str = ft_strjoin("Test ", test_num_str = ft_itoa(i++));
 	ft_free_n_null((void **)&test_num_str);
 	test_num_str = ft_strjoin(test_str, " prompt");
@@ -116,7 +116,7 @@ void	test_1_builtins(void)
 	read_output_fd = open("logs/minishell_builtins.log", O_RDONLY);
 	prompt_test(read_output_fd);
 	pwd_test(read_output_fd);
-	line = get_next_line(read_output_fd);
+	line = get_test_input(read_output_fd);
 	ft_free_n_null((void **)&line);
 	chdir("..");
 	prompt_test(read_output_fd);

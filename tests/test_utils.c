@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:28:50 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/29 13:03:21 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:35:18 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,25 @@ void	reset_tty(pid_t pid)
 	if (pid)
 		kill(pid, SIGKILL);
 	ft_putstr_fd(DEFAULT, 1);
+}
+
+char	*get_test_input(int fd)
+{
+	char	*line;
+	char	*test_input;
+	char	*old_line;
+	char	*dollar_sign_limiter;
+
+	test_input = get_next_line(fd);
+	line = NULL;
+	dollar_sign_limiter = ft_strchr(test_input, '$');
+	while (dollar_sign_limiter == NULL)
+	{
+		old_line = test_input;
+		ft_free_n_null((void **)&line);
+		test_input = ft_strjoin(old_line, line = get_next_line(fd));
+		ft_free_n_null((void **)&old_line);
+		dollar_sign_limiter = ft_strchr(line, '$');
+	}
+	return (ft_free_n_null((void **)&line), test_input);
 }
