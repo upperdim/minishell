@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/13 19:03:07 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:08:13 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,18 @@ static int	ft_add_tokens_to_instructions(t_instruction *instruction,
 	return (0);
 }
 
+static t_instruction	*ft_init_instruction(void)
+{
+	t_instruction	*instruction;
+
+	instruction = ft_calloc(1, sizeof(t_instruction));
+	if (!instruction)
+		return (NULL);
+	instruction->flags.pipe_in = -1;
+	instruction->flags.pipe_out = -1;
+	return (instruction);
+}
+
 t_instruction	*parse_line(char *input)
 {
 	t_instruction	*instruction;
@@ -55,7 +67,7 @@ t_instruction	*parse_line(char *input)
 
 	if (!input || !*input)
 		return (NULL);
-	instruction = ft_calloc(1, sizeof(t_instruction));
+	instruction = ft_init_instruction();
 	if (!instruction)
 		return (NULL);
 	split_input = ft_create_tokens(input);
@@ -65,8 +77,6 @@ t_instruction	*parse_line(char *input)
 	if (check)
 		return (ft_free_n_null((void **)&instruction),
 			ft_free_split(split_input), NULL);
-	instruction->flags.pipe_in = -1;
-	instruction->flags.pipe_out = -1;
 	while (split_input)
 	{
 		tmp = split_input;

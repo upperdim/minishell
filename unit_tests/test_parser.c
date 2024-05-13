@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:45:26 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/12 15:28:06 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:13:53 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int	main(void)
 {
 	t_instruction	*result;
 	int				error;
+	int				i;
 
 	result = parse_line("echo Hello World");
 	error = ft_check_output(result);
@@ -131,16 +132,17 @@ int	main(void)
 	if (result)
 	{
 		ft_free_n_null((void **)&result->cmd);
-		while (result->args && *result->args)
-			ft_free_n_null((void **)result->args++);
+		i = 0;
+		while (result->args && result->args[i])
+			ft_free_n_null((void **)&result->args[i++]);
+		ft_free_n_null((void **)&result->args);
 		ft_free_n_null((void **)&result);
 	}
-	system("\
+	return (system("\
 if [ $(leaks a.out | grep \"leaks for \" | awk '{print $3}') != 0 ]; then\n\
 	leaks a.out | grep \"Process \">> logs/result_parser.log\n\
 	echo \"Failed leak test in parse_line(\"echo Hello World\")\" >> logs/result_parser.log\n\
-fi");
-	return (0);
+fi"), 0);
 }
 
 #endif
