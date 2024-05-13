@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/12 15:33:38 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:32:19 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	ft_check_4_word(char *input, t_split *new)
 	while (input[idx] == '\"' || input[idx] == '\'')
 	{
 		idx += ft_handle_quotes(input, new);
-		check = ft_init_next_token_if_space(input, new);
+		check = ft_init_next_token_if_space(&input[idx], &new);
 		if (check == -1)
 			return (-1);
 		idx += check;
@@ -62,27 +62,29 @@ static int	ft_check_4_word(char *input, t_split *new)
 	if (!new_token)
 		return (ft_free_split(new), -1);
 	new->result = ft_strjoin(old_token, new_token);
-	if (ft_strchr(&input[idx], '$') < limiter)
+	if (ft_strchr(&input[idx], '$') && ft_strchr(&input[idx], '$') < limiter)
 		ft_expand_env_var(input, idx, new, limiter);
 	return (ft_free_n_null((void **)&old_token),
-		ft_free_n_null((void **)&new_token), idx + limiter - &input[idx] + 1);
+		ft_free_n_null((void **)&new_token), idx + limiter - &input[idx]);
 }
 
 t_split	*ft_create_tokens(char *input)
 {
-	t_split	*new;
+	t_split	*working_split;
+	t_split	*all_tokens;
 	int		index;
 
 	index = 0;
-	new = ft_calloc(1, sizeof(t_split));
-	if (new == NULL)
+	working_split = ft_calloc(1, sizeof(t_split));
+	if (working_split == NULL)
 		return (NULL);
+	all_tokens = working_split;
 	while (input != NULL && input[index] != '\0')
 	{
-		index += ft_init_next_token_if_space(input, new);
+		index += ft_init_next_token_if_space(&input[index], &working_split);
 		if (!input[index])
 			break ;
-		index = ft_check_4_word(&input[index], new);
+		index += ft_check_4_word(&input[index], working_split);
 	}
-	return (new);
+	return (all_tokens);
 }

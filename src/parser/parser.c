@@ -6,18 +6,51 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/12 15:11:16 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:57:27 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	ft_count_args(t_split *split_input)
+{
+	int	i;
+
+	i = 0;
+	while (split_input)
+	{
+		i++;
+		split_input = split_input->next;
+	}
+	return (i);
+}
+
+static int	ft_add_tokens_to_instructions(t_instruction *instruction,
+	t_split *split_input)
+{
+	int	i;
+	int	argc;
+
+	instruction->cmd = split_input->result;
+	split_input = split_input->next;
+	i = 0;
+	argc = ft_count_args(split_input);
+	instruction->args = ft_calloc(argc + 1, sizeof(char *));
+	if (!instruction->args)
+		return (1);
+	while (split_input)
+	{
+		instruction->args[i++] = split_input->result;
+		split_input = split_input->next;
+	}
+	return (0);
+}
+
 t_instruction	*parse_line(char *input)
 {
 	t_instruction	*instruction;
 	t_split			*split_input;
-	t_split			*pointer_to_free;
-	int				i;
+	int				check;
 
 	if (!input || !*input)
 		return (NULL);
@@ -25,20 +58,16 @@ t_instruction	*parse_line(char *input)
 	if (!instruction)
 		return (NULL);
 	split_input = ft_create_tokens(input);
-	pointer_to_free = split_input;
 	if (!split_input)
-		return (free(instruction), NULL);
-	instruction->cmd = split_input->result;
-	split_input = split_input->next;
-	i = 0;
-	while (split_input)
-	{
-		instruction->args[i++] = split_input->result;
-		split_input = split_input->next;
-	}
+		return (ft_free_n_null((void **)&instruction), NULL);
+	check = ft_add_tokens_to_instructions(instruction, split_input);
+	if (check)
+		return (ft_free_n_null((void **)&instruction),
+			ft_free_split(split_input), NULL);
 	instruction->flags.pipe_in = -1;
 	instruction->flags.pipe_out = -1;
 	instruction->next = NULL;
-	ft_free_n_null((void **)&pointer_to_free);
+	ft_printf("Command: %s\n", split_input->result);
+	ft_free_n_null((void **)&split_input);
 	return (instruction);
 }

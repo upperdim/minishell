@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:00:43 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/12 15:20:18 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:28:48 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,22 @@ int	ft_count_spaces(char *input)
 	int	index;
 
 	index = 0;
-	while (input[index] != ' ')
+	while (input[index] == ' ')
 		index++;
 	return (index);
 }
 
-int	ft_init_next_token_if_space(char *input, t_split *new)
+int	ft_init_next_token_if_space(char *input, t_split **new)
 {
 	int	index;
 
 	index = ft_count_spaces(input);
 	if (index == 0)
 		return (0);
-	new->next = ft_calloc(1, sizeof(t_split));
-	if (!new->next)
-		return (ft_free_split(new), -1);
-	new = new->next;
+	(*new)->next = ft_calloc(1, sizeof(t_split));
+	if (!(*new)->next)
+		return (ft_free_split((*new)), -1);
+	(*new) = (*new)->next;
 	return (index);
 }
 
@@ -81,5 +81,7 @@ char	*ft_find_limit(char *input)
 		&& (double_quote < space || space == NULL)
 		&& (double_quote < single_quote || single_quote == NULL))
 		delimmiter = double_quote;
+	if (delimmiter == NULL)
+		delimmiter = input + ft_strlen(input);
 	return (delimmiter);
 }
