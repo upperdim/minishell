@@ -5,6 +5,15 @@ CC=cc
 CFLAGS="-Wall -Wextra -Werror -Wunreachable-code"
 INCLUDES="-Iincludes -Ilib/libft/includes -Iunit_tests/includes"
 LIBRARIES="-Llib/libft -lft"
+DEBUG="-g3"
+if [[ "$1" == "d" ]]; then
+	CFLAGS="$CFLAGS $DEBUG"
+	echo -e "\x1b[1;33mDebug mode enabled\x1b[0m"
+fi
+if [[ "$(uname)" == "Linux" ]]; then
+	MANUALLY_ADDED_LIBFT="lib/libft/libft.a"
+fi
+
 
 PARSER_FILES="src/parser/parser.c src/parser/ft_create_tokens.c src/parser/create_tokens_utilities.c"
 
@@ -12,7 +21,7 @@ function run_parser_test_1
 {
 	for TEST_NUMBER in {1..3};
 	do
-	$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser.c -DTEST=$TEST_NUMBER
+	$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT
 	./a.out >> logs/result_parser.log
 	done
 }
@@ -21,7 +30,7 @@ function run_parser_test_2
 {
 	for TEST_NUMBER in {4..4};
 	do
-	$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser_2.c -DTEST=$TEST_NUMBER
+	$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser_2.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT
 	./a.out >> logs/result_parser.log
 	done
 }
