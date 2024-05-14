@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:28:50 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/12 16:35:18 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/14 12:40:12 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ pid_t	start_minishell_builtins(int *pipe_write)
 void	print_feedback(char *test, char *output, char *expected)
 {
 	if (!ft_strncmp(output, expected, ft_strlen(expected)))
-		return ((void) ft_printf(GREEN"%s success\n", test));
+		return ((void) ft_printf(GREEN"%s success\n"DEFAULT, test));
 	ft_printf(RED"%s failed\n", test);
 	ft_printf("Output:\t\t%s", output);
 	if (!ft_strchr(output, '\n'))
 		ft_putchar_fd('\n', 1);
-	ft_printf("Expected:\t%s\n\n", expected);
+	ft_printf("Expected:\t%s\n\n"DEFAULT, expected);
 }
 
 void	reset_tty(pid_t pid)
