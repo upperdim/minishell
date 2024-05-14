@@ -16,7 +16,7 @@ if [[ "$(uname)" == "Linux" ]]; then
 fi
 
 
-PARSER_FILES="src/parser/parser.c src/parser/ft_create_tokens.c src/parser/create_tokens_utilities.c"
+PARSER_FILES="src/parser/parser.c src/parser/ft_create_tokens.c src/parser/create_tokens_utilities.c unit_tests/unti_tests_utils.c"
 
 function run_parser_test_1
 {
@@ -47,6 +47,11 @@ if [[ $1 != "SOURCE" ]]; then
 	echo -e "====\t\t$(date +%d\ %b\ %Y\ @\ %T)\t\t====" > logs/result_parser.log
 	run_parser_test_1
 	run_parser_test_2
+	# NEXT TESTS TO BE ADDED HERE
+		# echo 1&&echo 2
+		#	EXPECTED: 1\n2
+		# echo "1&&"echo 2
+		#	EXPECTED: 1&&echo 2
 	echo -e "====\t\t\tEND of the log\t\t\t====" >> logs/result_parser.log
 	feedback
 	$RM a.out

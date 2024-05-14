@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:25:14 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/12 15:28:44 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:23:19 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@ enum e_error_type
 	WRONG_PIPE_OUT,
 	WRONG_REDIR
 };
+
+void	run_leaks(char *test_name);
 
 #endif /* test_parser.h */

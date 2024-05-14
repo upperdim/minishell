@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:45:26 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/13 19:13:53 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:15:52 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,7 @@ int	main(void)
 	}
 	else
 		ft_printf("Test for parse_line(\"\"): PASS\n");
-	system("\
-if [ $(leaks a.out | grep \"leaks for \" | awk '{print $3}') != 0 ]; then\n\
-	leaks a.out | grep \"Process \">> logs/result_parser.log\n\
-	echo \"Failed leak test in parse_line(\\\"\\\")\" >> logs/result_parser.log\n\
-fi");
+	run_leaks("parse_line(\"\")");
 	return (0);
 }
 #elif TEST == 2
@@ -51,11 +47,7 @@ int	main(void)
 	}
 	else
 		ft_printf("Test for parse_line(NULL): PASS\n");
-	system("\
-if [ $(leaks a.out | grep \"leaks for \" | awk '{print $3}') != 0 ]; then\n\
-	leaks a.out | grep \"Process \">> logs/result_parser.log\n\
-	echo \"Failed leak test in parse_line(NULL)\" >> logs/result_parser.log\n\
-fi");
+	run_leaks("parse_line(NULL)");
 	return (0);
 }
 #elif TEST == 3
@@ -138,11 +130,7 @@ int	main(void)
 		ft_free_n_null((void **)&result->args);
 		ft_free_n_null((void **)&result);
 	}
-	return (system("\
-if [ $(leaks a.out | grep \"leaks for \" | awk '{print $3}') != 0 ]; then\n\
-	leaks a.out | grep \"Process \">> logs/result_parser.log\n\
-	echo \"Failed leak test in parse_line(\"echo Hello World\")\" >> logs/result_parser.log\n\
-fi"), 0);
+	return (run_leaks("parse_line(\"echo Hello World\")"), 0);
 }
 
 #endif
