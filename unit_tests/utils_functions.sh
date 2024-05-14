@@ -33,3 +33,16 @@ function feedback
 	echo -ne "\x1b[0m") | awk '{print "\t", $0}'
 	echo -e "\x1b[34mCheck Logs for more information\x1b[0m"
 };
+
+
+function run_valgrind
+{
+LEAKS=$(valgrind --leak-check=full ./a.out 2>&1 | grep "ERROR SUMMARY:" | awk '{print $4}')
+
+	if [[ $LEAKS -ne 0 ]]; then
+		valgrind --leak-check=full ./a.out >> logs/result_parser.log
+		echo -e "\x1b[1;31mMemory leaks detected in test $1 $2\x1b[0m"
+	else
+		echo -e "\x1b[1;32mNo memory leaks detected in test $1 $2\x1b[0m"
+	fi
+};
