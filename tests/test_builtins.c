@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/14 12:41:13 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/14 15:50:03 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ static void	env_test(int read_output_fd)
 				ft_strchr(environ[i], '=') - environ[i]))
 		{
 			ft_printf(RED"Test 1 env failed\n");
-			ft_printf("Output:\t\t%sExpected:\t%s\n\n"DEFAULT, line, environ[i]);
+			ft_printf("Output:\t\t%sExpected:\t%s\n\n", line, environ[i]);
+			ft_printf(DEFAULT);
 			fail_flag = 1;
 		}
 		if (!line)

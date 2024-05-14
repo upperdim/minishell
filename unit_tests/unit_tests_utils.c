@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:03:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/14 13:15:57 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/14 15:37:21 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ if [ $(leaks a.out | grep \"leaks for \" | awk '{print $3}') != 0 ]; then\n\
 exit 1\n\
 fi\n\
 exit 0");
-	if (is_there_leaks == TRUE)
+	if (is_there_leaks)
 		ft_printf("Failed leak test in %s", test_name);
 }
 #else
