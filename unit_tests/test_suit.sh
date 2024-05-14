@@ -10,10 +10,8 @@ if [[ "$1" == "d" || "$2" == "d" ]]; then
 	CFLAGS="$CFLAGS $DEBUG"
 	echo -e "\x1b[1;33mDebug mode enabled\x1b[0m"
 fi
-VALGRIND="#"
 if [[ "$(uname)" == "Linux" ]]; then
 	MANUALLY_ADDED_LIBFT="lib/libft/libft.a"
-	VALGRIND="run_valgrind"
 fi
 
 
@@ -24,7 +22,9 @@ function run_parser_test_1
 	for TEST_NUMBER in {1..3};
 	do
 	$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT
-	$VALGRIND parser $TEST_NUMBER
+	if [[ "$(uname)" == "Linux" ]]; then
+		run_valgrind parser $TEST_NUMBER
+	fi
 	./a.out >> logs/result_parser.log
 	done
 }
@@ -34,7 +34,9 @@ function run_parser_test_2
 	for TEST_NUMBER in {4..4};
 	do
 	$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser_2.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT
-	$VALGRIND parser $TEST_NUMBER
+	if [[ "$(uname)" == "Linux" ]]; then
+		run_valgrind parser $TEST_NUMBER
+	fi
 	./a.out >> logs/result_parser.log
 	done
 }
