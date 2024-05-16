@@ -14,3 +14,4 @@ local/
 debug/*
 test
 logs/result_parser.log
+logs/valgrind_*.log

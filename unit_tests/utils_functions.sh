@@ -40,9 +40,12 @@ function run_valgrind
 LEAKS=$(valgrind --leak-check=full ./a.out 2>&1 | grep "ERROR SUMMARY:" | awk '{print $4}')
 
 	if [[ $LEAKS -ne 0 ]]; then
-		valgrind --leak-check=full ./a.out >> logs/result_parser.log
+		valgrind --leak-check=full ./a.out 2> logs/valgrind_$1_$2.log
 		echo -e "\x1b[1;31mMemory leaks detected in test $1 $2\x1b[0m"
+		echo -e "\x1b[3;33mCheck logs/valgrind_$1_$2.log for more information\x1b[0m"
+		echo -e "\t\tMemory leaks detected in test $1 $2" >> logs/result_parser.log
+		echo -e "\tCheck logs/valgrind_$1_$2.log for more information" >> logs/result_parser.log
 	else
-		echo -e "\x1b[1;32mNo memory leaks detected in test $1 $2\x1b[0m"
+		echo -e "\x1b[0;32mNo memory leaks detected in test $1 $2\x1b[0m"
 	fi
 };

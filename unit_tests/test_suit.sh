@@ -47,7 +47,7 @@ if [[ $1 != "SOURCE" ]]; then
 	make test
 	./test
 	make -s lib/libft/libft.a
-	echo -e "====\t\t$(date +%d\ %b\ %Y\ @\ %T)\t\t====" > logs/result_parser.log
+	echo -e "====\t\t\t\t$(date +%d\ %b\ %Y\ @\ %T)\t\t\t\t====" > logs/result_parser.log
 	run_parser_test_1
 	run_parser_test_2
 	# NEXT TESTS TO BE ADDED HERE
@@ -55,7 +55,7 @@ if [[ $1 != "SOURCE" ]]; then
 		#	EXPECTED: 1\n2
 		# echo "1&&"echo 2
 		#	EXPECTED: 1&&echo 2
-	echo -e "====\t\t\tEND of the log\t\t\t====" >> logs/result_parser.log
+	echo -e "====\t\t\t\t\tEND of the log\t\t\t\t\t====" >> logs/result_parser.log
 	feedback
 	$RM a.out
 fi
