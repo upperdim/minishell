@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/13 15:23:32 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/18 21:01:21 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,67 @@
 
 # include <stdbool.h>
 
+/**
+	@brief Enum for the different types of tokens
+	@param CMD Command token, any string that is not a special token
+	@param PIPE Redirects `STDOUT_FILENO` from `CMD` 1 to `STDIN_FILENO` from
+		`CMD` 2;
+		SYNTAX: `CMD` 1 | `CMD` 2.
+		NOTE: The space character after and before the pipe is optional
+	@param REDIR_FROM Creates the `FD` (File Descriptor) and sets it as
+		`STDIN_FILENO` for `CMD` if there is a `CMD` at the left side;
+		SYNTAX: `CMD`(optional) < `FILEPATH`.
+		NOTE: The space character after and before the '<' character are
+			optional.
+	@param REDIR_TO Redirects the `STDOUT_FILENO` (if there is not other `FD`)
+		from `CMD` to the `FILEPATH`, creating it, or truncating it to 0 if it
+		already exists;
+		SYNTAX: `CMD`(optional) `FD`(optional)> `FILEPATH`.
+		NOTE: The space character after and before the '>' character is optional
+			for the `CMD` and `FILEPATH`, but it is not allowed for the `FD`.
+			If there is a `FD` there must be a space character separating it
+			from the `CMD`.
+	@param APPEND_TO Redirects the `STDOUT_FILENO` (if there is not other `FD`)
+		from `CMD` to the `FILEPATH`, appending it to the end of the file or
+		creating it if it does not exist;
+		SYNTAX: `CMD`(optional) `FD`(optional)>> `FILEPATH`.
+		NOTE: The space character after and before the '>>' character is optional
+			for the `CMD` and `FILEPATH`, but it is not allowed for the `FD`.
+			If there is a `FD` there must be a space character separating it
+			from the `CMD`.
+	@param HERE_DOC Saves all the input from the user until the `LIMITER` is
+		reached, then it substitutes the `STDIN_FILENO` (if there is not
+		other `FD`) with the temporary file created with the input, to be used
+		by the `CMD`, and then it deletes the temporary file;
+		SYNTAX: `CMD`(optional) `FD`(optional)<< `LIMITER`.
+		NOTE: The space character after and before the '<<' character is
+			optional for the `CMD` and `LIMITER`, but it is not allowed for the
+			`FD`. If there is a `FD` there must be a space character separating
+			it from the `CMD`.
+	@param DOUBLE_QUOTES Prevents the interpretation of the special characters
+		inside the quotes, except for the `$` character, which allows the
+		expansion of the environment variables;
+		SYNTAX: `"STRING"`.
+	@param SINGLE_QUOTES Prevents the interpretation of the special characters
+		inside the quotes;
+		SYNTAX: `'STRING'`.
+ */
 enum	e_token
 {
 	CMD,
-	ARG,
 	PIPE,
-	REDIR_OVER_L,
-	REDIR_OVER_R,
-	REDIR_APPD_L,
-	REDIR_APPD_R,
-	QUOTE_S,
-	QUOTE_D
+	REDIR_FROM,
+	REDIR_TO,
+	APPEND_TO,
+	HERE_DOC,
+	DOUBLE_QUOTES,
+	SINGLE_QUOTES,
 };
 
 typedef struct s_split
 {
 	char			*result;
+	enum e_token	token;
 	struct s_split	*next;
 }	t_split;
 
