@@ -31,7 +31,7 @@ function run_parser_test_1
 
 function run_parser_test_2
 {
-	for TEST_NUMBER in {4..4};
+	for TEST_NUMBER in {4..6};
 	do
 	$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser_2.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT
 	if [[ "$(uname)" == "Linux" ]]; then
