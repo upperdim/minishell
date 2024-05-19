@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/18 21:01:21 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/19 11:03:41 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@
  */
 enum	e_token
 {
+	STRING,
 	CMD,
 	PIPE,
 	REDIR_FROM,
@@ -77,6 +78,7 @@ typedef struct s_split
 	char			*result;
 	enum e_token	token;
 	struct s_split	*next;
+	struct s_split	*prev;
 }	t_split;
 
 typedef struct s_flags

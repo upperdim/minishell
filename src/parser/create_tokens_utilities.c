@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:00:43 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/13 15:04:18 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/18 22:30:24 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	ft_init_next_token_if_space(char *input, t_split **new)
 	(*new)->next = ft_calloc(1, sizeof(t_split));
 	if (!(*new)->next)
 		return (ft_free_split((*new)), -1);
+	(*new)->next->prev = (*new);
 	(*new) = (*new)->next;
 	return (index);
 }
