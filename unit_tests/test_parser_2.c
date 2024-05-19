@@ -6,23 +6,23 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 12:50:49 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/18 22:33:05 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/19 11:56:00 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_parser.h"
 
-void	ft_feedback(int error, t_instruction *result, char *exp_str)
+void	ft_feedback(int error, t_instruction *result, char **exp_str)
 {
 	if (error == WRONG_CMD)
 		ft_printf("\tCmd: %s\n\tExpected: echo\n", result->cmd);
 	if (error == NO_ARGS)
-		ft_printf("\tArgs: NULL\n\tExpected: args = %s\n", exp_str);
+		ft_printf("\tArgs: NULL\n\tExpected: args = %s\n", exp_str[0]);
 	if (error == WRONG_ARGS)
 	{
 		if (result->args && result->args[0])
 			ft_printf("\tArgs[0]: %s\n\tExpected: %s\n", result->args[0],
-				exp_str);
+				exp_str[0]);
 	}
 	if (error == WRONG_AND_INDEX)
 		ft_printf("\tAnd Index: %d\n\tExpected: 0\n", result->and_index);
@@ -38,27 +38,30 @@ void	ft_feedback(int error, t_instruction *result, char *exp_str)
 		ft_printf("Output: NULL\nExpected: t_instruction\n");
 }
 
-int	ft_check_output(t_instruction *result, char *exp_str)
+int	ft_check_output(t_instruction *token, char **expect)
 {
-	if (result)
+	int	i;
+
+	i = -1;
+	if (token)
 	{
-		if (ft_strncmp(result->cmd, "echo", ft_strlen(result->cmd)))
+		if (ft_strncmp(token->cmd, "echo", ft_strlen(token->cmd)))
 			return (WRONG_CMD);
-		if (!result->args)
+		if (!token->args)
 			return (NO_ARGS);
-		if (ft_strncmp(*result->args, exp_str, ft_strlen(*result->args)))
-			return (WRONG_ARGS);
-		if (result->and_index != 0)
+		while (token->args[++i] && expect[i])
+			if (ft_strncmp(token->args[i], expect[i], ft_strlen(expect[i]) + 1))
+				return (WRONG_ARGS);
+		if (token->and_index != 0)
 			return (WRONG_AND_INDEX);
-		if (result->next != NULL)
+		if (token->next != NULL)
 			return (WRONG_NEXT);
-		if (result->flags.pipe_in != -1)
+		if (token->flags.pipe_in != -1)
 			return (WRONG_PIPE_IN);
-		if (result->flags.pipe_out != -1)
+		if (token->flags.pipe_out != -1)
 			return (WRONG_PIPE_OUT);
-		if (result->flags.redir != 0)
+		if (token->flags.redir != 0)
 			return (WRONG_REDIR);
-		ft_printf("Test for parse_line(\"echo %s\"): PASS\n", exp_str);
 		return (NO_ERROR);
 	}
 	return (NO_RESULT);
@@ -73,12 +76,14 @@ int	main(void)
 	int				i;
 
 	result = parse_line("echo \"Hello  World\"");
-	error = ft_check_output(result, "Hello  World");
-	if (error != NO_ERROR)
+	error = ft_check_output(result, (char *[2]){"Hello  World", NULL});
+	if (error == NO_ERROR)
+		ft_printf("Test for parse_line(\"echo \"Hello  World\"\"): PASS\n");
+	else
 	{
 		ft_printf("\nTest for parse_line(\"echo %s\"): Failed\n",
 			"\"Hello  World\"");
-		ft_feedback(error, result, "\"Hello  World\"");
+		ft_feedback(error, result, (char *[2]){"\"Hello  World\"", NULL});
 	}
 	if (result)
 	{
@@ -101,12 +106,14 @@ int	main(void)
 	int				i;
 
 	result = parse_line("echo \"Hello' World\"");
-	error = ft_check_output(result, "Hello' World");
-	if (error != NO_ERROR)
+	error = ft_check_output(result, (char *[2]){"Hello' World", NULL});
+	if (error == NO_ERROR)
+		ft_printf("Test for parse_line(\"echo \"Hello' World\"\"): PASS\n");
+	else
 	{
 		ft_printf("\nTest for parse_line(\"echo %s\"): Failed\n",
 			"\"Hello' World\"");
-		ft_feedback(error, result, "\"Hello' World\"");
+		ft_feedback(error, result, (char *[2]){"\"Hello' World\"", NULL});
 	}
 	if (result)
 	{
@@ -129,12 +136,14 @@ int	main(void)
 	int				i;
 
 	result = parse_line("echo \"Hello\" World\"");
-	error = ft_check_output(result, "Hello\" World");
-	if (error != NO_ERROR)
+	error = ft_check_output(result, (char *[3]){"Hello", "World\"", NULL});
+	if (error == NO_ERROR)
+		ft_printf("Test for parse_line(\"echo \"Hello\" World\"\"): PASS\n");
+	else
 	{
 		ft_printf("\nTest for parse_line(\"echo %s\"): Failed\n",
 			"\"Hello\" World\"");
-		ft_feedback(error, result, "\"Hello\" World\"");
+		ft_feedback(error, result, (char *[3]){"Hello", "World\"", NULL});
 	}
 	if (result)
 	{
@@ -157,12 +166,14 @@ int	main(void)
 	int				i;
 
 	result = parse_line("echo Hello\" World");
-	error = ft_check_output(result, "Hello\" World");
-	if (error != NO_ERROR)
+	error = ft_check_output(result, (char *[3]){"Hello\"", "World", NULL});
+	if (error == NO_ERROR)
+		ft_printf("Test for parse_line(\"echo Hello\" World\"): PASS\n");
+	else
 	{
 		ft_printf("\nTest for parse_line(\"echo %s\"): Failed\n",
 			"Hello\" World");
-		ft_feedback(error, result, "Hello\" World");
+		ft_feedback(error, result, (char *[3]){"Hello\"", "World", NULL});
 	}
 	if (result)
 	{

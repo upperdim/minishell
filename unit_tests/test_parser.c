@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:45:26 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/14 13:15:52 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/19 11:54:09 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ int	ft_check_output(t_instruction *result)
 			return (WRONG_CMD);
 		if (!result->args)
 			return (NO_ARGS);
-		if (ft_strncmp(result->args[0], "Hello", ft_strlen(result->args[0])))
+		if (ft_strncmp(result->args[0], "Hello", ft_strlen("Hello") + 1))
 			return (WRONG_ARGS);
 		if (!result->args[1]
-			|| ft_strncmp(result->args[1], "World", ft_strlen(result->args[1])))
+			|| ft_strncmp(result->args[1], "World", ft_strlen("World") + 1))
 			return (WRONG_ARGS);
 		if (result->and_index != 0)
 			return (WRONG_AND_INDEX);
