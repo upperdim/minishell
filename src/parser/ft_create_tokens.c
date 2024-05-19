@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/18 22:33:43 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/19 11:47:59 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ t_split	*ft_create_tokens(char *input)
 	all_tokens = working_split;
 	while (input != NULL && input[index] != '\0')
 	{
+		while (working_split->next != NULL)
+			working_split = working_split->next;
 		index += ft_init_next_token_if_space(&input[index], &working_split);
 		if (!input[index])
 			break ;

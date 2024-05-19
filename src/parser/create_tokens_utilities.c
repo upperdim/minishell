@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:00:43 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/18 22:30:24 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/19 10:51:38 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	ft_expand_env_var(char *input, int index, t_split *new,
 	char *end_point)
 {
+	// extern char	**environ;
+
 	(void) input;
 	(void) new;
 	(void) index;
