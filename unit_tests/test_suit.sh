@@ -26,6 +26,10 @@ function run_parser_test_1
 		run_valgrind parser $TEST_NUMBER
 	fi
 	./a.out >> logs/result_parser.log
+	if [[ $1 -ge 1 && $1 -le 3 ]]; then
+		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser.c -DTEST=$1 $MANUALLY_ADDED_LIBFT
+		echo -e "\x1b[1;33mTest $1 ready for debug\x1b[0m"
+	fi
 	done
 }
 
@@ -39,6 +43,10 @@ function run_parser_test_2
 	fi
 	./a.out >> logs/result_parser.log
 	done
+	if [[ $1 -ge 4 && $1 -le 7 ]]; then
+		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser_2.c -DTEST=$1 $MANUALLY_ADDED_LIBFT
+		echo -e "\x1b[1;33mTest $1 ready for debug\x1b[0m"
+	fi
 }
 
 if [[ $1 != "SOURCE" ]]; then
