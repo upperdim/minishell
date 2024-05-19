@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:25:14 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/14 13:23:19 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/19 12:33:14 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,8 @@ enum e_error_type
 };
 
 void	run_leaks(char *test_name);
+void	ft_free_results(t_instruction **result);
+void	ft_feedback(int error, t_instruction *result, char **exp_str);
+int		ft_check_output(t_instruction *token, char **expect);
 
 #endif /* test_parser.h */

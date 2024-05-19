@@ -19,14 +19,14 @@ PARSER_FILES="src/parser/parser.c src/parser/ft_create_tokens.c src/parser/creat
 
 function run_parser_test_1
 {
-	for TEST_NUMBER in {1..3};
+	for TEST_NUMBER in {1..5};
 	do
 	$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT
 	if [[ "$(uname)" == "Linux" ]]; then
 		run_valgrind parser $TEST_NUMBER
 	fi
 	./a.out >> logs/result_parser.log
-	if [[ $1 -ge 1 && $1 -le 3 ]]; then
+	if [[ $1 -ge 1 && $1 -le 5 ]]; then
 		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser.c -DTEST=$1 $MANUALLY_ADDED_LIBFT
 		echo -e "\x1b[1;33mTest $1 ready for debug\x1b[0m"
 	fi
@@ -35,7 +35,7 @@ function run_parser_test_1
 
 function run_parser_test_2
 {
-	for TEST_NUMBER in {4..7};
+	for TEST_NUMBER in {6..7};
 	do
 	$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser_2.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT
 	if [[ "$(uname)" == "Linux" ]]; then
@@ -43,7 +43,7 @@ function run_parser_test_2
 	fi
 	./a.out >> logs/result_parser.log
 	done
-	if [[ $1 -ge 4 && $1 -le 7 ]]; then
+	if [[ $1 -ge 6 && $1 -le 7 ]]; then
 		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser_2.c -DTEST=$1 $MANUALLY_ADDED_LIBFT
 		echo -e "\x1b[1;33mTest $1 ready for debug\x1b[0m"
 	fi
