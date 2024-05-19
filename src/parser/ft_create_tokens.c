@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/19 11:47:59 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/19 16:26:24 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	ft_check_4_word(char *input, t_split *new)
 	int		check;
 
 	idx = 0;
-	while (input[idx] == '\"' || input[idx] == '\'')
+	while (input[idx] != '\0' && (input[idx] == '\"' || input[idx] == '\''))
 	{
 		idx += ft_handle_quotes(input, new);
 		check = ft_init_next_token_if_space(&input[idx], &new);
