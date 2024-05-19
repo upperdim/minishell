@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 12:50:49 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/18 21:40:36 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/18 22:33:05 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,34 @@ int	main(void)
 		ft_free_n_null((void **)&result);
 	}
 	return (run_leaks("parse_line(\"echo \"Hello\" World\"\")"), 0);
+}
+
+#elif TEST == 7
+
+int	main(void)
+{
+	t_instruction	*result;
+	int				error;
+	int				i;
+
+	result = parse_line("echo Hello\" World");
+	error = ft_check_output(result, "Hello\" World");
+	if (error != NO_ERROR)
+	{
+		ft_printf("\nTest for parse_line(\"echo %s\"): Failed\n",
+			"Hello\" World");
+		ft_feedback(error, result, "Hello\" World");
+	}
+	if (result)
+	{
+		ft_free_n_null((void **)&result->cmd);
+		i = 0;
+		while (result->args && result->args[i])
+			ft_free_n_null((void **)&result->args[i++]);
+		ft_free_n_null((void **)&result->args);
+		ft_free_n_null((void **)&result);
+	}
+	return (run_leaks("parse_line(\"echo Hello\" World\")"), 0);
 }
 
 #endif
