@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:03:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/19 12:34:44 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/19 12:52:13 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #ifdef __APPLE__
 
-void	run_leaks(char *test_name)
+void	run_leaks(const char *test_name)
 {
 	int	is_there_leaks;
 
@@ -29,7 +29,7 @@ exit 0");
 }
 #else
 
-void	run_leaks(char *test_name)
+void	run_leaks(const char *test_name)
 {
 	(void)test_name;
 	return ;
@@ -48,7 +48,7 @@ void	ft_free_results(t_instruction **result)
 	ft_free_n_null((void **)result);
 }
 
-void	ft_feedback(int error, t_instruction *result, char **exp_str)
+void	ft_feedback(int error, t_instruction *result, const char **exp_str)
 {
 	int	i;
 
@@ -77,7 +77,7 @@ void	ft_feedback(int error, t_instruction *result, char **exp_str)
 		ft_printf("Output: NULL\nExpected: t_instruction\n");
 }
 
-int	ft_check_output(t_instruction *token, char **expect)
+int	ft_check_output(t_instruction *token, const char **expect)
 {
 	int	i;
 

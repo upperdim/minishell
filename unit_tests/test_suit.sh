@@ -35,7 +35,7 @@ function run_parser_test_1
 
 function run_parser_test_2
 {
-	for TEST_NUMBER in {6..7};
+	for TEST_NUMBER in {6..8};
 	do
 	$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser_2.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT
 	if [[ "$(uname)" == "Linux" ]]; then
@@ -43,7 +43,7 @@ function run_parser_test_2
 	fi
 	./a.out >> logs/result_parser.log
 	done
-	if [[ $1 -ge 6 && $1 -le 7 ]]; then
+	if [[ $1 -ge 6 && $1 -le 8 ]]; then
 		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES unit_tests/test_parser_2.c -DTEST=$1 $MANUALLY_ADDED_LIBFT
 		echo -e "\x1b[1;33mTest $1 ready for debug\x1b[0m"
 	fi
