@@ -6,7 +6,7 @@
 /*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 12:50:49 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/19 11:56:00 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/19 12:15:54 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 
 void	ft_feedback(int error, t_instruction *result, char **exp_str)
 {
+	int	i;
+
+	i = -1;
 	if (error == WRONG_CMD)
 		ft_printf("\tCmd: %s\n\tExpected: echo\n", result->cmd);
 	if (error == NO_ARGS)
 		ft_printf("\tArgs: NULL\n\tExpected: args = %s\n", exp_str[0]);
 	if (error == WRONG_ARGS)
-	{
-		if (result->args && result->args[0])
-			ft_printf("\tArgs[0]: %s\n\tExpected: %s\n", result->args[0],
-				exp_str[0]);
-	}
+		while (result->args && result->args[++i] && exp_str[i])
+			ft_printf("\tArgs[%i]: %s\n\tExpected: %s\n", i, result->args[i],
+				exp_str[i]);
+	if (error == WRONG_ARGS && (result->args[i] || exp_str[i]))
+		ft_printf("\tMore/Less args than expected\n", result->args[i]);
 	if (error == WRONG_AND_INDEX)
 		ft_printf("\tAnd Index: %d\n\tExpected: 0\n", result->and_index);
 	if (error == WRONG_NEXT)
@@ -43,28 +46,28 @@ int	ft_check_output(t_instruction *token, char **expect)
 	int	i;
 
 	i = -1;
-	if (token)
-	{
-		if (ft_strncmp(token->cmd, "echo", ft_strlen(token->cmd)))
-			return (WRONG_CMD);
-		if (!token->args)
-			return (NO_ARGS);
-		while (token->args[++i] && expect[i])
-			if (ft_strncmp(token->args[i], expect[i], ft_strlen(expect[i]) + 1))
-				return (WRONG_ARGS);
-		if (token->and_index != 0)
-			return (WRONG_AND_INDEX);
-		if (token->next != NULL)
-			return (WRONG_NEXT);
-		if (token->flags.pipe_in != -1)
-			return (WRONG_PIPE_IN);
-		if (token->flags.pipe_out != -1)
-			return (WRONG_PIPE_OUT);
-		if (token->flags.redir != 0)
-			return (WRONG_REDIR);
-		return (NO_ERROR);
-	}
-	return (NO_RESULT);
+	if (!token)
+		return (NO_RESULT);
+	if (ft_strncmp(token->cmd, "echo", ft_strlen(token->cmd)))
+		return (WRONG_CMD);
+	if (!token->args)
+		return (NO_ARGS);
+	while (token->args[++i] && expect[i])
+		if (ft_strncmp(token->args[i], expect[i], ft_strlen(expect[i]) + 1))
+			return (WRONG_ARGS);
+	if (token->args[i] || expect[i])
+		return (WRONG_ARGS);
+	if (token->and_index != 0)
+		return (WRONG_AND_INDEX);
+	if (token->next != NULL)
+		return (WRONG_NEXT);
+	if (token->flags.pipe_in != -1)
+		return (WRONG_PIPE_IN);
+	if (token->flags.pipe_out != -1)
+		return (WRONG_PIPE_OUT);
+	if (token->flags.redir != 0)
+		return (WRONG_REDIR);
+	return (NO_ERROR);
 }
 
 #if TEST == 4
