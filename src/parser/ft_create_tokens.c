@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/20 14:11:33 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/20 13:13:32 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ void	ft_look_for_tokens_in_strs(t_split *all_tokens)
 	while (tmp->next)
 	{
 		if (tmp->token == SINGLE_QUOTES || tmp->token == DOUBLE_QUOTES)
+		{
+			tmp = tmp->next;
 			continue ;
+		}
 		if (ft_strchr(tmp->result, '|'))
 			tmp = ft_tokenize_pipe(tmp);
 		// if (ft_strchr(tmp->result, '<'))
