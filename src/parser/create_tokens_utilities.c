@@ -5,16 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/12 15:00:43 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/20 13:28:08 by JFikents         ###   ########.fr       */
+/*   Created: Invalid Date        by              +#+  #+#    #+#             */
+/*   Updated: 2024/05/20 14:10:04 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
 	// extern char	**environ;
 void	ft_expand_env_var(char *input, int index, t_split *new,
-	char *end_point)
+	const char *end_point)
 {
 	(void) input;
 	(void) new;
