@@ -49,7 +49,7 @@ static int	ft_check_4_word(char *input, t_split *new)
 	idx = 0;
 	while (input[idx] != '\0' && (input[idx] == '\"' || input[idx] == '\''))
 	{
-		idx += ft_handle_quotes(input, new);
+		idx += ft_handle_quotes(&input[idx], new);
 		check = ft_init_next_token_if_space(&input[idx], &new);
 		if (check == -1)
 			return (-1);
