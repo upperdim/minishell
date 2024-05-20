@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/19 11:03:41 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:09:59 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_instruction	*parse_line(char *line);
 t_split			*ft_create_tokens(char *input);
 void			ft_free_split(t_split *split);
 void			ft_expand_env_var(char *input, int index, t_split *new,
-					char *end_point);
+					const char *end_point);
 char			*ft_find_limit(char *input);
 int				ft_count_spaces(char *input);
 int				ft_init_next_token_if_space(char *input, t_split **new);

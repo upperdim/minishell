@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   create_tokens_utilities.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:00:43 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/19 16:27:15 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:09:59 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	ft_expand_env_var(char *input, int index, t_split *new,
-	char *end_point)
+	const char *end_point)
 {
 	// extern char	**environ;
 

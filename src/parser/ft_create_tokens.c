@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_create_tokens.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/19 16:26:24 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:09:59 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 static int	ft_handle_quotes(char *input, t_split *new)
 {
-	char	*closing_quote;
-	char	*quoted_str;
-	char	*prev_result;
-	int		index;
+	const int	index = 0;
+	const char	*prev_result = new->result;
+	const char	*closing_quote = ft_strchr(&input[index + 1], input[index]);
+	char		*quoted_str;
 
-	index = 0;
-	closing_quote = ft_strchr(&input[index + 1], input[index]);
-	prev_result = new->result;
 	if (closing_quote == NULL)
 	{
 		if (input[index] == '\'')
