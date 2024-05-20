@@ -40,11 +40,12 @@ SRC_BUILTINS_MAIN = main_builtins.c $(SRC_NO_MAIN)
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_MAIN))
-SRC_TEST = $(addprefix tests/, $(SRC_TEST_MAIN))
+SRC_TEST = $(addprefix tests/builtins_test/, $(SRC_TEST_MAIN))
 SRC_BUILTINS = $(addprefix $(SRC_DIR), $(SRC_BUILTINS_MAIN))
 
 OBJ = $(SRC:src/%.c=bin/%.o)
-OBJ_TEST = $(SRC_TEST:tests/%.c=tests/bin/%.o) $(filter-out bin/main.o, $(OBJ))
+OBJ_TEST = $(SRC_TEST:tests/builtins_test/%.c=tests/builtins_test/bin/%.o)\
+	$(filter-out bin/main.o, $(OBJ))
 OBJ_BUILTINS = $(SRC_BUILTINS:src/%.c=bin_builtins/%.o)
 
 
@@ -128,8 +129,8 @@ fclean_test: clean_test
 re_test: fclean_test test
 .PHONY: re_test
 
-tests/bin/%.o : tests/%.c
-	@mkdir -p tests/bin
+tests/builtins_test/bin/%.o : tests/builtins_test/%.c
+	@mkdir -p tests/builtins_test/bin
 	@echo "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:22 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/12 15:59:12 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:51:24 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ pid_t	start_minishell_builtins(int *pipe_write);
 void	reset_tty(pid_t pid);
 char	*get_test_input(int fd);
 
-////////////////////////////		  ECHO  		////////////////////////////
+////////////////////////////		  ECHO      	////////////////////////////
 void	echo_test_1(int read_output_fd);
 void	echo_test_2(int read_output_fd);
 void	echo_test_3(int read_output_fd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:28:50 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/14 12:40:12 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:53:35 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ pid_t	start_minishell_builtins(int *pipe_write)
 	int		fd_out;
 	int		check_pipe;
 
-	fd_out = open("logs/minishell_builtins.log", O_WRONLY | O_CREAT
+	fd_out = open("tests/logs/minishell_builtins.log", O_WRONLY | O_CREAT
 			| O_APPEND, 0644);
 	check_pipe = pipe(pipe_in);
 	if (check_pipe == -1)

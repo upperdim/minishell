@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 12:26:18 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/14 12:38:38 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:56:13 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void	compile_minishell(void)
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	if (!pid)
-		ft_execve((char *[]){check_for_cmd("make"), "re", "COLOR=0", NULL},
-			NULL, NULL);
+		ft_execve((char *[]){check_for_cmd("make"), "-s", "re", "COLOR=0",
+			NULL}, NULL, NULL);
 	waitpid(pid, NULL, 0);
 }
 
@@ -47,7 +47,7 @@ int	main(void)
 {
 	atexit(leaks);
 	compile_minishell();
-	unlink("logs/minishell_builtins.log");
+	unlink("tests/logs/minishell_builtins.log");
 	test_1_builtins();
 	return (0);
 }

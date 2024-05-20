@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/14 15:50:03 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:51:46 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	test_1_builtins(void)
 	int			status;
 
 	pid = send_commands_to_minishell(&status);
-	read_output_fd = open("logs/minishell_builtins.log", O_RDONLY);
+	read_output_fd = open("tests/logs/minishell_builtins.log", O_RDONLY);
 	prompt_test(read_output_fd);
 	pwd_test(read_output_fd);
 	line = get_test_input(read_output_fd);
