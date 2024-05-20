@@ -15,7 +15,7 @@ if [[ "$(uname)" == "Linux" ]]; then
 fi
 
 
-PARSER_FILES="src/parser/parser.c src/parser/ft_create_tokens.c src/parser/create_tokens_utilities.c unit_tests/unit_tests_utils.c"
+PARSER_FILES="src/parser/parser.c src/parser/ft_create_tokens.c src/parser/create_tokens_utilities.c src/parser/ft_tokenize_pipe.c unit_tests/unit_tests_utils.c"
 
 function run_parser_test_1
 {

@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid Date        by              +#+  #+#    #+#             */
-/*   Updated: 2024/05/20 14:10:04 by JFikents         ###   ########.fr       */
+/*   Created: 2024/05/12 15:00:43 by JFikents          #+#    #+#             */
+/*   Updated: 2024/05/20 13:07:31 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
