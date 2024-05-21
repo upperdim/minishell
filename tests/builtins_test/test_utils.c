@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:28:50 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/20 15:53:35 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:14:26 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,17 @@ char	*get_test_input(int fd)
 		dollar_sign_limiter = ft_strchr(line, '$');
 	}
 	return (ft_free_n_null((void **)&line), test_input);
+}
+
+void	compile_minishell(void)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		exit(EXIT_FAILURE);
+	if (!pid)
+		ft_execve((char *[]){check_for_cmd("make"), "-s", "re", "COLOR=0",
+			NULL}, NULL, NULL);
+	waitpid(pid, NULL, 0);
 }

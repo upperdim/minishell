@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:49:01 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/20 15:51:46 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:09:49 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ static pid_t	send_commands_to_minishell(int *status)
 	ft_putendl_fd("echo Hello World -n", write_minishell);
 	ft_putendl_fd("cd ", write_minishell);
 	ft_putendl_fd("env", write_minishell);
-	system("if [ $(leaks minishell_builtins | grep \"leaks for \" | awk '{print $3}') != 0 ]; then\n\
-	leaks minishell_builtins | grep -E \"Process |LEAK:|TOTAL\"\n\
-	echo \"\x1b[1;31mFailed leak test in minishell_builtins\"\n\
-fi");
+	ft_check_minishell_builtins_leaks();
 	ft_putendl_fd("exit -1", write_minishell);
 	usleep(100000);
 	kill(pid, SIGSTOP);
