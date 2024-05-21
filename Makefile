@@ -56,21 +56,21 @@ all: $(NAME) $(NAME)_builtins
 .PHONY: all
 
 bin/%.o : src/%.c
-	@echo "	Compiling $@"
+	@printf "%-100s\r" "	Compiling $@"
 	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) $(COLOR_FLAG)
 
 $(NAME) : lib/libft/libft.a $(OBJ) includes/minishell.h
-	@echo "	Compiling $@..."
 	@$(CC) -o $@ $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
+	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
 
 lib/libft/libft.a:
 	@git submodule update --init --recursive
-	@echo "	Creating libft.a..."
+	@printf "%-100s\r" "	Creating libft.a..."
 	@make -C $(LIBFT_PATH) --silent;
 
 clean:
-	@echo "	Erasing binaries..."
+	@printf "%-100s\r" "	Erasing binaries..."
 	@$(RM) $(OBJ+) $(OBJ) $(OBJ_BUILTINS)
 	@$(RM) bin/
 	@$(RM) bin_builtins
@@ -78,7 +78,7 @@ clean:
 .PHONY: clean
 
 fclean: clean
-	@echo "	Erasing $(NAME)..."
+	@printf "%-100s\r" "	Erasing $(NAME)..."
 	@$(RM) $(NAME)
 	@$(RM) $(NAME)_builtins
 	@make -C $(LIBFT_PATH) fclean
@@ -88,8 +88,10 @@ re: fclean all
 .PHONY: re
 
 bonus: lib/libft/libft.a $(OBJ+) $(OBJ)
-	@echo "	Compiling $(NAME) with bonus..."
+	@printf "%-100s\r" "	Compiling $(NAME) with bonus..."
 	@$(CC) -o $(NAME) $(OBJ+) $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
+	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
+
 
 
 ################################################################################
@@ -117,42 +119,45 @@ $(DEBUG_DIR)/a.out: c lib/libft/libft.a includes/minishell.h
 ################################################################################
 clean_test:
 	@$(RM) $(OBJ_TEST)
-		@echo "	Erasing test binaries..."
-	@$(RM) tests/bin/
+		@printf "%-100s\r" "	Erasing builtin_test binaries..."
+	@$(RM) tests/builtins_test/bin/
 .PHONY: clean_test
 
 fclean_test: clean_test
-	@echo "	Erasing test..."
-	@$(RM) test
+	@printf "%-100s\r" "	Erasing builtin_test..."
+	@$(RM) builtin_test
 .PHONY: fclean_test
 
-re_test: fclean_test test
+re_test: fclean_test builtin_test
 .PHONY: re_test
 
 tests/builtins_test/bin/%.o : tests/builtins_test/%.c
 	@mkdir -p tests/builtins_test/bin
-	@echo "	Compiling $@..."
+	@printf "%-100s\r" "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
 
-test: lib/libft/libft.a $(OBJ_TEST)
+builtin_test: lib/libft/libft.a $(OBJ_TEST)
 	@$(RM) bin/utils/prompt.o
 	@make bin/utils/prompt.o COLOR=0
-	@echo "	Compiling tests..."
-	@$(CC) -o test $^ $(CFLAGS) $(INCLUDES) $(LDFLAGS)
+	@$(CC) -o $@ $^ $(CFLAGS) $(INCLUDES) $(LDFLAGS)
+	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
 
+
+test:
+	@./tests/test_suit.sh
+.PHONY: test
 
 ################################################################################
 # Builtin test
 ################################################################################
 bin_builtins/%.o : src/%.c
-	@echo "	Compiling $@"
+	@printf "%-100s\r" "	Compiling $@"
 	@mkdir -p bin_builtins/builtins bin_builtins/exec bin_builtins/parser bin_builtins/utils
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) $(COLOR_FLAG)
 
 $(NAME)_builtins : lib/libft/libft.a $(OBJ_BUILTINS) includes/minishell.h
-	@echo "	Compiling $@..."
 	@$(CC) -o $@ $(OBJ_BUILTINS) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
-
+	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
 
 ################################################################################
 # Colors

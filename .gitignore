@@ -13,9 +13,10 @@ bin_builtins/
 a.out
 minishell
 minishell_builtins
-test
+builtin_test
 # Tests and Debug logs
 debug/*
 tests/logs/minishell_builtins.log
+tests/logs/minishell_builtins_results.log
 tests/logs/result_parser.log
 tests/logs/valgrind_*.log
