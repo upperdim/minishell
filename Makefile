@@ -118,7 +118,7 @@ $(DEBUG_DIR)/a.out: c lib/libft/libft.a includes/minishell.h
 ################################################################################
 clean_test:
 	@$(RM) $(OBJ_TEST)
-		@printf "%-100s\r" "	Erasing builtin_test binaries..."
+	@printf "%-100s\r" "	Erasing builtin_test binaries..."
 	@$(RM) tests/builtins_test/bin/
 .PHONY: clean_test
 
