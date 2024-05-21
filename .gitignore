@@ -1,10 +1,16 @@
 .DS_Store
 bin/
+tests/bin
+bin_builtins/
 *.o
 *.a
 demo.c
 a.out
 minishell
+minishell_builtins
+tests/minishell_builtins.log
 .vscode
 local/
 debug/*
+test
+tests/minishell.out
