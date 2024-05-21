@@ -1,7 +1,6 @@
 # Random
 .DS_Store
 .vscode
-demo.c
 local/
 *.a
 # Object files
