@@ -6,3 +6,4 @@
 	path = tests
 	url = https://github.com/JorFik/ms_tests.git
 	ignore = untracked
+	ignore = dirty
