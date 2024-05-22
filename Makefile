@@ -140,12 +140,12 @@ builtin_test: lib/libft/libft.a $(OBJ_TEST)
 	@$(CC) -o $@ $^ $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
 
+update_tests:
+	@cd tests && git checkout main && git pull origin main
+.PHONY: update_tests
+
 test:
 	@git submodule update --init --recursive tests
-	@cd tests
-	@git checkout master
-	@git pull origin master
-	@cd ..
 	@./tests/run_tests.sh
 .PHONY: test
 
