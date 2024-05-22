@@ -64,7 +64,7 @@ $(NAME) : lib/libft/libft.a $(OBJ) includes/minishell.h
 	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
 
 lib/libft/libft.a:
-	@git submodule update --init --recursive
+	@git submodule update --init --recursive lib/libft
 	@printf "%-100s\r" "	Creating libft.a..."
 	@make -C $(LIBFT_PATH) --silent;
 
@@ -141,7 +141,7 @@ builtin_test: lib/libft/libft.a $(OBJ_TEST)
 	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
 
 test:
-	@git submodule update --init --recursive
+	@git submodule update --init --recursive tests
 	@./tests/run_tests.sh
 .PHONY: test
 
