@@ -142,6 +142,10 @@ builtin_test: lib/libft/libft.a $(OBJ_TEST)
 
 test:
 	@git submodule update --init --recursive tests
+	@cd tests
+	@git checkout master
+	@git pull origin master
+	@cd ..
 	@./tests/run_tests.sh
 .PHONY: test
 
