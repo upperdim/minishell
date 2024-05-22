@@ -141,6 +141,7 @@ builtin_test: lib/libft/libft.a $(OBJ_TEST)
 	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
 
 test:
+	@git submodule update --init --recursive
 	@./tests/run_tests.sh
 .PHONY: test
 
