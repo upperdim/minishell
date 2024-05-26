@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/22 16:00:19 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/26 14:27:55 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ t_token	*ft_lexer(char *input)
 	current_token = head;
 	while (input != NULL && input[index] != '\0')
 	{
+		check = 0;
 		while (current_token->next != NULL)
 			current_token = current_token->next;
 		if (input[index] == ' ')
