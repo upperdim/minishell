@@ -30,6 +30,8 @@ static int	ft_handle_quotes(char *input, t_token *new)
 	new->type = DOUBLE_QUOTES;
 	if (input[index] == '\'')
 		new->type = SINGLE_QUOTES;
+	if (prev_result != NULL)
+		new->type = STRING;
 	quoted_str = ft_substr(&input[index], 1, closing_quote - &input[index] - 1);
 	new->content = ft_strjoin(prev_result, quoted_str);
 	return (ft_free_n_null((void **)&quoted_str),
@@ -88,6 +90,8 @@ static int	ft_split_to_link_list(char *input, t_token *new)
 	new_token = ft_substr(&input[idx], 0, limiter - &input[idx]);
 	if (!new_token)
 		return (ft_free_link_list(new), -1);
+	if (old_token != NULL && new_token[0] != '\0')
+		new->type = STRING;
 	new->content = ft_strjoin(old_token, new_token);
 	return (ft_free_n_null((void **)&old_token),
 		ft_free_n_null((void **)&new_token), idx + limiter - &input[idx]);
