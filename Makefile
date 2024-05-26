@@ -144,8 +144,10 @@ update_tests:
 	@cd tests && git checkout main && git pull origin main
 .PHONY: update_tests
 
-test:
+tests/run_tests.sh:
 	@git submodule update --init --recursive tests
+
+test: | tests/run_tests.sh
 	@./tests/run_tests.sh
 .PHONY: test
 
