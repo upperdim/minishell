@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utilities.c                                 :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:00:43 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/22 16:01:45 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/27 19:40:17 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_look_for_tokens_in_strs(t_token *head)
 	t_token	*tmp;
 
 	tmp = head;
-	while (tmp->next)
+	while (tmp)
 	{
 		if (tmp->type == SINGLE_QUOTES || tmp->type == DOUBLE_QUOTES)
 		{
