@@ -35,17 +35,20 @@ SRC_NO_MAIN = $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
 SRC_MAIN = main.c $(SRC_NO_MAIN)
 SRC_TEST_MAIN = main_test.c test_builtins.c test_echo.c test_echo_2.c\
 	test_exit.c test_utils.c test_cd.c
-SRC_BUILTINS_MAIN = main_builtins.c $(SRC_NO_MAIN)
+SRC_BUILTINS_MAIN = $(SRC_B_DIR)main_builtins.c
 
 SRC_DIR = src/
+SRC_B_DIR = tests/builtins_test/
 SRC = $(addprefix $(SRC_DIR), $(SRC_MAIN))
-SRC_TEST = $(addprefix tests/builtins_test/, $(SRC_TEST_MAIN))
-SRC_BUILTINS = $(addprefix $(SRC_DIR), $(SRC_BUILTINS_MAIN))
+SRC_TEST = $(addprefix $(SRC_B_DIR), $(SRC_TEST_MAIN))
+SRC_BUILTINS = $(addprefix $(SRC_DIR), $(SRC_NO_MAIN))
 
 OBJ = $(SRC:src/%.c=bin/%.o)
 OBJ_TEST = $(SRC_TEST:tests/builtins_test/%.c=tests/builtins_test/bin/%.o)\
 	$(filter-out bin/main.o, $(OBJ))
-OBJ_BUILTINS = $(SRC_BUILTINS:src/%.c=bin_builtins/%.o)
+OBJ_BUILTINS_NO_MAIN = $(SRC_BUILTINS:src/%.c=bin_builtins/%.o)
+OBJ_BUILTINS = $(SRC_BUILTINS_MAIN:$(SRC_B_DIR)%.c=$(SRC_B_DIR)bin/%.o)\
+	$(OBJ_BUILTINS_NO_MAIN)
 
 
 ################################################################################
@@ -129,7 +132,7 @@ fclean_test: clean_test
 re_test: fclean_test builtin_test
 .PHONY: re_test
 
-tests/builtins_test/bin/%.o : tests/builtins_test/%.c
+tests/builtins_test/bin/%.o : tests/builtins_test/%.c | tests/run_tests.sh
 	@mkdir -p tests/builtins_test/bin
 	@printf "%-100s\r" "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
