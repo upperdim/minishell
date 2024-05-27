@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/27 17:57:49 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:12:34 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,6 @@ static int	ft_handle_quotes(char *input, t_token *new)
 			return (-1);
 		return (ft_free_n_null((void **)&prev_result), 1);
 	}
-	new->type = DOUBLE_QUOTES;
-	if (input[index] == '\'')
-		new->type = SINGLE_QUOTES;
-	if (prev_result != NULL)
-		new->type = STRING;
 	quoted_str = ft_substr(&input[index], 1, closing_quote - &input[index] - 1);
 	if (quoted_str == NULL)
 		return (-1);
@@ -73,7 +68,14 @@ static int	ft_split_to_link_list(char *input, t_token *new)
 	char		*new_token;
 
 	if (input[idx] == '\"' || input[idx] == '\'')
+	{
+		new->type = DOUBLE_QUOTES;
+		if (input[idx] == '\'')
+			new->type = SINGLE_QUOTES;
+		if (old_token != NULL)
+			new->type = STRING;
 		return (ft_handle_quotes(&input[idx], new));
+	}
 	new_token = ft_substr(&input[idx], 0, limiter - &input[idx]);
 	if (!new_token)
 		return (ft_free_link_list(new), -1);
