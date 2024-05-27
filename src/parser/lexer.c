@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/26 14:27:55 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:44:01 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ static int	ft_split_to_link_list(char *input, t_token *new)
 	int		check;
 
 	idx = 0;
-	check = 0;
 	while (input[idx] != '\0' && (input[idx] == '\"' || input[idx] == '\''))
 	{
+		check = 0;
 		idx += ft_handle_quotes(&input[idx], new);
 		if (input[idx] == ' ')
 			check = ft_move_to_next(&input[idx], &new);
