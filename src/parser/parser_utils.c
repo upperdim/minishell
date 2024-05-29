@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:00:43 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/27 19:40:17 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/29 18:20:55 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	ft_look_for_tokens_in_strs(t_token *head)
 		// 	ft_tokenize_redir_from_and_here_doc(tmp);
 		// if (ft_strchr(tmp->content, '>'))
 		// 	ft_tokenize_redir_to_and_append_to(tmp);
-		tmp = tmp->next;
+		if (tmp)
+			tmp = tmp->next;
 	}
 }
