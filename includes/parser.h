@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/22 16:02:01 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/29 19:36:30 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,20 @@
 
 # include <stdbool.h>
 
-enum	e_token
+typedef enum	e_token_type
 {
 	STRING,
-	DOUBLE_QUOTES,
-	SINGLE_QUOTES,
 	REDIR_TO,
 	APPEND_TO,
 	REDIR_FROM,
 	HERE_DOC,
 	PIPE,
-};
+}	t_token_type;
 
 typedef struct s_token
 {
-	char			*content;
-	enum e_token	type;
+	char			*value;
+	t_token_type	type;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:00:43 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/29 18:20:55 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/29 19:19:42 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_free_link_list(t_token *split)
 	{
 		tmp = split;
 		split = split->next;
-		ft_free_n_null((void **)&tmp->content);
+		ft_free_n_null((void **)&tmp->value);
 		ft_free_n_null((void **)&tmp);
 	}
 }
@@ -68,11 +68,11 @@ void	ft_look_for_tokens_in_strs(t_token *head)
 			tmp = tmp->next;
 			continue ;
 		}
-		if (ft_strchr(tmp->content, '|'))
+		if (ft_strchr(tmp->value, '|'))
 			tmp = ft_tokenize_pipe(tmp);
-		// if (ft_strchr(tmp->content, '<'))
+		// if (ft_strchr(tmp->value, '<'))
 		// 	ft_tokenize_redir_from_and_here_doc(tmp);
-		// if (ft_strchr(tmp->content, '>'))
+		// if (ft_strchr(tmp->value, '>'))
 		// 	ft_tokenize_redir_to_and_append_to(tmp);
 		if (tmp)
 			tmp = tmp->next;

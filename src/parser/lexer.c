@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/27 18:12:34 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/29 19:19:42 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 static int	ft_handle_quotes(char *input, t_token *new)
 {
 	const int	index = 0;
-	const char	*prev_result = new->content;
+	const char	*prev_result = new->value;
 	const char	*closing_quote = ft_strchr(&input[index + 1], input[index]);
 	char		*quoted_str;
 
 	if (closing_quote == NULL)
 	{
 		if (input[index] == '\'')
-			new->content = ft_strjoin(prev_result, "\'");
+			new->value = ft_strjoin(prev_result, "\'");
 		else
-			new->content = ft_strjoin(prev_result, "\"");
-		if (new->content == NULL)
+			new->value = ft_strjoin(prev_result, "\"");
+		if (new->value == NULL)
 			return (-1);
 		return (ft_free_n_null((void **)&prev_result), 1);
 	}
 	quoted_str = ft_substr(&input[index], 1, closing_quote - &input[index] - 1);
 	if (quoted_str == NULL)
 		return (-1);
-	new->content = ft_strjoin(prev_result, quoted_str);
-	if (new->content == NULL)
+	new->value = ft_strjoin(prev_result, quoted_str);
+	if (new->value == NULL)
 		return (ft_free_n_null((void **)&quoted_str), -1);
 	return (ft_free_n_null((void **)&quoted_str),
 		ft_free_n_null((void **)&prev_result), closing_quote + 1 - input);
@@ -64,7 +64,7 @@ static int	ft_split_to_link_list(char *input, t_token *new)
 {
 	const int	idx = 0;
 	const char	*limiter = ft_find_limit(input);
-	char *const	old_token = new->content;
+	char *const	old_token = new->value;
 	char		*new_token;
 
 	if (input[idx] == '\"' || input[idx] == '\'')
@@ -81,8 +81,8 @@ static int	ft_split_to_link_list(char *input, t_token *new)
 		return (ft_free_link_list(new), -1);
 	if (old_token != NULL && new_token[0] != '\0')
 		new->type = STRING;
-	new->content = ft_strjoin(old_token, new_token);
-	if (new->content == NULL)
+	new->value = ft_strjoin(old_token, new_token);
+	if (new->value == NULL)
 		return (ft_free_n_null((void **)&new_token), -1);
 	return (ft_free_n_null((void **)&old_token),
 		ft_free_n_null((void **)&new_token), idx + limiter - &input[idx]);
