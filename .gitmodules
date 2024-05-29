@@ -2,3 +2,8 @@
 	path = lib/libft
 	url = https://github.com/JorFik/libft.git
 	ignore = untracked
+[submodule "tests"]
+	path = tests
+	url = https://github.com/JorFik/ms_tests.git
+	ignore = untracked
+	ignore = dirty
