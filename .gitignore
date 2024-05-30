@@ -1,16 +1,23 @@
+# Random
 .DS_Store
+.vscode
+local/
+*.a
+.normignore
+# Object files
 bin/
 tests/bin
 bin_builtins/
 *.o
-*.a
-demo.c
+# Executables
 a.out
 minishell
 minishell_builtins
-tests/minishell_builtins_log.txt
-.vscode
-local/
+builtin_test
+# Tests and Debug logs
 debug/*
-test
-tests/minishell.out
+tests/*
+tests/logs/minishell_builtins.log
+tests/logs/minishell_builtins_results.log
+tests/logs/result_parser.log
+tests/logs/valgrind_*.log
