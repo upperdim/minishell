@@ -6,12 +6,13 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:29:54 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/29 19:19:42 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/05/30 14:46:38 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 static int	ft_handle_quotes(char *input, t_token *new)
 {
 	const int	index = 0;
@@ -115,3 +116,4 @@ t_token	*ft_lexer(char *input)
 	}
 	return (head);
 }
+*/

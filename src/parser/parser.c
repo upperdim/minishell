@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/22 15:43:28 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:45:51 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ t_token	*parse_line(char *input)
 
 	if (!input || !*input)
 		return (NULL);
-	head = ft_lexer(input);
-	ft_look_for_tokens_in_strs(head);
-	ft_expand_env_var(head);
+	// head = ft_lexer(input);
+	// ft_look_for_tokens_in_strs(head);
+	// ft_expand_env_var(head);
+	head = NULL;
 	return (head);
 }

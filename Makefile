@@ -54,7 +54,7 @@ OBJ_BUILTINS = $(SRC_BUILTINS_MAIN:$(SRC_B_DIR)%.c=$(SRC_B_DIR)bin/%.o)\
 ################################################################################
 # Rules
 ################################################################################
-all: $(NAME) $(NAME)_builtins
+all: $(NAME)
 .PHONY: all
 
 bin/%.o : src/%.c
@@ -149,6 +149,7 @@ update_tests:
 
 tests/run_tests.sh:
 	@git submodule update --init --recursive tests
+	@cd tests && git checkout main *
 
 test: | tests/run_tests.sh
 	@./tests/run_tests.sh

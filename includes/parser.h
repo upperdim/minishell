@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/29 19:36:30 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/05/30 14:37:42 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,5 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
-
-
-t_token			*parse_line(char *line);
-t_token			*ft_lexer(char *input);
-void			ft_free_link_list(t_token *split);
-void			ft_expand_env_var(t_token *token);
-int				ft_move_to_next(char *input, t_token **new);
-void			ft_look_for_tokens_in_strs(t_token *head);
-t_token			*ft_tokenize_pipe(t_token *token);
 
 #endif

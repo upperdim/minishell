@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:00:43 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/29 19:19:42 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/05/30 14:47:13 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	ft_move_to_next(char *input, t_token **new)
 	return (index);
 }
 
+/*
 void	ft_look_for_tokens_in_strs(t_token *head)
 {
 	t_token	*tmp;
@@ -78,3 +79,4 @@ void	ft_look_for_tokens_in_strs(t_token *head)
 			tmp = tmp->next;
 	}
 }
+*/
