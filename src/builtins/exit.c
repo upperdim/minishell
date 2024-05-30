@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:39:22 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/23 19:10:10 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/03/27 13:25:13 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ static int	str_is_numeric(char *s)
 	return (1);
 }
 
+	// TODO: return input as unsigned char, let it overflow
 void	exit_bash(char **input)
 {
-	// TODO: return input as unsigned char, let it overflow
-
 	int		exit_code;
 	char	*trimmed;
-	
+	char	**splits;
+
 	ft_printf("exit\n");
 	trimmed = ft_strtrim((*input) + 4, " ");
 	if (ft_strlen(trimmed) == 0)
@@ -60,21 +60,19 @@ void	exit_bash(char **input)
 	}
 	if (!str_is_numeric(trimmed))
 	{
-		char **splits = ft_split((*input) + 4, ' ');
+		splits = ft_split((*input) + 4, ' ');
 		ft_printf("bash: exit: %s: numeric argument required\n", splits[1]);
 		ft_free_2d_array((void ***)&splits, FREE_ANY_SIZE);
 		free(*input);
 		free(trimmed);
 		exit(255);
 	}
-	
-	
 	exit_code = ft_atoi((*input) + 4);
 	free(*input);
 	free(trimmed);
-	// ft_free_2d_array((void ***)&split);
 	exit((unsigned char) exit_code);
 }
+	// ft_free_2d_array((void ***)&split);
 
 // Test "exit      " should return 0. strlen check shouldn't fail)
 // Test "exit -1" should return 255, it should overflow unsigned char)
@@ -86,9 +84,6 @@ void	exit_bash(char **input)
 // bash-3.2$ exit     123x123      52    
 // exit
 // bash: exit: 123x123: numeric argument required
-
-
-
 
 // bash-3.2$ exit     123123      52    
 // exit

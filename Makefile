@@ -23,7 +23,7 @@ UTILS = $(addprefix utils/, $(UTILS_FILES))
 EXEC_FILES = exec.c pipe_utils.c
 EXEC = $(addprefix exec/, $(EXEC_FILES))
 
-PARSER_FILES = parser.c
+PARSER_FILES = parser.c lexer.c parser_utils.c ft_tokenize_pipe.c
 PARSER = $(addprefix parser/, $(PARSER_FILES))
 
 SRC_NO_MAIN = $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
@@ -132,7 +132,7 @@ fclean_test: clean_test
 re_test: fclean_test builtin_test
 .PHONY: re_test
 
-tests/builtins_test/bin/%.o : tests/builtins_test/%.c tests/run_tests.sh
+tests/builtins_test/bin/%.o : tests/builtins_test/%.c | tests/run_tests.sh
 	@mkdir -p tests/builtins_test/bin
 	@printf "%-100s\r" "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
@@ -149,6 +149,7 @@ update_tests:
 
 tests/run_tests.sh:
 	@git submodule update --init --recursive tests
+	@cd tests && git checkout main *
 
 test: | tests/run_tests.sh
 	@./tests/run_tests.sh
