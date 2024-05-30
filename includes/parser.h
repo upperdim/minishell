@@ -6,24 +6,31 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/03/12 15:31:01 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/05/30 14:37:42 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-enum	e_token
+# include <stdbool.h>
+
+typedef enum	e_token_type
 {
-	CMD,
-	ARG,
+	STRING,
+	REDIR_TO,
+	APPEND_TO,
+	REDIR_FROM,
+	HERE_DOC,
 	PIPE,
-	REDIR_OVER_L,
-	REDIR_OVER_R,
-	REDIR_APPD_L,
-	REDIR_APPD_R,
-	QUOTE_S,
-	QUOTE_D
-};
+}	t_token_type;
+
+typedef struct s_token
+{
+	char			*value;
+	t_token_type	type;
+	struct s_token	*next;
+	struct s_token	*prev;
+}	t_token;
 
 #endif
