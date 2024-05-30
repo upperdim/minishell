@@ -3,6 +3,7 @@
 .vscode
 local/
 *.a
+.normignore
 # Object files
 bin/
 tests/bin
@@ -15,6 +16,7 @@ minishell_builtins
 builtin_test
 # Tests and Debug logs
 debug/*
+tests/*
 tests/logs/minishell_builtins.log
 tests/logs/minishell_builtins_results.log
 tests/logs/result_parser.log
