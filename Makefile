@@ -100,6 +100,12 @@ bonus: $(LIBFT_PATH)/libft.a $(OBJ+) $(OBJ)
 ################################################################################
 DEBUG_DIR = debug
 DEBUG_FLAGS = -fsanitize=address -g3
+OBJ_DEBUG = $(SRC:src/%.c=debug/bin/%.o)
+
+$(DEBUG_DIR)/bin/%.o : src/%.c
+	@printf "%-100s\r" "	Compiling $@"
+	@mkdir -p $(DEBUG_DIR)/bin/builtins $(DEBUG_DIR)/bin/exec $(DEBUG_DIR)/bin/parser $(DEBUG_DIR)/bin/utils
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) $(COLOR_FLAG) $(DEBUG_FLAGS)
 
 c:
 	@$(RM) $(DEBUG_DIR)/* 
@@ -109,9 +115,8 @@ c:
 debug: $(DEBUG_DIR)/a.out
 .PHONY: debug
 
-$(DEBUG_DIR)/a.out: c lib/libft/libft.a includes/minishell.h
-	@$(CC) $(CFLAGS) $(SRC_TEST) $(DEBUG_FLAGS) $(INCLUDES) $(LDFLAGS) $(filter-out src/main.c, $(SRC))
-	@mv a.out.dSYM $(DEBUG_DIR)
+$(DEBUG_DIR)/a.out: c $(LIBFT_PATH)/libft.a includes/minishell.h tests/run_tests.sh $(OBJ_DEBUG)
+	@$(CC) $(CFLAGS) $(OBJ_DEBUG) $(DEBUG_FLAGS) $(INCLUDES) $(LDFLAGS)
 	@mv a.out $(DEBUG_DIR)
 
 
