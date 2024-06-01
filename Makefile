@@ -17,7 +17,7 @@ INCLUDES = $(addprefix -I, $(HEADERS_DIR))
 BUILTIN_FILES = cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c
 BUILTINS = $(addprefix builtins/, $(BUILTIN_FILES))
 
-UTILS_FILES = signal_handler.c prompt.c
+UTILS_FILES = signal_handler.c prompt.c exit.c
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 
 EXEC_FILES = exec.c pipe_utils.c
