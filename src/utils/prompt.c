@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 15:54:25 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:41:28 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ static char	*format_hostname(char *hostname)
 
 	point_position = ft_strchr(hostname, '.');
 	temp = ft_substr(hostname, 0, point_position - hostname + 1);
+	ft_free_n_null((void **)&hostname);
+	if (temp == NULL)
+		return (NULL);
 	hostname = temp;
 	point_position = ft_strchr(hostname, '.');
 	if (point_position)
@@ -42,23 +45,25 @@ static char	*format_hostname(char *hostname)
 
 static char	*get_hostname(void)
 {
-	char		hostname[100];
 	pid_t		pid;
 	int			pipe_fd[2];
+	int			status;
+	char		*hostname;
 
-	ft_bzero(hostname, 100);
 	if (pipe(pipe_fd) == -1)
-		exit(EXIT_FAILURE);
+		exit_perror(EXIT_FAILURE);
 	pid = fork();
 	if (pid == -1)
-		exit(EXIT_FAILURE);
+		exit_perror(EXIT_FAILURE);
 	if (!pid)
 		ft_execve((char *[]){check_for_cmd("hostname"), NULL}, NULL, pipe_fd);
-	waitpid(pid, NULL, 0);
-	read(pipe_fd[PIPE_FD_READ], &hostname, 100);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+		exit_error("minishell: hostname: error executing", WEXITSTATUS(status));
+	hostname = get_next_line(pipe_fd[PIPE_FD_READ]);
 	ft_close(&pipe_fd[PIPE_FD_READ]);
 	ft_close(&pipe_fd[PIPE_FD_WRITE]);
-	if (!*hostname)
+	if (hostname == NULL)
 		return (NULL);
 	return (format_hostname(hostname));
 }
@@ -69,31 +74,39 @@ static char	*get_directory(void)
 	char	*directory;
 
 	cwd = getcwd(NULL, 0);
+	if (cwd == NULL)
+		return (NULL);
 	directory = ft_strrchr(cwd, '/');
 	directory = ft_strdup(directory + 1);
-	ft_free_n_null((void **)&cwd);
-	return (directory);
+	return (ft_free_n_null((void **)&cwd), directory);
 }
 
+// consts below are only for norminette
 char	*get_prompt(void)
 {
-	char	*temp;
-	char	*prompt;
-	char	*directory;
-	char	*host;
+	const char	*temp = get_hostname();
+	const char	*directory = get_directory();
+	const char	*host = ft_strjoin(CYAN"", temp);
+	char		*prompt;
 
-	directory = get_directory();
-	temp = get_hostname();
-	host = ft_strjoin(CYAN"", temp);
+	if (!temp || !directory || !host)
+		return (ft_free_n_null((void **)&temp),
+			ft_free_n_null((void **)&directory),
+			ft_free_n_null((void **)&host), NULL);
 	ft_free_n_null((void **)&temp);
 	temp = ft_strjoin(host, directory);
 	ft_free_n_null((void **)&host);
 	ft_free_n_null((void **)&directory);
+	if (!temp)
+		return (NULL);
 	directory = ft_strjoin(temp, BLUE" ");
 	ft_free_n_null((void **)&temp);
+	if (!directory)
+		return (NULL);
 	temp = ft_strjoin(directory, get_user());
 	ft_free_n_null((void **)&directory);
+	if (!temp)
+		return (NULL);
 	prompt = ft_strjoin(temp, "$ "WHITE);
-	ft_free_n_null((void **)&temp);
-	return (prompt);
+	return (ft_free_n_null((void **)&temp), prompt);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 17:59:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/24 15:32:06 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:28:23 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,11 @@ void	ft_execve(char **argv, char **envp, int pipe_fd[2])
 	extern char	**environ;
 
 	if (!argv || !argv[0])
-		exit(0);
+		exit_error(NULL, 0);
 	if (pipe_fd)
 	{
 		if (setup_out_pipe(pipe_fd))
-			exit(1);
+			exit_error(NULL, EXIT_FAILURE);
 	}
 	if (envp)
 		execve(argv[0], argv, envp);
@@ -134,8 +134,7 @@ void	ft_execve(char **argv, char **envp, int pipe_fd[2])
 		ft_putstr_fd(argv[1], 2);
 		ft_putstr_fd(": ", 2);
 	}
-	perror(NULL);
-	exit(1);
+	exit_perror(EXIT_FAILURE);
 }
 //! Original function from pipex needs to be modified
 // char	**create_argv(char *argv[], char *input, t_alloc_list *to_free)

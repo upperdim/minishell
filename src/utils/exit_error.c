@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/30 14:37:42 by tunsal           ###   ########.fr       */
+/*   Created: 2024/05/30 17:44:04 by JFikents          #+#    #+#             */
+/*   Updated: 2024/06/01 15:40:41 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "minishell.h"
 
-# include <stdbool.h>
-
-typedef enum e_token_type
+void	clean_up(void)
 {
-	STRING,
-	REDIR_TO,
-	APPEND_TO,
-	REDIR_FROM,
-	HERE_DOC,
-	PIPE,
-}	t_token_type;
+	extern char	**environ;
 
-typedef struct s_token
+	ft_free_2d_array((void ***)&environ, -1);
+}
+
+void	exit_error(char *error_msg, int exit_status)
 {
-	char			*value;
-	t_token_type	type;
-	struct s_token	*next;
-	struct s_token	*prev;
-}	t_token;
+	if (error_msg)
+		ft_putstr_fd(error_msg, 2);
+	clean_up();
+	exit(exit_status);
+}
 
-#endif
+void	exit_perror(int exit_status)
+{
+	perror(NULL);
+	exit_error(NULL, exit_status);
+}
