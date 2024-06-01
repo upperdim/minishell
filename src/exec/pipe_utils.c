@@ -134,7 +134,7 @@ void	ft_execve(char **argv, char **envp, int pipe_fd[2])
 		ft_putstr_fd(argv[1], 2);
 		ft_putstr_fd(": ", 2);
 	}
-	exit_perror(1);
+	exit_perror(EXIT_FAILURE);
 }
 //! Original function from pipex needs to be modified
 // char	**create_argv(char *argv[], char *input, t_alloc_list *to_free)
