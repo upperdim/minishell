@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/06/01 17:13:52 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/01 18:32:33 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ static char	*get_input(void)
 	char	*input;
 
 	prompt = get_prompt();
+	if (prompt == NULL)
+		prompt = ft_strdup("minishell$ ");
+	if (prompt == NULL)
+		exit_error("minishell: Error allocating memory: malloc", EXIT_FAILURE);
 	input = readline(prompt);
 	ft_free_n_null((void **)&prompt);
 	return (input);
