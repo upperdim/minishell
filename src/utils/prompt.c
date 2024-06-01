@@ -81,6 +81,7 @@ static char	*get_directory(void)
 	return (ft_free_n_null((void **)&cwd), directory);
 }
 
+// consts below are only for norminette
 char	*get_prompt(void)
 {
 	const char	*temp = get_hostname();
