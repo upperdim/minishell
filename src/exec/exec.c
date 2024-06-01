@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/30 14:15:44 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:44:04 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,53 +33,3 @@
 // 			status = WEXITSTATUS(status);
 // 	}
 // }
-
-void	print_test(void)
-{
-	int			i;
-
-	i = 0;
-	ft_putstr_fd(getenv("MINISHELL_ENV"), 1);
-}
-
-void	ft_free_environ(void)
-{
-	extern char	**environ;
-	int			i;
-
-	i = 0;
-	while (environ[i])
-	{
-		free(environ[i]);
-		i++;
-	}
-	free(environ);
-}
-
-int	main(void)
-{
-	extern char	**environ;
-	char		**new_environ;
-	int			env_count;
-
-	env_count = 0;
-	while (environ[env_count])
-		env_count++;
-	new_environ = ft_calloc(env_count + 2, sizeof(char *));
-	if (!new_environ)
-		return (1);
-	env_count = 0;
-	while (environ[env_count])
-	{
-		new_environ[env_count] = ft_strdup(environ[env_count]);
-		if (!new_environ[env_count])
-			return (1);
-		env_count++;
-	}
-	new_environ[env_count] = ft_strdup("MINISHELL_ENV=TRUE");
-	if (!new_environ[env_count])
-		return (1);
-	environ = new_environ;
-	print_test();
-	return (0);
-}
