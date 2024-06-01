@@ -62,12 +62,12 @@ bin/%.o : src/%.c
 	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) $(COLOR_FLAG)
 
-$(NAME) : lib/libft/libft.a $(OBJ) includes/minishell.h
+$(NAME) : $(LIBFT_PATH)/libft.a $(OBJ) includes/minishell.h
 	@$(CC) -o $@ $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
 
-lib/libft/libft.a:
-	@git submodule update --init --recursive lib/libft
+$(LIBFT_PATH)/libft.a:
+	@git submodule update --init --recursive $(LIBFT_PATH)
 	@printf "%-100s\r" "	Creating libft.a..."
 	@make -C $(LIBFT_PATH) --silent;
 
@@ -89,7 +89,7 @@ fclean: clean
 re: fclean all
 .PHONY: re
 
-bonus: lib/libft/libft.a $(OBJ+) $(OBJ)
+bonus: $(LIBFT_PATH)/libft.a $(OBJ+) $(OBJ)
 	@printf "%-100s\r" "	Compiling $(NAME) with bonus..."
 	@$(CC) -o $(NAME) $(OBJ+) $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
@@ -132,12 +132,12 @@ fclean_test: clean_test
 re_test: fclean_test builtin_test
 .PHONY: re_test
 
-tests/builtins_test/bin/%.o : tests/builtins_test/%.c | tests/run_tests.sh
+tests/builtins_test/bin/%.o : tests/builtins_test/%.c tests/run_tests.sh
 	@mkdir -p tests/builtins_test/bin
 	@printf "%-100s\r" "	Compiling $@..."
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
 
-builtin_test: lib/libft/libft.a $(OBJ_TEST)
+builtin_test: $(LIBFT_PATH)/libft.a $(OBJ_TEST)
 	@$(RM) bin/utils/prompt.o
 	@make bin/utils/prompt.o COLOR=0
 	@$(CC) -o $@ $^ $(CFLAGS) $(INCLUDES) $(LDFLAGS)
@@ -164,7 +164,7 @@ bin_builtins/%.o : src/%.c
 	@mkdir -p bin_builtins/builtins bin_builtins/exec bin_builtins/parser bin_builtins/utils
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) $(COLOR_FLAG)
 
-$(NAME)_builtins : lib/libft/libft.a $(OBJ_BUILTINS) includes/minishell.h
+$(NAME)_builtins : $(LIBFT_PATH)/libft.a $(OBJ_BUILTINS) includes/minishell.h
 	@$(CC) -o $@ $(OBJ_BUILTINS) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
 
