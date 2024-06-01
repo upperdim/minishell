@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/06/01 18:32:33 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/01 19:06:53 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ int	main(void)
 	extern int	errno;
 
 	if (init_environ())
+	{
+		perror("minishell: Error initializing environment");
 		return (EXIT_FAILURE);
+	}
 	input = NULL;
 	set_signal_handlers();
 	while (1)
