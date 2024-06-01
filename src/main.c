@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/06/01 19:06:53 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/01 19:46:53 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@ static int	init_environ(void)
 {
 	extern char	**environ;
 	extern int	errno;
-	int			env_c;
+	int			env_var_count;
 	char		**new_env;
 
 	errno = 0;
-	env_c = 0;
-	while (environ[env_c])
-		env_c++;
-	new_env = ft_calloc(env_c + 1, sizeof(char *));
+	env_var_count = 0;
+	while (environ[env_var_count])
+		env_var_count++;
+	new_env = ft_calloc(env_var_count + 1, sizeof(char *));
 	if (!new_env)
 		return (EXIT_FAILURE);
-	env_c = 0;
-	while (environ[env_c])
+	env_var_count = 0;
+	while (environ[env_var_count])
 	{
-		new_env[env_c] = ft_strdup(environ[env_c]);
-		if (!new_env[env_c])
+		new_env[env_var_count] = ft_strdup(environ[env_var_count]);
+		if (!new_env[env_var_count])
 			return (ft_free_2d_array((void ***)&new_env, -1), EXIT_FAILURE);
-		env_c++;
+		env_var_count++;
 	}
 	environ = new_env;
 	return (0);
