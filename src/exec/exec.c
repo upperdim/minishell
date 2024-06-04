@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/04 15:40:26 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/04 22:20:11 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ char	**create_argvs(t_token *token)
 	{
 		argv[argc++] = token->value;
 		token = token->next;
-		if (token != NULL)
-			ft_free_n_null((void **)&token->prev);
 	}
 	return (argv);
 }
