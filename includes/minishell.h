@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "parser.h"
+# include "exec.h"
 # include "libft.h"
 # include <stdio.h>
 # include <stdlib.h>
