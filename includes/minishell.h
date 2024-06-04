@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/06/01 15:51:24 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/02 12:29:50 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "parser.h"
+# include "exec.h"
 # include "libft.h"
 # include <stdio.h>
 # include <stdlib.h>
