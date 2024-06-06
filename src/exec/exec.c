@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/04 22:20:11 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/06 19:18:52 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 // 	}
 // }
 
-char	**create_argvs(t_token *token)
+char	**transform_to_array(t_token *token)
 {
 	char	**argv;
 	int		argc;
@@ -61,7 +61,7 @@ int	exec(t_token *token)
 	char	**argv;
 	int		pipe_fd[2];
 
-	argv = create_argvs(token);
+	argv = transform_to_array(token);
 	if (argv == NULL)
 		return (1);
 	(void)argv;
