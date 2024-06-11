@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/06 19:18:52 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/11 20:54:25 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,43 @@
 // 	}
 // }
 
+static t_cmd	*set_cmd_pipe(t_cmd *cmd)
+{
+	int			pipe_fd[2];
+	extern int	errno;
+
+	if (pipe(pipe_fd) == -1)
+		exit_perror(errno);
+	cmd->pipe[PIPE_FD_WRITE] = pipe_fd[PIPE_FD_WRITE];
+	cmd->next = ft_calloc(1, sizeof(t_cmd));
+	if (cmd->next == NULL)
+		exit_error("Error allocating memory", 1);
+	cmd = cmd->next;
+	cmd->pipe[PIPE_FD_READ] = pipe_fd[PIPE_FD_READ];
+	return (cmd);
+}
+
+t_cmd	*divide_tokens(t_token *token)
+{
+	const t_cmd	*head_cmd = ft_calloc(1, sizeof(t_cmd));
+	t_cmd		*cmd;
+
+	if (head_cmd == NULL)
+		exit_error("Error allocating memory", 1);
+	cmd = (t_cmd *)head_cmd;
+	while (token != NULL)
+	{
+		if (token->type == STRING)
+			add_token_last(&cmd->strs, token);
+		else if (token->type > STRING && token->type < PIPE)
+			add_token_last(&cmd->redirects, token);
+		else if (token->type == PIPE)
+			cmd = set_cmd_pipe(cmd);
+		token = token->next;
+	}
+	return (cmd);
+}
+
 char	**transform_to_array(t_token *token)
 {
 	char	**argv;
@@ -58,13 +95,12 @@ char	**transform_to_array(t_token *token)
 
 int	exec(t_token *token)
 {
-	char	**argv;
-	int		pipe_fd[2];
+	t_cmd	*cmd;
 
-	argv = transform_to_array(token);
-	if (argv == NULL)
+	cmd = divide_tokens(token);
+	cmd->argv = transform_to_array(token);
+	if (cmd->argv == NULL)
 		return (1);
-	(void)argv;
-	(void)pipe_fd;
+	ft_free_link_list(token);
 	return (0);
 }
