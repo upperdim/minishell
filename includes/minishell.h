@@ -58,12 +58,6 @@
 /* ft_free_2d_arrays frees arrays of any size with this argument */
 # define FREE_ANY_SIZE -1
 
-enum	e_pipes
-{
-	PIPE_FD_READ,
-	PIPE_FD_WRITE
-};
-
 // ** ---------------------------- FUNCTIONS ---------------------------- ** //
 
 void	ft_execve(char **argv);
