@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/06/02 12:29:50 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/07 14:40:42 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,6 @@
 
 /* ft_free_2d_arrays frees arrays of any size with this argument */
 # define FREE_ANY_SIZE -1
-
-enum	e_pipes
-{
-	PIPE_FD_READ,
-	PIPE_FD_WRITE
-};
 
 // ** ---------------------------- FUNCTIONS ---------------------------- ** //
 
