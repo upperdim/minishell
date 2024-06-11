@@ -20,7 +20,7 @@ BUILTINS = $(addprefix builtins/, $(BUILTIN_FILES))
 UTILS_FILES = signal_handler.c prompt.c exit_error.c
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 
-EXEC_FILES = exec.c pipe_utils.c
+EXEC_FILES = exec.c pipe_utils.c token_utils.c
 EXEC = $(addprefix exec/, $(EXEC_FILES))
 
 PARSER_FILES = parser.c lexer.c parser_utils.c ft_tokenize_pipe.c
