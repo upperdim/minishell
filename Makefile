@@ -102,6 +102,11 @@ DEBUG_DIR = debug
 DEBUG_FLAGS = -fsanitize=address -g3
 OBJ_DEBUG = $(SRC:src/%.c=debug/bin/%.o)
 
+DEBUG ?= 0
+ifeq ($(DEBUG), 1)
+CFLAGS += -g3
+endif
+
 $(DEBUG_DIR)/bin/%.o : src/%.c
 	@printf "%-100s\r" "	Compiling $@"
 	@mkdir -p $(DEBUG_DIR)/bin/builtins $(DEBUG_DIR)/bin/exec $(DEBUG_DIR)/bin/parser $(DEBUG_DIR)/bin/utils
