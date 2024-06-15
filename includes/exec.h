@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/11 21:21:39 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:39:23 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ typedef struct s_cmd
 }	t_cmd;
 
 // Token utilities
-void	isolate_token(t_token *token);
-void	add_token_last(t_token **head, t_token *new);
+t_token	*isolate_token(t_token **token);
+void	add_token_last(t_token **head, t_token **new);
 
 // Parsing utilities
 void	ft_free_link_list(t_token *split);
