@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/14 14:39:23 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 18:23:55 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,8 @@ void	add_token_last(t_token **head, t_token **new);
 
 // Parsing utilities
 void	ft_free_link_list(t_token *split);
+
+// Execution utilities
+void	free_cmd(t_cmd **cmd);
 
 #endif
