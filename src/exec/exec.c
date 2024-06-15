@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 13:57:24 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 19:56:21 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	**transform_to_array(t_token *token)
 	char	**argv;
 	int		argc;
 
-	argc = 0;
+	argc = 1;
 	while (token->next != NULL && ++argc)
 		token = token->next;
 	argv = ft_calloc(argc + 1, sizeof(char *));
