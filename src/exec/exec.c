@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/11 20:54:25 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 13:57:24 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,16 @@ t_cmd	*divide_tokens(t_token *token)
 	while (token != NULL)
 	{
 		if (token->type == STRING)
-			add_token_last(&cmd->strs, token);
+			add_token_last(&cmd->strs, &token);
 		else if (token->type > STRING && token->type < PIPE)
-			add_token_last(&cmd->redirects, token);
+			add_token_last(&cmd->redirects, &token);
 		else if (token->type == PIPE)
+		{
 			cmd = set_cmd_pipe(cmd);
-		token = token->next;
+			token = token->next;
+		}
 	}
-	return (cmd);
+	return ((t_cmd *)head_cmd);
 }
 
 char	**transform_to_array(t_token *token)
