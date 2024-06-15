@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 19:56:21 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 20:44:02 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,17 @@ char	**transform_to_array(t_token *token)
 
 int	exec(t_token *token)
 {
-	t_cmd	*cmd;
+	t_cmd		*cmd;
+	const t_cmd	*head_cmd = divide_tokens(token);
 
-	cmd = divide_tokens(token);
-	cmd->argv = transform_to_array(token);
-	if (cmd->argv == NULL)
-		return (1);
-	ft_free_link_list(token);
+	cmd = (t_cmd *)head_cmd;
+	while (cmd != NULL)
+	{
+		cmd->argv = transform_to_array(cmd->strs);
+		if (cmd->argv == NULL)
+			return (free_cmd((t_cmd **)&head_cmd), 1);
+		cmd = cmd->next;
+	}
+	free_cmd((t_cmd **)&head_cmd);
 	return (0);
 }
