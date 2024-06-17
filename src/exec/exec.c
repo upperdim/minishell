@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 20:44:02 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:38:10 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@
 static t_cmd	*set_cmd_pipe(t_cmd *cmd)
 {
 	int			pipe_fd[2];
-	extern int	errno;
 
 	if (pipe(pipe_fd) == -1)
 		exit_perror(errno);
