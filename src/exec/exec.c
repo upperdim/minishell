@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/17 13:38:10 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:54:32 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,25 @@ static t_cmd	*set_cmd_pipe(t_cmd *cmd)
 	return (cmd);
 }
 
+// ! USED FOR TESTING
+static void	free_expected_tokens(t_token **token)
+{
+	if (*token == NULL)
+		return ;
+	while ((*token)->next != NULL)
+	{
+		ft_free_n_null((void **)&(*token)->prev);
+		(*token) = (*token)->next;
+	}
+	ft_free_n_null((void **)&(*token)->prev);
+	ft_free_n_null((void **)&(*token));
+}
+
 t_cmd	*divide_tokens(t_token *token)
 {
-	const t_cmd	*head_cmd = ft_calloc(1, sizeof(t_cmd));
-	t_cmd		*cmd;
+	const t_cmd		*head_cmd = ft_calloc(1, sizeof(t_cmd));
+	const t_token	*head_token = token;
+	t_cmd			*cmd;
 
 	if (head_cmd == NULL)
 		exit_error("Error allocating memory", 1);
@@ -64,11 +79,11 @@ t_cmd	*divide_tokens(t_token *token)
 		else if (token->type > STRING && token->type < PIPE)
 			add_token_last(&cmd->redirects, &token);
 		else if (token->type == PIPE)
-		{
 			cmd = set_cmd_pipe(cmd);
-			token = token->next;
-		}
+		token = token->next;
 	}
+	//! ft_free_link_list((t_token *)head_token); UNCOMMENT THIS LINE AFTER TESTING and remove the line below
+	free_expected_tokens((t_token **)&head_token);
 	return ((t_cmd *)head_cmd);
 }
 

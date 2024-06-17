@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:49:08 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/14 14:40:49 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:50:56 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,41 @@ t_token	*isolate_token(t_token **token)
 	return (isolated_token);
 }
 
+t_token	*dup_token(t_token *token)
+{
+	t_token	*new_token;
+
+	new_token = ft_calloc(1, sizeof(t_token));
+	if (new_token == NULL)
+	{
+		ft_free_link_list(token);
+		exit_error("Error allocating memory", 1);
+	}
+	new_token->value = ft_strdup(token->value);
+	if (new_token->value == NULL)
+	{
+		ft_free_n_null((void **)&new_token);
+		ft_free_link_list(token);
+		exit_error("Error allocating memory", 1);
+	}
+	new_token->type = token->type;
+	return (new_token);
+}
+
 void	add_token_last(t_token **head, t_token **new)
 {
 	t_token	*last;
-	t_token	*isolated_token;
+	t_token	*new_token;
 
-	isolated_token = isolate_token(new);
+	new_token = dup_token(*new);
 	if (*head == NULL)
 	{
-		*head = isolated_token;
+		*head = new_token;
 		return ;
 	}
 	last = *head;
 	while (last->next != NULL)
 		last = last->next;
-	last->next = isolated_token;
-	isolated_token->prev = last;
+	last->next = new_token;
+	new_token->prev = last;
 }
