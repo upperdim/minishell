@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/06/07 14:40:42 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:10:32 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <dirent.h>
 # include <sys/ioctl.h>
 # include <termios.h>
+# include <errno.h>
 
 # ifdef COLOR
 
