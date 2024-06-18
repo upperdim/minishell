@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/17 14:54:32 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/18 13:19:17 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	**transform_to_array(t_token *token)
 	argc = 0;
 	while (token != NULL)
 	{
-		argv[argc++] = token->value;
+		argv[argc++] = ft_strdup(token->value);
 		token = token->next;
 	}
 	return (argv);
