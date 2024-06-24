@@ -6,18 +6,16 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/21 13:18:00 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 16:53:55 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_fd(t_cmd *cmd)
+int	get_fd(t_token *redir)
 {
-	t_token	*redir;
 	int		fd;
 
-	redir = cmd->redirects;
 	fd = -1;
 	if (redir->type == REDIR_TO || redir->type == APPEND_TO)
 		fd = 1;
@@ -25,7 +23,6 @@ int	get_fd(t_cmd *cmd)
 		fd = 0;
 	if (ft_isdigit(redir->value[0]))
 		fd = ft_atoi(redir->value);
-	redir = redir->next->next;
 	return (fd);
 }
 
