@@ -121,6 +121,8 @@ int	exec(t_token *token)
 {
 	t_cmd		*cmd;
 	const t_cmd	*head_cmd = divide_tokens(token);
+	pid_t		pid;
+	int			status;
 
 	if (head_cmd == NULL)
 		return (exit_perror(errno), 1);
@@ -130,8 +132,22 @@ int	exec(t_token *token)
 		cmd->argv = transform_to_array(cmd->strs);
 		if (cmd->argv == NULL)
 			return (free_cmd((t_cmd **)&head_cmd), 1);
-		// set_redir(cmd);
-		// ft_execve(cmd->argv, NULL, cmd->pipe);
+		pid = fork();
+		if (pid == -1)
+			return (exit_perror(errno), 1);
+		if (pid == 0)
+		{
+			if (cmd->pipe[PIPE_FD_READ] != 0)
+				setup_in_pipe(cmd->pipe);
+			if (cmd->pipe[PIPE_FD_WRITE] != 0)
+				setup_out_pipe(cmd->pipe);
+			if (set_redir(cmd->redirects))
+				return (free_cmd((t_cmd **)&head_cmd), 1);
+			ft_execve(cmd->argv);
+		}
+		if (waitpid(pid, &status, WUNTRACED) == -1)
+			return (free_cmd((t_cmd **)&head_cmd),
+				exit_perror(WEXITSTATUS(status)), 1);
 		cmd = cmd->next;
 	}
 	free_cmd((t_cmd **)&head_cmd);
