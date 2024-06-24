@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   exit_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:44:04 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/01 15:40:41 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 21:55:21 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	exit_error(char *error_msg, int exit_status)
 
 void	exit_perror(int exit_status)
 {
+	ft_putstr_fd("minishell: ", 2);
 	perror(NULL);
 	exit_error(NULL, exit_status);
 }

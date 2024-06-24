@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 20:28:11 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 21:07:52 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	**transform_to_array(t_token *token)
 	return (argv);
 }
 
-pid_t	create_fork(t_cmd *cmd)
+static pid_t	create_fork(t_cmd *cmd)
 {
 	pid_t	pid;
 
