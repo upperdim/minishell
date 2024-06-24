@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 17:59:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/01 17:28:23 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 18:29:34 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,21 +111,21 @@ char	*check_for_cmd(char *cmd)
 }
 
 // It handles the execution of the command but it still needs the fork before.
-void	ft_execve(char **argv, char **envp, int pipe_fd[2])
+void	ft_execve(char **argv)
 {
 	extern char	**environ;
+	char		*cmd_path;
 
 	if (!argv || !argv[0])
 		exit_error(NULL, 0);
-	if (pipe_fd)
-	{
-		if (setup_out_pipe(pipe_fd))
-			exit_error(NULL, EXIT_FAILURE);
-	}
-	if (envp)
-		execve(argv[0], argv, envp);
-	else
-		execve(argv[0], argv, environ);
+	cmd_path = argv[0];
+	if (access (argv[0], X_OK))
+		cmd_path = check_for_cmd(argv[0]);
+	if (!cmd_path)
+		exit_perror(EXIT_FAILURE);
+	execve(cmd_path, argv, environ);
+	if (cmd_path != argv[0])
+		ft_free_n_null((void **)&cmd_path);
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(ft_strrchr(argv[0], '/') + 1, 2);
 	ft_putstr_fd(": ", 2);
