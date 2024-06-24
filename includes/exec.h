@@ -6,13 +6,15 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/20 14:34:53 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:02:47 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 # include "parser.h"
+
+# define TMP_FILE ".here_doc.tmp"
 
 enum	e_pipes
 {
@@ -47,6 +49,6 @@ void	ft_free_link_list(t_token *split);
 
 // Execution utilities
 void	free_cmd(t_cmd **cmd);
-int		set_redir(t_cmd *cmd);
+int		set_redir(t_token *redirections);
 
 #endif
