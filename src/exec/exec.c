@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/20 15:37:55 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:15:18 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ static t_cmd	*set_cmd_pipe(t_cmd *cmd)
 	int			pipe_fd[2];
 
 	if (pipe(pipe_fd) == -1)
-		exit_perror(errno);
+		return (NULL);
 	cmd->pipe[PIPE_FD_WRITE] = pipe_fd[PIPE_FD_WRITE];
 	cmd->next = ft_calloc(1, sizeof(t_cmd));
 	if (cmd->next == NULL)
-		exit_error("Error allocating memory", 1);
+		return (ft_putstr_fd("Error allocating memory", 2), NULL);
 	cmd = cmd->next;
 	cmd->pipe[PIPE_FD_READ] = pipe_fd[PIPE_FD_READ];
 	return (cmd);
@@ -70,7 +70,8 @@ t_cmd	*divide_tokens(t_token *token)
 	t_cmd			*cmd;
 
 	if (head_cmd == NULL)
-		exit_error("Error allocating memory", 1);
+		return (ft_putstr_fd("Error allocating memory", 2),
+			ft_free_link_list((t_token *)head_token), NULL);
 	cmd = (t_cmd *)head_cmd;
 	while (token != NULL)
 	{
@@ -84,6 +85,9 @@ t_cmd	*divide_tokens(t_token *token)
 		}
 		else if (token->type == PIPE)
 			cmd = set_cmd_pipe(cmd);
+		if (cmd == NULL)
+			return (free_cmd((t_cmd **)&head_cmd),
+				ft_free_link_list((t_token *)head_token), NULL);
 		token = token->next;
 	}
 	//! ft_free_link_list((t_token *)head_token); UNCOMMENT THIS LINE AFTER TESTING and remove the line below
@@ -118,6 +122,8 @@ int	exec(t_token *token)
 	t_cmd		*cmd;
 	const t_cmd	*head_cmd = divide_tokens(token);
 
+	if (head_cmd == NULL)
+		return (exit_perror(errno), 1);
 	cmd = (t_cmd *)head_cmd;
 	while (cmd != NULL)
 	{
