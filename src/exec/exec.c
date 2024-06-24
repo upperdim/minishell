@@ -135,5 +135,6 @@ int	exec(t_token *token)
 		cmd = cmd->next;
 	}
 	free_cmd((t_cmd **)&head_cmd);
+	unlink(TMP_FILE);
 	return (0);
 }
