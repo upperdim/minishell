@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 19:02:47 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 20:24:37 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "parser.h"
 
 # define TMP_FILE ".here_doc.tmp"
+# define E_ALLOC "Error allocating memory\n"
 
 enum	e_pipes
 {
