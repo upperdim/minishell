@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/01 17:41:28 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:22:09 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ static char	*get_hostname(void)
 	if (pid == -1)
 		exit_perror(EXIT_FAILURE);
 	if (!pid)
-		ft_execve((char *[]){check_for_cmd("hostname"), NULL}, NULL, pipe_fd);
+	{
+		setup_out_pipe(pipe_fd);
+		ft_execve((char *[]){check_for_cmd("hostname"), NULL});
+	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 		exit_error("minishell: hostname: error executing", WEXITSTATUS(status));
