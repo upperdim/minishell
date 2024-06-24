@@ -6,33 +6,11 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 19:15:18 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 20:28:11 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//! This function is from the original pipex project, needs to be modified.
-// void	exec_cmd(char *cmd, char **argv)
-// {
-// 	pid_t	pid;
-// 	int		status;
-
-// 	pid = fork();
-// 	if (pid == -1)
-// 		errors(&pid, "Error forking", NULL);
-// 	if (pid == 0)
-// 	{
-// 		execve(cmd, argv, NULL);
-// 		errors(&pid, "Error execve", NULL);
-// 	}
-// 	else
-// 	{
-// 		waitpid(pid, &status, 0);
-// 		if (WIFEXITED(status))
-// 			status = WEXITSTATUS(status);
-// 	}
-// }
 
 static t_cmd	*set_cmd_pipe(t_cmd *cmd)
 {
@@ -70,8 +48,7 @@ t_cmd	*divide_tokens(t_token *token)
 	t_cmd			*cmd;
 
 	if (head_cmd == NULL)
-		return (ft_putstr_fd("Error allocating memory", 2),
-			ft_free_link_list((t_token *)head_token), NULL);
+		return (ft_putstr_fd(E_ALLOC, 2), NULL);
 	cmd = (t_cmd *)head_cmd;
 	while (token != NULL)
 	{
@@ -90,9 +67,8 @@ t_cmd	*divide_tokens(t_token *token)
 				ft_free_link_list((t_token *)head_token), NULL);
 		token = token->next;
 	}
-	//! ft_free_link_list((t_token *)head_token); UNCOMMENT THIS LINE AFTER TESTING and remove the line below
-	free_expected_tokens((t_token **)&head_token);
-	return ((t_cmd *)head_cmd);
+	//! return (ft_free_link_list((t_token **)&head_token), (t_cmd *)head_cmd); UNCOMMENT THIS LINE AFTER TESTING and remove the line below
+	return (free_expected_tokens((t_token **)&head_token), (t_cmd *)head_cmd);
 }
 
 char	**transform_to_array(t_token *token)
@@ -117,6 +93,26 @@ char	**transform_to_array(t_token *token)
 	return (argv);
 }
 
+pid_t	create_fork(t_cmd *cmd)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		return (ft_putendl_fd("Error creating fork", 2), 0);
+	if (pid == 0)
+	{
+		if (cmd->pipe[PIPE_FD_READ] != 0)
+			setup_in_pipe(cmd->pipe);
+		if (cmd->pipe[PIPE_FD_WRITE] != 0)
+			setup_out_pipe(cmd->pipe);
+		if (set_redir(cmd->redirects))
+			return (1);
+		ft_execve(cmd->argv);
+	}
+	return (pid);
+}
+
 int	exec(t_token *token)
 {
 	t_cmd		*cmd;
@@ -132,19 +128,9 @@ int	exec(t_token *token)
 		cmd->argv = transform_to_array(cmd->strs);
 		if (cmd->argv == NULL)
 			return (free_cmd((t_cmd **)&head_cmd), 1);
-		pid = fork();
-		if (pid == -1)
-			return (exit_perror(errno), 1);
+		pid = create_fork(cmd);
 		if (pid == 0)
-		{
-			if (cmd->pipe[PIPE_FD_READ] != 0)
-				setup_in_pipe(cmd->pipe);
-			if (cmd->pipe[PIPE_FD_WRITE] != 0)
-				setup_out_pipe(cmd->pipe);
-			if (set_redir(cmd->redirects))
-				return (free_cmd((t_cmd **)&head_cmd), 1);
-			ft_execve(cmd->argv);
-		}
+			return (free_cmd((t_cmd **)&head_cmd), 1);
 		if (waitpid(pid, &status, WUNTRACED) == -1)
 			return (free_cmd((t_cmd **)&head_cmd),
 				exit_perror(WEXITSTATUS(status)), 1);
