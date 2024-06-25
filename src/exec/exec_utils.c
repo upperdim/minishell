@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 19:19:15 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:37:25 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ int	set_redir(t_token *redir)
 		else if (redir->type == HERE_DOC)
 			new_fd = trigger_here_doc(file);
 		if (new_fd == -1)
-			return (ft_putstr_fd("Error opening file", 2), 1);
+			return (ft_putstr_fd("minishell: Error opening file\n", 2), 1);
 		if (dup2(new_fd, original_fd) == -1)
 			return (ft_close(&new_fd),
-				ft_putstr_fd("Error duplicating file descriptor", 2), 1);
+				ft_putstr_fd("minishell: Error duplicating FD\n", 2), 1);
 		ft_close(&new_fd);
 		redir = redir->next;
 	}

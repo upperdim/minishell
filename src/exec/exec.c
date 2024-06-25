@@ -99,7 +99,7 @@ static pid_t	create_fork(t_cmd *cmd)
 
 	pid = fork();
 	if (pid == -1)
-		return (ft_putendl_fd("Error creating fork", 2), 0);
+		return (ft_putendl_fd("minishell: Error creating fork", 2), 0);
 	if (pid == 0)
 	{
 		if (cmd->pipe[PIPE_FD_READ] != 0)
