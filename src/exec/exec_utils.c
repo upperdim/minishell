@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/25 11:37:25 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:39:11 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	set_redir(t_token *redir)
 			return (ft_close(&new_fd),
 				ft_putstr_fd("minishell: Error duplicating FD\n", 2), 1);
 		ft_close(&new_fd);
-		redir = redir->next;
+		redir = redir->next->next;
 	}
 	return (0);
 }
