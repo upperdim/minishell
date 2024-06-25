@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 21:07:52 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:40:18 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static pid_t	create_fork(t_cmd *cmd)
 		if (cmd->pipe[PIPE_FD_WRITE] != 0)
 			setup_out_pipe(cmd->pipe);
 		if (set_redir(cmd->redirects))
-			return (1);
+			return (0);
 		ft_execve(cmd->argv);
 	}
 	return (pid);
