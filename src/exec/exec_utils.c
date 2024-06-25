@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/25 12:39:11 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:35:12 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*get_here_doc(char *limiter)
 		ft_free_n_null((void **)&line_stdin);
 		ft_printf("> ");
 		line_stdin = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(line_stdin, limiter, ft_strlen(line_stdin) + 1))
+		if (ft_strncmp(line_stdin, limiter, ft_strlen(line_stdin) - 1) == 0)
 			break ;
 		tmp = ft_strjoin(line, line_stdin);
 		ft_free_n_null((void **)&line);
