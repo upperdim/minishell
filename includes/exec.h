@@ -38,6 +38,7 @@ typedef struct s_cmd
 	enum e_and_or	and_or;
 	int				pipe[2];
 	struct s_cmd	*next;
+	struct s_cmd	*prev;
 }	t_cmd;
 
 // Token utilities
