@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/25 11:40:18 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:28:33 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static t_cmd	*set_cmd_pipe(t_cmd *cmd)
 
 	if (pipe(pipe_fd) == -1)
 		return (NULL);
+	ft_printf("open pipe %d %d\n", pipe_fd[PIPE_FD_READ], pipe_fd[PIPE_FD_WRITE]);
 	cmd->pipe[PIPE_FD_WRITE] = pipe_fd[PIPE_FD_WRITE];
 	cmd->next = ft_calloc(1, sizeof(t_cmd));
 	if (cmd->next == NULL)
@@ -103,15 +104,20 @@ static pid_t	create_fork(t_cmd *cmd)
 		return (ft_putendl_fd("minishell: Error creating fork", 2), 0);
 	if (pid == 0)
 	{
+		ft_printf("im child thread %s\n", cmd->argv[0]);
 		if (cmd->pipe[PIPE_FD_READ] != 0)
 		{
 			setup_in_pipe(cmd->pipe);
+			if (cmd->prev != NULL)
+				ft_printf("cerre fd %d\n", cmd->prev->pipe[PIPE_FD_WRITE]);
 			if (cmd->prev != NULL)
 				ft_close(&cmd->prev->pipe[PIPE_FD_WRITE]);
 		}
 		if (cmd->pipe[PIPE_FD_WRITE] != 0)
 		{
 			setup_out_pipe(cmd->pipe);
+			if (cmd->next != NULL)
+				ft_printf("cerre fd %d\n", cmd->next->pipe[PIPE_FD_READ]);
 			if (cmd->next != NULL)
 				ft_close(&cmd->next->pipe[PIPE_FD_READ]);
 		}
