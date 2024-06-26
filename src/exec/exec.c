@@ -104,9 +104,17 @@ static pid_t	create_fork(t_cmd *cmd)
 	if (pid == 0)
 	{
 		if (cmd->pipe[PIPE_FD_READ] != 0)
+		{
 			setup_in_pipe(cmd->pipe);
+			if (cmd->prev != NULL)
+				ft_close(&cmd->prev->pipe[PIPE_FD_WRITE]);
+		}
 		if (cmd->pipe[PIPE_FD_WRITE] != 0)
+		{
 			setup_out_pipe(cmd->pipe);
+			if (cmd->next != NULL)
+				ft_close(&cmd->next->pipe[PIPE_FD_READ]);
+		}
 		if (set_redir(cmd->redirects))
 			return (0);
 		ft_execve(cmd->argv);
