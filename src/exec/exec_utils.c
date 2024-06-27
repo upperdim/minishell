@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/25 12:39:11 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:35:12 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*get_here_doc(char *limiter)
 		ft_free_n_null((void **)&line_stdin);
 		ft_printf("> ");
 		line_stdin = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(line_stdin, limiter, ft_strlen(line_stdin) + 1))
+		if (ft_strncmp(line_stdin, limiter, ft_strlen(line_stdin) - 1) == 0)
 			break ;
 		tmp = ft_strjoin(line, line_stdin);
 		ft_free_n_null((void **)&line);
@@ -56,10 +56,12 @@ int	trigger_here_doc(char *limiter)
 	char	*line;
 
 	fd = open(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	ft_printf("abri fd %d\n", fd);
 	if (fd == -1)
 		return (-1);
 	line = get_here_doc(limiter);
 	ft_putstr_fd(line, fd);
+	ft_printf("cerre fd %d\n", fd);
 	ft_close(&fd);
 	ft_free_n_null((void **)&line);
 	fd = open(TMP_FILE, O_RDONLY);
@@ -84,11 +86,13 @@ int	set_redir(t_token *redir)
 			new_fd = open(file, O_RDONLY, 0644);
 		else if (redir->type == HERE_DOC)
 			new_fd = trigger_here_doc(file);
+		ft_printf("abri fd %d\n", new_fd);
 		if (new_fd == -1)
 			return (ft_putstr_fd("minishell: Error opening file\n", 2), 1);
 		if (dup2(new_fd, original_fd) == -1)
-			return (ft_close(&new_fd),
+			return (ft_printf("cerre fd %d\n", new_fd), ft_close(&new_fd),
 				ft_putstr_fd("minishell: Error duplicating FD\n", 2), 1);
+		ft_printf("cerre fd %d\n", new_fd);
 		ft_close(&new_fd);
 		redir = redir->next->next;
 	}
@@ -107,7 +111,9 @@ void	free_cmd(t_cmd **cmd)
 			ft_free_2d_array((void ***)&tmp->argv, FREE_ANY_SIZE);
 		ft_free_link_list(tmp->strs);
 		ft_free_link_list(tmp->redirects);
+		ft_printf("cerre fd %d\n", tmp->pipe[PIPE_FD_READ]);
 		ft_close(&tmp->pipe[PIPE_FD_READ]);
+		ft_printf("cerre fd %d\n", tmp->pipe[PIPE_FD_WRITE]);
 		ft_close(&tmp->pipe[PIPE_FD_WRITE]);
 		ft_free_n_null((void **)&tmp);
 	}
