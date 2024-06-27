@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/25 16:35:12 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:00:10 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,48 +23,6 @@ int	get_fd(t_token *redir)
 		fd = 0;
 	if (ft_isdigit(redir->value[0]))
 		fd = ft_atoi(redir->value);
-	return (fd);
-}
-
-char	*get_here_doc(char *limiter)
-{
-	char	*line;
-	char	*tmp;
-	char	*line_stdin;
-
-	line = NULL;
-	tmp = NULL;
-	line_stdin = NULL;
-	while (1)
-	{
-		ft_free_n_null((void **)&line_stdin);
-		ft_printf("> ");
-		line_stdin = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(line_stdin, limiter, ft_strlen(line_stdin) - 1) == 0)
-			break ;
-		tmp = ft_strjoin(line, line_stdin);
-		ft_free_n_null((void **)&line);
-		line = tmp;
-	}
-	ft_free_n_null((void **)&line_stdin);
-	return (line);
-}
-
-int	trigger_here_doc(char *limiter)
-{
-	int		fd;
-	char	*line;
-
-	fd = open(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	ft_printf("abri fd %d\n", fd);
-	if (fd == -1)
-		return (-1);
-	line = get_here_doc(limiter);
-	ft_putstr_fd(line, fd);
-	ft_printf("cerre fd %d\n", fd);
-	ft_close(&fd);
-	ft_free_n_null((void **)&line);
-	fd = open(TMP_FILE, O_RDONLY);
 	return (fd);
 }
 

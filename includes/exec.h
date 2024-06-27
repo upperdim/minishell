@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/25 13:33:45 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:28:33 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	ft_free_link_list(t_token *split);
 // Execution utilities
 void	free_cmd(t_cmd **cmd);
 int		set_redir(t_token *redirections);
-int		trigger_here_doc(char *limiter);
+int		check_if_heredoc(t_token *redirects);
+pid_t	create_fork(t_cmd *cmd);
 
 #endif
