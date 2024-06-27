@@ -86,13 +86,11 @@ int	set_redir(t_token *redir)
 			new_fd = open(file, O_RDONLY, 0644);
 		else if (redir->type == HERE_DOC)
 			new_fd = open(HEREDOC_FILE, O_RDONLY, 0644);
-		ft_printf("abri fd %d\n", new_fd);
 		if (new_fd == -1)
 			return (ft_putstr_fd("minishell: Error opening file\n", 2), 1);
 		if (dup2(new_fd, original_fd) == -1)
-			return (ft_printf("cerre fd %d\n", new_fd), ft_close(&new_fd),
+			return (ft_close(&new_fd),
 				ft_putstr_fd("minishell: Error duplicating FD\n", 2), 1);
-		ft_printf("cerre fd %d\n", new_fd);
 		ft_close(&new_fd);
 		redir = redir->next->next;
 	}
@@ -111,10 +109,49 @@ void	free_cmd(t_cmd **cmd)
 			ft_free_2d_array((void ***)&tmp->argv, FREE_ANY_SIZE);
 		ft_free_link_list(tmp->strs);
 		ft_free_link_list(tmp->redirects);
-		ft_printf("cerre fd %d\n", tmp->pipe[PIPE_FD_READ]);
 		ft_close(&tmp->pipe[PIPE_FD_READ]);
-		ft_printf("cerre fd %d\n", tmp->pipe[PIPE_FD_WRITE]);
 		ft_close(&tmp->pipe[PIPE_FD_WRITE]);
 		ft_free_n_null((void **)&tmp);
 	}
+}
+
+static int	child_process_main(t_cmd *cmd)
+{
+	int	ret;
+
+	if (check_if_heredoc(cmd->redirects))
+		return (1);
+	if (cmd->pipe[PIPE_FD_READ] != 0)
+	{
+		ret = setup_in_pipe(cmd->pipe);
+		if (cmd->prev != NULL)
+			ft_close(&cmd->prev->pipe[PIPE_FD_WRITE]);
+		if (ret == -1)
+			return (1);
+	}
+	if (cmd->pipe[PIPE_FD_WRITE] != 0)
+	{
+		ret = setup_out_pipe(cmd->pipe);
+		if (cmd->next != NULL)
+			ft_close(&cmd->next->pipe[PIPE_FD_READ]);
+		if (ret == -1)
+			return (1);
+	}
+	if (set_redir(cmd->redirects))
+		return (1);
+	ft_execve(cmd->argv);
+	return (1);
+}
+
+pid_t	create_fork(t_cmd *cmd)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		return (ft_putendl_fd("minishell: Error creating fork", 2), 0);
+	if (pid == 0)
+		if (child_process_main(cmd))
+			return (0);
+	return (pid);
 }
