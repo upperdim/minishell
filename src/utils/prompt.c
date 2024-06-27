@@ -30,6 +30,7 @@ static char	*format_hostname(char *hostname)
 {
 	char	*temp;
 	char	*point_position;
+	char	*new_line;
 
 	point_position = ft_strchr(hostname, '.');
 	temp = ft_substr(hostname, 0, point_position - hostname + 1);
@@ -40,6 +41,9 @@ static char	*format_hostname(char *hostname)
 	point_position = ft_strchr(hostname, '.');
 	if (point_position)
 		*point_position = ':';
+	new_line = ft_strchr(hostname, '\n');
+	if (new_line)
+		*new_line = ' ';
 	return (hostname);
 }
 
