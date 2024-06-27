@@ -13,6 +13,7 @@
 #ifndef EXEC_H
 # define EXEC_H
 # include "parser.h"
+# include <sys/types.h>
 
 # define TMP_FILE ".here_doc.tmp"
 # define E_ALLOC "Error allocating memory\n"
