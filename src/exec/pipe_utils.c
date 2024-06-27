@@ -16,21 +16,18 @@ int	setup_out_pipe(int p_fd[2])
 {
 	int	status;
 
-	ft_printf("cerre fd %d\n", p_fd[PIPE_FD_READ]);
 	status = ft_close(&p_fd[PIPE_FD_READ]);
 	if (status == -1)
 	{
 		ft_putstr_fd("Error closing pipe", 2);
 		return (-1);
 	}
-	ft_printf("sustituyendo stdout por %d\n", p_fd[PIPE_FD_WRITE]);
 	status = dup2(p_fd[PIPE_FD_WRITE], STDOUT_FILENO);
 	if (status == -1)
 	{
 		ft_putstr_fd("Error duplicating file descriptor", 2);
 		return (-1);
 	}
-	ft_printf("cerre fd %d\n", p_fd[PIPE_FD_WRITE]);
 	status = ft_close(&p_fd[PIPE_FD_WRITE]);
 	if (status == -1)
 	{
@@ -44,21 +41,18 @@ int	setup_in_pipe(int p_fd[2])
 {
 	int	status;
 
-	ft_printf("cerre fd %d\n", p_fd[PIPE_FD_WRITE]);
 	status = ft_close(&p_fd[PIPE_FD_WRITE]);
 	if (status == -1)
 	{
 		ft_putstr_fd("Error closing pipe", 2);
 		return (-1);
 	}
-	ft_printf("sustituyendo stdin por %d\n", p_fd[PIPE_FD_READ]);
 	status = dup2(p_fd[PIPE_FD_READ], STDIN_FILENO);
 	if (status == -1)
 	{
 		ft_putstr_fd("Error duplicating file descriptor", 2);
 		return (-1);
 	}
-	ft_printf("cerre fd %d\n", p_fd[PIPE_FD_READ]);
 	status = ft_close(&p_fd[PIPE_FD_READ]);
 	if (status == -1)
 	{
@@ -122,7 +116,6 @@ void	ft_execve(char **argv)
 	extern char	**environ;
 	char		*cmd_path;
 
-	ft_printf("executing %s\n", argv[0]);
 	if (!argv || !argv[0])
 		exit_error(NULL, 0);
 	cmd_path = argv[0];
