@@ -85,7 +85,7 @@ int	set_redir(t_token *redir)
 		else if (redir->type == REDIR_FROM)
 			new_fd = open(file, O_RDONLY, 0644);
 		else if (redir->type == HERE_DOC)
-			new_fd = trigger_here_doc(file);
+			new_fd = open(HEREDOC_FILE, O_RDONLY, 0644);
 		ft_printf("abri fd %d\n", new_fd);
 		if (new_fd == -1)
 			return (ft_putstr_fd("minishell: Error opening file\n", 2), 1);

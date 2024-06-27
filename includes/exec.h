@@ -15,7 +15,7 @@
 # include "parser.h"
 # include <sys/types.h>
 
-# define TMP_FILE ".here_doc.tmp"
+# define HEREDOC_FILE ".here_doc.tmp"
 # define E_ALLOC "Error allocating memory\n"
 
 enum	e_pipes
