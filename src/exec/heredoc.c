@@ -42,20 +42,19 @@ int	check_if_heredoc(t_token *redirects)
 	int		fd;
 
 	line = NULL;
-	fd = open(HEREDOC_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		return (1);
 	while (redirects != NULL)
 	{
-		ft_free_n_null((void **)&line);
 		if (redirects->type == HERE_DOC)
+		{
+			fd = open(HEREDOC_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+				return (1);
 			line = get_here_doc(redirects->next->value);
+			ft_putstr_fd(line, fd);
+			ft_close(&fd);
+		}
+		ft_free_n_null((void **)&line);
 		redirects = redirects->next->next;
 	}
-	if (line != NULL)
-		ft_putstr_fd(line, fd);
-	ft_free_n_null((void **)&line);
-	ft_close(&fd);
-	usleep(10000000);
 	return (0);
 }
