@@ -6,10 +6,11 @@ RUN apk update && apk add --no-cache\
     vim \
     curl \
     valgrind \
-    readline-dev
-RUN python3 -m venv $HOME/.venv;\
-    source $HOME/.venv/bin/activate;\
-    python3 -m pip install --upgrade pip setuptools;\
-    python3 -m pip install norminette;\
-    echo "export PATH=\$PATH:$HOME/.venv/bin" >> $HOME/.${SHELL##/bin/}rc;\
-    deactivate
+    readline-dev\
+    py3-setuptools;\
+    python3 -m venv /home/.venv;\
+    . /home/.venv/bin/activate;\
+    pip install norminette;\
+    deactivate;
+
+ENV PATH="${PATH}:/home/.venv/bin"
