@@ -18,7 +18,6 @@ static t_cmd	*set_cmd_pipe(t_cmd *cmd)
 
 	if (pipe(pipe_fd) == -1)
 		return (NULL);
-	ft_printf("open pipe %d %d\n", pipe_fd[PIPE_FD_READ], pipe_fd[PIPE_FD_WRITE]);
 	cmd->pipe[PIPE_FD_WRITE] = pipe_fd[PIPE_FD_WRITE];
 	cmd->next = ft_calloc(1, sizeof(t_cmd));
 	if (cmd->next == NULL)
