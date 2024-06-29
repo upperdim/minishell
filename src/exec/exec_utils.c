@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/27 17:00:10 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/29 16:04:54 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,26 @@ int	set_redir(t_token *redir)
 {
 	char	*file;
 	int		original_fd;
-	int		new_fd;
+	int		fd;
 
 	while (redir != NULL)
 	{
 		original_fd = get_fd(redir);
 		file = redir->next->value;
 		if (redir->type == REDIR_TO)
-			new_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (redir->type == APPEND_TO)
-			new_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else if (redir->type == REDIR_FROM)
-			new_fd = open(file, O_RDONLY, 0644);
+			fd = open(file, O_RDONLY, 0644);
 		else if (redir->type == HERE_DOC)
-			new_fd = open(HEREDOC_FILE, O_RDONLY, 0644);
-		if (new_fd == -1)
+			fd = open(HEREDOC_FILE, O_RDONLY, 0644);
+		if (fd == -1)
 			return (ft_putstr_fd("minishell: Error opening file\n", 2), 1);
-		if (dup2(new_fd, original_fd) == -1)
-			return (ft_close(&new_fd),
-				ft_putstr_fd("minishell: Error duplicating FD\n", 2), 1);
-		ft_close(&new_fd);
+		if (dup2(fd, original_fd) == -1)
+			return (ft_close(&fd),
+				ft_printf_fd(2, "minishell: %d: Bad file descriptor", fd), 1);
+		ft_close(&fd);
 		redir = redir->next->next;
 	}
 	return (0);
