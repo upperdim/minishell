@@ -3,10 +3,27 @@
 {
 	"name": "Alpine",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"build": {
+	"build":
+	{
 		"dockerfile": "Dockerfile"
 	},
-	"features": {
+	"customizations":
+	{
+		"vscode":
+		{
+			"extensions":
+			[
+				"ms-vscode.cpptools-extension-pack",
+				"vadimcn.vscode-lldb",
+				"cschlosser.doxdocgen",
+				"oderwat.indent-rainbow",
+				"ms-vscode.makefile-tools",
+				"evilcat.norminette-42",
+				"DoKca.42-ft-count-line",
+				"secondfry.42header-long",
+				"MariusvanWijk-JoppeKoers.codam-norminette-3"
+			]
+		}
 	}
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
