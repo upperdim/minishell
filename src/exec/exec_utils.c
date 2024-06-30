@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/29 16:04:54 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/30 10:48:17 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int	set_redir(t_token *redir)
 		if (fd == -1)
 			return (ft_putstr_fd("minishell: Error opening file\n", 2), 1);
 		if (dup2(fd, original_fd) == -1)
-			return (ft_close(&fd),
-				ft_printf_fd(2, "minishell: %d: Bad file descriptor", fd), 1);
+			return (ft_printf_fd(2, "minishell: %d: Bad file descriptor\n",
+					original_fd), ft_close(&fd), 1);
 		ft_close(&fd);
 		redir = redir->next->next;
 	}
