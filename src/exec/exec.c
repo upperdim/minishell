@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/27 16:17:34 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/30 11:09:07 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int	exec(t_token *token)
 		cmd->argv = transform_to_array(cmd->strs);
 		if (cmd->argv == NULL)
 			return (free_cmd((t_cmd **)&head_cmd), 1);
+		builtins(cmd);
 		pid = create_fork(cmd);
 		if (pid == 0)
 			return (free_cmd((t_cmd **)&head_cmd), 1);

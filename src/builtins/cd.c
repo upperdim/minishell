@@ -3,31 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:28:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/22 19:18:16 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/30 13:31:42 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cd(char *input)
+void	cd(char **argv)
 {
-	int			status;
+	int	status;
+	int	argc;
+	int	i;
 
 	status = 0;
-	if (*input == ' ')
-		input++;
-	if (*input)
-		status = chdir(input);
-	else
+	argc = 0;
+	i = 0;
+	while (argv[argc])
+		argc++;
+	if (argc > 2)
+		return (ft_putendl_fd("minishell: cd: too many arguments", 2), (void)0);
+	//("OLDPWD", getcwd(NULL, 0));
+	if (argc == 1 || ft_strncmp(argv[1], "~\0", 2) == 0)
 		status = chdir(getenv("HOME"));
+	if (ft_strncmp(argv[1], "-\0", 2) == 0)
+		status = chdir(getenv("OLDPWD"));
+	else
+		status = chdir(argv[1]);
 	if (status == -1)
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(input, 2);
-		ft_putstr_fd(": ", 2);
+		ft_printf_fd(2, "minishell: cd: %s: ", argv[1]);
 		perror(NULL);
 	}
 }

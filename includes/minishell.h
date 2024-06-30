@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/06/24 18:57:37 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/30 13:34:03 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ char	*check_for_cmd(char *cmd);
 int		setup_in_pipe(int p_fd[2]);
 int		setup_out_pipe(int p_fd[2]);
 // BUILTINS
-void	builtins(char *input);
+void	builtins(t_cmd *cmd);
 void	echo(char *input);
 void	env(char *input);
 void	exit_bash(char **input);
 void	pwd(void);
-void	cd(char *input);
+void	cd(char **argv);
 
 #endif
