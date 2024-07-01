@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:57:51 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/22 20:14:05 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:53:05 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,58 @@ static char	*echo_parser(char *input)
 	return (parsed_input);
 }
 
-void	echo(char *input)
+static int	check_for_n_flag(char **input)
 {
-	int		space_is_present;
-	char	*parsed_input;
-	int		flag_n;
+	int	i;
+	int	flag_n;
 
-	space_is_present = 0;
 	flag_n = 0;
-	while (*input == ' ')
+	if (ft_strncmp(input[1], "-n", 2) == 0)
 	{
-		input++;
-		space_is_present = 1;
+		i = 2;
+		while (input[1][i++] == 'n')
+			flag_n = 1;
+		if (input[1][i] != '\0')
+			return (0);
 	}
-	parsed_input = echo_parser(input);
-	if (parsed_input != input && ++flag_n)
-		input = parsed_input;
-	if (*input && space_is_present)
-		ft_putstr_fd(input, 1);
-	else if (*input)
+	return (flag_n);
+}
+
+void	echo(char **input)
+{
+	int			i;
+	const int	flag_n = check_for_n_flag(input);
+
+
+	i = flag_n;
+	while (input[++i])
 	{
-		ft_putstr_fd("minishell: echo", 2);
-		ft_putstr_fd(input, 2);
-		ft_putstr_fd(": command not found", 2);
+		if (i > 1 + flag_n)
+			ft_putstr_fd(" ", 1);
+		ft_putstr_fd(input[i], 1);
 	}
 	if (!flag_n)
 		ft_putstr_fd("\n", 1);
 }
+// {
+// 	int		space_is_present;
+// 	char	*parsed_input;
+// 	int		flag_n;
+
+// 	space_is_present = 0;
+// 	flag_n = 0;
+// 	while (*input == ' ')
+// 	{
+// 		input++;
+// 		space_is_present = 1;
+// 	}
+// 	parsed_input = echo_parser(input);
+// 	if (parsed_input != input && ++flag_n)
+// 		input = parsed_input;
+// 	if (*input && space_is_present)
+// 		ft_putstr_fd(input, 1);
+// 	else if (*input)
+// 		ft_printf_fd(2, "minishell: echo%s: command not found", input);
+// 	if (!flag_n)
+// 		ft_putstr_fd("\n", 1);
+// }

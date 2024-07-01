@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/30 12:55:47 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/01 16:57:02 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	builtins(t_cmd	*cmd)
 	else if (ft_strnstr(all_lowercase, "env", 3))
 		env(cmd->argv);
 	else if (ft_strnstr(all_lowercase, "exit", 4))
-		exit_bash(cmd->argv);
+		exit_bash(cmd);
 	// export(input, to_free); Not implemented yet
 	else if (ft_strnstr(all_lowercase, "pwd", 3))
 		pwd();

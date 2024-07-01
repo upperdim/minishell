@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:37:08 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/22 18:09:05 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/01 18:11:56 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	pwd(void)
 {
-	char	*tmp;
+	const char	*tmp = getcwd(NULL, 0);
 
-	ft_printf("%s\n", tmp = getcwd(NULL, 0));
-	if (!tmp)
+	if (tmp)
+		ft_printf("%s\n", tmp);
+	else
 	{
 		ft_putstr_fd("minishell: pwd: ", 2);
 		perror(NULL);
-		ft_putstr_fd("\n", 2);
 	}
 	ft_free_n_null((void **)&tmp);
 }
