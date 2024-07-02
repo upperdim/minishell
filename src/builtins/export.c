@@ -64,3 +64,27 @@ void	*add_env_var(char *var)
 	}
 	return (free(key), environ[i]);
 }
+
+static void	print_env(void)
+{
+	extern char	**environ;
+	int			i;
+	char		*key;
+	char		*equal_sign;
+	int			key_len;
+
+	i = -1;
+	while (environ[++i])
+	{
+		equal_sign = ft_strchr(environ[i], '=');
+		key_len = ft_strlen(environ[i]);
+		if (equal_sign != NULL)
+			key_len = equal_sign - environ[i];
+		key = ft_substr(environ[i], 0, key_len);
+		if (equal_sign != NULL)
+			ft_printf("declare -x %s=\"%s\"\n", key, getenv(key));
+		else
+			ft_printf("declare -x %s\n", environ[i]);
+		ft_free_n_null((void **)&key);
+	}
+}
