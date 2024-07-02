@@ -41,6 +41,8 @@ void	builtins(t_cmd	*cmd)
 	const char	*all_lowercase = lowercase(cmd->argv[0]);
 	const int	argc = count_args(cmd->argv);
 	int			exit_status;
+	char		*var_exit_code;
+	char		*exit_code;
 
 	set_redir(cmd->redirects);
 	if (ft_strnstr(all_lowercase, "cd", 2))
@@ -55,7 +57,11 @@ void	builtins(t_cmd	*cmd)
 		exit_status = export(argc, cmd->argv);
 	else if (ft_strnstr(all_lowercase, "pwd", 3))
 		pwd();
-	// unset(input, to_free); Not implemented yet
+	exit_code = ft_itoa(exit_status);
+	var_exit_code = ft_strjoin("LAST_PROCESS_EXIT_CODE=", exit_code);
+	add_env_var(var_exit_code);
+	ft_free_n_null((void **)&exit_code);
+	ft_free_n_null((void **)&var_exit_code);
 	ft_free_n_null((void **)&all_lowercase);
 }
 // {
