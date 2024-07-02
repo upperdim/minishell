@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:18:14 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/02 18:57:23 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:16:56 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	export(const int argc, char **argv)
 
 	if (argc == 1)
 	{
-		if (print_env());
+		if (print_env())
 			return (1);
 	}
 	i = 0;
