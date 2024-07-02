@@ -49,7 +49,7 @@ void	builtins(t_cmd	*cmd)
 	else if (ft_strnstr(all_lowercase, "env", 3))
 		env(cmd->argv);
 	else if (ft_strnstr(all_lowercase, "exit", 4))
-		exit_bash(cmd);
+		exit_bash(argc, cmd);
 	// export(input, to_free); Not implemented yet
 	else if (ft_strnstr(all_lowercase, "pwd", 3))
 		pwd();
