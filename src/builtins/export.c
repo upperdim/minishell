@@ -43,20 +43,24 @@ void	*add_env_var(char *var)
 	int			i;
 	extern char	**environ;
 
-	value = ft_strchr(var, '=');
 	if (value == NULL)
-		return (ft_putstr_fd("minishell: export: invalid argument", 2), NULL);
+		return (NULL);
 	key = ft_substr(var, 0, value - var);
 	if (key == NULL)
 		return (ft_putstr_fd(E_ALLOC, 2), NULL);
-	tmp = ft_strjoin(key, "=");
-	if (tmp == NULL)
-		return (ft_putstr_fd(E_ALLOC, 2), NULL);
-	if (ft_getenv(key) == NULL)
-		ft_addenv(tmp);
-	else
-		ft_setenv(tmp);
-	ft_free_n_null((void **)&key);
-	ft_free_n_null((void **)&tmp);
-	return (NULL);
+	if (getenv(key) == NULL)
+		return (free(key), make_env_bigger(var));
+	i = -1;
+	while (environ[++i])
+	{
+		if (ft_strncmp(environ[i], key, ft_strlen(key)) == 0)
+		{
+			ft_free_n_null((void **)&environ[i]);
+			environ[i] = ft_strdup(var);
+			if (environ[i] == NULL)
+				return (ft_putstr_fd(E_ALLOC, 2), free(key), NULL);
+			break ;
+		}
+	}
+	return (free(key), environ[i]);
 }
