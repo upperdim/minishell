@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:39:22 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/01 18:09:04 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/02 14:38:14 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,9 @@ static int	str_is_numeric(char *str)
 	return (1);
 }
 
-static int	count_args(char **argv)
-{
-	int	i;
-
-	i = 0;
-	while (argv[i] != NULL)
-		++i;
-	return (i);
-}
-
-void	exit_bash(t_cmd	*cmd)
+void	exit_bash(const int argc, t_cmd	*cmd)
 {
 	extern int	errno;
-	const int	argc = count_args(cmd->argv);
 
 	ft_printf("exit\n");
 	if (argc > 2 && str_is_numeric(cmd->argv[1]))
