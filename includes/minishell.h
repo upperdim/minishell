@@ -78,6 +78,6 @@ void	echo(char *input);
 void	env(const int argc);
 void	exit_bash(const int argc, t_cmd *cmd);
 void	pwd(void);
-void	cd(char **argv);
+void	cd(const int argc, char **argv);
 
 #endif

@@ -43,7 +43,7 @@ void	builtins(t_cmd	*cmd)
 
 	set_redir(cmd->redirects);
 	if (ft_strnstr(all_lowercase, "cd", 2))
-		cd(cmd->argv);
+		cd(argc, cmd->argv);
 	else if (ft_strnstr(all_lowercase, "echo", 4))
 		echo(cmd->argv);
 	else if (ft_strnstr(all_lowercase, "env", 3))
