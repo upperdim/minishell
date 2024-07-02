@@ -65,3 +65,16 @@ static int	print_env(void)
 	free_2d_array((void **)p_environ, FREE_ANY_SIZE);
 	return (EXIT_SUCCESS);
 }
+
+static int	is_key_valid(char *key)
+{
+	int	i;
+
+	if (key == NULL || ft_isdigit(key[0]))
+		return (0);
+	i = -1;
+	while (key[++i] != '\0' || key[i] == '=')
+		if (ft_isalnum(key[i]) == 0 && key[i] != '_')
+			return (0);
+	return (1);
+}
