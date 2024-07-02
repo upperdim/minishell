@@ -6,20 +6,18 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/06/01 19:49:57 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:09:26 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	init_environ(void)
+char	**dup_environ(void)
 {
 	extern char	**environ;
-	extern int	errno;
 	int			env_var_count;
 	char		**new_env;
 
-	errno = 0;
 	env_var_count = 0;
 	while (environ[env_var_count])
 		env_var_count++;
@@ -34,8 +32,19 @@ static int	init_environ(void)
 			return (ft_free_2d_array((void ***)&new_env, -1), EXIT_FAILURE);
 		env_var_count++;
 	}
-	environ = new_env;
-	return (0);
+	return (new_env);
+}
+
+static int	init_minishell(void)
+{
+	extern char	**environ;
+	extern int	errno;
+
+	errno = 0;
+	environ = dup_environ();
+	if (environ == NULL)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 static char	*get_input(void)

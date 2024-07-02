@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/02 14:43:41 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/02 18:41:29 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	set_signal_handlers(void);
 void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
+char	**dup_environ(void);
 
 // EXEC
 char	*check_for_cmd(char *cmd);
