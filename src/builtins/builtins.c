@@ -6,13 +6,23 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/01 16:57:02 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/02 14:49:03 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*lowercase(const char *str)
+static int	count_args(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i] != NULL)
+		++i;
+	return (i);
+}
+
+static char	*lowercase(const char *str)
 {
 	char	*lower;
 	int		i;
@@ -29,6 +39,7 @@ char	*lowercase(const char *str)
 void	builtins(t_cmd	*cmd)
 {
 	const char	*all_lowercase = lowercase(cmd->argv[0]);
+	const int	argc = count_args(cmd->argv);
 
 	set_redir(cmd->redirects);
 	if (ft_strnstr(all_lowercase, "cd", 2))
