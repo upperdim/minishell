@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/02 14:49:03 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:34:45 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	builtins(t_cmd	*cmd)
 {
 	const char	*all_lowercase = lowercase(cmd->argv[0]);
 	const int	argc = count_args(cmd->argv);
+	int			exit_status;
 
 	set_redir(cmd->redirects);
 	if (ft_strnstr(all_lowercase, "cd", 2))
@@ -50,7 +51,8 @@ void	builtins(t_cmd	*cmd)
 		env(argc);
 	else if (ft_strnstr(all_lowercase, "exit", 4))
 		exit_bash(argc, cmd);
-	// export(input, to_free); Not implemented yet
+	else if (ft_strnstr(all_lowercase, "export", 6))
+		exit_status = export(argc, cmd->argv);
 	else if (ft_strnstr(all_lowercase, "pwd", 3))
 		pwd();
 	// unset(input, to_free); Not implemented yet

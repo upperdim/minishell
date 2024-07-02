@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/02 18:41:29 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:16:43 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ void	env(const int argc);
 void	exit_bash(const int argc, t_cmd *cmd);
 void	pwd(void);
 void	cd(const int argc, char **argv);
+int		export(const int argc, char **argv);
 
 #endif

@@ -78,3 +78,25 @@ static int	is_key_valid(char *key)
 			return (0);
 	return (1);
 }
+
+int	export(const int argc, char **argv)
+{
+	int		i;
+
+	if (argc == 1)
+	{
+		if (print_env());
+			return (1);
+	}
+	i = 0;
+	while (argv[++i])
+	{
+		if (is_key_valid(argv[i]) == 0)
+		{
+			ft_printf_fd(2, E_EXPORT, argv[i]);
+			continue ;
+		}
+		add_env_var(argv[i]);
+	}
+	return (0);
+}
