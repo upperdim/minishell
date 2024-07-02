@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/27 16:28:33 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/02 12:19:37 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <sys/types.h>
 
 # define HEREDOC_FILE ".here_doc.tmp"
-# define E_ALLOC "Error allocating memory\n"
+# define E_ALLOC "minishell: Error allocating memory\n"
 
 enum	e_pipes
 {
