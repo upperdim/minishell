@@ -63,7 +63,7 @@ int	main(void)
 
 	if (init_environ())
 	{
-		perror("minishell: Error initializing environment");
+		ft_printf_fd(2, E_GENERIC, "malloc", "Error initializing environment");
 		return (EXIT_FAILURE);
 	}
 	input = NULL;

@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/02 12:19:37 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/02 17:17:15 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,17 @@
 
 # define HEREDOC_FILE ".here_doc.tmp"
 # define E_ALLOC "minishell: Error allocating memory\n"
+/*
+E_GENERIC_PERROR is meant to be used with ft_printf_fd and expects one string to
+	be passed with it and perror() to be called after it
+*/
+# define E_GENERIC_PERROR "minishell: %s: "
+
+/*
+E_GENERIC is meant to be used with ft_printf_fd and expects two strings to be
+	passed with it
+*/
+# define E_GENERIC "minishell: %s: %s\n"
 
 enum	e_pipes
 {

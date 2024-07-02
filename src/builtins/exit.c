@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:39:22 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/02 14:38:14 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/02 17:42:25 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	exit_bash(const int argc, t_cmd	*cmd)
 	if (argc > 2 && str_is_numeric(cmd->argv[1]))
 	{
 		errno = 1;
-		ft_putendl_fd("minishell: exit: too many arguments", 2);
+		ft_printf_fd(2, E_GENERIC, "exit", "too many arguments");
 		return ;
 	}
 	if (argc == 2 && str_is_numeric(cmd->argv[1]))
@@ -52,8 +52,8 @@ void	exit_bash(const int argc, t_cmd	*cmd)
 	else if (argc == 2)
 	{
 		errno = 2;
-		ft_printf_fd(2, "minishell: exit: %s: numeric argument required\n",
-			cmd->argv[1]);
+		ft_printf_fd(2, E_GENERIC_PERROR"%s: %s\n", "exit", cmd->argv[1],
+			"numeric argument required");
 	}
 	while (cmd->prev != NULL)
 		cmd = cmd->prev;
