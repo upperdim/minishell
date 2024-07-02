@@ -6,85 +6,62 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:18:14 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/02 15:46:40 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/02 18:57:23 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	*make_env_bigger(char *var)
+static char	**sort_env(void)
 {
-	extern char	**environ;
-	char		**new_environ;
+	const char	**env_var = dup_environ();
 	int			i;
+	int			j;
+	char		*tmp;
 
-	i = 0;
-	while (environ[i])
-		i++;
-	new_environ = ft_calloc(sizeof(char *), (i + 2));
-	if (new_environ == NULL)
-		return (ft_putstr_fd(E_ALLOC, 2), NULL);
-	i = -1;
-	while (environ[++i])
-		new_environ[i] = environ[i];
-	new_environ[i] = ft_strdup(var);
-	if (new_environ[i] == NULL)
-		return (ft_putstr_fd(E_ALLOC, 2), NULL);
-	new_environ[i + 1] = NULL;
-	free_2d_array((void **)environ, FREE_ANY_SIZE);
-	environ = new_environ;
-	return (environ[i]);
-}
-
-void	*add_env_var(char *var)
-{
-	const char	*value = ft_strchr(var, '=');
-	char		*key;
-	int			i;
-	extern char	**environ;
-
-	if (value == NULL)
+	if (env_var == NULL)
 		return (NULL);
-	key = ft_substr(var, 0, value - var);
-	if (key == NULL)
-		return (ft_putstr_fd(E_ALLOC, 2), NULL);
-	if (getenv(key) == NULL)
-		return (free(key), make_env_bigger(var));
 	i = -1;
-	while (environ[++i])
+	while (env_var[++i])
 	{
-		if (ft_strncmp(environ[i], key, ft_strlen(key)) == 0)
+		j = i;
+		while (env_var[++j])
 		{
-			ft_free_n_null((void **)&environ[i]);
-			environ[i] = ft_strdup(var);
-			if (environ[i] == NULL)
-				return (ft_putstr_fd(E_ALLOC, 2), free(key), NULL);
-			break ;
+			if (ft_strncmp(env_var[i], env_var[j], ft_strlen(env_var[i])) > 0)
+			{
+				tmp = env_var[i];
+				env_var[i] = env_var[j];
+				env_var[j] = tmp;
+			}
 		}
 	}
-	return (free(key), environ[i]);
+	return (env_var);
 }
 
-static void	print_env(void)
+static int	print_env(void)
 {
-	extern char	**environ;
+	const char	**p_environ = sort_env();
 	int			i;
 	char		*key;
 	char		*equal_sign;
 	int			key_len;
 
+	if (p_environ == NULL)
+		return (EXIT_FAILURE);
 	i = -1;
-	while (environ[++i])
+	while (p_environ[++i])
 	{
-		equal_sign = ft_strchr(environ[i], '=');
-		key_len = ft_strlen(environ[i]);
+		equal_sign = ft_strchr(p_environ[i], '=');
+		key_len = ft_strlen(p_environ[i]);
 		if (equal_sign != NULL)
-			key_len = equal_sign - environ[i];
-		key = ft_substr(environ[i], 0, key_len);
+			key_len = equal_sign - p_environ[i];
+		key = ft_substr(p_environ[i], 0, key_len);
 		if (equal_sign != NULL)
 			ft_printf("declare -x %s=\"%s\"\n", key, getenv(key));
 		else
-			ft_printf("declare -x %s\n", environ[i]);
+			ft_printf("declare -x %s\n", p_environ[i]);
 		ft_free_n_null((void **)&key);
 	}
+	free_2d_array((void **)p_environ, FREE_ANY_SIZE);
+	return (EXIT_SUCCESS);
 }

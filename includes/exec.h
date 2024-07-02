@@ -17,6 +17,8 @@
 
 # define HEREDOC_FILE ".here_doc.tmp"
 # define E_ALLOC "minishell: Error allocating memory\n"
+# define E_EXPORT "minishell: export: %s: not a valid identifier\n"
+
 /*
 E_GENERIC_PERROR is meant to be used with ft_printf_fd and expects one string to
 	be passed with it and perror() to be called after it
