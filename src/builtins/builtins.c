@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/02 19:34:45 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/03 15:25:38 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,29 @@ static char	*lowercase(const char *str)
 	return (lower);
 }
 
+int	set_last_process_exit_code(int exit_status)
+{
+	char	*exit_code;
+	char	*var_exit_code;
+
+	exit_code = ft_itoa(exit_status);
+	if (exit_code == NULL)
+		return (ft_putstr_fd(E_ALLOC, 2), 1);
+	var_exit_code = ft_strjoin("LAST_PROCESS_EXIT_CODE=", exit_code);
+	ft_free_n_null((void **)&exit_code);
+	if (var_exit_code == NULL)
+		return (ft_putstr_fd(E_ALLOC, 2), EXIT_FAILURE);
+	if (add_env_var(var_exit_code) == NULL)
+		return (ft_free_n_null((void **)&var_exit_code), EXIT_FAILURE);
+	ft_free_n_null((void **)&var_exit_code);
+	return (EXIT_SUCCESS);
+}
+
 void	builtins(t_cmd	*cmd)
 {
 	const char	*all_lowercase = lowercase(cmd->argv[0]);
 	const int	argc = count_args(cmd->argv);
 	int			exit_status;
-	char		*var_exit_code;
-	char		*exit_code;
 
 	set_redir(cmd->redirects);
 	if (ft_strnstr(all_lowercase, "cd", 2))
@@ -57,11 +73,7 @@ void	builtins(t_cmd	*cmd)
 		exit_status = export(argc, cmd->argv);
 	else if (ft_strnstr(all_lowercase, "pwd", 3))
 		pwd();
-	exit_code = ft_itoa(exit_status);
-	var_exit_code = ft_strjoin("LAST_PROCESS_EXIT_CODE=", exit_code);
-	add_env_var(var_exit_code);
-	ft_free_n_null((void **)&exit_code);
-	ft_free_n_null((void **)&var_exit_code);
+	set_last_process_exit_code(exit_status);
 	ft_free_n_null((void **)&all_lowercase);
 }
 // {
