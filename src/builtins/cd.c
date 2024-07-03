@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:28:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/02 17:23:54 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/03 15:44:56 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	cd_oldpwd(void)
 	return (status);
 }
 
-void	cd(const int argc, char **argv)
+int	cd(const int argc, char **argv)
 {
 	int	status;
 	int	i;
@@ -49,9 +49,9 @@ void	cd(const int argc, char **argv)
 	i = 0;
 	if (argc > 2)
 		return (ft_printf_fd(2, E_GENERIC, "cd", "too many arguments"),
-			(void)0);
+			EXIT_FAILURE);
 	if (set_oldpwd() == 1)
-		return ;
+		return (EXIT_FAILURE);
 	if (argc == 1 || ft_strncmp(argv[1], "~\0", 2) == 0)
 		status = chdir(getenv("HOME"));
 	if (ft_strncmp(argv[1], "-\0", 2) == 0)
@@ -62,5 +62,7 @@ void	cd(const int argc, char **argv)
 	{
 		ft_printf_fd(2, E_GENERIC_PERROR"%s: ", "cd", argv[1]);
 		perror(NULL);
+		return (EXIT_FAILURE);
 	}
+	return (EXIT_SUCCESS);
 }

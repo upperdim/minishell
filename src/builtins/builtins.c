@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/03 15:25:38 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/03 15:45:42 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	builtins(t_cmd	*cmd)
 
 	set_redir(cmd->redirects);
 	if (ft_strnstr(all_lowercase, "cd", 2))
-		cd(argc, cmd->argv);
+		exit_status = cd(argc, cmd->argv);
 	else if (ft_strnstr(all_lowercase, "echo", 4))
 		echo(cmd->argv);
 	else if (ft_strnstr(all_lowercase, "env", 3))
