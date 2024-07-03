@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:57:51 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/02 14:36:48 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/03 15:58:35 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ static int	check_for_n_flag(char **input)
 	return (option_n);
 }
 
-void	echo(char **input)
+int	echo(char **input)
 {
 	const int	option_n = check_for_n_flag(input);
+	int			status;
 	int			i;
 
 	i = 0;
@@ -40,9 +41,16 @@ void	echo(char **input)
 	while (input[++i])
 	{
 		if (i > 1 + option_n)
-			ft_putstr_fd(" ", 1);
-		ft_putstr_fd(input[i], 1);
+			status = ft_printf(" ");
+		if (status == -1)
+			return (EXIT_FAILURE);
+		status = ft_printf(input[i], 1);
+		if (status == -1)
+			return (EXIT_FAILURE);
 	}
 	if (option_n == false)
-		ft_putstr_fd("\n", 1);
+		status = ft_printf("\n", 1);
+	if (status == -1)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/03 15:45:42 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:03:48 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ void	builtins(t_cmd	*cmd)
 	const int	argc = count_args(cmd->argv);
 	int			exit_status;
 
+	exit_status = -1;
 	set_redir(cmd->redirects);
 	if (ft_strnstr(all_lowercase, "cd", 2))
 		exit_status = cd(argc, cmd->argv);
 	else if (ft_strnstr(all_lowercase, "echo", 4))
-		echo(cmd->argv);
+		exit_status = echo(cmd->argv);
 	else if (ft_strnstr(all_lowercase, "env", 3))
 		env(argc);
 	else if (ft_strnstr(all_lowercase, "exit", 4))
@@ -73,26 +74,7 @@ void	builtins(t_cmd	*cmd)
 		exit_status = export(argc, cmd->argv);
 	else if (ft_strnstr(all_lowercase, "pwd", 3))
 		pwd();
-	set_last_process_exit_code(exit_status);
+	if (exit_status != -1)
+		set_last_process_exit_code(exit_status);
 	ft_free_n_null((void **)&all_lowercase);
 }
-// {
-// 	char	*trimmed_input;
-
-// 	trimmed_input = ft_strtrim(input, " ");
-// 	if (ft_strlen(trimmed_input) != ft_strlen(input))
-// 		input = trimmed_input;
-// 	if (ft_strnstr(input, "cd", 2))
-// 		cd(input + 2);
-// 	else if (ft_strnstr(input, "echo", 4))
-// 		echo(input + 4);
-// 	else if (ft_strnstr(input, "env", 3))
-// 		env(input + 3);
-// 	else if (ft_strnstr(input, "exit", 4))
-// 		exit_bash(&input);
-// 	// export(input, to_free); Not implemented yet
-// 	else if (ft_strnstr(input, "pwd", 3))
-// 		pwd();
-// 	// unset(input, to_free); Not implemented yet
-// 	ft_free_n_null((void **)&trimmed_input);
-// }
