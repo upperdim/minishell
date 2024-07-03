@@ -15,33 +15,34 @@
 static int	check_for_n_flag(char **input)
 {
 	int	i;
-	int	flag_n;
+	int	option_n;
 
-	flag_n = 0;
+	option_n = 0;
 	if (ft_strncmp(input[1], "-n", 2) == 0)
 	{
 		i = 2;
 		while (input[1][i++] == 'n')
-			flag_n = 1;
+			option_n = 1;
 		if (input[1][i] != '\0')
 			return (0);
 	}
-	return (flag_n);
+	return (option_n);
 }
 
 void	echo(char **input)
 {
+	const int	option_n = check_for_n_flag(input);
 	int			i;
-	const int	flag_n = check_for_n_flag(input);
 
-
-	i = flag_n;
+	i = 0;
+	if (option_n == true)
+		i = 1;
 	while (input[++i])
 	{
-		if (i > 1 + flag_n)
+		if (i > 1 + option_n)
 			ft_putstr_fd(" ", 1);
 		ft_putstr_fd(input[i], 1);
 	}
-	if (!flag_n)
+	if (option_n == false)
 		ft_putstr_fd("\n", 1);
 }
