@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:28:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/03 15:44:56 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/04 15:41:02 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ static int	cd_oldpwd(void)
 int	cd(const int argc, char **argv)
 {
 	int	status;
-	int	i;
 
 	status = 0;
-	i = 0;
 	if (argc > 2)
 		return (ft_printf_fd(2, ERROR_MSG, "cd", "too many arguments"),
 			EXIT_FAILURE);

@@ -96,8 +96,8 @@ char	**transform_to_array(t_token *token)
 
 int	exec(t_token *token)
 {
-	t_cmd		*cmd;
 	const t_cmd	*head_cmd = divide_tokens(token);
+	t_cmd		*cmd;
 	pid_t		pid;
 	int			status;
 

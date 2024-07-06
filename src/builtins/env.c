@@ -31,7 +31,7 @@ static void	*make_env_bigger(char *var)
 	if (new_environ[i] == NULL)
 		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), NULL);
 	new_environ[i + 1] = NULL;
-	free_2d_array((void **)environ, FREE_ANY_SIZE);
+	ft_free_2d_array((void ***)&environ, FREE_ANY_SIZE);
 	environ = new_environ;
 	return (environ[i]);
 }

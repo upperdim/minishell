@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:39:22 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/02 17:42:25 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/04 18:06:30 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ void	exit_bash(const int argc, t_cmd	*cmd)
 		ft_printf_fd(2, E_GENERIC_PERROR"%s: %s\n", "exit", cmd->argv[1],
 			"numeric argument required");
 	}
-	while (cmd->prev != NULL)
-		cmd = cmd->prev;
-	free_cmd(cmd);
+	free_cmd((t_cmd **)&cmd);
 	clean_up();
 	exit((unsigned char)errno);
 }

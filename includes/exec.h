@@ -16,7 +16,7 @@
 # include <sys/types.h>
 
 # define HEREDOC_FILE ".here_doc.tmp"
-# define E_ALLOC "minishell: Error allocating memory\n"
+# define E_ALLOC "Error allocating memory"
 # define E_EXPORT "minishell: export: %s: not a valid identifier\n"
 
 /*

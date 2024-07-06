@@ -6,18 +6,18 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:18:14 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/02 19:16:56 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/03 17:04:32 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**sort_env(void)
+static const char	**sort_env(void)
 {
-	const char	**env_var = dup_environ();
+	const char	**env_var = (const char **)dup_environ();
 	int			i;
 	int			j;
-	char		*tmp;
+	const char	*tmp;
 
 	if (env_var == NULL)
 		return (NULL);
@@ -51,7 +51,7 @@ static int	print_env(void)
 	i = -1;
 	while (p_environ[++i])
 	{
-		equal_sign = ft_strchr(p_environ[i], '=');
+		equal_sign = ft_strchr((char *)p_environ[i], '=');
 		key_len = ft_strlen(p_environ[i]);
 		if (equal_sign != NULL)
 			key_len = equal_sign - p_environ[i];
@@ -62,7 +62,7 @@ static int	print_env(void)
 			ft_printf("declare -x %s\n", p_environ[i]);
 		ft_free_n_null((void **)&key);
 	}
-	free_2d_array((void **)p_environ, FREE_ANY_SIZE);
+	ft_free_2d_array((void ***)&p_environ, FREE_ANY_SIZE);
 	return (EXIT_SUCCESS);
 }
 
