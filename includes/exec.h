@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/02 17:17:15 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/04 17:57:48 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ E_GENERIC_PERROR is meant to be used with ft_printf_fd and expects one string to
 # define E_GENERIC_PERROR "minishell: %s: "
 
 /*
-E_GENERIC is meant to be used with ft_printf_fd and expects two strings to be
+ERROR_MSG is meant to be used with ft_printf_fd and expects two strings to be
 	passed with it
 */
-# define E_GENERIC "minishell: %s: %s\n"
+# define ERROR_MSG "minishell: %s: %s\n"
 
 enum	e_pipes
 {

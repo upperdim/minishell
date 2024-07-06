@@ -43,11 +43,11 @@ int	set_last_process_exit_code(int exit_status)
 
 	exit_code = ft_itoa(exit_status);
 	if (exit_code == NULL)
-		return (ft_putstr_fd(E_ALLOC, 2), 1);
+		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), EXIT_FAILURE);
 	var_exit_code = ft_strjoin("LAST_PROCESS_EXIT_CODE=", exit_code);
 	ft_free_n_null((void **)&exit_code);
 	if (var_exit_code == NULL)
-		return (ft_putstr_fd(E_ALLOC, 2), EXIT_FAILURE);
+		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), EXIT_FAILURE);
 	if (add_env_var(var_exit_code) == NULL)
 		return (ft_free_n_null((void **)&var_exit_code), EXIT_FAILURE);
 	ft_free_n_null((void **)&var_exit_code);

@@ -44,7 +44,7 @@ void	exit_bash(const int argc, t_cmd	*cmd)
 	if (argc > 2 && str_is_numeric(cmd->argv[1]))
 	{
 		errno = 1;
-		ft_printf_fd(2, E_GENERIC, "exit", "too many arguments");
+		ft_printf_fd(2, ERROR_MSG, "exit", "too many arguments");
 		return ;
 	}
 	if (argc == 2 && str_is_numeric(cmd->argv[1]))

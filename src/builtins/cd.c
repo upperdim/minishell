@@ -21,10 +21,11 @@ static int	set_oldpwd(void)
 		return (ft_printf_fd(2, E_GENERIC_PERROR, "cd"), perror(NULL), 1);
 	oldpwd = ft_strjoin("OLDPWD=", pwd);
 	if (oldpwd == NULL)
-		return (free(pwd), ft_putstr_fd(E_ALLOC, 2), 1);
+		return (ft_free_n_null((void **)&pwd), ft_printf_fd(2, ERROR_MSG,
+				"OLDPWD", E_ALLOC), EXIT_FAILURE);
 	ft_free_n_null((void **)&pwd);
 	if (add_env_var(oldpwd) == NULL)
-		return (ft_printf_fd(2, E_GENERIC, "cd", "Error setting OLDPWD", 2),
+		return (ft_printf_fd(2, ERROR_MSG, "cd", "Error setting OLDPWD", 2),
 			free(oldpwd), 1);
 	return (free(oldpwd), 0);
 }
@@ -35,7 +36,7 @@ static int	cd_oldpwd(void)
 	const char	*oldpwd = getenv("OLDPWD");
 
 	if (oldpwd == NULL)
-		return (ft_printf_fd(2, E_GENERIC, "cd", "OLDPWD not set"), 1);
+		return (ft_printf_fd(2, ERROR_MSG, "cd", "OLDPWD not set"), 1);
 	status = chdir(oldpwd);
 	return (status);
 }
@@ -48,7 +49,7 @@ int	cd(const int argc, char **argv)
 	status = 0;
 	i = 0;
 	if (argc > 2)
-		return (ft_printf_fd(2, E_GENERIC, "cd", "too many arguments"),
+		return (ft_printf_fd(2, ERROR_MSG, "cd", "too many arguments"),
 			EXIT_FAILURE);
 	if (set_oldpwd() == 1)
 		return (EXIT_FAILURE);

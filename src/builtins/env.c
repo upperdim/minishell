@@ -23,13 +23,13 @@ static void	*make_env_bigger(char *var)
 		i++;
 	new_environ = ft_calloc(sizeof(char *), (i + 2));
 	if (new_environ == NULL)
-		return (ft_putstr_fd(E_ALLOC, 2), NULL);
+		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), NULL);
 	i = -1;
 	while (environ[++i])
 		new_environ[i] = environ[i];
 	new_environ[i] = ft_strdup(var);
 	if (new_environ[i] == NULL)
-		return (ft_putstr_fd(E_ALLOC, 2), NULL);
+		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), NULL);
 	new_environ[i + 1] = NULL;
 	free_2d_array((void **)environ, FREE_ANY_SIZE);
 	environ = new_environ;
@@ -58,7 +58,10 @@ void	*add_env_var(char *var)
 			ft_free_n_null((void **)&environ[i]);
 			environ[i] = ft_strdup(var);
 			if (environ[i] == NULL)
-				return (ft_putstr_fd(E_ALLOC, 2), free(key), NULL);
+			{
+				ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC);
+				return (ft_free_n_null((void **)&key), NULL);
+			}
 			break ;
 		}
 	}
@@ -72,7 +75,7 @@ void	env(const int argc)
 
 	if (argc > 1)
 	{
-		ft_printf_fd(2, "minishell: env: Too many arguments\n");
+		ft_printf_fd(2, ERROR_MSG, "env", "Too many arguments");
 		return ;
 	}
 	i = -1;

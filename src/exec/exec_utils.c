@@ -107,7 +107,8 @@ pid_t	create_fork(t_cmd *cmd)
 
 	pid = fork();
 	if (pid == -1)
-		return (ft_putendl_fd("minishell: Error creating fork", 2), 0);
+		return (ft_printf_fd(2, ERROR_MSG, cmd->argv[0], "Error creating fork"),
+			EXIT_FAILURE);
 	if (pid == 0)
 		if (child_process_main(cmd))
 			return (0);
