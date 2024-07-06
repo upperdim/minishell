@@ -19,19 +19,19 @@ int	setup_out_pipe(int p_fd[2])
 	status = ft_close(&p_fd[PIPE_FD_READ]);
 	if (status == -1)
 	{
-		ft_putstr_fd("Error closing pipe", 2);
+		ft_printf_fd(2, ERROR_MSG, "pipe", "Error closing pipe");
 		return (-1);
 	}
 	status = dup2(p_fd[PIPE_FD_WRITE], STDOUT_FILENO);
 	if (status == -1)
 	{
-		ft_putstr_fd("Error duplicating file descriptor", 2);
+		ft_printf_fd(2, ERROR_MSG, "pipe", "Error duplicating file descriptor");
 		return (-1);
 	}
 	status = ft_close(&p_fd[PIPE_FD_WRITE]);
 	if (status == -1)
 	{
-		ft_putstr_fd("Error closing pipe", 2);
+		ft_printf_fd(2, ERROR_MSG, "pipe", "Error closing pipe");
 		return (-1);
 	}
 	return (0);
@@ -44,19 +44,19 @@ int	setup_in_pipe(int p_fd[2])
 	status = ft_close(&p_fd[PIPE_FD_WRITE]);
 	if (status == -1)
 	{
-		ft_putstr_fd("Error closing pipe", 2);
+		ft_printf_fd(2, ERROR_MSG, "pipe", "Error closing pipe");
 		return (-1);
 	}
 	status = dup2(p_fd[PIPE_FD_READ], STDIN_FILENO);
 	if (status == -1)
 	{
-		ft_putstr_fd("Error duplicating file descriptor", 2);
+		ft_printf_fd(2, ERROR_MSG, "pipe", "Error duplicating file descriptor");
 		return (-1);
 	}
 	status = ft_close(&p_fd[PIPE_FD_READ]);
 	if (status == -1)
 	{
-		ft_putstr_fd("Error closing pipe", 2);
+		ft_printf_fd(2, ERROR_MSG, "pipe", "Error closing pipe");
 		return (-1);
 	}
 	return (0);
@@ -102,11 +102,7 @@ char	*check_for_cmd(char *cmd)
 		i++;
 	}
 	if (!abs_path_cmd)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putendl_fd(": command not found", 2);
-	}
+		ft_printf_fd(2, ERROR_MSG, cmd, "command not found");
 	return (abs_path_cmd);
 }
 

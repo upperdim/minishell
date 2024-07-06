@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:28:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/04 15:41:02 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/06 19:34:43 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	set_oldpwd(void)
 	char		*oldpwd;
 
 	if (pwd == NULL)
-		return (ft_printf_fd(2, E_GENERIC_PERROR, "cd"), perror(NULL), 1);
+		return (ft_printf_fd(2, ERROR_MSG_PERROR, "cd"), perror(NULL), 1);
 	oldpwd = ft_strjoin("OLDPWD=", pwd);
 	if (oldpwd == NULL)
 		return (ft_free_n_null((void **)&pwd), ft_printf_fd(2, ERROR_MSG,
@@ -59,7 +59,7 @@ int	cd(const int argc, char **argv)
 		status = chdir(argv[1]);
 	if (status == -1)
 	{
-		ft_printf_fd(2, E_GENERIC_PERROR"%s: ", "cd", argv[1]);
+		ft_printf_fd(2, ERROR_MSG_PERROR"%s: ", "cd", argv[1]);
 		perror(NULL);
 		return (EXIT_FAILURE);
 	}

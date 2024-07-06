@@ -21,7 +21,7 @@ static t_cmd	*set_cmd_pipe(t_cmd *cmd)
 	cmd->pipe[PIPE_FD_WRITE] = pipe_fd[PIPE_FD_WRITE];
 	cmd->next = ft_calloc(1, sizeof(t_cmd));
 	if (cmd->next == NULL)
-		return (ft_putstr_fd("Error allocating memory", 2), NULL);
+		return (ft_printf_fd(2, ERROR_MSG, "pipe", E_ALLOC), NULL);
 	cmd->next->prev = cmd;
 	cmd = cmd->next;
 	cmd->pipe[PIPE_FD_READ] = pipe_fd[PIPE_FD_READ];

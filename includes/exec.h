@@ -20,10 +20,10 @@
 # define E_EXPORT "minishell: export: %s: not a valid identifier\n"
 
 /*
-E_GENERIC_PERROR is meant to be used with ft_printf_fd and expects one string to
+ERROR_MSG_PERROR is meant to be used with ft_printf_fd and expects one string to
 	be passed with it and perror() to be called after it
 */
-# define E_GENERIC_PERROR "minishell: %s: "
+# define ERROR_MSG_PERROR "minishell: %s: "
 
 /*
 ERROR_MSG is meant to be used with ft_printf_fd and expects two strings to be

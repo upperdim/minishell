@@ -52,7 +52,7 @@ void	exit_bash(const int argc, t_cmd	*cmd)
 	else if (argc == 2)
 	{
 		errno = 2;
-		ft_printf_fd(2, E_GENERIC_PERROR"%s: %s\n", "exit", cmd->argv[1],
+		ft_printf_fd(2, ERROR_MSG_PERROR"%s: %s\n", "exit", cmd->argv[1],
 			"numeric argument required");
 	}
 	free_cmd((t_cmd **)&cmd);
