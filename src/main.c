@@ -70,7 +70,7 @@ int	main(void)
 	char		*input;
 	extern int	errno;
 
-	if (init_environ())
+	if (init_minishell())
 	{
 		ft_printf_fd(2, ERROR_MSG, "malloc", "Error initializing environment");
 		return (EXIT_FAILURE);
