@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:41:50 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/08 20:30:03 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 20:43:18 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,20 @@ void	*unset_env(char *key)
 int	unset_builtin(char **args)
 {
 	int	i;
+	int	exit_code;
 
 	i = 0;
+	exit_code = EXIT_SUCCESS;
 	while (args[++i])
 	{
 		if (is_key_valid(args[i]) == false || ft_strchr(args[i], '=') != NULL)
 		{
 			ft_printf_fd(2, ERROR_MSG_PERROR"%s: %s\n", "unset", args[i],
 				"not a valid identifier");
-			return (EXIT_FAILURE);
+			exit_code = EXIT_FAILURE;
 		}
 		else
 			unset_env(args[i]);
 	}
-	return (EXIT_SUCCESS);
+	return (exit_code);
 }
