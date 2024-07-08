@@ -6,92 +6,39 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/08 14:28:29 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 20:56:56 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_cmd	*set_cmd_pipe(t_cmd *cmd)
+pid_t	execute_cmd(t_cmd *cmd)
 {
-	int			pipe_fd[2];
+	pid_t		pid;
+	int			exit_code;
+	int			builtin;
 
-	if (pipe(pipe_fd) == -1)
-		return (NULL);
-	cmd->pipe[PIPE_FD_WRITE] = pipe_fd[PIPE_FD_WRITE];
-	cmd->next = ft_calloc(1, sizeof(t_cmd));
-	if (cmd->next == NULL)
-		return (ft_printf_fd(2, ERROR_MSG, "pipe", E_ALLOC), NULL);
-	cmd->next->prev = cmd;
-	cmd = cmd->next;
-	cmd->pipe[PIPE_FD_READ] = pipe_fd[PIPE_FD_READ];
-	return (cmd);
-}
-
-// ! USED FOR TESTING
-static void	free_expected_tokens(t_token **token)
-{
-	if (*token == NULL)
-		return ;
-	while ((*token)->next != NULL)
+	builtin = is_builtin(cmd->argv[0]);
+	if (builtin == true)
 	{
-		ft_free_n_null((void **)&(*token)->prev);
-		(*token) = (*token)->next;
+		exit_code = exec_builtins(cmd);
+		set_last_process_exit_code(exit_code);
+		return (BUILTIN_EXECUTED);
 	}
-	ft_free_n_null((void **)&(*token)->prev);
-	ft_free_n_null((void **)&(*token));
-}
-
-t_cmd	*divide_tokens(t_token *token)
-{
-	const t_cmd		*head_cmd = ft_calloc(1, sizeof(t_cmd));
-	const t_token	*head_token = token;
-	t_cmd			*cmd;
-
-	if (head_cmd == NULL)
-		return (ft_putstr_fd(E_ALLOC, 2), NULL);
-	cmd = (t_cmd *)head_cmd;
-	while (token != NULL)
+	if (builtin == -1)
+		return (ft_printf_fd(2, ERROR_MSG, cmd->argv[0], E_ALLOC),
+			EXIT_FAILURE);
+	pid = fork();
+	if (pid == -1)
+		return (ft_printf_fd(2, ERROR_MSG, cmd->argv[0], "Error creating fork"),
+			EXIT_FAILURE);
+	if (pid == 0)
 	{
-		if (token->type == STRING)
-			add_token_last(&cmd->strs, &token);
-		else if (token->type > STRING && token->type < PIPE)
-		{
-			add_token_last(&cmd->redirects, &token);
-			token = token->next;
-			add_token_last(&cmd->redirects, &token);
-		}
-		else if (token->type == PIPE)
-			cmd = set_cmd_pipe(cmd);
-		if (cmd == NULL)
-			return (free_cmd((t_cmd **)&head_cmd),
-				ft_free_link_list((t_token *)head_token), NULL);
-		token = token->next;
+		if (do_all_redirections(cmd))
+			return (EXIT_FAILURE);
+		ft_execve(cmd);
 	}
-	//! return (ft_free_link_list((t_token **)&head_token), (t_cmd *)head_cmd); UNCOMMENT THIS LINE AFTER TESTING and remove the line below
-	return (free_expected_tokens((t_token **)&head_token), (t_cmd *)head_cmd);
-}
-
-char	**transform_to_array(t_token *token)
-{
-	char	**argv;
-	int		argc;
-
-	argc = 1;
-	while (token->next != NULL && ++argc)
-		token = token->next;
-	argv = ft_calloc(argc + 1, sizeof(char *));
-	if (argv == NULL)
-		return (NULL);
-	while (token->prev != NULL)
-		token = token->prev;
-	argc = 0;
-	while (token != NULL)
-	{
-		argv[argc++] = ft_strdup(token->value);
-		token = token->next;
-	}
-	return (argv);
+	return (pid);
 }
 
 int	exec(t_token *token)

@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/08 20:41:45 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 20:46:16 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	exec_builtins(t_cmd	*cmd)
 	if (lowercase_cmd == NULL)
 		return (EXIT_FAILURE);
 	do_all_redirections(cmd);
-	exit_status = -1;
 	if (ft_strnstr(lowercase_cmd, "cd", 2))
 		exit_status = cd(argc, cmd->argv);
 	else if (ft_strnstr(lowercase_cmd, "echo", 4))
@@ -89,6 +88,5 @@ int	exec_builtins(t_cmd	*cmd)
 	else if (ft_strnstr(lowercase_cmd, "unset", 5))
 		exit_status = unset(argc, cmd->argv);
 	restore_file_descriptors(original_fd);
-	ft_free_n_null((void **)&lowercase_cmd);
-	return (exit_status);
+	return (ft_free_n_null((void **)&lowercase_cmd), exit_status);
 }
