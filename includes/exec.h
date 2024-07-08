@@ -64,9 +64,11 @@ void	add_token_last(t_token **head, t_token **new);
 void	ft_free_link_list(t_token *split);
 
 // Execution utilities
+int		count_strs_in_array(char **argv);
 void	free_cmd(t_cmd **cmd);
 int		set_redir(t_token *redirections);
 int		check_if_heredoc(t_token *redirects);
 pid_t	create_fork(t_cmd *cmd);
+char	*dup_in_lowercase(const char *str);
 
 #endif

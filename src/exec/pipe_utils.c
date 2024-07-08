@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 17:59:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 18:29:34 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:05:33 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,20 @@ static char	**format_path(char *no_format_path)
 
 	i = 0;
 	tmp = ft_substr(no_format_path, 5, ft_strlen(no_format_path) - 5);
+	if (!tmp)
+		return (ft_printf_fd(2, ERROR_MSG, "exec", E_ALLOC), NULL);
 	env_path = ft_split(tmp, ':');
 	ft_free_n_null((void **)&tmp);
+	if (!env_path)
+		return (ft_printf_fd(2, ERROR_MSG, "exec", E_ALLOC), NULL);
 	while (env_path[i])
 	{
 		tmp = ft_strjoin(env_path[i], "/");
+		if (!tmp)
+		{
+			ft_printf_fd(2, ERROR_MSG, "exec", E_ALLOC);
+			return (ft_free_2d_array((void ***)&env_path, FREE_ANY_SIZE), NULL);
+		}
 		ft_free_n_null((void **)&env_path[i]);
 		env_path[i] = tmp;
 		i++;
@@ -95,6 +104,8 @@ char	*find_path_to(char *cmd)
 	while (env_path[i] && !abs_path_cmd)
 	{
 		test_path = ft_strjoin(env_path[i], cmd);
+		if (!test_path)
+			return (ft_printf_fd(2, ERROR_MSG, "exec", E_ALLOC), NULL);
 		if (!access(test_path, X_OK))
 			abs_path_cmd = test_path;
 		else

@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:18:14 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/03 17:04:32 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:45:48 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ static int	is_key_valid(char *key)
 		return (0);
 	i = -1;
 	while (key[++i] != '\0' || key[i] == '=')
-		if (ft_isalnum(key[i]) == 0 && key[i] != '_')
-			return (0);
-	return (1);
+		if (ft_isalnum(key[i]) == false && key[i] != '_')
+			return (false);
+	return (true);
 }
 
 int	export(const int argc, char **argv)
@@ -85,18 +85,16 @@ int	export(const int argc, char **argv)
 
 	if (argc == 1)
 	{
-		if (print_env())
-			return (1);
+		if (print_env() == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 	}
 	i = 0;
 	while (argv[++i])
 	{
-		if (is_key_valid(argv[i]) == 0)
-		{
+		if (is_key_valid(argv[i]) == false)
 			ft_printf_fd(2, E_EXPORT, argv[i]);
-			continue ;
-		}
-		add_env_var(argv[i]);
+		else
+			add_env_var(argv[i]);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

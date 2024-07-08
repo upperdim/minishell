@@ -74,12 +74,13 @@ char	*find_path_to(char *cmd);
 int		setup_in_pipe(int p_fd[2]);
 int		setup_out_pipe(int p_fd[2]);
 // BUILTINS
-void	builtins(t_cmd *cmd);
+int		exec_builtins(t_cmd *cmd);
 int		echo(char **input);
 void	env(const int argc);
 void	exit_bash(const int argc, t_cmd *cmd);
 int		pwd(void);
 int		cd(const int argc, char **argv);
 int		export(const int argc, char **argv);
+void	*add_env_var(char *var);
 
 #endif
