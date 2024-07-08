@@ -76,8 +76,8 @@ int		setup_out_pipe(int p_fd[2]);
 // BUILTINS
 int		exec_builtins(t_cmd *cmd);
 int		echo(char **input);
-void	env(const int argc);
-void	exit_bash(const int argc, t_cmd *cmd);
+int		env(const int argc);
+int		exit_bash(const int argc, t_cmd *cmd);
 int		pwd(void);
 int		cd(const int argc, char **argv);
 int		export(const int argc, char **argv);

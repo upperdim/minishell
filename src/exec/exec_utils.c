@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/30 10:48:17 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:25:32 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	get_fd(t_token *redir)
 	return (fd);
 }
 
-int	set_redir(t_token *redir)
+static int	set_other_redirections(t_token *redir)
 {
 	char	*file;
 	int		original_fd;
@@ -59,6 +59,8 @@ void	free_cmd(t_cmd **cmd)
 {
 	t_cmd	*tmp;
 
+	while ((*cmd)->prev != NULL)
+		*cmd = (*cmd)->prev;
 	while (*cmd != NULL)
 	{
 		tmp = *cmd;
@@ -73,44 +75,76 @@ void	free_cmd(t_cmd **cmd)
 	}
 }
 
-static int	child_process_main(t_cmd *cmd)
+int	do_all_redirections(t_cmd *cmd)
 {
 	int	ret;
 
 	if (check_if_heredoc(cmd->redirects))
-		return (1);
+		return (EXIT_FAILURE);
 	if (cmd->pipe[PIPE_FD_READ] != 0)
 	{
 		ret = setup_in_pipe(cmd->pipe);
-		if (cmd->prev != NULL)
-			ft_close(&cmd->prev->pipe[PIPE_FD_WRITE]);
 		if (ret == -1)
-			return (1);
+			return (EXIT_FAILURE);
 	}
 	if (cmd->pipe[PIPE_FD_WRITE] != 0)
 	{
 		ret = setup_out_pipe(cmd->pipe);
-		if (cmd->next != NULL)
-			ft_close(&cmd->next->pipe[PIPE_FD_READ]);
 		if (ret == -1)
-			return (1);
+			return (EXIT_FAILURE);
 	}
-	if (set_redir(cmd->redirects))
-		return (1);
-	ft_execve(cmd->argv);
-	return (1);
+	if (set_other_redirections(cmd->redirects))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
-pid_t	create_fork(t_cmd *cmd)
+static int	is_builtin(const char *cmd)
 {
-	pid_t	pid;
+	const char	*builtins[] = {"cd", "echo", "env", "exit", "export",
+		"pwd", "unset", NULL};
+	const char	*lowercase_cmd = dup_in_lowercase(cmd);
+	int			i;
 
+	if (lowercase_cmd == NULL)
+		return (-1);
+	i = -1;
+	while (builtins[++i] != NULL)
+	{
+		if (ft_strnstr(lowercase_cmd, builtins[i], ft_strlen(builtins[i]) + 1))
+		{
+			ft_free_n_null((void **)&lowercase_cmd);
+			return (true);
+		}
+	}
+	ft_free_n_null((void **)&lowercase_cmd);
+	return (false);
+}
+
+pid_t	execute_cmd(t_cmd *cmd)
+{
+	pid_t		pid;
+	int			exit_code;
+	int			builtin;
+
+	builtin = is_builtin(cmd->argv[0]);
+	if (builtin == true)
+	{
+		exit_code = exec_builtins(cmd);
+		set_last_process_exit_code(exit_code);
+		return (BUILTIN_EXECUTED);
+	}
+	if (builtin == -1)
+		return (ft_printf_fd(2, ERROR_MSG, cmd->argv[0], E_ALLOC),
+			EXIT_FAILURE);
 	pid = fork();
 	if (pid == -1)
 		return (ft_printf_fd(2, ERROR_MSG, cmd->argv[0], "Error creating fork"),
 			EXIT_FAILURE);
 	if (pid == 0)
-		if (child_process_main(cmd))
-			return (0);
+	{
+		if (do_all_redirections(cmd))
+			return (EXIT_FAILURE);
+		ft_execve(cmd);
+	}
 	return (pid);
 }

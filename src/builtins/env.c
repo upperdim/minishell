@@ -74,7 +74,7 @@ void	*add_env_var(char *var)
 	return (ft_free_n_null((void **)&key), environ[i]);
 }
 
-void	env(const int argc)
+int	env(const int argc)
 {
 	extern char	**environ;
 	int			i;
@@ -82,10 +82,11 @@ void	env(const int argc)
 	if (argc > 1)
 	{
 		ft_printf_fd(2, ERROR_MSG, "env", "Too many arguments");
-		return ;
+		return (EXIT_FAILURE);
 	}
 	i = -1;
 	while (environ[++i])
 		if (ft_strchr(environ[i], '=') != NULL)
 			ft_putendl_fd(environ[i], 1);
+	return (EXIT_SUCCESS);
 }

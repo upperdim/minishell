@@ -6,13 +6,13 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/03 16:03:48 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:00:42 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	count_args(char **argv)
+int	count_strs_in_array(char **argv)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ static int	count_args(char **argv)
 	return (i);
 }
 
-static char	*lowercase(const char *str)
+char	*dup_in_lowercase(const char *str)
 {
 	char	*lower;
 	int		i;
@@ -54,27 +54,39 @@ int	set_last_process_exit_code(int exit_status)
 	return (EXIT_SUCCESS);
 }
 
-void	builtins(t_cmd	*cmd)
+void	restore_file_descriptors(const int original_fd[3])
 {
-	const char	*all_lowercase = lowercase(cmd->argv[0]);
-	const int	argc = count_args(cmd->argv);
+	dup2(original_fd[ORIGINAL_STDIN], STDIN_FILENO);
+	dup2(original_fd[ORIGINAL_STDOUT], STDOUT_FILENO);
+	dup2(original_fd[ORIGINAL_STDERR], STDERR_FILENO);
+}
+
+// TODO implement unset
+int	exec_builtins(t_cmd	*cmd)
+{
+	const int	original_fd[3] = {dup(STDIN_FILENO), dup(STDOUT_FILENO),
+		dup(STDERR_FILENO)};
+	const char	*lowercase_cmd = dup_in_lowercase(cmd->argv[0]);
+	const int	argc = count_strs_in_array(cmd->argv);
 	int			exit_status;
 
+	if (lowercase_cmd == NULL)
+		return (EXIT_FAILURE);
+	do_all_redirections(cmd);
 	exit_status = -1;
-	set_redir(cmd->redirects);
-	if (ft_strnstr(all_lowercase, "cd", 2))
+	if (ft_strnstr(lowercase_cmd, "cd", 2))
 		exit_status = cd(argc, cmd->argv);
-	else if (ft_strnstr(all_lowercase, "echo", 4))
+	else if (ft_strnstr(lowercase_cmd, "echo", 4))
 		exit_status = echo(cmd->argv);
-	else if (ft_strnstr(all_lowercase, "env", 3))
-		env(argc);
-	else if (ft_strnstr(all_lowercase, "exit", 4))
-		exit_bash(argc, cmd);
-	else if (ft_strnstr(all_lowercase, "export", 6))
+	else if (ft_strnstr(lowercase_cmd, "env", 3))
+		exit_status = env(argc);
+	else if (ft_strnstr(lowercase_cmd, "export", 6))
 		exit_status = export(argc, cmd->argv);
-	else if (ft_strnstr(all_lowercase, "pwd", 3))
-		pwd();
-	if (exit_status != -1)
-		set_last_process_exit_code(exit_status);
-	ft_free_n_null((void **)&all_lowercase);
+	else if (ft_strnstr(lowercase_cmd, "pwd", 3))
+		exit_status = pwd();
+	else if (ft_strnstr(lowercase_cmd, "exit", 4))
+		exit_status = exit_bash(argc, cmd);
+	restore_file_descriptors(original_fd);
+	ft_free_n_null((void **)&lowercase_cmd);
+	return (exit_status);
 }

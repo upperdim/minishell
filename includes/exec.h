@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/04 17:57:48 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:32:14 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ ERROR_MSG is meant to be used with ft_printf_fd and expects two strings to be
 */
 # define ERROR_MSG "minishell: %s: %s\n"
 
+# define BUILTIN_EXECUTED 2
+
 enum	e_pipes
 {
 	PIPE_FD_READ,
@@ -42,6 +44,13 @@ enum e_and_or
 	NONE,
 	AND,
 	OR,
+};
+
+enum	e_fd
+{
+	ORIGINAL_STDIN,
+	ORIGINAL_STDOUT,
+	ORIGINAL_STDERR
 };
 
 typedef struct s_cmd
@@ -66,9 +75,10 @@ void	ft_free_link_list(t_token *split);
 // Execution utilities
 int		count_strs_in_array(char **argv);
 void	free_cmd(t_cmd **cmd);
-int		set_redir(t_token *redirections);
+int		do_all_redirections(t_cmd *cmd);
 int		check_if_heredoc(t_token *redirects);
-pid_t	create_fork(t_cmd *cmd);
+pid_t	execute_cmd(t_cmd *cmd);
+int		set_last_process_exit_code(int exit_status);
 char	*dup_in_lowercase(const char *str);
 
 #endif

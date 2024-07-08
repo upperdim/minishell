@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:39:22 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/04 18:06:30 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/06 19:34:43 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	str_is_numeric(char *str)
 	return (1);
 }
 
-void	exit_bash(const int argc, t_cmd	*cmd)
+int	exit_bash(const int argc, t_cmd	*cmd)
 {
 	extern int	errno;
 
@@ -45,7 +45,7 @@ void	exit_bash(const int argc, t_cmd	*cmd)
 	{
 		errno = 1;
 		ft_printf_fd(2, ERROR_MSG, "exit", "too many arguments");
-		return ;
+		return (EXIT_FAILURE);
 	}
 	if (argc == 2 && str_is_numeric(cmd->argv[1]))
 		errno = ft_atoi(cmd->argv[1]);
