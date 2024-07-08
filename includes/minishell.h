@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/08 15:06:14 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:21:16 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	clean_up(void);
 char	**dup_environ(void);
 
 // EXEC
-char	*check_for_cmd(char *cmd);
+char	*find_path_to(char *cmd);
 int		setup_in_pipe(int p_fd[2]);
 int		setup_out_pipe(int p_fd[2]);
 // BUILTINS

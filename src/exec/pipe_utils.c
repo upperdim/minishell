@@ -82,7 +82,7 @@ static char	**format_path(char *no_format_path)
 	return (env_path);
 }
 
-char	*check_for_cmd(char *cmd)
+char	*find_path_to(char *cmd)
 {
 	char	*abs_path_cmd;
 	char	*test_path;
@@ -116,7 +116,7 @@ void	ft_execve(t_cmd *cmd)
 		exit_error(NULL, 0);
 	cmd_path = cmd->argv[0];
 	if (access (cmd->argv[0], X_OK))
-		cmd_path = check_for_cmd(argv[0]);
+		cmd_path = find_path_to(cmd->argv[0]);
 	if (!cmd_path)
 	{
 		free_cmd(&cmd);
