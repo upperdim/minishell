@@ -14,16 +14,16 @@
 
 int	pwd(void)
 {
-	const char	*tmp = getcwd(NULL, 0);
+	const char	*cwd = getcwd(NULL, 0);
 
-	if (tmp)
-		ft_printf("%s\n", tmp);
+	if (cwd != NULL)
+		ft_printf("%s\n", cwd);
 	else
 	{
-		ft_putstr_fd("minishell: pwd: ", 2);
+		ft_printf_fd(2, ERROR_MSG_PERROR, "pwd");
 		perror(NULL);
 		return (EXIT_FAILURE);
 	}
-	ft_free_n_null((void **)&tmp);
+	ft_free_n_null((void **)&cwd);
 	return (EXIT_SUCCESS);
 }
