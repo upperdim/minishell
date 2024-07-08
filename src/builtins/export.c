@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:18:14 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/08 14:45:48 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 20:32:00 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	print_env(void)
 	return (EXIT_SUCCESS);
 }
 
-static int	is_key_valid(char *key)
+int	is_key_valid(char *key)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/08 17:32:14 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:57:34 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ int		check_if_heredoc(t_token *redirects);
 pid_t	execute_cmd(t_cmd *cmd);
 int		set_last_process_exit_code(int exit_status);
 char	*dup_in_lowercase(const char *str);
+int		is_key_valid(char *key);
 
 #endif
