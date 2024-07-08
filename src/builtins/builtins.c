@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/08 18:00:42 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 20:41:45 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int	exec_builtins(t_cmd	*cmd)
 		exit_status = pwd();
 	else if (ft_strnstr(lowercase_cmd, "exit", 4))
 		exit_status = exit_bash(argc, cmd);
+	else if (ft_strnstr(lowercase_cmd, "unset", 5))
+		exit_status = unset(argc, cmd->argv);
 	restore_file_descriptors(original_fd);
 	ft_free_n_null((void **)&lowercase_cmd);
 	return (exit_status);
