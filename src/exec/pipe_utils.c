@@ -107,29 +107,28 @@ char	*check_for_cmd(char *cmd)
 }
 
 // It handles the execution of the command but it still needs the fork before.
-void	ft_execve(char **argv)
+void	ft_execve(t_cmd *cmd)
 {
 	extern char	**environ;
 	char		*cmd_path;
 
-	if (!argv || !argv[0])
+	if (!cmd->argv || !cmd->argv[0])
 		exit_error(NULL, 0);
-	cmd_path = argv[0];
-	if (access (argv[0], X_OK))
+	cmd_path = cmd->argv[0];
+	if (access (cmd->argv[0], X_OK))
 		cmd_path = check_for_cmd(argv[0]);
 	if (!cmd_path)
-		exit_perror(EXIT_FAILURE);
-	execve(cmd_path, argv, environ);
-	if (cmd_path != argv[0])
-		ft_free_n_null((void **)&cmd_path);
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(ft_strrchr(argv[0], '/') + 1, 2);
-	ft_putstr_fd(": ", 2);
-	if (argv[1])
 	{
-		ft_putstr_fd(argv[1], 2);
-		ft_putstr_fd(": ", 2);
+		free_cmd(&cmd);
+		exit_perror(EXIT_FAILURE);
 	}
+	execve(cmd_path, cmd->argv, environ);
+	if (cmd_path != cmd->argv[0])
+		ft_free_n_null((void **)&cmd_path);
+	ft_printf_fd(2, ERROR_MSG_PERROR, cmd->argv[0]);
+	if (cmd->argv[1])
+		ft_printf_fd(2, "%s: ", cmd->argv[1]);
+	free_cmd(&cmd);
 	exit_perror(EXIT_FAILURE);
 }
 //! Original function from pipex needs to be modified

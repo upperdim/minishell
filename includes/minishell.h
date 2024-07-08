@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/03 15:47:16 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:06:14 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@
 
 // ** ---------------------------- FUNCTIONS ---------------------------- ** //
 
-void	ft_execve(char **argv);
+void	ft_execve(t_cmd *cmd);
 char	*get_prompt(void);
 void	set_signal_handlers(void);
 void	exit_perror(int exit_status);
