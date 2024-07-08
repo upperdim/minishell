@@ -78,7 +78,7 @@ void	builtins(t_cmd *cmd);
 int		echo(char **input);
 void	env(const int argc);
 void	exit_bash(const int argc, t_cmd *cmd);
-void	pwd(void);
+int		pwd(void);
 int		cd(const int argc, char **argv);
 int		export(const int argc, char **argv);
 
