@@ -6,13 +6,13 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:41:50 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/08 20:43:18 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:50:29 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	have_same_key(char *key, char *env_var)
+static bool	have_same_key(char *key, char *env_var)
 {
 	const char	*equal_sign = ft_strchr(env_var, '=');
 	const int	env_key_len = equal_sign - env_var;
@@ -22,7 +22,7 @@ static int	have_same_key(char *key, char *env_var)
 	return (false);
 }
 
-void	*unset_env(char *key)
+static int	unset_env(char *key)
 {
 	extern char	**environ;
 	const int	environ_size = count_strs_in_array(environ);
@@ -30,18 +30,19 @@ void	*unset_env(char *key)
 	int			i;
 
 	if (getenv(key) == NULL)
-		return (NULL);
+		return (EXIT_SUCCESS);
 	new_environ = ft_calloc(sizeof(char *), (environ_size));
 	if (new_environ == NULL)
-		return (ft_printf_fd(2, ERROR_MSG, "unset", E_ALLOC), NULL);
+		return (ft_printf_fd(2, ERROR_MSG, "unset", E_ALLOC), EXIT_FAILURE);
 	i = -1;
 	while (environ[++i] && have_same_key(key, environ[i]) == false)
 		new_environ[i] = environ[i];
+	ft_free_n_null((void **)&environ[i]);
 	while (environ[++i])
 		new_environ[i - 1] = environ[i];
-	ft_free_2d_array((void ***)&environ, FREE_ANY_SIZE);
+	ft_free_n_null((void **)&environ);
 	environ = new_environ;
-	return (environ[i]);
+	return (EXIT_SUCCESS);
 }
 
 int	unset_builtin(char **args)
@@ -60,7 +61,8 @@ int	unset_builtin(char **args)
 			exit_code = EXIT_FAILURE;
 		}
 		else
-			unset_env(args[i]);
+			if (unset_env(args[i]) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
 	}
 	return (exit_code);
 }
