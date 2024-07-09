@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 17:59:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/08 19:05:33 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:09:27 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,6 @@ int	setup_out_pipe(int p_fd[2])
 {
 	int	status;
 
-	status = ft_close(&p_fd[PIPE_FD_READ]);
-	if (status == -1)
-	{
-		ft_printf_fd(2, ERROR_MSG, "pipe", "Error closing pipe");
-		return (-1);
-	}
 	status = dup2(p_fd[PIPE_FD_WRITE], STDOUT_FILENO);
 	if (status == -1)
 	{
@@ -41,12 +35,6 @@ int	setup_in_pipe(int p_fd[2])
 {
 	int	status;
 
-	status = ft_close(&p_fd[PIPE_FD_WRITE]);
-	if (status == -1)
-	{
-		ft_printf_fd(2, ERROR_MSG, "pipe", "Error closing pipe");
-		return (-1);
-	}
 	status = dup2(p_fd[PIPE_FD_READ], STDIN_FILENO);
 	if (status == -1)
 	{
