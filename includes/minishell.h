@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/08 19:21:16 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:02:23 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ int		pwd(void);
 int		cd(const int argc, char **argv);
 int		export(const int argc, char **argv);
 void	*add_env_var(char *var);
+int		unset_builtin(char **argv);
 
 #endif

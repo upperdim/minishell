@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/08 20:58:20 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:31:33 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,7 @@ int		set_last_process_exit_code(int exit_status);
 char	*dup_in_lowercase(const char *str);
 int		is_key_valid(char *key);
 t_cmd	*divide_tokens(t_token *token);
+int		is_builtin(const char *cmd);
+char	**transform_to_array(t_token *token);
 
 #endif
