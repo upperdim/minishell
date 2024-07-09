@@ -61,7 +61,6 @@ void	restore_file_descriptors(const int original_fd[3])
 	dup2(original_fd[ORIGINAL_STDERR], STDERR_FILENO);
 }
 
-// TODO implement unset
 int	exec_builtins(t_cmd	*cmd)
 {
 	const int	original_fd[3] = {dup(STDIN_FILENO), dup(STDOUT_FILENO),
@@ -86,7 +85,7 @@ int	exec_builtins(t_cmd	*cmd)
 	else if (ft_strnstr(lowercase_cmd, "exit", 4))
 		exit_status = exit_bash(argc, cmd);
 	else if (ft_strnstr(lowercase_cmd, "unset", 5))
-		exit_status = unset(argc, cmd->argv);
+		exit_status = unset_builtin(cmd->argv);
 	restore_file_descriptors(original_fd);
 	return (ft_free_n_null((void **)&lowercase_cmd), exit_status);
 }
