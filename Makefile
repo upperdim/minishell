@@ -21,7 +21,7 @@ UTILS_FILES = signal_handler.c prompt.c exit_error.c
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 
 EXEC_FILES = exec.c pipe_utils.c token_utils.c exec_utils.c heredoc.c \
-	divide_tokens.c redirecctions.c
+	divide_tokens.c redirections.c
 EXEC = $(addprefix exec/, $(EXEC_FILES))
 
 PARSER_FILES = parser.c lexer.c parser_utils.c ft_tokenize_pipe.c
