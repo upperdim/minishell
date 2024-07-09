@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/08 20:46:16 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:02:54 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ int	exec_builtins(t_cmd	*cmd)
 	const int	argc = count_strs_in_array(cmd->argv);
 	int			exit_status;
 
-	if (lowercase_cmd == NULL)
+	exit_status = do_all_redirections(cmd);
+	if (lowercase_cmd == NULL || exit_status == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	do_all_redirections(cmd);
 	if (ft_strnstr(lowercase_cmd, "cd", 2))
 		exit_status = cd(argc, cmd->argv);
 	else if (ft_strnstr(lowercase_cmd, "echo", 4))
