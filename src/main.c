@@ -6,34 +6,11 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/06 17:00:38 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:18:59 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**dup_environ(void)
-{
-	extern char	**environ;
-	int			env_var_count;
-	char		**new_env;
-
-	env_var_count = 0;
-	while (environ[env_var_count])
-		env_var_count++;
-	new_env = ft_calloc(env_var_count + 1, sizeof(char *));
-	if (!new_env)
-		return (NULL);
-	env_var_count = 0;
-	while (environ[env_var_count])
-	{
-		new_env[env_var_count] = ft_strdup(environ[env_var_count]);
-		if (!new_env[env_var_count])
-			return (ft_free_2d_array((void ***)&new_env, -1), NULL);
-		env_var_count++;
-	}
-	return (new_env);
-}
 
 static int	init_minishell(void)
 {
