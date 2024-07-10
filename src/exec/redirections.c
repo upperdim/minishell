@@ -6,11 +6,49 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 20:50:26 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/08 20:53:13 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:16:39 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	setup_out_pipe(int p_fd[2])
+{
+	int	status;
+
+	status = dup2(p_fd[PIPE_FD_WRITE], STDOUT_FILENO);
+	if (status == -1)
+	{
+		ft_printf_fd(2, ERROR_MSG, "pipe", "Error duplicating file descriptor");
+		return (-1);
+	}
+	status = ft_close(&p_fd[PIPE_FD_WRITE]);
+	if (status == -1)
+	{
+		ft_printf_fd(2, ERROR_MSG, "pipe", "Error closing pipe");
+		return (-1);
+	}
+	return (0);
+}
+
+int	setup_in_pipe(int p_fd[2])
+{
+	int	status;
+
+	status = dup2(p_fd[PIPE_FD_READ], STDIN_FILENO);
+	if (status == -1)
+	{
+		ft_printf_fd(2, ERROR_MSG, "pipe", "Error duplicating file descriptor");
+		return (-1);
+	}
+	status = ft_close(&p_fd[PIPE_FD_READ]);
+	if (status == -1)
+	{
+		ft_printf_fd(2, ERROR_MSG, "pipe", "Error closing pipe");
+		return (-1);
+	}
+	return (0);
+}
 
 static int	get_fd(t_token *redir)
 {

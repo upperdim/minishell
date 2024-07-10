@@ -14,14 +14,14 @@ INCLUDES = $(addprefix -I, $(HEADERS_DIR))
 ################################################################################
 # Source files
 ################################################################################
-BUILTIN_FILES = cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c
+BUILTIN_FILES = cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c\
+	builtins_utils.c
 BUILTINS = $(addprefix builtins/, $(BUILTIN_FILES))
 
-UTILS_FILES = signal_handler.c prompt.c exit_error.c env_utils.c
+UTILS_FILES = signal_handler.c prompt.c exit_error.c env_utils.c token_utils.c
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 
-EXEC_FILES = exec.c pipe_utils.c token_utils.c exec_utils.c heredoc.c \
-	divide_tokens.c redirections.c
+EXEC_FILES = exec.c exec_utils.c heredoc.c divide_tokens.c redirections.c
 EXEC = $(addprefix exec/, $(EXEC_FILES))
 
 PARSER_FILES = parser.c lexer.c parser_utils.c ft_tokenize_pipe.c

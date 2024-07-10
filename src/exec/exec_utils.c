@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/09 20:12:55 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:12:16 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,59 @@ char	**transform_to_array(t_token *token)
 		token = token->next;
 	}
 	return (argv);
+}
+
+static char	**format_path(char *no_format_path)
+{
+	char	**env_path;
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = ft_substr(no_format_path, 5, ft_strlen(no_format_path) - 5);
+	if (!tmp)
+		return (ft_printf_fd(2, ERROR_MSG, "exec", E_ALLOC), NULL);
+	env_path = ft_split(tmp, ':');
+	ft_free_n_null((void **)&tmp);
+	if (!env_path)
+		return (ft_printf_fd(2, ERROR_MSG, "exec", E_ALLOC), NULL);
+	while (env_path[i])
+	{
+		tmp = ft_strjoin(env_path[i], "/");
+		if (!tmp)
+		{
+			ft_printf_fd(2, ERROR_MSG, "exec", E_ALLOC);
+			return (ft_free_2d_array((void ***)&env_path, FREE_ANY_SIZE), NULL);
+		}
+		ft_free_n_null((void **)&env_path[i]);
+		env_path[i] = tmp;
+		i++;
+	}
+	return (env_path);
+}
+
+char	*find_path_to(char *cmd)
+{
+	char	*abs_path_cmd;
+	char	*test_path;
+	int		i;
+	char	**env_path;
+
+	i = 0;
+	abs_path_cmd = NULL;
+	env_path = format_path(getenv("PATH"));
+	while (env_path[i] && !abs_path_cmd)
+	{
+		test_path = ft_strjoin(env_path[i], cmd);
+		if (!test_path)
+			return (ft_printf_fd(2, ERROR_MSG, "exec", E_ALLOC), NULL);
+		if (!access(test_path, X_OK))
+			abs_path_cmd = test_path;
+		else
+			ft_free_n_null((void **)&test_path);
+		i++;
+	}
+	if (!abs_path_cmd)
+		ft_printf_fd(2, ERROR_MSG, cmd, "command not found");
+	return (abs_path_cmd);
 }

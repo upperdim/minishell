@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:18:14 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 13:03:00 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:19:49 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,6 @@ static int	print_env(void)
 	}
 	ft_free_2d_array((void ***)&p_environ, FREE_ANY_SIZE);
 	return (EXIT_SUCCESS);
-}
-
-int	is_key_valid(char *key)
-{
-	int	i;
-
-	if (key == NULL || ft_isdigit(key[0]))
-		return (0);
-	i = -1;
-	while (key[++i] != '\0' && key[i] != '=')
-		if (ft_isalnum(key[i]) == false && key[i] != '_')
-			return (false);
-	return (true);
 }
 
 int	export(const int argc, char **argv)

@@ -6,55 +6,13 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 15:01:35 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:23:13 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_strs_in_array(char **argv)
-{
-	int	i;
-
-	i = 0;
-	while (argv[i] != NULL)
-		++i;
-	return (i);
-}
-
-char	*dup_in_lowercase(const char *str)
-{
-	char	*lower;
-	int		i;
-
-	lower = ft_strdup(str);
-	if (lower == NULL)
-		return (NULL);
-	i = -1;
-	while (lower[++i])
-		lower[i] = ft_tolower(lower[i]);
-	return (lower);
-}
-
-int	set_last_process_exit_code(int exit_status)
-{
-	char	*exit_code;
-	char	*var_exit_code;
-
-	exit_code = ft_itoa(exit_status);
-	if (exit_code == NULL)
-		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), EXIT_FAILURE);
-	var_exit_code = ft_strjoin("LAST_PROCESS_EXIT_CODE=", exit_code);
-	ft_free_n_null((void **)&exit_code);
-	if (var_exit_code == NULL)
-		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), EXIT_FAILURE);
-	if (add_env_var(var_exit_code) == EXIT_FAILURE)
-		return (ft_free_n_null((void **)&var_exit_code), EXIT_FAILURE);
-	ft_free_n_null((void **)&var_exit_code);
-	return (EXIT_SUCCESS);
-}
-
-void	restore_file_descriptors(const int original_fd[3])
+static void	restore_file_descriptors(const int original_fd[3])
 {
 	dup2(original_fd[ORIGINAL_STDIN], STDIN_FILENO);
 	ft_close((int *)&original_fd[ORIGINAL_STDIN]);

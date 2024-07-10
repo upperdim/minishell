@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:00:43 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/30 14:47:13 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/10 15:15:08 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,6 @@ void	ft_expand_env_var(t_token *token)
 {
 	(void) token;
 	return ;
-}
-
-void	ft_free_link_list(t_token *split)
-{
-	t_token	*tmp;
-
-	while (split)
-	{
-		tmp = split;
-		split = split->next;
-		ft_free_n_null((void **)&tmp->value);
-		ft_free_n_null((void **)&tmp);
-	}
 }
 
 int	ft_move_to_next(char *input, t_token **new)

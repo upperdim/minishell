@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:49:08 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/06 16:59:46 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:15:21 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,17 @@ void	add_token_last(t_token **head, t_token **new)
 		last = last->next;
 	last->next = new_token;
 	new_token->prev = last;
+}
+
+void	ft_free_link_list(t_token *split)
+{
+	t_token	*tmp;
+
+	while (split)
+	{
+		tmp = split;
+		split = split->next;
+		ft_free_n_null((void **)&tmp->value);
+		ft_free_n_null((void **)&tmp);
+	}
 }

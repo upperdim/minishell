@@ -6,11 +6,37 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/08 20:56:56 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:11:38 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_execve(t_cmd *cmd)
+{
+	extern char	**environ;
+	char		*cmd_path;
+
+	if (!cmd->argv || !cmd->argv[0])
+		exit_error(NULL, 0);
+	cmd_path = cmd->argv[0];
+	if (access (cmd->argv[0], X_OK))
+		cmd_path = find_path_to(cmd->argv[0]);
+	if (!cmd_path)
+	{
+		free_cmd(&cmd);
+		exit_error(NULL, EXIT_FAILURE);
+	}
+	execve(cmd_path, cmd->argv, environ);
+	if (cmd_path != cmd->argv[0])
+		ft_free_n_null((void **)&cmd_path);
+	ft_printf_fd(2, ERROR_MSG_PERROR, cmd->argv[0]);
+	if (cmd->argv[1])
+		ft_printf_fd(2, "%s: ", cmd->argv[1]);
+	perror(NULL);
+	free_cmd(&cmd);
+	exit_error(NULL, EXIT_FAILURE);
+}
 
 pid_t	execute_cmd(t_cmd *cmd)
 {
