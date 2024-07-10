@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static bool	have_same_key(char *key, char *env_var)
+bool	have_same_key(char *key, char *env_var)
 {
 	const char	*equal_sign = ft_strchr(env_var, '=');
 	const int	env_key_len = equal_sign - env_var;

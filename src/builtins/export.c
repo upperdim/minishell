@@ -82,6 +82,7 @@ int	is_key_valid(char *key)
 int	export(const int argc, char **argv)
 {
 	int		i;
+	int		exit_status;
 
 	if (argc == 1)
 	{
@@ -89,12 +90,17 @@ int	export(const int argc, char **argv)
 			return (EXIT_FAILURE);
 	}
 	i = 0;
+	exit_status = EXIT_SUCCESS;
 	while (argv[++i])
 	{
 		if (is_key_valid(argv[i]) == false)
+		{
 			ft_printf_fd(2, E_EXPORT, argv[i]);
+			exit_status = EXIT_FAILURE;
+		}
 		else
-			add_env_var(argv[i]);
+			if (add_env_var(argv[i]) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
 	}
-	return (EXIT_SUCCESS);
+	return (exit_status);
 }

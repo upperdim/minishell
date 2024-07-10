@@ -35,7 +35,7 @@ char	**dup_environ(void)
 	return (new_env);
 }
 
-static void	*make_env_bigger(char *var)
+static int	make_env_bigger(char *var)
 {
 	extern char	**environ;
 	const int	environ_size = count_strs_in_array(environ);
@@ -44,16 +44,16 @@ static void	*make_env_bigger(char *var)
 
 	new_environ = ft_calloc(sizeof(char *), (environ_size + 2));
 	if (new_environ == NULL)
-		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), NULL);
+		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), EXIT_FAILURE);
 	i = -1;
 	while (environ[++i])
 		new_environ[i] = environ[i];
 	new_environ[i] = ft_strdup(var);
 	if (new_environ[i] == NULL)
-		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), NULL);
+		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), EXIT_FAILURE);
 	ft_free_2d_array((void ***)&environ, FREE_ANY_SIZE);
 	environ = new_environ;
-	return (environ[i]);
+	return (EXIT_SUCCESS);
 }
 
 static const char	*get_key(char *var)
@@ -69,30 +69,30 @@ static const char	*get_key(char *var)
 	return (key);
 }
 
-void	*add_env_var(char *var)
+int	add_env_var(char *var)
 {
 	const char	*key = get_key(var);
 	extern char	**environ;
 	int			i;
 
 	if (key == NULL)
-		return (NULL);
+		return (EXIT_FAILURE);
 	if (getenv(key) == NULL)
 		return (ft_free_n_null((void **)&key), make_env_bigger(var));
 	i = -1;
 	while (environ[++i])
 	{
-		if (ft_strncmp(environ[i], key, ft_strlen(key)) == 0)
+		if (have_same_key(key, environ[i]) == true)
 		{
 			ft_free_n_null((void **)&environ[i]);
 			environ[i] = ft_strdup(var);
 			if (environ[i] == NULL)
 			{
 				ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC);
-				return (ft_free_n_null((void **)&key), NULL);
+				return (ft_free_n_null((void **)&key), EXIT_FAILURE);
 			}
 			break ;
 		}
 	}
-	return (ft_free_n_null((void **)&key), environ[i]);
+	return (ft_free_n_null((void **)&key), EXIT_SUCCESS);
 }
