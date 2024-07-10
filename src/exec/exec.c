@@ -6,11 +6,27 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 15:11:38 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:53:58 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	error_msg_execve(t_cmd *cmd)
+{
+	struct stat	buf;
+
+	stat(cmd->argv[0], &buf);
+	if (S_ISDIR(buf.st_mode))
+		ft_printf_fd(2, ERROR_MSG, cmd->argv[0], "Is a directory");
+	else if (cmd->argv[0][0] == '.' || cmd->argv[0][0] == '/')
+	{
+		ft_printf_fd(2, ERROR_MSG_PERROR, cmd->argv[0]);
+		perror(NULL);
+	}
+	else
+		ft_printf_fd(2, ERROR_MSG, cmd->argv[0], "command not found");
+}
 
 void	ft_execve(t_cmd *cmd)
 {
@@ -24,16 +40,14 @@ void	ft_execve(t_cmd *cmd)
 		cmd_path = find_path_to(cmd->argv[0]);
 	if (!cmd_path)
 	{
+		error_msg_execve(cmd);
 		free_cmd(&cmd);
 		exit_error(NULL, EXIT_FAILURE);
 	}
 	execve(cmd_path, cmd->argv, environ);
 	if (cmd_path != cmd->argv[0])
 		ft_free_n_null((void **)&cmd_path);
-	ft_printf_fd(2, ERROR_MSG_PERROR, cmd->argv[0]);
-	if (cmd->argv[1])
-		ft_printf_fd(2, "%s: ", cmd->argv[1]);
-	perror(NULL);
+	error_msg_execve(cmd);
 	free_cmd(&cmd);
 	exit_error(NULL, EXIT_FAILURE);
 }
