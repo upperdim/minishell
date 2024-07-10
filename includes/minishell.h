@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/10 13:05:12 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:01:08 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,6 @@ int		cd(const int argc, char **argv);
 int		export(const int argc, char **argv);
 int		add_env_var(char *var);
 int		unset_builtin(char **argv);
-bool	have_same_key(char *key, char *env_var);
+bool	have_same_key(const char *key, char *env_var);
 
 #endif
