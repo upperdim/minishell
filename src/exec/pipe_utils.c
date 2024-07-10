@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 17:59:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/09 16:09:27 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:11:55 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	ft_execve(t_cmd *cmd)
 	if (!cmd_path)
 	{
 		free_cmd(&cmd);
-		exit_perror(EXIT_FAILURE);
+		exit_error(NULL, EXIT_FAILURE);
 	}
 	execve(cmd_path, cmd->argv, environ);
 	if (cmd_path != cmd->argv[0])
@@ -130,32 +130,3 @@ void	ft_execve(t_cmd *cmd)
 	free_cmd(&cmd);
 	exit_perror(EXIT_FAILURE);
 }
-//! Original function from pipex needs to be modified
-// char	**create_argv(char *argv[], char *input, t_alloc_list *to_free)
-// {
-// 	char	**cmd_n_args;
-// 	int		argvs_i;
-// 	int		argv_i;
-// 	int		cmd_i;
-
-// 	argvs_i = 0;
-// 	argv_i = 2 + flags.here_doc;
-// 	fd->argvs = (char ***)ft_calloc((flags.cmd_count + 1), sizeof(char **));
-// 	if (fd->argvs == NULL)
-// 		check(-1, "Error creating fd->argvs", fd, flags);
-// 	while (argv_i <= flags.last_cmd)
-// 	{
-// 		cmd_n_args = ft_split(argv[argv_i], ' ');
-// 		cmd_i = 0;
-// 		while (cmd_n_args[cmd_i])
-// 			cmd_i++;
-// 		fd->argvs[argvs_i] = (char **)ft_calloc((cmd_i + 1), sizeof(char *));
-// 		fd->argvs[argvs_i][0] = find_path(argv[argv_i++], fd, flags);
-// 		cmd_i = 0;
-// 		while (cmd_n_args[++cmd_i])
-// 			fd->argvs[argvs_i][cmd_i] = cmd_n_args[cmd_i];
-// 		argvs_i++;
-// 		ft_free_n_null((void **)&cmd_n_args[0]);
-// 		ft_free_n_null((void **)&cmd_n_args);
-// 	}
-// }
