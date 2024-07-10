@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 18:56:48 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 19:40:11 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	free_cmd(t_cmd **cmd)
 	}
 }
 
-int	is_builtin(const char *cmd)
+bool	is_builtin(const char *cmd)
 {
 	const char	*builtins[] = {"cd", "echo", "env", "exit", "export",
 		"pwd", "unset", NULL};
