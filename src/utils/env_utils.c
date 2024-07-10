@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:16:47 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/09 15:18:33 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:06:07 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,12 @@ static const char	*get_key(char *var)
 {
 	const char	*value = ft_strchr(var, '=');
 	const char	*key;
+	int			key_len;
 
-	key = ft_substr(var, 0, value - var);
-	if (value == NULL)
-		return (NULL);
+	key_len = ft_strlen(var);
+	if (value != NULL)
+		key_len = value - var;
+	key = ft_substr(var, 0, key_len);
 	if (key == NULL)
 		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), NULL);
 	return (key);
