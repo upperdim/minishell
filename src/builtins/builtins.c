@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/09 15:02:54 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:26:24 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,11 @@ int	set_last_process_exit_code(int exit_status)
 void	restore_file_descriptors(const int original_fd[3])
 {
 	dup2(original_fd[ORIGINAL_STDIN], STDIN_FILENO);
+	ft_close((int *)&original_fd[ORIGINAL_STDIN]);
 	dup2(original_fd[ORIGINAL_STDOUT], STDOUT_FILENO);
+	ft_close((int *)&original_fd[ORIGINAL_STDOUT]);
 	dup2(original_fd[ORIGINAL_STDERR], STDERR_FILENO);
+	ft_close((int *)&original_fd[ORIGINAL_STDERR]);
 }
 
 int	exec_builtins(t_cmd	*cmd)
