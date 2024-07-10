@@ -6,16 +6,16 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:41:50 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 13:09:37 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:03:29 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	have_same_key(char *key, char *env_var)
+bool	have_same_key(const char *key, char *env_var)
 {
 	const char	*equal_sign = ft_strchr(env_var, '=');
-	int			env_key_len;
+	size_t		env_key_len;
 
 	env_key_len = ft_strlen(env_var);
 	if (equal_sign != NULL)

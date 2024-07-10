@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/09 20:26:24 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:01:35 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	set_last_process_exit_code(int exit_status)
 	ft_free_n_null((void **)&exit_code);
 	if (var_exit_code == NULL)
 		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), EXIT_FAILURE);
-	if (add_env_var(var_exit_code) == NULL)
+	if (add_env_var(var_exit_code) == EXIT_FAILURE)
 		return (ft_free_n_null((void **)&var_exit_code), EXIT_FAILURE);
 	ft_free_n_null((void **)&var_exit_code);
 	return (EXIT_SUCCESS);

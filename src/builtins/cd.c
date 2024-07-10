@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:28:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/06 19:34:43 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:01:49 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	set_oldpwd(void)
 		return (ft_free_n_null((void **)&pwd), ft_printf_fd(2, ERROR_MSG,
 				"OLDPWD", E_ALLOC), EXIT_FAILURE);
 	ft_free_n_null((void **)&pwd);
-	if (add_env_var(oldpwd) == NULL)
+	if (add_env_var(oldpwd) == EXIT_FAILURE)
 		return (ft_printf_fd(2, ERROR_MSG, "cd", "Error setting OLDPWD", 2),
 			free(oldpwd), 1);
 	return (free(oldpwd), 0);
