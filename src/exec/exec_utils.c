@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/09 16:11:32 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:12:55 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	is_builtin(const char *cmd)
 	i = -1;
 	while (builtins[++i] != NULL)
 	{
-		if (ft_strncmp(lowercase_cmd, builtins[i], ft_strlen(builtins[i]) + 1))
+		if (ft_strncmp(lowercase_cmd, builtins[i], ft_strlen(builtins[i]) + 1)
+			== 0)
 		{
 			ft_free_n_null((void **)&lowercase_cmd);
 			return (true);
