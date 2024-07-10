@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 17:59:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 12:11:55 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:05:39 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ void	ft_execve(t_cmd *cmd)
 	ft_printf_fd(2, ERROR_MSG_PERROR, cmd->argv[0]);
 	if (cmd->argv[1])
 		ft_printf_fd(2, "%s: ", cmd->argv[1]);
+	perror(NULL);
 	free_cmd(&cmd);
-	exit_perror(EXIT_FAILURE);
+	exit_error(NULL, EXIT_FAILURE);
 }
