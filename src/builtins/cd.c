@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:28:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 21:13:26 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:44:48 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,23 @@ static int	cd_oldpwd(void)
 	return (status);
 }
 
+static int	set_new_pwd(void)
+{
+	const char	*pwd = getcwd(NULL, 0);
+	char		*new_pwd;
+
+	if (pwd == NULL)
+		return (ft_printf_fd(2, ERROR_MSG_PERROR, "cd"), perror(NULL), 1);
+	new_pwd = ft_strjoin("PWD=", pwd);
+	ft_free_n_null((void **)&pwd);
+	if (new_pwd == NULL)
+		return (ft_printf_fd(2, ERROR_MSG, "PWD", E_ALLOC), EXIT_FAILURE);
+	if (add_env_var(new_pwd) == EXIT_FAILURE)
+		return (ft_printf_fd(2, ERROR_MSG, "cd", "Error setting PWD", 2),
+			free(new_pwd), EXIT_FAILURE);
+	return (free(new_pwd), EXIT_SUCCESS);
+}
+
 int	cd(const int argc, char **argv)
 {
 	const char	*pwd = getenv("PWD");
@@ -61,5 +78,6 @@ int	cd(const int argc, char **argv)
 		perror(NULL);
 		return (EXIT_FAILURE);
 	}
+	set_new_pwd();
 	return (EXIT_SUCCESS);
 }
