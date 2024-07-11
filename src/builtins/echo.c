@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:57:51 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/03 15:58:35 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:52:22 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	echo(char **input)
 	int			i;
 
 	i = 0;
+	status = 0;
 	if (option_n == true)
 		i = 1;
 	while (input[++i])
