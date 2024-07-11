@@ -6,13 +6,13 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:34 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 15:23:13 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:43:34 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	restore_file_descriptors(const int original_fd[3])
+static void	restore_fd(const int original_fd[3])
 {
 	dup2(original_fd[ORIGINAL_STDIN], STDIN_FILENO);
 	ft_close((int *)&original_fd[ORIGINAL_STDIN]);
@@ -32,7 +32,7 @@ int	exec_builtins(t_cmd	*cmd)
 
 	exit_status = do_all_redirections(cmd);
 	if (lowercase_cmd == NULL || exit_status == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (restore_fd(original_fd), free((void *)lowercase_cmd), 1);
 	if (ft_strnstr(lowercase_cmd, "cd", 2))
 		exit_status = cd(argc, cmd->argv);
 	else if (ft_strnstr(lowercase_cmd, "echo", 4))
@@ -47,6 +47,6 @@ int	exec_builtins(t_cmd	*cmd)
 		exit_status = exit_bash(argc, cmd);
 	else if (ft_strnstr(lowercase_cmd, "unset", 5))
 		exit_status = unset_builtin(cmd->argv);
-	restore_file_descriptors(original_fd);
+	restore_fd(original_fd);
 	return (ft_free_n_null((void **)&lowercase_cmd), exit_status);
 }
