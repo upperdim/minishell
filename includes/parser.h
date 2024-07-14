@@ -33,4 +33,12 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
+/* Parser variables */
+typedef struct s_pvars
+{
+	char	*line;
+	int		len;
+	t_token	*head;
+}	t_pvars;
+
 #endif

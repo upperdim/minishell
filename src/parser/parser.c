@@ -12,15 +12,22 @@
 
 #include "minishell.h"
 
-t_token	*parse_line(char *input)
-{
-	t_token	*head;
+// void	init_parser_vars(t_pvars *pvars, char *line)
+// {
+// 	pvars->line = line;
+// 	pvars->len = ft_strlen(line);
+// 	pvars->head = NULL;
+// }
 
-	if (!input || !*input)
+t_token	*parse_line(char *line)
+{
+	t_pvars pvars;
+	t_token *head;
+
+	if (line == NULL || *line == NULL)
 		return (NULL);
-	// head = ft_lexer(input);
-	// ft_look_for_tokens_in_strs(head);
-	// ft_expand_env_var(head);
+	// init_parser_vars(&pvars, line);
 	head = NULL;
+
 	return (head);
 }

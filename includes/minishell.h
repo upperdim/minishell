@@ -27,6 +27,7 @@
 # include <dirent.h>
 # include <sys/ioctl.h>
 # include <termios.h>
+# include <errno.h>
 
 # ifdef COLOR
 
