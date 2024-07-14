@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/10 15:01:08 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/15 00:17:43 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@
 
 /* ft_free_2d_arrays frees arrays of any size with this argument */
 # define FREE_ANY_SIZE -1
+
+# define TRUE 1
+# define FALSE 0
 
 // ** ---------------------------- FUNCTIONS ---------------------------- ** //
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/09 15:18:59 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/15 00:16:21 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,11 @@ int	main(void)
 	while (1)
 	{
 		input = get_input();
+		// TODO: this happens when it's EOF, in which case this can happen?
 		if (input == NULL)
 			return (clean_up(), 0);
 		// parse_line(input);
+		// TODO: why is this check here?
 		if (input == NULL)
 			continue ;
 		if (ft_strlen(input) > 0)

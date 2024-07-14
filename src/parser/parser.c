@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/30 14:45:51 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/15 00:19:33 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	validate_quotes(char *line)
+{
+	char quote_type;
+	int	len;
+	int	i;
+
+	quote_type = NULL;
+	len = ft_strlen(line);
+	i = 0;
+	while (i < len)
+	{
+		if (quote_type == NULL && (line[i] == '\'' || line[i] == '\"'))
+			quote_type = line[i];
+		else if (quote_type == line[i])
+			quote_type = NULL;
+		++i;
+	}
+	return (quote_type == NULL);
+}
 
 // void	init_parser_vars(t_pvars *pvars, char *line)
 // {
@@ -28,6 +48,8 @@ t_token	*parse_line(char *line)
 		return (NULL);
 	// init_parser_vars(&pvars, line);
 	head = NULL;
+	if (validate_quotes == FALSE)
+		exit_error("minishell: SyntaxError: unclosed quotes", EXIT_FAILURE);
 
 	return (head);
 }
