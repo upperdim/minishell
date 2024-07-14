@@ -3,30 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:00:22 by JFikents          #+#    #+#             */
-/*   Updated: 2024/03/22 20:29:08 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:17:54 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	env(char *input)
+int	env(const int argc)
 {
 	extern char	**environ;
 	int			i;
 
-	while (*input == ' ')
-		input++;
-	if (*input)
+	if (argc > 1)
 	{
-		ft_putstr_fd("env: ", 2);
-		ft_putstr_fd(input, 2);
-		ft_putendl_fd(": No such file or directory", 2);
-		return ;
+		ft_printf_fd(2, ERROR_MSG, "env", "Too many arguments");
+		return (EXIT_FAILURE);
 	}
-	i = 0;
-	while (environ[i])
-		ft_putendl_fd(environ[i++], 1);
+	i = -1;
+	while (environ[++i])
+		if (ft_strchr(environ[i], '=') != NULL)
+			ft_putendl_fd(environ[i], 1);
+	return (EXIT_SUCCESS);
 }

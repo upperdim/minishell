@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/06/24 18:57:37 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:01:08 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "parser.h"
+# include "exec.h"
 # include "libft.h"
 # include <stdio.h>
 # include <stdlib.h>
@@ -58,31 +59,30 @@
 /* ft_free_2d_arrays frees arrays of any size with this argument */
 # define FREE_ANY_SIZE -1
 
-enum	e_pipes
-{
-	PIPE_FD_READ,
-	PIPE_FD_WRITE
-};
-
 // ** ---------------------------- FUNCTIONS ---------------------------- ** //
 
-void	ft_execve(char **argv);
+void	ft_execve(t_cmd *cmd);
 char	*get_prompt(void);
 void	set_signal_handlers(void);
 void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
+char	**dup_environ(void);
 
 // EXEC
-char	*check_for_cmd(char *cmd);
+char	*find_path_to(char *cmd);
 int		setup_in_pipe(int p_fd[2]);
 int		setup_out_pipe(int p_fd[2]);
 // BUILTINS
-void	builtins(char *input);
-void	echo(char *input);
-void	env(char *input);
-void	exit_bash(char **input);
-void	pwd(void);
-void	cd(char *input);
+int		exec_builtins(t_cmd *cmd);
+int		echo(char **input);
+int		env(const int argc);
+int		exit_bash(const int argc, t_cmd *cmd);
+int		pwd(void);
+int		cd(const int argc, char **argv);
+int		export(const int argc, char **argv);
+int		add_env_var(char *var);
+int		unset_builtin(char **argv);
+bool	have_same_key(const char *key, char *env_var);
 
 #endif
