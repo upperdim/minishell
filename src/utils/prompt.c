@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 19:22:09 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:06:14 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static char	*format_hostname(char *hostname)
 {
 	char	*temp;
 	char	*point_position;
+	char	*new_line;
 
 	point_position = ft_strchr(hostname, '.');
 	temp = ft_substr(hostname, 0, point_position - hostname + 1);
@@ -40,11 +41,15 @@ static char	*format_hostname(char *hostname)
 	point_position = ft_strchr(hostname, '.');
 	if (point_position)
 		*point_position = ':';
+	new_line = ft_strchr(hostname, '\n');
+	if (new_line)
+		*new_line = ' ';
 	return (hostname);
 }
 
 static char	*get_hostname(void)
 {
+	extern char	**environ;
 	pid_t		pid;
 	int			pipe_fd[2];
 	int			status;
@@ -58,7 +63,7 @@ static char	*get_hostname(void)
 	if (!pid)
 	{
 		setup_out_pipe(pipe_fd);
-		ft_execve((char *[]){check_for_cmd("hostname"), NULL});
+		execve(find_path_to("hostname"), (char *[]){"hostname", NULL}, environ);
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
