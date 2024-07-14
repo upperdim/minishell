@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/05/30 14:37:42 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/15 01:30:21 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
+typedef struct s_list_int
+{
+	int					val;
+	struct s_list_int	*next;
+	struct s_list_int	*prev;
+}	t_list_int;
+
+
 /* Parser variables */
 typedef struct s_pvars
 {
@@ -40,5 +48,7 @@ typedef struct s_pvars
 	int		len;
 	t_token	*head;
 }	t_pvars;
+
+void	detect_tilda_expansions(char *line, t_list_int *tilda_idxs_to_expand);
 
 #endif

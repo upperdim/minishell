@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/15 00:17:43 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/15 01:15:50 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
 char	**dup_environ(void);
+void	list_add(t_list_int **head_ptr, int val);
+void	list_print(t_list_int *head);
 
 // EXEC
 char	*find_path_to(char *cmd);
