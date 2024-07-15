@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:26:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/15 01:26:58 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/15 02:46:11 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	is_eligible_for_exp(char *line, int i, char quote_type)
 {
 	if (line[i] != '~')
 		return (FALSE);
-	if (quote_type != NULL)
+	if (quote_type != NOT_QUOTE)
 		return (FALSE);
 	if (i > 0 && line[i - 1] != ' ')
 		return (FALSE);
@@ -33,16 +33,16 @@ void	detect_tilda_expansions(char *line, t_list_int *tilda_idxs_to_expand)
 	int		i;
 	
 	tilda_idxs_to_expand = NULL;
-	quote_type = NULL;
+	quote_type = NOT_QUOTE;
 	tilda_idx = 0;
 	len = ft_strlen(line);
 	i = 0;
 	while (i < len)
 	{
-		if (quote_type == NULL && (line[i] == '\"' || line[i] == '\''))
+		if (quote_type == NOT_QUOTE && (line[i] == '\"' || line[i] == '\''))
 			quote_type = line[i];
 		else if (line[i] == quote_type)
-			quote_type = NULL;
+			quote_type = NOT_QUOTE;
 		else if (line[i] == '~')
 		{
 			if (is_eligible_for_exp(line, i, quote_type))
