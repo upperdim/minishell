@@ -19,7 +19,7 @@ SRCS_NO_MAIN	= $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
 SRCS			= $(SRCS_NO_MAIN) src/main.c
 
 # Compilation
-OBJ_DIR         = obj
+OBJ_DIR         = bin
 OBJS			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
 NAME			= minishell
 
@@ -49,7 +49,7 @@ $(OBJ_DIR)/%.o: %.c
 clean:
 				@echo "Cleaning object files..."
 				@make -sC $(LIBFT_PATH) clean
-				@rm -rf $(OBJ_DIR)
+				@rm -rf $(OBJ_DIR)/*
 				@rm -rf test_parser
 
 fclean: clean
