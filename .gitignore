@@ -14,6 +14,7 @@ a.out
 minishell
 minishell_builtins
 builtin_test
+test_parser
 # Tests and Debug logs
 debug/*
 tests/*

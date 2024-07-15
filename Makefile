@@ -1,191 +1,65 @@
-NAME = minishell
-RM = rm -rf
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -Wunreachable-code
+# Libft
+LIBFT_PATH		= lib/libft/
+LIBFT			= $(LIBFT_PATH)libft.a
 
-LIB_DIR = lib
-LIBFT_PATH = $(LIB_DIR)/libft
-LDFLAGS = -L$(LIBFT_PATH) -lft -lreadline
+# Sources
+BUILTIN_FILES	= cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c\
+					builtins_utils.c
+UTILS_FILES		= signal_handler.c prompt.c exit_error.c env_utils.c \
+					token_utils.c list_int.c
+EXEC_FILES		= exec.c exec_utils.c heredoc.c divide_tokens.c redirections.c
+PARSER_FILES	= parser.c expansion/exp_tilda.c
 
-HEADERS_DIR = includes/ $(LIBFT_PATH)/includes/
-INCLUDES = $(addprefix -I, $(HEADERS_DIR))
+BUILTINS		= $(addprefix builtins/, $(BUILTIN_FILES))
+UTILS			= $(addprefix utils/, $(UTILS_FILES))
+EXEC			= $(addprefix exec/, $(EXEC_FILES))
+PARSER			= $(addprefix parser/, $(PARSER_FILES))
 
+SRCS_NO_MAIN	= $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
+SRCS			= $(SRCS_NO_MAIN) src/main.c
 
-################################################################################
-# Source files
-################################################################################
-BUILTIN_FILES = cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c\
-	builtins_utils.c
-BUILTINS = $(addprefix builtins/, $(BUILTIN_FILES))
+# Compilation
+OBJ_DIR         = obj
+OBJS			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
+NAME			= minishell
 
-UTILS_FILES = signal_handler.c prompt.c exit_error.c env_utils.c token_utils.c
-UTILS = $(addprefix utils/, $(UTILS_FILES))
+CC				= cc
+CFLAGS			= -Wextra -Wall -Werror
+LIBS			= -L$(LIBFT_PATH) -lft -lreadline
+INC				= -I includes/ -I $(LIBFT_PATH)/includes/
 
-EXEC_FILES = exec.c exec_utils.c heredoc.c divide_tokens.c redirections.c
-EXEC = $(addprefix exec/, $(EXEC_FILES))
+# VPATH to specify directories where make will look for source files
+vpath %.c builtins utils exec parser src parser/expansion tests_parser
 
-PARSER_FILES = parser.c lexer.c parser_utils.c ft_tokenize_pipe.c
-PARSER = $(addprefix parser/, $(PARSER_FILES))
+all:			$(NAME)
 
-SRC_NO_MAIN = $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
+$(NAME):		$(OBJS) $(LIBFT)
+				@echo "Compiling minishell..."
+				@$(CC) $(OBJS) $(LIBS) $(INC) -o $(NAME)
 
+$(LIBFT):
+				@echo "Making libft..."
+				@make -sC $(LIBFT_PATH) all
 
-################################################################################
-# Creating binaries
-################################################################################
-SRC_MAIN = main.c $(SRC_NO_MAIN)
-SRC_TEST_MAIN = main_test.c test_builtins.c test_echo.c test_echo_2.c\
-	test_exit.c test_utils.c test_cd.c
-SRC_BUILTINS_MAIN = $(SRC_B_DIR)main_builtins.c
-
-SRC_DIR = src/
-SRC_B_DIR = tests/builtins_test/
-SRC = $(addprefix $(SRC_DIR), $(SRC_MAIN))
-SRC_TEST = $(addprefix $(SRC_B_DIR), $(SRC_TEST_MAIN))
-SRC_BUILTINS = $(addprefix $(SRC_DIR), $(SRC_NO_MAIN))
-
-OBJ = $(SRC:src/%.c=bin/%.o)
-OBJ_TEST = $(SRC_TEST:tests/builtins_test/%.c=tests/builtins_test/bin/%.o)\
-	$(filter-out bin/main.o, $(OBJ))
-OBJ_BUILTINS_NO_MAIN = $(SRC_BUILTINS:src/%.c=bin_builtins/%.o)
-OBJ_BUILTINS = $(SRC_BUILTINS_MAIN:$(SRC_B_DIR)%.c=$(SRC_B_DIR)bin/%.o)\
-	$(OBJ_BUILTINS_NO_MAIN)
-
-
-################################################################################
-# Rules
-################################################################################
-all: $(NAME)
-.PHONY: all
-
-bin/%.o : src/%.c
-	@printf "%-100s\r" "	Compiling $@"
-	@mkdir -p bin/builtins bin/exec bin/parser bin/utils
-	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) $(COLOR_FLAG)
-
-$(NAME) : $(LIBFT_PATH)/libft.a $(OBJ) includes/minishell.h
-	@$(CC) -o $@ $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
-	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
-
-$(LIBFT_PATH)/libft.a:
-	@git submodule update --init --recursive $(LIBFT_PATH)
-	@printf "%-100s\r" "	Creating libft.a..."
-	@make -C $(LIBFT_PATH) --silent;
+# Ensure object directories are created as needed
+$(OBJ_DIR)/%.o: %.c
+				@mkdir -p $(dir $@)
+				@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 clean:
-	@printf "%-100s\r" "	Erasing binaries..."
-	@$(RM) $(OBJ+) $(OBJ) $(OBJ_BUILTINS)
-	@$(RM) bin/
-	@$(RM) bin_builtins
-	@make -C $(LIBFT_PATH) clean
-.PHONY: clean
+				@echo "Cleaning object files..."
+				@make -sC $(LIBFT_PATH) clean
+				@rm -rf $(OBJ_DIR)
+				@rm -rf test_parser
 
 fclean: clean
-	@printf "%-100s\r" "	Erasing $(NAME)..."
-	@$(RM) $(NAME)
-	@$(RM) $(NAME)_builtins
-	@make -C $(LIBFT_PATH) fclean
-.PHONY: fclean
+				@echo "Cleaning minishell..."
+				@make -sC $(LIBFT_PATH) fclean
+				@rm -rf $(NAME)
 
-re: fclean all
-.PHONY: re
-
-bonus: $(LIBFT_PATH)/libft.a $(OBJ+) $(OBJ)
-	@printf "%-100s\r" "	Compiling $(NAME) with bonus..."
-	@$(CC) -o $(NAME) $(OBJ+) $(OBJ) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
-	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
-
-
-################################################################################
-# Debug
-################################################################################
-DEBUG_DIR = debug
-DEBUG_FLAGS = -fsanitize=address -g3
-OBJ_DEBUG = $(SRC:src/%.c=debug/bin/%.o)
-
-DEBUG ?= 0
-ifeq ($(DEBUG), 1)
-CFLAGS += -g3
-endif
-
-$(DEBUG_DIR)/bin/%.o : src/%.c
-	@printf "%-100s\r" "	Compiling $@"
-	@mkdir -p $(DEBUG_DIR)/bin/builtins $(DEBUG_DIR)/bin/exec $(DEBUG_DIR)/bin/parser $(DEBUG_DIR)/bin/utils
-	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) $(COLOR_FLAG) $(DEBUG_FLAGS)
-
-c:
-	@$(RM) $(DEBUG_DIR)/* 
-	@$(RM) *.out *.dSYM *.gch test
-.PHONY: c
-
-debug: $(DEBUG_DIR)/a.out
-.PHONY: debug
-
-$(DEBUG_DIR)/a.out: c $(LIBFT_PATH)/libft.a includes/minishell.h tests/run_tests.sh $(OBJ_DEBUG)
-	@$(CC) $(CFLAGS) $(OBJ_DEBUG) $(DEBUG_FLAGS) $(INCLUDES) $(LDFLAGS)
-	@mv a.out $(DEBUG_DIR)
-
-
-################################################################################
-# Unit test
-################################################################################
-clean_test:
-	@$(RM) $(OBJ_TEST)
-	@printf "%-100s\r" "	Erasing builtin_test binaries..."
-	@$(RM) tests/builtins_test/bin/
-.PHONY: clean_test
-
-fclean_test: clean_test
-	@printf "%-100s\r" "	Erasing builtin_test..."
-	@$(RM) builtin_test
-.PHONY: fclean_test
-
-re_test: fclean_test builtin_test
-.PHONY: re_test
-
-tests/builtins_test/bin/%.o : tests/builtins_test/%.c tests/run_tests.sh
-	@mkdir -p tests/builtins_test/bin
-	@printf "%-100s\r" "	Compiling $@..."
-	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
-
-builtin_test: $(LIBFT_PATH)/libft.a $(OBJ_TEST)
-	@$(RM) bin/utils/prompt.o
-	@make bin/utils/prompt.o COLOR=0
-	@$(CC) -o $@ $^ $(CFLAGS) $(INCLUDES) $(LDFLAGS)
-	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
-
-update_tests:
-	@cd tests && git checkout main && git pull origin main
-.PHONY: update_tests
-
-tests/run_tests.sh:
-	@git submodule update --init --recursive tests
-	@cd tests && git checkout main *
-
-test: | tests/run_tests.sh
-	@./tests/run_tests.sh
-.PHONY: test
-
-
-################################################################################
-# Builtin test
-################################################################################
-bin_builtins/%.o : src/%.c
-	@printf "%-100s\r" "	Compiling $@"
-	@mkdir -p bin_builtins/builtins bin_builtins/exec bin_builtins/parser bin_builtins/utils
-	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES) $(COLOR_FLAG)
-
-$(NAME)_builtins : $(LIBFT_PATH)/libft.a $(OBJ_BUILTINS) includes/minishell.h
-	@$(CC) -o $@ $(OBJ_BUILTINS) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
-	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
-
-
-################################################################################
-# Colors
-################################################################################
-COLOR ?= 1
-ifeq ($(COLOR),1)
-COLOR_FLAG = -DCOLOR
-else
-COLOR_FLAG = 
-endif
+# Parser test
+SRCS_TEST_PARSER = $(SRCS_NO_MAIN) tests_parser/test_parser.c
+TEST_OBJS        = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS_TEST_PARSER))
+test_parser:	$(TEST_OBJS) $(LIBFT)
+				@echo "Compiling parser tests..."
+				@$(CC) $(TEST_OBJS) $(LIBS) $(INC) -o test_parser
