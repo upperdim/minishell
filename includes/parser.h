@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/16 03:08:42 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/16 05:51:09 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ typedef struct s_pvars
 }	t_pvars;
 
 void	detect_tilda_expansions(char *line, t_list_int **p_tild_idxs_to_expand);
-void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_expand);
+void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_ex, int s);
 
 #endif

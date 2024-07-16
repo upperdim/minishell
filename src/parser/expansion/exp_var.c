@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/16 03:51:13 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/16 05:50:11 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,33 @@ static int	is_eligible_for_exp(char *line, int *s, int *in_quote, int *var_idx)
 	return (TRUE);
 }
 
-void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_expand)
+/*
+	`s` was defined here for norm complience.
+	It's not a real variable, it initially must always be received as 0.
+*/
+void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 {
 	int	var_idx;
-	int	len;
-	int	s;
 	int	e;
 	int	is_in_single_quote;
 	
 	is_in_single_quote = FALSE;
-	len = ft_strlen(line);
 	var_idx = 0;
-	s = 0;
-	while (s < len)
+	while (line[s] != '\0')
 	{
 		if (!is_eligible_for_exp(line, &s, &is_in_single_quote, &var_idx))
-			continue;
+			continue ;
 		e = s + 1;
-		while (e < len && is_valid_var_exp_char(line[e]))
+		while (is_valid_var_exp_char(line[e]))
 			++e;
 		if (e != s + 1)
-			list_add(p_var_idxs_to_expand, var_idx);
+			list_add(p_var_idxs_to_exp, var_idx);
 		else if (line[e] == '$')
 		{
-			list_add(p_var_idxs_to_expand, var_idx);
+			list_add(p_var_idxs_to_exp, var_idx);
 			var_idx += 2;
 			s += 2;
-			continue;
+			continue ;
 		}
 		s = e;
 		++var_idx;
