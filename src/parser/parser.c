@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/15 02:45:32 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/16 03:09:49 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_token	*parse_line(char *line)
 	if (validate_quotes(line) == FALSE)
 		exit_error("minishell: SyntaxError: unclosed quotes", EXIT_FAILURE);
 	tilda_idxs_to_expand = NULL;
-	detect_tilda_expansions(line, tilda_idxs_to_expand);
+	detect_tilda_expansions(line, &tilda_idxs_to_expand);
 
 	return (token_list);
 }
