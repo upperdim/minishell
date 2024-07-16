@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/15 03:42:47 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/16 02:53:32 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,17 @@ void test_expansion_tilda() {
 
 	for (int i = 0; i < EXP_TLD_DET_TEST_COUNT; ++i) {
 		char *test_case = tilda_expansion_detection_tests[i];
+		printf("test case = <%s>\n", test_case);
+
 		t_list_int *actual = NULL;
-		detect_tilda_expansions(test_case, actual);
+		detect_tilda_expansions(test_case, &actual);
+		
 		list_print(actual);
 		printf("\n");
 	}
 }
 
 int main() {
-	test_ll_add_when_null();
-	// test_expansion_tilda();
+	// test_ll_add_when_null();
+	test_expansion_tilda();
 }
