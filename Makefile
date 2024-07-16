@@ -8,7 +8,7 @@ BUILTIN_FILES	= cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c\
 UTILS_FILES		= signal_handler.c prompt.c exit_error.c env_utils.c \
 					token_utils.c list_int.c
 EXEC_FILES		= exec.c exec_utils.c heredoc.c divide_tokens.c redirections.c
-PARSER_FILES	= parser.c expansion/exp_tilda.c
+PARSER_FILES	= parser.c expansion/exp_tilda.c expansion/exp_var.c
 
 BUILTINS		= $(addprefix builtins/, $(BUILTIN_FILES))
 UTILS			= $(addprefix utils/, $(UTILS_FILES))

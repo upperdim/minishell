@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/16 02:53:32 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/16 03:50:05 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,29 @@ void test_ll_add_when_null() {
 	list_print(head);
 }
 
-void test_expansion_tilda() {
+void test_expansion_detection_variable() {
+	#define EXP_VAR_DET_TEST_COUNT 5
+	char *var_expansion_detection_tests[EXP_VAR_DET_TEST_COUNT] = {
+		"$2$ ",
+		"$2$ $a x",
+		"a$$b",
+		"a$b$c123$$$$$a$2$ x",
+		"a$$b \" a$$b \" a$$b \' a$$b \' a$$b"
+	};
+
+	for (int i = 0; i < EXP_VAR_DET_TEST_COUNT; ++i) {
+		char *test_case = var_expansion_detection_tests[i];
+		printf("test case = <%s>\n", test_case);
+
+		t_list_int *actual = NULL;
+		detect_var_expansions(test_case, &actual);
+		
+		list_print(actual);
+		printf("\n");
+	}
+}
+
+void test_expansion_detection_tilda() {
 	#define EXP_TLD_DET_TEST_COUNT 8
 	char *tilda_expansion_detection_tests[EXP_TLD_DET_TEST_COUNT] = {
 		"~",
@@ -47,5 +69,6 @@ void test_expansion_tilda() {
 
 int main() {
 	// test_ll_add_when_null();
-	test_expansion_tilda();
+	// test_expansion_detection_tilda();
+	test_expansion_detection_variable();
 }
