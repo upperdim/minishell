@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 19:37:06 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 20:02:29 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,20 @@ int	handle_if_double_dollar(t_token *iter, int i, int *p_idx_idx, int *p_var_idx
 	return (FALSE);
 }
 
+int	handle_if_dollar_questionmark(t_token *iter, int i)
+{
+	char	*last_proc_exit_code;
+
+	if (iter->value[i + 1] == '?')
+	{
+		last_proc_exit_code = get_env_var("LAST_PROCESS_EXIT_CODE");
+		str_replace_section(&iter->value, i, i + 1, last_proc_exit_code);
+		free(last_proc_exit_code);
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
 void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand, const int list_size)
 {
 	int		var_idx;
@@ -111,6 +125,8 @@ void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand, const int l
 				if (iter->value[i] == '$')
 				{
 					if (handle_if_double_dollar(iter, i, &idx_idx, &var_idx))
+						;
+					else if (handle_if_dollar_questionmark(iter, i))
 						;
 					else if (list_size > idx_idx && var_idx == list_get_val_idx(var_idxs_to_expand, idx_idx))
 					{
