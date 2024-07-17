@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 06:31:35 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 07:08:51 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void	list_print(t_list_int *head);
 
 // TOKEN LIST
 void	add_token(t_token **head_ptr, t_token_type type, char *val);
+void	token_list_print(t_token *head);
+t_token	*token_list_get_last(t_token *list);
 
 // EXEC
 char	*find_path_to(char *cmd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:49:08 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 15:15:21 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/17 07:41:49 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,93 @@ void	add_token_last(t_token **head, t_token **new)
 		last = last->next;
 	last->next = new_token;
 	new_token->prev = last;
+}
+
+/* Get a pointer to the last element of the token list */
+t_token	*token_list_get_last(t_token *list)
+{
+	t_token	*iter;
+
+	if (list == NULL)
+		return (NULL);
+	iter = list;
+	while (iter->next != NULL)
+		iter = iter->next;
+	return (iter);
+}
+
+/* Return whether token type and value are compatible */
+// static int	check_token_type_val(t_token_type type, char *val)
+// {
+// 	if (type == REDIR_TO && !ft_strncmp(val, ">", 1))
+// 	{
+// 		return (FALSE);
+// 	}
+// 	else if (type == APPEND_TO && !ft_strncmp(val, ">>", 2))
+// 	{
+// 		return (FALSE);
+// 	}
+// 	else if (type == REDIR_FROM && !ft_strncmp(val, "<", 1))
+// 	{
+// 		return (FALSE);
+// 	}
+// 	else if (type == HERE_DOC && !ft_strncmp(val, "<<", 2))
+// 	{
+// 		return (FALSE);
+// 	}
+// 	else if (type == PIPE && !ft_strncmp(val, "|", 1))
+// 	{
+// 		return (FALSE);
+// 	}
+// 	return (TRUE);
+// }
+
+void	add_token(t_token **head_ptr, t_token_type type, char *val)
+{
+	t_token	*last;
+	t_token	*new;
+	
+	//if (!check_token_type_val(type, val))
+	{
+		// TODO: Handle this or check at all? exit_error? return? just log/print?
+	}
+	new = (t_token *) malloc(1 * sizeof(t_token));
+	if (new == NULL)
+		// TODO: carry and free everything here
+		exit_error("minishell: Error allocating memory: malloc", EXIT_FAILURE);
+	new->type = type;
+	new->value = ft_strdup(val);
+	new->next = NULL;
+	if (*head_ptr == NULL)
+	{
+		*head_ptr = new;
+		new->prev = NULL;
+	}
+	else
+	{
+		last = token_list_get_last(*head_ptr);
+		last->next = new;
+		new->prev = last;
+	}
+}
+
+void	token_list_print(t_token *head)
+{
+	t_token	*iter;
+	char	*enum_names[6] = {"STRING", "REDIR_TO", "APPEND_TO", "REDIR_FROM", "HERE_DOC", "PIPE"};	
+	
+	if (head == NULL)
+	{
+		printf("<null node>\n");
+		return ;
+	}
+	iter = head;
+	while (iter != NULL)
+	{
+		printf("type = %d, val = {%s}\n", iter->type, enum_names[iter->type]);
+		iter = iter->next;
+	}
+	printf("\n");
 }
 
 void	ft_free_link_list(t_token *split)

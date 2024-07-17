@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 06:29:47 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 07:41:11 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void test_expansion_detection_tilda() {
 	}
 }
 
-void test_str_append() {
+void test_str_append_appendc() {
 	char *s1 = NULL;
 	char *s2 = "hello world";
 	printf("s1 initially         = %s\n", s1);
@@ -77,9 +77,20 @@ void test_str_append() {
 	printf("s1 after char append = %s\n", s1);
 }
 
+void test_token_list() {
+	t_token *head;
+
+	add_token(&head, STRING, "hello there");
+	printf("added first\n");
+	token_list_print(head);
+	add_token(&head, APPEND_TO, ">>");
+	token_list_print(head);
+}
+
 int main() {
 	// test_ll_add_when_null();
 	// test_expansion_detection_tilda();
 	// test_expansion_detection_variable();
-	test_str_append();
+	// test_str_append_appendc();
+	test_token_list();
 }
