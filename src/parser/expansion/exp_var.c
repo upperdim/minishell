@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/16 05:50:11 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 16:47:35 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,56 @@ void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 		}
 		s = e;
 		++var_idx;
+	}
+}
+
+static char *get_var_value(char *var_name)
+{
+	char *result;
+
+	// TODO: Actually get the variable instead of the placeholder
+	str_append(result, "i_am_");
+	str_append(result, var_name);
+	return (result);
+}
+
+void	expand_var\
+(t_token *token_list, t_list_int *var_idxs_to_expand, const int list_size)
+{
+	int		var_idx;
+	int		idx_idx;
+	int		i;
+	int		e;
+	char	*var_name;
+	t_token *iter;
+
+	var_idx = 0;
+	idx_idx = 0;
+	iter = token_list;
+	while (iter != NULL)
+	{
+		if (iter->type == STRING)
+		{
+			i = 0;
+			while (iter->value[i] != '\0')
+			{
+				if (iter->value[i] == '$')
+				{
+					if (list_size > idx_idx && var_idx == list_get_val_idx(var_idxs_to_expand, idx_idx))
+					{
+						e = i + 1;
+						while (iter->value[e] != '\0' && is_valid_var_exp_char(iter->value[e]))
+							++e;
+						var_name = str_sub(iter->value, i + 1, e - 1);
+						str_replace_section(iter->value, i, e, get_var_value(var_name));
+						free(var_name);
+						++(idx_idx);
+					}
+					++(var_idx);
+				}
+				++i;
+			}
+		}
+		iter = iter->next;
 	}
 }

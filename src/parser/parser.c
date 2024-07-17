@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 15:15:30 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 16:48:39 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_token	*parse(char *line)
 	//t_pvars		pvars;
 	t_token 	*token_list;
 	t_list_int	*tilda_idxs_to_expand;
-	t_list_int	*p_var_idxs_to_expand;
+	t_list_int	*var_idxs_to_expand;
 
 	if (line == NULL || *line == '\0')
 		return (NULL);
@@ -54,11 +54,12 @@ t_token	*parse(char *line)
 		exit_error("minishell: SyntaxError: unclosed quotes", EXIT_FAILURE);
 	tilda_idxs_to_expand = NULL;
 	detect_tilda_expansions(line, &tilda_idxs_to_expand);
-	p_var_idxs_to_expand = NULL;
-	detect_var_expansions(line, &p_var_idxs_to_expand, 0);
+	var_idxs_to_expand = NULL;
+	detect_var_expansions(line, &var_idxs_to_expand, 0);
 	token_list = tokenize(line);
 	if (!check_token_rules(token_list))
 		exit_error("minishell: SyntaxError: invalid tokens", EXIT_FAILURE);
 	expand_tilda(token_list, tilda_idxs_to_expand, list_get_size(tilda_idxs_to_expand));
+	expand_var(token_list, var_idxs_to_expand, list_get_size(var_idxs_to_expand));
 	return (token_list);
 }
