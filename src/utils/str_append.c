@@ -6,14 +6,14 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 04:55:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 05:07:23 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 05:15:28 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Returns 0 if `s` is NULL. */
-static size_t	ft_strlen_nullcheck(const char *s)
+int	strlen_null(const char *s)
 {
 	int	i;
 
@@ -31,13 +31,13 @@ static size_t	ft_strlen_nullcheck(const char *s)
 */
 char	*str_append(char const *s1, char const *s2)
 {
-	size_t	i;
-	size_t	len1;
-	size_t	len2;
+	int		i;
+	int		len1;
+	int		len2;
 	char	*joint;
 
-	len1 = ft_strlen_nullcheck(s1);
-	len2 = ft_strlen_nullcheck(s2);
+	len1 = strlen_null(s1);
+	len2 = strlen_null(s2);
 	if (len1 == 0 && len2 == 0)
 		return (NULL);
 	joint = (char *) malloc((len1 + len2 + 1) * sizeof(char));

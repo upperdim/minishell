@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 05:01:55 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 05:15:56 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
 char	**dup_environ(void);
+int		strlen_null(const char *s);
 char	*str_append(char const *s1, char const *s2);
 char	*str_appendc(char const *s1, char char_to_append);
 void	list_add(t_list_int **head_ptr, int val);
