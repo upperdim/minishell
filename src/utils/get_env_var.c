@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:29:43 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 19:30:50 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 19:52:00 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,21 @@
 char	*get_env_var(char *var_name)
 {
 	extern char	**environ;
-	int			start_idx;
-	int			end_idx;
+	int			equals_symbol_idx;
+	int			last_idx;
 	int			i;
 	
 	i = 0;
 	while (environ[i] != NULL)
 	{
+		printf("environ[%d] = %s\n", i, environ[i]);
 		if (ft_strncmp(environ[i], var_name, ft_strlen(var_name)) == 0)
 		{
-			start_idx = find_idx_of_nextc(environ[i], 0, '=') + 1;
-			end_idx = ft_strlen(environ[i]);
-			return (str_sub(environ[i], start_idx, end_idx));
+			equals_symbol_idx = find_idx_of_nextc(environ[i], 0, '=');
+			if (equals_symbol_idx == -1)
+				break ;
+			last_idx = ft_strlen(environ[i]) - 1;
+			return (str_sub(environ[i], equals_symbol_idx + 1, last_idx));
 		}
 		++i;
 	}

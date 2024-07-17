@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 18:18:54 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 19:37:06 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,28 +73,13 @@ void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 	}
 }
 
-static char	*get_msh_pid()
-{
-	return (ft_itoa(getpid()));
-}
-
-static char *get_var_value(char *var_name)
-{
-	char *result;
-
-	// TODO: Actually get the variable instead of the placeholder
-	result = ft_strdup("i_am_");
-	str_append(&result, var_name);
-	return (result);
-}
-
 int	handle_if_double_dollar(t_token *iter, int i, int *p_idx_idx, int *p_var_idx)
 {
 	char	*minishell_pid;
 
 	if (iter->value[i + 1] == '$')
 	{
-		minishell_pid = get_msh_pid();
+		minishell_pid = ft_itoa(getpid());
 		str_replace_section(&iter->value, i, i + 1, minishell_pid);
 		free(minishell_pid);
 		++(*p_idx_idx);
@@ -133,7 +118,7 @@ void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand, const int l
 						while (iter->value[e] != '\0' && is_valid_var_exp_char(iter->value[e]))
 							++e;
 						var_name = str_sub(iter->value, i + 1, e - 1);
-						str_replace_section(&iter->value, i, e, get_var_value(var_name));
+						str_replace_section(&iter->value, i, e, get_env_var(var_name));
 						free(var_name);
 						++(idx_idx);
 					}
