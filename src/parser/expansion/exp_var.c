@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 16:47:35 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 16:52:56 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ static char *get_var_value(char *var_name)
 	char *result;
 
 	// TODO: Actually get the variable instead of the placeholder
-	str_append(result, "i_am_");
-	str_append(result, var_name);
+	str_append(&result, "i_am_");
+	str_append(&result, var_name);
 	return (result);
 }
 
@@ -111,7 +111,7 @@ void	expand_var\
 						while (iter->value[e] != '\0' && is_valid_var_exp_char(iter->value[e]))
 							++e;
 						var_name = str_sub(iter->value, i + 1, e - 1);
-						str_replace_section(iter->value, i, e, get_var_value(var_name));
+						str_replace_section(&iter->value, i, e, get_var_value(var_name));
 						free(var_name);
 						++(idx_idx);
 					}
