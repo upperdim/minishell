@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:29:43 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 19:52:00 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 20:03:02 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ char	*get_env_var(char *var_name)
 	i = 0;
 	while (environ[i] != NULL)
 	{
-		printf("environ[%d] = %s\n", i, environ[i]);
 		if (ft_strncmp(environ[i], var_name, ft_strlen(var_name)) == 0)
 		{
 			equals_symbol_idx = find_idx_of_nextc(environ[i], 0, '=');
