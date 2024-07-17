@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 17:50:23 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 18:18:54 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,29 @@ static char *get_var_value(char *var_name)
 	return (result);
 }
 
-void	expand_var\
-(t_token *token_list, t_list_int *var_idxs_to_expand, const int list_size)
+int	handle_if_double_dollar(t_token *iter, int i, int *p_idx_idx, int *p_var_idx)
+{
+	char	*minishell_pid;
+
+	if (iter->value[i + 1] == '$')
+	{
+		minishell_pid = get_msh_pid();
+		str_replace_section(&iter->value, i, i + 1, minishell_pid);
+		free(minishell_pid);
+		++(*p_idx_idx);
+		++(*p_var_idx);
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand, const int list_size)
 {
 	int		var_idx;
 	int		idx_idx;
 	int		i;
 	int		e;
 	char	*var_name;
-	char	*minish_pid;
 	t_token *iter;
 
 	var_idx = 0;
@@ -111,14 +125,8 @@ void	expand_var\
 			{
 				if (iter->value[i] == '$')
 				{
-					if (iter->value[i + 1] == '$')
-					{
-						minish_pid = get_msh_pid();
-						str_replace_section(&iter->value, i, i + 1, minish_pid);
-						free(minish_pid);
-						++(idx_idx);
-						++(var_idx);
-					}
+					if (handle_if_double_dollar(iter, i, &idx_idx, &var_idx))
+						;
 					else if (list_size > idx_idx && var_idx == list_get_val_idx(var_idxs_to_expand, idx_idx))
 					{
 						e = i + 1;
