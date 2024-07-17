@@ -5,31 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 04:55:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 05:15:28 by tunsal           ###   ########.fr       */
+/*   Created: 2024/07/17 06:26:39 by tunsal            #+#    #+#             */
+/*   Updated: 2024/07/17 06:28:24 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Returns 0 if `s` is NULL. */
-int	strlen_null(const char *s)
-{
-	int	i;
-
-	if (s == NULL)
-		return (0);
-	i = 0;
-	while (s[i] != '\0')
-		++i;
-	return (i);
-}
-
 /*
    Return joint string of s1 and s2. Free s1.
    return NULL upon alloc error.
 */
-char	*str_append(char const *s1, char const *s2)
+static char	*str_join_free(char const *s1, char const *s2)
 {
 	int		i;
 	int		len1;
@@ -58,14 +45,41 @@ char	*str_append(char const *s1, char const *s2)
 }
 
 /*
-   Return joint string of s1 and char_to_append. Free s1.
-   return NULL upon alloc error.
+   Append `to_append` to string pointed by `p_str`.
+   TODO: clean and exit upon alloc error.
 */
-char	*str_appendc(char const *s1, char char_to_append)
+void	str_append(char **p_str, char *to_append)
 {
+	char	*joint_str;
+
+	joint_str = str_join_free(*p_str, to_append);
+	*p_str = joint_str;
+}
+
+/*
+   Append `char_to_append` to string pointed by `p_str`.
+   TODO: clean and exit upon alloc error.
+*/
+void	str_appendc(char **p_str, char char_to_append)
+{
+	char	*joint_str;
 	char	append[2];
 
 	append[0] = char_to_append;
 	append[1] = '\0';
-	return (str_append(s1, append));
+	joint_str = str_join_free(*p_str, append);
+	*p_str = joint_str;
+}
+
+/*
+   Append `to_append_and_free` to string pointed by `p_str`.
+   TODO: clean and exit upon alloc error.
+*/
+void	str_append_free(char **p_str, char *to_append_and_free)
+{
+	char	*joint_str;
+
+	joint_str = str_join_free(*p_str, to_append_and_free);
+	*p_str = joint_str;
+	free(to_append_and_free);
 }

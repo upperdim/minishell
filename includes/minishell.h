@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 05:15:56 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 06:31:35 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,23 @@ void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
 char	**dup_environ(void);
+
+// STR
 int		strlen_null(const char *s);
-char	*str_append(char const *s1, char const *s2);
-char	*str_appendc(char const *s1, char char_to_append);
+char	*str_sub(char *s, int start_idx, int end_idx);
+int		find_idx_of_nextc(char *s, int search_start_idx, char search_char);
+
+// STR APPEND
+void	str_append(char **p_str, char *to_append);
+void	str_appendc(char **p_str, char char_to_append);
+void	str_append_free(char **p_str, char *to_append_and_free);
+
+// INT LIST
 void	list_add(t_list_int **head_ptr, int val);
 void	list_print(t_list_int *head);
+
+// TOKEN LIST
+void	add_token(t_token **head_ptr, t_token_type type, char *val);
 
 // EXEC
 char	*find_path_to(char *cmd);

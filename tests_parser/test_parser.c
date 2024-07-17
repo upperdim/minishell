@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 05:08:13 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 06:29:47 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void test_str_append() {
 	char *s1 = NULL;
 	char *s2 = "hello world";
 	printf("s1 initially         = %s\n", s1);
-	s1 = str_append(s1, s2);
+	str_append(&s1, s2);
 	printf("s1 after str append  = %s\n", s1);
-	s1 = str_appendc(s1, 'x');
+	str_appendc(&s1, 'x');
 	printf("s1 after char append = %s\n", s1);
 }
 
