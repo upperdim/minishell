@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:26:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 15:47:59 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 16:21:44 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,27 +61,23 @@ char	*get_tilda_value()
 static void	search_token_string\
 (t_token *cur_tok, t_list_int *tld_idxs_to_exp, int list_size, int *idx_ptrs[2])
 {
-	long	next_idx_to_exp;
-	int		*idx_idx;
-	int		*tilda_idx;
+	int		*p_idx_idx;
+	int		*p_tilda_idx;
 	int		i;
 	
-	idx_idx = idx_ptrs[0];
-	tilda_idx = idx_ptrs[1];
+	p_idx_idx = idx_ptrs[0];
+	p_tilda_idx = idx_ptrs[1];
 	i = 0;
 	while (cur_tok->value[i] != '\0')
 	{
 		if (cur_tok->value[i] == '~')
 		{
-			next_idx_to_exp = list_get_val_idx(tld_idxs_to_exp, *idx_idx);
-			if (next_idx_to_exp == LONG_MAX)
-			{} // TODO: Handle error
-			if (list_size > *idx_idx && *tilda_idx == next_idx_to_exp)
+			if (list_size > *p_idx_idx && *p_tilda_idx == list_get_val_idx(tld_idxs_to_exp, *p_idx_idx))
 			{
 				str_replace_section(&cur_tok->value, i, i, get_tilda_value());
-				++(*idx_idx);
+				++(*p_idx_idx);
 			}
-			++(*tilda_idx);
+			++(*p_tilda_idx);
 		}
 		++i;
 	}
