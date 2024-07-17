@@ -6,14 +6,14 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:30:55 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/15 02:46:48 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 05:34:21 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Get a pointer to the last element of the list */
-t_list_int	*list_get_last(t_list_int *list)
+static t_list_int	*list_get_last(t_list_int *list)
 {
 	t_list_int	*iter;
 
