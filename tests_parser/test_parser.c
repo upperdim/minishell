@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 07:51:15 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 10:32:19 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,27 @@ void test_token_list() {
 	token_list_print(head);
 }
 
+void test_tokenizer() {
+	#define TOKENIZER_TEST_COUNT 1
+	char *tokenizer_tests[TOKENIZER_TEST_COUNT] = {
+		"cat hello1>file2name 123>file1name123>world<<\" EOF\""
+	};
+
+	for (int i = 0; i < TOKENIZER_TEST_COUNT; ++i) {
+		char *test_case = tokenizer_tests[i];
+		printf("test case = <%s>\n", test_case);
+
+		t_token *token_list = tokenize(test_case);
+		token_list_print(token_list);
+		printf("\n");
+	}
+}
+
 int main() {
 	// test_ll_add_when_null();
 	// test_expansion_detection_tilda();
 	// test_expansion_detection_variable();
 	// test_str_append_appendc();
-	test_token_list();
+	// test_token_list();
+	test_tokenizer();
 }

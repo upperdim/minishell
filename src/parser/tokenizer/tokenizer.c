@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 10:24:39 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 10:28:16 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ static int	handle_if_first_char(char *line, int *i, char *curr_token_val, t_toke
 }
 
 // TODO: Carry vars into a struct & create an initializer function?
-t_token	*tokenizer(char *line)
+t_token	*tokenize(char *line)
 {
 	t_token	*head;
 	int		i;

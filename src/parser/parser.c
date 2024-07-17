@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/16 05:50:31 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 10:30:02 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_token	*parse_line(char *line)
 	detect_tilda_expansions(line, &tilda_idxs_to_expand);
 	p_var_idxs_to_expand = NULL;
 	detect_var_expansions(line, &p_var_idxs_to_expand, 0);
+	token_list = tokenize(line);
 
 	return (token_list);
 }
