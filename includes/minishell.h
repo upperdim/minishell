@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 09:16:49 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 09:22:41 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 # include <errno.h>
+# include <limits.h>
 
 # ifdef COLOR
 

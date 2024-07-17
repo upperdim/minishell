@@ -1,111 +1,173 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   tokenizer.c                                        :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
-// /*   Updated: 2024/07/17 07:33:35 by tunsal           ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
+/*   Updated: 2024/07/17 10:09:19 by tunsal           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// #include "minishell.h"
+#include "minishell.h"
 
-// /*
-// 	Updates `curr_token_val` and adjusts `i` after properly handling quotes.
+static void	add_numeric_redir_token\
+(t_token **p_head, char redir_type, int single_or_double, char *curr_token_val)
+{
+	char	*new_val;
+	int		new_type;
 
-// 	Inputs:
-// 	- line              : input line
-// 	- i                 : current index in the line
-// 	- idx_dist_to_quote : adding this to `i` should give index of the opening quote
+	new_val = NULL;
+	str_append(&new_val, curr_token_val);
+	str_appendc(&new_val, redir_type);
+	if (single_or_double == 2)
+		str_appendc(&new_val, redir_type);
+	if (redir_type == '>')
+	{
+		if (single_or_double == 1)
+			new_type = REDIR_TO;
+		else if (single_or_double == 2)
+			new_type = APPEND_TO;
+	}
+	else if (redir_type == '<')
+	{
+		if (single_or_double == 1)
+			new_type = REDIR_FROM;
+		else if (single_or_double == 2)
+			new_type = HERE_DOC;
+	}
+	add_token(p_head, new_type, new_val);
+	free(new_val);
+}
 
-// 	Outputs:
-// 	- curr_token_val : updated current token value
-// 	- i              : updated index position in the line  
-// */
-// void	handle_quotes(char *line, int *i, int idx_dist_to_quote, char *curr_token_val, t_token **p_head)
-// {
-// 	const char	quote_type = line[*i + idx_dist_to_quote];
-// 	const int	next_quote_idx = find_idx_of_nextc(line, *i + idx_dist_to_quote, quote_type);
+/*
+	Updates `curr_token_val` and adjusts `i` after properly handling quotes.
 
-// 	if (next_quote_idx == -1)
-// 		// Carry here and free every allocation
-// 		exit_error("SyntaxError: unclosed quotes", EXIT_FAILURE);
-// 	else if (next_quote_idx == *i + idx_dist_to_quote + 1)
-// 	{
-// 		if (strlen_null(curr_token_val) == 0)
-// 			add_token(p_head, STRING, "");
-// 		(*i)++;
-// 	}
-// 	else
-// 	{
-// 		str_append_free(&curr_token_val, str_sub(line, *i + idx_dist_to_quote + 1, next_quote_idx - 1));
-// 		(*i)++;
-// 	}
-// }
+	Inputs:
+	- line              : input line
+	- i                 : current index in the line
+	- idx_dist_to_quote : adding this to `i` should give index of the opening quote
 
-// /* These checks shall be true only if it's the first char after a token */
-// int	handle_if_first_char(char *line, int *i, char *curr_token_val, t_token **p_head)
-// {
-// 	if (line[*i] == ' ')
-// 	{
-// 		if (strlen_null(curr_token_val) > 0)
-// 		{
-// 			add_token(p_head, STRING, curr_token_val);
-// 			curr_token_val[0] = '\0';
-// 		}
-// 		return (TRUE);
-// 	}
-// 	else if (line[*i] == '|')
-// 		return (add_token(p_head, PIPE, "|"), TRUE);
-// 	else if (line[*i] == '<')
-// 	{
-// 		if (line[(*i) + 1] != '<')
-// 			return (add_token(p_head, REDIR_FROM, "<"), TRUE);
-// 		return ((*i)++, add_token(p_head, HERE_DOC, "<<"), TRUE);
-// 	}
-// 	else if (line[*i] == '>')
-// 	{
-// 		if (line[(*i) + 1] != '>')
-// 			return (add_token(p_head, REDIR_TO, ">"), TRUE);
-// 		return ((*i)++, add_token(p_head, APPEND_TO, ">>"), TRUE);
-// 	}
-// 	else if (line[*i] == '\"' || line[*i] == '\'')
-// 		return (handle_quotes(line, i, 0, curr_token_val, p_head), TRUE);
-// 	return (FALSE);
-// }
+	Outputs:
+	- curr_token_val : updated current token value
+	- i              : updated index position in the line  
+*/
+static void	handle_quotes(char *line, int *i, int idx_dist_to_quote, char *curr_token_val, t_token **p_head)
+{
+	const char	quote_type = line[*i + idx_dist_to_quote];
+	const int	next_quote_idx = find_idx_of_nextc(line, *i + idx_dist_to_quote, quote_type);
 
-// t_token	*tokenizer(char *line)
-// {
-// 	t_token	*head;
-// 	int		i;
-// 	char	*curr_token_val;
-// 	char	redir_type;
+	if (next_quote_idx == -1)
+		// Carry here and free every allocation
+		exit_error("SyntaxError: unclosed quotes", EXIT_FAILURE);
+	else if (next_quote_idx == *i + idx_dist_to_quote + 1)
+	{
+		if (strlen_null(curr_token_val) == 0)
+			add_token(p_head, STRING, "");
+		(*i)++;
+	}
+	else
+	{
+		str_append_free(&curr_token_val, str_sub(line, *i + idx_dist_to_quote + 1, next_quote_idx - 1));
+		(*i)++;
+	}
+}
 
-// 	// TODO: Carry vars into a struct & create an initializer function?
-// 	i = 0;
-// 	head = NULL;
-// 	curr_token_val = NULL;
-// 	while (line[i] != '\0')
-// 	{
-// 		if (handle_if_first_char(line, &i, curr_token_val, &head))
-// 		{
-// 			++i;
-// 			continue ;
-// 		}
-		
-// 		str_appendc(&curr_token_val, line[i]);
-		
-// 		if (line[i + 1] == '\0' || line[i + 1] == ' ' || line[i + 1] == '|')
-// 		{
-// 			add_token(&head, STRING, curr_token_val);
-// 			curr_token_val[0] = '\0';
-// 		}
-// 		else if (line[i + 1] == '>' || line[i + 1] == '<')
-// 			redir_type = line[i + 1];
+/* These checks shall be true only if it's the first char after a token */
+static int	handle_if_first_char(char *line, int *i, char *curr_token_val, t_token **p_head)
+{
+	if (line[*i] == ' ')
+	{
+		if (strlen_null(curr_token_val) > 0)
+		{
+			add_token(p_head, STRING, curr_token_val);
+			curr_token_val[0] = '\0';
+		}
+		return (TRUE);
+	}
+	else if (line[*i] == '|')
+		return (add_token(p_head, PIPE, "|"), TRUE);
+	else if (line[*i] == '<')
+	{
+		if (line[(*i) + 1] != '<')
+			return (add_token(p_head, REDIR_FROM, "<"), TRUE);
+		return ((*i)++, add_token(p_head, HERE_DOC, "<<"), TRUE);
+	}
+	else if (line[*i] == '>')
+	{
+		if (line[(*i) + 1] != '>')
+			return (add_token(p_head, REDIR_TO, ">"), TRUE);
+		return ((*i)++, add_token(p_head, APPEND_TO, ">>"), TRUE);
+	}
+	else if (line[*i] == '\"' || line[*i] == '\'')
+		return (handle_quotes(line, i, 0, curr_token_val, p_head), TRUE);
+	return (FALSE);
+}
 
-// 		++i;
-// 	}
-// 	return (head);
-// }
+t_token	*tokenizer(char *line)
+{
+	t_token	*head;
+	int		i;
+	char	*curr_token_val;
+	long	curr_token_num;
+	char	redir_type;
+
+	// TODO: Carry vars into a struct & create an initializer function?
+	i = 0;
+	head = NULL;
+	curr_token_val = NULL;
+	while (line[i] != '\0')
+	{
+		if (handle_if_first_char(line, &i, curr_token_val, &head))
+		{
+			++i;
+			continue ;
+		}
+		str_appendc(&curr_token_val, line[i]);
+		if (line[i + 1] == '\0' || line[i + 1] == ' ' || line[i + 1] == '|')
+		{
+			add_token(&head, STRING, curr_token_val);
+			curr_token_val[0] = '\0';
+		}
+		else if (line[i + 1] == '>' || line[i + 1] == '<')
+		{
+			redir_type = line[i + 1];
+			if (!str_is_numeric(curr_token_val))
+			{
+				add_token(&head, STRING, curr_token_val);
+				curr_token_val[0] = '\0';
+			}
+			else
+			{
+				curr_token_num = ft_atol(curr_token_val);
+				if (curr_token_num > INT_MAX || curr_token_num < 0)
+				{
+					add_token(&head, STRING, curr_token_val);
+					curr_token_val[0] = '\0';
+				}
+				else if (line[i + 2] != '\0' && line[i + 2] == redir_type)
+				{
+					// >> or << w/ number
+					add_numeric_redir_token(&head, redir_type, 2, curr_token_val);
+					curr_token_val[0] = '\0';
+					i += 2;
+				}
+				else
+				{
+					// > or < w/ number
+					add_numeric_redir_token(&head, redir_type, 1, curr_token_val);
+					curr_token_val[0] = '\0';
+					++i;
+				}
+			}
+		}
+		else if (line[i + 1] == '\"' || line[i + 1] == '\'')
+			handle_quotes(line, &i, 1, curr_token_val, &head);
+		++i;
+	}
+	if (strlen_null(curr_token_val) > 0)
+		add_token(&head, STRING, curr_token_val);
+	free(curr_token_val);
+	return (head);
+}
