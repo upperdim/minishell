@@ -6,12 +6,12 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/16 05:51:26 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 05:08:13 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include <stdio.h>
+#include "minishell.h"
 
 void test_ll_add_when_null() {
 	t_list_int *head = NULL;
@@ -67,8 +67,19 @@ void test_expansion_detection_tilda() {
 	}
 }
 
+void test_str_append() {
+	char *s1 = NULL;
+	char *s2 = "hello world";
+	printf("s1 initially         = %s\n", s1);
+	s1 = str_append(s1, s2);
+	printf("s1 after str append  = %s\n", s1);
+	s1 = str_appendc(s1, 'x');
+	printf("s1 after char append = %s\n", s1);
+}
+
 int main() {
 	// test_ll_add_when_null();
 	// test_expansion_detection_tilda();
-	test_expansion_detection_variable();
+	// test_expansion_detection_variable();
+	test_str_append();
 }
