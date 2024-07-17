@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 09:22:41 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 12:45:07 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	str_append_free(char **p_str, char *to_append_and_free);
 // Int list
 void	list_add(t_list_int **head_ptr, int val);
 void	list_print(t_list_int *head);
+int		list_get_size(t_list_int *head);
 
 // Token list
 void	add_token(t_token **head_ptr, t_token_type type, char *val);

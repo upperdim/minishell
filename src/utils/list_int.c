@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:30:55 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 05:34:21 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 12:57:02 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,41 @@ void	list_print(t_list_int *head)
 		iter = iter->next;
 	}
 	printf("\n");
+}
+
+/* Return number of elements the list has. */
+int	list_get_size(t_list_int *head)
+{
+	t_list_int	*iter;
+	int			size;
+
+	size = 0;
+	iter = head;
+	while (iter != NULL)
+	{
+		++size;
+		iter = iter->next;
+	}
+	return (size);
+}
+
+/*
+	Return the integer value at the `idx` index of the list.
+	Returns LONG_MAX if `idx` is not found.
+*/
+int	list_get_val_idx(t_list_int *head, int idx)
+{
+	t_list_int	*iter;
+	int			i;
+
+	i = 0;
+	iter = head;
+	while (iter != NULL)
+	{
+		if (i == idx)
+			return (iter->val);
+		++i;
+		iter = iter->next;
+	}
+	return (LONG_MAX);
 }

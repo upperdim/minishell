@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:26:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/16 03:07:57 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 12:56:03 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,52 @@ void	detect_tilda_expansions(char *line, t_list_int **p_tilda_idxs_to_expand)
 			++tilda_idx;
 		}
 		++i;
+	}
+}
+
+char	*get_tilda_value()
+{
+	// TODO: get real tilda value
+	return ("/home/exampleusername");
+}
+
+void	expand_tilda(t_token *token_list, t_list_int *tilda_idxs_to_expand, const int list_size)
+{
+	int		tilda_idx;
+	int		idx_idx;
+	int		i;
+	long	next_idx_to_expand;
+	t_token *iter;
+
+	tilda_idx = 0;
+	idx_idx = 0;
+	iter = token_list;
+	while (iter != NULL)
+	{
+		if (iter->type == STRING)
+		{
+			// TODO: Break this function down. Maybe move below loop into
+			// a function like search_token_value()
+			i = 0;
+			while (iter->value[i] != '\0')
+			{
+				if (iter->value[i] == '~')
+				{
+					next_idx_to_expand = list_get_val_idx(tilda_idxs_to_expand, idx_idx);
+					if (next_idx_to_expand == LONG_MAX)
+					{
+						// TODO: Handle error
+					}
+					if (list_size > idx_idx && tilda_idx == next_idx_to_expand)
+					{
+						// Replacing here instead of using str_replace_section() util might
+						// be easier. Especially for error handling.
+					}
+					++tilda_idx;
+				}
+				++i;
+			}
+		}
+		iter = iter->next;
 	}
 }
