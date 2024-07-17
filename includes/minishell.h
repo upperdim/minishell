@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 07:08:51 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 09:03:18 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ char	**dup_environ(void);
 // STR
 int		strlen_null(const char *s);
 char	*str_sub(char *s, int start_idx, int end_idx);
+int		str_is_numeric(char *str);
 int		find_idx_of_nextc(char *s, int search_start_idx, char search_char);
 
 // STR APPEND
