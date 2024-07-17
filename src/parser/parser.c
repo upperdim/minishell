@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 10:30:02 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 11:57:18 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_token	*parse_line(char *line)
 	p_var_idxs_to_expand = NULL;
 	detect_var_expansions(line, &p_var_idxs_to_expand, 0);
 	token_list = tokenize(line);
-
+	if (!check_token_rules(token_list))
+		exit_error("minishell: SyntaxError: invalid tokens", EXIT_FAILURE);
 	return (token_list);
 }

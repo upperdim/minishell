@@ -6,12 +6,44 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 11:52:54 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 12:22:28 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "minishell.h"
+
+static char	*get_input(void)
+{
+	char	*prompt;
+	char	*input;
+
+	prompt = get_prompt();
+	if (prompt == NULL)
+	{
+		prompt = ft_strdup("minishell$ ");
+		if (prompt == NULL)
+			exit_error("minishell: Error allocating memory: malloc",
+				EXIT_FAILURE);
+	}
+	input = readline(prompt);
+	ft_free_n_null((void **)&prompt);
+	return (input);
+}
+
+void interactive() {
+	while (1) {
+		char *line = get_input();
+		t_token *token_list = tokenize(line);
+		if (!check_token_rules(token_list)) {
+			printf("=====================\n");
+			printf("ERROR! INVALID TOKENS\n");
+			printf("=====================\n");
+		}
+		token_list_print(token_list);
+		free(line);
+	}
+}
 
 void test_ll_add_when_null() {
 	t_list_int *head = NULL;
@@ -105,10 +137,11 @@ void test_tokenizer() {
 }
 
 int main() {
+	interactive();
 	// test_ll_add_when_null();
 	// test_expansion_detection_tilda();
 	// test_expansion_detection_variable();
 	// test_str_append_appendc();
 	// test_token_list();
-	test_tokenizer();
+	// test_tokenizer();
 }
