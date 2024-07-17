@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 10:09:19 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 10:24:39 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,34 @@ static void	add_numeric_redir_token\
 	}
 	add_token(p_head, new_type, new_val);
 	free(new_val);
+}
+
+static void	handle_redirs(char *line, int *i, char *curr_token_val, t_token **p_head)
+{
+	char	redir_type;
+
+	redir_type = line[*i + 1];
+	if (!str_is_numeric(curr_token_val))
+	{
+		add_token(p_head, STRING, curr_token_val);
+		curr_token_val[0] = '\0';
+		return ;
+	}
+	if (ft_atol(curr_token_val) > INT_MAX || ft_atol(curr_token_val) < 0)
+	{
+		add_token(p_head, STRING, curr_token_val);
+		curr_token_val[0] = '\0';
+		return ;
+	}
+	if (line[*i + 2] != '\0' && line[*i + 2] == redir_type)
+	{
+		add_numeric_redir_token(p_head, redir_type, 2, curr_token_val);
+		(*i) += 1;
+	}
+	else
+		add_numeric_redir_token(p_head, redir_type, 1, curr_token_val);
+	curr_token_val[0] = '\0';
+	(*i)++;
 }
 
 /*
@@ -105,15 +133,13 @@ static int	handle_if_first_char(char *line, int *i, char *curr_token_val, t_toke
 	return (FALSE);
 }
 
+// TODO: Carry vars into a struct & create an initializer function?
 t_token	*tokenizer(char *line)
 {
 	t_token	*head;
 	int		i;
 	char	*curr_token_val;
-	long	curr_token_num;
-	char	redir_type;
 
-	// TODO: Carry vars into a struct & create an initializer function?
 	i = 0;
 	head = NULL;
 	curr_token_val = NULL;
@@ -131,37 +157,7 @@ t_token	*tokenizer(char *line)
 			curr_token_val[0] = '\0';
 		}
 		else if (line[i + 1] == '>' || line[i + 1] == '<')
-		{
-			redir_type = line[i + 1];
-			if (!str_is_numeric(curr_token_val))
-			{
-				add_token(&head, STRING, curr_token_val);
-				curr_token_val[0] = '\0';
-			}
-			else
-			{
-				curr_token_num = ft_atol(curr_token_val);
-				if (curr_token_num > INT_MAX || curr_token_num < 0)
-				{
-					add_token(&head, STRING, curr_token_val);
-					curr_token_val[0] = '\0';
-				}
-				else if (line[i + 2] != '\0' && line[i + 2] == redir_type)
-				{
-					// >> or << w/ number
-					add_numeric_redir_token(&head, redir_type, 2, curr_token_val);
-					curr_token_val[0] = '\0';
-					i += 2;
-				}
-				else
-				{
-					// > or < w/ number
-					add_numeric_redir_token(&head, redir_type, 1, curr_token_val);
-					curr_token_val[0] = '\0';
-					++i;
-				}
-			}
-		}
+			handle_redirs(line, &i, curr_token_val, &head);
 		else if (line[i + 1] == '\"' || line[i + 1] == '\'')
 			handle_quotes(line, &i, 1, curr_token_val, &head);
 		++i;
