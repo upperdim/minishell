@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 17:17:05 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 17:50:23 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 
 static char	*get_msh_pid()
 {
-	return (ft_strdup("1337"));
+	return (ft_itoa(getpid()));
 }
 
 static char *get_var_value(char *var_name)
@@ -96,7 +96,7 @@ void	expand_var\
 	int		i;
 	int		e;
 	char	*var_name;
-	char	*minishell_pid;
+	char	*minish_pid;
 	t_token *iter;
 
 	var_idx = 0;
@@ -113,9 +113,9 @@ void	expand_var\
 				{
 					if (iter->value[i + 1] == '$')
 					{
-						minishell_pid = get_msh_pid();
-						str_replace_section(&iter->value, i, i + 1, minishell_pid);
-						free(minishell_pid);
+						minish_pid = get_msh_pid();
+						str_replace_section(&iter->value, i, i + 1, minish_pid);
+						free(minish_pid);
 						++(idx_idx);
 						++(var_idx);
 					}
