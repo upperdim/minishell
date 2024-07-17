@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:49:08 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/17 07:41:49 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 07:54:19 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,37 +87,37 @@ t_token	*token_list_get_last(t_token *list)
 }
 
 /* Return whether token type and value are compatible */
-// static int	check_token_type_val(t_token_type type, char *val)
-// {
-// 	if (type == REDIR_TO && !ft_strncmp(val, ">", 1))
-// 	{
-// 		return (FALSE);
-// 	}
-// 	else if (type == APPEND_TO && !ft_strncmp(val, ">>", 2))
-// 	{
-// 		return (FALSE);
-// 	}
-// 	else if (type == REDIR_FROM && !ft_strncmp(val, "<", 1))
-// 	{
-// 		return (FALSE);
-// 	}
-// 	else if (type == HERE_DOC && !ft_strncmp(val, "<<", 2))
-// 	{
-// 		return (FALSE);
-// 	}
-// 	else if (type == PIPE && !ft_strncmp(val, "|", 1))
-// 	{
-// 		return (FALSE);
-// 	}
-// 	return (TRUE);
-// }
+static int	check_token_type_val(t_token_type type, char *val)
+{
+	if (type == REDIR_TO && !ft_strncmp(val, ">", 1))
+	{
+		return (FALSE);
+	}
+	else if (type == APPEND_TO && !ft_strncmp(val, ">>", 2))
+	{
+		return (FALSE);
+	}
+	else if (type == REDIR_FROM && !ft_strncmp(val, "<", 1))
+	{
+		return (FALSE);
+	}
+	else if (type == HERE_DOC && !ft_strncmp(val, "<<", 2))
+	{
+		return (FALSE);
+	}
+	else if (type == PIPE && !ft_strncmp(val, "|", 1))
+	{
+		return (FALSE);
+	}
+	return (TRUE);
+}
 
 void	add_token(t_token **head_ptr, t_token_type type, char *val)
 {
 	t_token	*last;
 	t_token	*new;
 	
-	//if (!check_token_type_val(type, val))
+	if (!check_token_type_val(type, val))
 	{
 		// TODO: Handle this or check at all? exit_error? return? just log/print?
 	}
@@ -144,7 +144,8 @@ void	add_token(t_token **head_ptr, t_token_type type, char *val)
 void	token_list_print(t_token *head)
 {
 	t_token	*iter;
-	char	*enum_names[6] = {"STRING", "REDIR_TO", "APPEND_TO", "REDIR_FROM", "HERE_DOC", "PIPE"};	
+	char	*enum_names[6] = \
+	{"STRING", "REDIR_TO", "APPEND_TO", "REDIR_FROM", "HERE_DOC", "PIPE"};	
 	
 	if (head == NULL)
 	{
@@ -154,7 +155,7 @@ void	token_list_print(t_token *head)
 	iter = head;
 	while (iter != NULL)
 	{
-		printf("type = %d, val = {%s}\n", iter->type, enum_names[iter->type]);
+		printf("type = %-12s, val = {%s}\n", enum_names[iter->type], iter->value);
 		iter = iter->next;
 	}
 	printf("\n");

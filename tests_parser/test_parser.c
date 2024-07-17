@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 07:41:11 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 07:51:15 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,8 @@ void test_str_append_appendc() {
 }
 
 void test_token_list() {
-	t_token *head;
-
+	t_token *head = NULL;
 	add_token(&head, STRING, "hello there");
-	printf("added first\n");
 	token_list_print(head);
 	add_token(&head, APPEND_TO, ">>");
 	token_list_print(head);
