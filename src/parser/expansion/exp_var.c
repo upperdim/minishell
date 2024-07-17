@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 16:57:07 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 17:17:05 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 	}
 }
 
+static char	*get_msh_pid()
+{
+	return (ft_strdup("1337"));
+}
+
 static char *get_var_value(char *var_name)
 {
 	char *result;
@@ -91,6 +96,7 @@ void	expand_var\
 	int		i;
 	int		e;
 	char	*var_name;
+	char	*minishell_pid;
 	t_token *iter;
 
 	var_idx = 0;
@@ -105,7 +111,15 @@ void	expand_var\
 			{
 				if (iter->value[i] == '$')
 				{
-					if (list_size > idx_idx && var_idx == list_get_val_idx(var_idxs_to_expand, idx_idx))
+					if (iter->value[i + 1] == '$')
+					{
+						minishell_pid = get_msh_pid();
+						str_replace_section(&iter->value, i, i + 1, minishell_pid);
+						free(minishell_pid);
+						++(idx_idx);
+						++(var_idx);
+					}
+					else if (list_size > idx_idx && var_idx == list_get_val_idx(var_idxs_to_expand, idx_idx))
 					{
 						e = i + 1;
 						while (iter->value[e] != '\0' && is_valid_var_exp_char(iter->value[e]))

@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 15:17:38 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 17:17:22 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ void test_ll_add_when_null() {
 }
 
 void test_expansion_detection_variable() {
-	#define EXP_VAR_DET_TEST_COUNT 5
+	#define EXP_VAR_DET_TEST_COUNT 7
 	char *var_expansion_detection_tests[EXP_VAR_DET_TEST_COUNT] = {
+		" $$$ ",
+		" $1 $2$$$ ",
 		"$2$ ",
 		"$2$ $a x",
 		"a$$b",
