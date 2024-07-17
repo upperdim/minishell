@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 10:28:16 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 11:47:37 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static void	add_numeric_redir_token\
 	free(new_val);
 }
 
+// TODO: Do we need to get a pointer to curr_token_val like the other functions?
+// Why does this work while others don't?
 static void	handle_redirs(char *line, int *i, char *curr_token_val, t_token **p_head)
 {
 	char	redir_type;
@@ -81,36 +83,36 @@ static void	handle_redirs(char *line, int *i, char *curr_token_val, t_token **p_
 	- curr_token_val : updated current token value
 	- i              : updated index position in the line  
 */
-static void	handle_quotes(char *line, int *i, int idx_dist_to_quote, char *curr_token_val, t_token **p_head)
+static void	handle_quotes(char *line, int *i, int idx_dist_to_quote, char **p_curr_token_val, t_token **p_head)
 {
 	const char	quote_type = line[*i + idx_dist_to_quote];
-	const int	next_quote_idx = find_idx_of_nextc(line, *i + idx_dist_to_quote, quote_type);
+	const int	next_quote_idx = find_idx_of_nextc(line, *i + idx_dist_to_quote + 1, quote_type);
 
 	if (next_quote_idx == -1)
 		// Carry here and free every allocation
 		exit_error("SyntaxError: unclosed quotes", EXIT_FAILURE);
 	else if (next_quote_idx == *i + idx_dist_to_quote + 1)
 	{
-		if (strlen_null(curr_token_val) == 0)
+		if (strlen_null(*p_curr_token_val) == 0)
 			add_token(p_head, STRING, "");
 		(*i)++;
 	}
 	else
 	{
-		str_append_free(&curr_token_val, str_sub(line, *i + idx_dist_to_quote + 1, next_quote_idx - 1));
-		(*i)++;
+		str_append_free(p_curr_token_val, str_sub(line, *i + idx_dist_to_quote + 1, next_quote_idx - 1));
+		(*i) = next_quote_idx;
 	}
 }
 
 /* These checks shall be true only if it's the first char after a token */
-static int	handle_if_first_char(char *line, int *i, char *curr_token_val, t_token **p_head)
+static int	handle_if_first_char(char *line, int *i, char **p_curr_token_val, t_token **p_head)
 {
 	if (line[*i] == ' ')
 	{
-		if (strlen_null(curr_token_val) > 0)
+		if (strlen_null(*p_curr_token_val) > 0)
 		{
-			add_token(p_head, STRING, curr_token_val);
-			curr_token_val[0] = '\0';
+			add_token(p_head, STRING, *p_curr_token_val);
+			*p_curr_token_val[0] = '\0';
 		}
 		return (TRUE);
 	}
@@ -129,7 +131,7 @@ static int	handle_if_first_char(char *line, int *i, char *curr_token_val, t_toke
 		return ((*i)++, add_token(p_head, APPEND_TO, ">>"), TRUE);
 	}
 	else if (line[*i] == '\"' || line[*i] == '\'')
-		return (handle_quotes(line, i, 0, curr_token_val, p_head), TRUE);
+		return (handle_quotes(line, i, 0, p_curr_token_val, p_head), TRUE);
 	return (FALSE);
 }
 
@@ -145,7 +147,7 @@ t_token	*tokenize(char *line)
 	curr_token_val = NULL;
 	while (line[i] != '\0')
 	{
-		if (handle_if_first_char(line, &i, curr_token_val, &head))
+		if (handle_if_first_char(line, &i, &curr_token_val, &head))
 		{
 			++i;
 			continue ;
@@ -159,11 +161,12 @@ t_token	*tokenize(char *line)
 		else if (line[i + 1] == '>' || line[i + 1] == '<')
 			handle_redirs(line, &i, curr_token_val, &head);
 		else if (line[i + 1] == '\"' || line[i + 1] == '\'')
-			handle_quotes(line, &i, 1, curr_token_val, &head);
+			handle_quotes(line, &i, 1, &curr_token_val, &head);
 		++i;
 	}
 	if (strlen_null(curr_token_val) > 0)
 		add_token(&head, STRING, curr_token_val);
-	free(curr_token_val);
+	if (curr_token_val != NULL)
+		free(curr_token_val);
 	return (head);
 }

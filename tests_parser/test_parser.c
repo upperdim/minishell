@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 10:32:19 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 11:52:54 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void test_expansion_detection_variable() {
 
 	for (int i = 0; i < EXP_VAR_DET_TEST_COUNT; ++i) {
 		char *test_case = var_expansion_detection_tests[i];
-		printf("test case = <%s>\n", test_case);
+		printf("test case = {%s}\n", test_case);
 
 		t_list_int *actual = NULL;
 		detect_var_expansions(test_case, &actual, 0);
@@ -57,7 +57,7 @@ void test_expansion_detection_tilda() {
 
 	for (int i = 0; i < EXP_TLD_DET_TEST_COUNT; ++i) {
 		char *test_case = tilda_expansion_detection_tests[i];
-		printf("test case = <%s>\n", test_case);
+		printf("test case = {%s}\n", test_case);
 
 		t_list_int *actual = NULL;
 		detect_tilda_expansions(test_case, &actual);
@@ -86,14 +86,17 @@ void test_token_list() {
 }
 
 void test_tokenizer() {
-	#define TOKENIZER_TEST_COUNT 1
+	#define TOKENIZER_TEST_COUNT 4
 	char *tokenizer_tests[TOKENIZER_TEST_COUNT] = {
-		"cat hello1>file2name 123>file1name123>world<<\" EOF\""
+		"cat hello1>file2name 123>file1name123>world<<\" EOF\"",
+		"export VAR=\"echo hi | cat\"",
+		"echo asd << \"\" << file2",
+		"echo hi | cat -e"
 	};
 
 	for (int i = 0; i < TOKENIZER_TEST_COUNT; ++i) {
 		char *test_case = tokenizer_tests[i];
-		printf("test case = <%s>\n", test_case);
+		printf("test case = {%s}\n", test_case);
 
 		t_token *token_list = tokenize(test_case);
 		token_list_print(token_list);
