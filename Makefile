@@ -10,7 +10,7 @@ UTILS_FILES		= signal_handler.c prompt.c exit_error.c env_utils.c \
 					
 EXEC_FILES		= exec.c exec_utils.c heredoc.c divide_tokens.c redirections.c
 PARSER_FILES	= parser.c expansion/exp_tilda.c expansion/exp_var.c \
-					tokenizer/tokenizer.c
+					tokenization/tokenizer.c tokenization/token_rules.c
 
 BUILTINS		= $(addprefix builtins/, $(BUILTIN_FILES))
 UTILS			= $(addprefix utils/, $(UTILS_FILES))
