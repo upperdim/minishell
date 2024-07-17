@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 20:56:57 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/12 19:24:44 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/15 21:10:32 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,5 @@ t_cmd	*divide_tokens(t_token *token)
 				ft_free_link_list((t_token *)head_token), NULL);
 		token = token->next;
 	}
-	return (ft_free_link_list((t_token **)&head_token), (t_cmd *)head_cmd);
+	return (ft_free_link_list((t_token *)head_token), (t_cmd *)head_cmd);
 }
