@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 16:52:56 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 16:57:07 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static char *get_var_value(char *var_name)
 	char *result;
 
 	// TODO: Actually get the variable instead of the placeholder
-	str_append(&result, "i_am_");
+	result = ft_strdup("i_am_");
 	str_append(&result, var_name);
 	return (result);
 }
