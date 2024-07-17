@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 16:21:12 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 19:31:21 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ t_token	*token_list_get_last(t_token *list);
 void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
+
+// Environment
+char	*get_env_var(char *var_name);
 
 // Misc
 long	ft_atol(const char *str);

@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:26:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 18:20:04 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 19:31:49 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,6 @@ void	detect_tilda_expansions(char *line, t_list_int **p_tilda_idxs_to_expand)
 	}
 }
 
-char	*get_tilda_value()
-{
-	// TODO: get real tilda value
-	return ("/home/exampleusername");
-}
-
 static void	search_token_string(t_token *cur_tok, t_list_int *tld_idxs_to_exp, int list_size, int *idx_ptrs[2])
 {
 	int		*p_idx_idx;
@@ -73,7 +67,7 @@ static void	search_token_string(t_token *cur_tok, t_list_int *tld_idxs_to_exp, i
 		{
 			if (list_size > *p_idx_idx && *p_tilda_idx == list_get_val_idx(tld_idxs_to_exp, *p_idx_idx))
 			{
-				str_replace_section(&cur_tok->value, i, i, get_tilda_value());
+				str_replace_section(&cur_tok->value, i, i, get_env_var("HOME"));
 				++(*p_idx_idx);
 			}
 			++(*p_tilda_idx);
