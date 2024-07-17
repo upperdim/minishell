@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 12:45:07 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 15:14:28 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int		strlen_null(const char *s);
 char	*str_sub(char *s, int start_idx, int end_idx);
 int		str_is_numeric(char *str);
 int		find_idx_of_nextc(char *s, int search_start_idx, char search_char);
+void	str_replace_section(char **p_str, int start, int end, char *replace_with);
 
 // String append
 void	str_append(char **p_str, char *to_append);
@@ -86,6 +87,7 @@ void	str_append_free(char **p_str, char *to_append_and_free);
 void	list_add(t_list_int **head_ptr, int val);
 void	list_print(t_list_int *head);
 int		list_get_size(t_list_int *head);
+long	list_get_val_idx(t_list_int *head, int idx);
 
 // Token list
 void	add_token(t_token **head_ptr, t_token_type type, char *val);

@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:30:55 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 12:57:02 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 15:14:03 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	list_get_size(t_list_int *head)
 	Return the integer value at the `idx` index of the list.
 	Returns LONG_MAX if `idx` is not found.
 */
-int	list_get_val_idx(t_list_int *head, int idx)
+long	list_get_val_idx(t_list_int *head, int idx)
 {
 	t_list_int	*iter;
 	int			i;

@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:26:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 12:56:03 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 15:13:41 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void	expand_tilda(t_token *token_list, t_list_int *tilda_idxs_to_expand, const i
 					}
 					if (list_size > idx_idx && tilda_idx == next_idx_to_expand)
 					{
-						// Replacing here instead of using str_replace_section() util might
-						// be easier. Especially for error handling.
+						str_replace_section(&iter->value, i, i, get_tilda_value());
+						++idx_idx;
 					}
 					++tilda_idx;
 				}

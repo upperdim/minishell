@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 04:55:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 12:57:52 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 15:15:09 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,12 @@ int	find_idx_of_nextc(char *s, int search_start_idx, char search_char)
 */
 void	str_replace_section(char **p_str, int start, int end, char *replace_with)
 {
-	// TODO: reconsider if you should use such utility
+	char	*new;
+
+	new = NULL;
+	str_append_free(&new, str_sub(*p_str, 0, start - 1));
+	str_append(&new, replace_with);
+	str_append_free(&new, str_sub(*p_str, end + 1, ft_strlen(*p_str) - 1));
+	free(*p_str);
+	*p_str = new;
 }
