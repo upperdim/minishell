@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 09:03:18 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/17 09:16:49 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,41 +62,53 @@
 # define TRUE 1
 # define FALSE 0
 
-// ** ---------------------------- FUNCTIONS ---------------------------- ** //
-
 void	ft_execve(t_cmd *cmd);
 char	*get_prompt(void);
 void	set_signal_handlers(void);
-void	exit_perror(int exit_status);
-void	exit_error(char *error_msg, int exit_status);
-void	clean_up(void);
 char	**dup_environ(void);
 
-// STR
+/* ****************************************************************************/
+/*                                   UTILS                                    */
+/* ****************************************************************************/
+// String
 int		strlen_null(const char *s);
 char	*str_sub(char *s, int start_idx, int end_idx);
 int		str_is_numeric(char *str);
 int		find_idx_of_nextc(char *s, int search_start_idx, char search_char);
 
-// STR APPEND
+// String append
 void	str_append(char **p_str, char *to_append);
 void	str_appendc(char **p_str, char char_to_append);
 void	str_append_free(char **p_str, char *to_append_and_free);
 
-// INT LIST
+// Int list
 void	list_add(t_list_int **head_ptr, int val);
 void	list_print(t_list_int *head);
 
-// TOKEN LIST
+// Token list
 void	add_token(t_token **head_ptr, t_token_type type, char *val);
 void	token_list_print(t_token *head);
 t_token	*token_list_get_last(t_token *list);
 
-// EXEC
+// Error management
+void	exit_perror(int exit_status);
+void	exit_error(char *error_msg, int exit_status);
+void	clean_up(void);
+
+// Misc
+long	ft_atol(const char *str);
+
+/* ****************************************************************************/
+/*                                 EXECUTION                                  */
+/* ****************************************************************************/
+// TODO: If these are execution, why aren't they in exec.h?
 char	*find_path_to(char *cmd);
 int		setup_in_pipe(int p_fd[2]);
 int		setup_out_pipe(int p_fd[2]);
-// BUILTINS
+
+/* ****************************************************************************/
+/*                                 BUILTINS                                   */
+/* ****************************************************************************/
 int		exec_builtins(t_cmd *cmd);
 int		echo(char **input);
 int		env(const int argc);
