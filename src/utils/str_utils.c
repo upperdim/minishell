@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 04:55:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 15:15:09 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 20:00:07 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ int	find_idx_of_nextc(char *s, int search_start_idx, char search_char)
 	Replace string pointed by `p_str` 
 	from `start` index to `end` index inclusive with `replace_with`.
 */
-void	str_replace_section(char **p_str, int start, int end, char *replace_with)
+void	str_replace_section(char **p_str, int start, int end,
+	char *replace_with)
 {
 	char	*new;
 

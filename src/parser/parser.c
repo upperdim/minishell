@@ -14,9 +14,9 @@
 
 int	validate_quotes(char *line)
 {
-	char quote_type;
-	int	len;
-	int	i;
+	char	quote_type;
+	int		len;
+	int		i;
 
 	quote_type = NOT_QUOTE;
 	len = ft_strlen(line);
@@ -41,14 +41,12 @@ int	validate_quotes(char *line)
 
 t_token	*parse(char *line)
 {
-	//t_pvars		pvars;
-	t_token 	*token_list;
+	t_token		*token_list;
 	t_list_int	*tilda_idxs_to_expand;
 	t_list_int	*var_idxs_to_expand;
 
 	if (line == NULL || *line == '\0')
 		return (NULL);
-	// init_parser_vars(&pvars, line);
 	token_list = NULL;
 	if (validate_quotes(line) == FALSE)
 		return (ft_printf("minishell: SyntaxError: unclosed quotes\n"), NULL);

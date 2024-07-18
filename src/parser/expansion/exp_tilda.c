@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_tilda.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:26:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 14:34:04 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 20:12:25 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	detect_tilda_expansions(char *line, t_list_int **p_tilda_idxs_to_expand)
 	int		tilda_idx;
 	int		len;
 	int		i;
-	
+
 	quote_type = NOT_QUOTE;
 	tilda_idx = 0;
 	len = ft_strlen(line);
@@ -52,12 +52,13 @@ void	detect_tilda_expansions(char *line, t_list_int **p_tilda_idxs_to_expand)
 	}
 }
 
-static void	search_token_string(t_token *cur_tok, t_list_int *tld_idxs_to_exp, int list_size, int *idx_ptrs[2])
+static void	search_token_string(t_token *cur_tok, t_list_int *tld_idxs_to_exp,
+	int list_size, int *idx_ptrs[2])
 {
 	int		*p_idx_idx;
 	int		*p_tilda_idx;
 	int		i;
-	
+
 	p_idx_idx = idx_ptrs[0];
 	p_tilda_idx = idx_ptrs[1];
 	i = 0;
@@ -65,7 +66,8 @@ static void	search_token_string(t_token *cur_tok, t_list_int *tld_idxs_to_exp, i
 	{
 		if (cur_tok->value[i] == '~')
 		{
-			if (list_size > *p_idx_idx && *p_tilda_idx == list_get_val_idx(tld_idxs_to_exp, *p_idx_idx))
+			if (list_size > *p_idx_idx && *p_tilda_idx
+				== list_get_val_idx(tld_idxs_to_exp, *p_idx_idx))
 			{
 				str_replace_section(&cur_tok->value, i, i, getenv("HOME"));
 				++(*p_idx_idx);
@@ -76,11 +78,12 @@ static void	search_token_string(t_token *cur_tok, t_list_int *tld_idxs_to_exp, i
 	}
 }
 
-void	expand_tilda(t_token *token_list, t_list_int *tilda_idxs_to_expand, const int list_size)
+void	expand_tilda(t_token *token_list, t_list_int *tilda_idxs_to_expand,
+	const int list_size)
 {
 	int		tilda_idx;
 	int		idx_idx;
-	t_token *iter;
+	t_token	*iter;
 
 	tilda_idx = 0;
 	idx_idx = 0;

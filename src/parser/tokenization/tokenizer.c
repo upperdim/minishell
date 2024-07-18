@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
 /*   Updated: 2024/07/18 20:08:59 by tunsal           ###   ########.fr       */
@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-static void	add_numeric_redir_token(t_token **p_head, char redir_type, int single_or_double, char *curr_token_val)
+static void	add_numeric_redir_token(t_token **p_head, char redir_type,
+	int single_or_double, char *curr_token_val)
 {
 	char	*new_val;
 	int		new_type;
@@ -43,7 +44,8 @@ static void	add_numeric_redir_token(t_token **p_head, char redir_type, int singl
 
 // TODO: Do we need to get a pointer to curr_token_val like the other functions?
 // Why does this work while others don't?
-static void	handle_redirs(char *line, int *i, char *curr_token_val, t_token **p_head)
+static void	handle_redirs(char *line, int *i, char *curr_token_val,
+	t_token **p_head)
 {
 	char	redir_type;
 
@@ -83,10 +85,12 @@ static void	handle_redirs(char *line, int *i, char *curr_token_val, t_token **p_
 	- curr_token_val : updated current token value
 	- i              : updated index position in the line  
 */
-static void	handle_quotes(char *line, int *i, int idx_dist_to_quote, char **p_curr_token_val, t_token **p_head)
+static void	handle_quotes(char *line, int *i, int idx_dist_to_quote,
+	char **p_curr_token_val, t_token **p_head)
 {
 	const char	quote_type = line[*i + idx_dist_to_quote];
-	const int	next_quote_idx = find_idx_of_nextc(line, *i + idx_dist_to_quote + 1, quote_type);
+	const int	next_quote_idx
+		= find_idx_of_nextc(line, *i + idx_dist_to_quote + 1, quote_type);
 
 	if (next_quote_idx == -1)
 		// Carry here and free every allocation
@@ -105,7 +109,8 @@ static void	handle_quotes(char *line, int *i, int idx_dist_to_quote, char **p_cu
 }
 
 /* These checks shall be true only if it's the first char after a token */
-static int	handle_if_first_char(char *line, int *i, char **p_curr_token_val, t_token **p_head)
+static int	handle_if_first_char(char *line, int *i, char **p_curr_token_val,
+	t_token **p_head)
 {
 	if (line[*i] == ' ')
 	{
