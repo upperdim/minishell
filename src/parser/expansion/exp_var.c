@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 20:02:29 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 14:34:19 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	handle_if_dollar_questionmark(t_token *iter, int i)
 
 	if (iter->value[i + 1] == '?')
 	{
-		last_proc_exit_code = get_env_var("LAST_PROCESS_EXIT_CODE");
+		last_proc_exit_code = getenv("LAST_PROCESS_EXIT_CODE");
 		str_replace_section(&iter->value, i, i + 1, last_proc_exit_code);
 		free(last_proc_exit_code);
 		return (TRUE);
@@ -134,7 +134,7 @@ void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand, const int l
 						while (iter->value[e] != '\0' && is_valid_var_exp_char(iter->value[e]))
 							++e;
 						var_name = str_sub(iter->value, i + 1, e - 1);
-						str_replace_section(&iter->value, i, e, get_env_var(var_name));
+						str_replace_section(&iter->value, i, e, getenv(var_name));
 						free(var_name);
 						++(idx_idx);
 					}

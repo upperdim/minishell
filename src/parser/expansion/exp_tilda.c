@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_tilda.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:26:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 19:31:49 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 14:34:04 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	search_token_string(t_token *cur_tok, t_list_int *tld_idxs_to_exp, i
 		{
 			if (list_size > *p_idx_idx && *p_tilda_idx == list_get_val_idx(tld_idxs_to_exp, *p_idx_idx))
 			{
-				str_replace_section(&cur_tok->value, i, i, get_env_var("HOME"));
+				str_replace_section(&cur_tok->value, i, i, getenv("HOME"));
 				++(*p_idx_idx);
 			}
 			++(*p_tilda_idx);
