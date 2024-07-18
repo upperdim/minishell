@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 18:53:58 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/18 20:40:00 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ pid_t	execute_cmd(t_cmd *cmd)
 	int			exit_code;
 	int			builtin;
 
+	if (cmd->argv == (void *)1)
+		return (BUILTIN_EXECUTED);
 	builtin = is_builtin(cmd->argv[0]);
 	if (builtin == true)
 	{

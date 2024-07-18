@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 19:40:11 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/18 20:40:35 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_cmd(t_cmd **cmd)
 	{
 		tmp = *cmd;
 		*cmd = (*cmd)->next;
-		if (tmp->argv)
+		if (tmp->argv && tmp->argv != (void *)1)
 			ft_free_2d_array((void ***)&tmp->argv, FREE_ANY_SIZE);
 		ft_free_link_list(tmp->strs);
 		ft_free_link_list(tmp->redirects);
@@ -61,6 +61,8 @@ char	**transform_to_array(t_token *token)
 	int		argc;
 
 	argc = 1;
+	if (token == NULL)
+		return ((void *)1);
 	while (token->next != NULL && ++argc)
 		token = token->next;
 	argv = ft_calloc(argc + 1, sizeof(char *));
