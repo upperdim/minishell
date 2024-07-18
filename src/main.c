@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/15 00:16:21 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 19:45:52 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	main(void)
 {
 	char		*input;
 	extern int	errno;
+	t_token		*token_list;
 
 	if (init_minishell())
 	{
@@ -54,18 +55,17 @@ int	main(void)
 	}
 	input = NULL;
 	set_signal_handlers();
-	while (1)
+	while (errno == 0)
 	{
 		input = get_input();
-		// TODO: this happens when it's EOF, in which case this can happen?
 		if (input == NULL)
 			return (clean_up(), 0);
-		// parse_line(input);
-		// TODO: why is this check here?
+		token_list = parse(input);
 		if (input == NULL)
 			continue ;
 		if (ft_strlen(input) > 0)
 			add_history(input);
+		errno = exec(token_list);
 		ft_free_n_null((void **)&input);
 	}
 	return (clean_up(), errno);
