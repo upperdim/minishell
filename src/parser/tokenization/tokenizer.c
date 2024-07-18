@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 14:24:44 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 20:08:59 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static void	handle_quotes(char *line, int *i, int idx_dist_to_quote, char **p_cu
 	}
 	else
 	{
-		str_append_free(p_curr_token_val, str_sub(line, *i + idx_dist_to_quote + 1, next_quote_idx - 1));
+		str_append_free(p_curr_token_val, str_sub(line, *i + idx_dist_to_quote, next_quote_idx));
 		(*i) = next_quote_idx;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 16:48:39 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 19:34:03 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ t_token	*parse(char *line)
 		exit_error("minishell: SyntaxError: invalid tokens", EXIT_FAILURE);
 	expand_tilda(token_list, tilda_idxs_to_expand, list_get_size(tilda_idxs_to_expand));
 	expand_var(token_list, var_idxs_to_expand, list_get_size(var_idxs_to_expand));
+	merge_quotes(token_list);
 	return (token_list);
 }

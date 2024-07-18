@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 16:29:50 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 20:19:24 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	handle_if_should_fail(t_token *curr_tok, char *env_var_name, char *env_var_
 		return ;
 	if (env_var_result != NULL)
 		return ;
-	if (curr_tok->prev->type == REDIR_TO 
+	if (curr_tok->prev->type == REDIR_TO
 		|| curr_tok->prev->type == REDIR_FROM
 		|| curr_tok->prev->type == APPEND_TO)
 	{
@@ -191,7 +191,9 @@ void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand, const int l
 							var_name = str_sub(iter->value, i + 1, e - 1);
 							env_var_val = getenv(var_name);
 							handle_if_should_fail(iter, var_name, env_var_val);
-							str_replace_section(&iter->value, i, e, env_var_val);
+							// Sussy wussy (removed -1)
+							// str_replace_section(&iter->value, i, e - 1, env_var_val);
+							str_replace_section(&iter->value, i, e - 1, env_var_val);
 							free(var_name);
 							value_len = ft_strlen(iter->value);
 						}

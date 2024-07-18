@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 16:51:31 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 19:48:17 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_pvars
 t_token	*parse(char *line);
 t_token	*tokenize(char *line);
 int		check_token_rules(t_token *head);
+void	merge_quotes(t_token *token_list);
 
 void	detect_tilda_expansions(char *line, t_list_int **p_tild_idxs_to_expand);
 void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_ex, int s);
