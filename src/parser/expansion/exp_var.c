@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 14:34:19 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 15:31:36 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 	{
 		if (!is_eligible_for_exp(line, &s, &is_in_single_quote, &var_idx))
 			continue ;
+		if (line[s + 1] == '?')
+		{
+			list_add(p_var_idxs_to_exp, var_idx);
+			++s;
+			continue;
+		}
 		e = s + 1;
 		while (is_valid_var_exp_char(line[e]))
 			++e;
@@ -73,7 +79,7 @@ void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 	}
 }
 
-int	handle_if_double_dollar(t_token *iter, int i, int *p_idx_idx, int *p_var_idx)
+int	handle_if_double_dollar(t_token *iter, int i, int *p_idx_idx, int *p_var_idx, int *p_value_len)
 {
 	char	*minishell_pid;
 
@@ -82,6 +88,7 @@ int	handle_if_double_dollar(t_token *iter, int i, int *p_idx_idx, int *p_var_idx
 		minishell_pid = ft_itoa(getpid());
 		str_replace_section(&iter->value, i, i + 1, minishell_pid);
 		free(minishell_pid);
+		*p_value_len = ft_strlen(iter->value);
 		++(*p_idx_idx);
 		++(*p_var_idx);
 		return (TRUE);
@@ -89,7 +96,7 @@ int	handle_if_double_dollar(t_token *iter, int i, int *p_idx_idx, int *p_var_idx
 	return (FALSE);
 }
 
-int	handle_if_dollar_questionmark(t_token *iter, int i)
+int	handle_if_dollar_questionmark(t_token *iter, int i, int *p_value_len)
 {
 	char	*last_proc_exit_code;
 
@@ -98,6 +105,7 @@ int	handle_if_dollar_questionmark(t_token *iter, int i)
 		last_proc_exit_code = getenv("LAST_PROCESS_EXIT_CODE");
 		str_replace_section(&iter->value, i, i + 1, last_proc_exit_code);
 		free(last_proc_exit_code);
+		*p_value_len = ft_strlen(iter->value);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -110,6 +118,7 @@ void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand, const int l
 	int		i;
 	int		e;
 	char	*var_name;
+	int		value_len;
 	t_token *iter;
 
 	var_idx = 0;
@@ -119,14 +128,15 @@ void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand, const int l
 	{
 		if (iter->type == STRING)
 		{
+			value_len = ft_strlen(iter->value);
 			i = 0;
-			while (iter->value[i] != '\0')
+			while (i < value_len)
 			{
 				if (iter->value[i] == '$')
 				{
-					if (handle_if_double_dollar(iter, i, &idx_idx, &var_idx))
+					if (handle_if_double_dollar(iter, i, &idx_idx, &var_idx, &value_len))
 						;
-					else if (handle_if_dollar_questionmark(iter, i))
+					else if (handle_if_dollar_questionmark(iter, i, &value_len))
 						;
 					else if (list_size > idx_idx && var_idx == list_get_val_idx(var_idxs_to_expand, idx_idx))
 					{
@@ -136,6 +146,7 @@ void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand, const int l
 						var_name = str_sub(iter->value, i + 1, e - 1);
 						str_replace_section(&iter->value, i, e, getenv(var_name));
 						free(var_name);
+						value_len = ft_strlen(iter->value);
 						++(idx_idx);
 					}
 					++(var_idx);

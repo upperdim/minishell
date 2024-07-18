@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 17:17:22 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 15:15:18 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,12 @@ void test_ll_add_when_null() {
 }
 
 void test_expansion_detection_variable() {
-	#define EXP_VAR_DET_TEST_COUNT 7
+	#define EXP_VAR_DET_TEST_COUNT 8
 	char *var_expansion_detection_tests[EXP_VAR_DET_TEST_COUNT] = {
 		" $$$ ",
 		" $1 $2$$$ ",
 		"$2$ ",
+		" $? ",
 		"$2$ $a x",
 		"a$$b",
 		"a$b$c123$$$$$a$2$ x",
@@ -133,7 +134,21 @@ void test_tokenizer() {
 	}
 }
 
+static int	init_minishell(void)
+{
+	extern char	**environ;
+	extern int	errno;
+
+	errno = 0;
+	environ = dup_environ();
+	if (environ == NULL)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
 int main() {
+	init_minishell();
+	
 	interactive();
 	// test_ll_add_when_null();
 	// test_expansion_detection_tilda();
