@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_int.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:30:55 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 16:20:56 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 20:00:42 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ void	list_add(t_list_int **head_ptr, int val)
 	if (new == NULL)
 		exit_error("minishell: Error allocating memory: malloc",
 			EXIT_FAILURE);
-	
 	new->val = val;
 	new->next = NULL;
-	
 	if (*head_ptr == NULL)
 	{
 		*head_ptr = new;
@@ -54,7 +52,7 @@ void	list_add(t_list_int **head_ptr, int val)
 void	list_print(t_list_int *head)
 {
 	t_list_int	*iter;
-	
+
 	if (head == NULL)
 	{
 		printf("<null node>\n");
