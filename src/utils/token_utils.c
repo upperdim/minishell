@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:49:08 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/17 07:54:19 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 20:09:00 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	add_token(t_token **head_ptr, t_token_type type, char *val)
 {
 	t_token	*last;
 	t_token	*new;
-	
+
 	if (!check_token_type_val(type, val))
 	{
 		// TODO: Handle this or check at all? exit_error? return? just log/print?
@@ -143,22 +143,23 @@ void	add_token(t_token **head_ptr, t_token_type type, char *val)
 
 void	token_list_print(t_token *head)
 {
-	t_token	*iter;
-	char	*enum_names[6] = \
-	{"STRING", "REDIR_TO", "APPEND_TO", "REDIR_FROM", "HERE_DOC", "PIPE"};	
-	
+	t_token		*iter;
+	const char	*enum_names[6]
+		= {"STRING", "REDIR_TO", "APPEND_TO", "REDIR_FROM", "HERE_DOC", "PIPE"};
+
 	if (head == NULL)
 	{
-		printf("<null node>\n");
+		ft_printf("<null node>\n");
 		return ;
 	}
 	iter = head;
 	while (iter != NULL)
 	{
-		printf("type = %-12s, val = {%s}\n", enum_names[iter->type], iter->value);
+		ft_printf("type = %-12s, val = {%s}\n", enum_names[iter->type],
+			iter->value);
 		iter = iter->next;
 	}
-	printf("\n");
+	ft_printf("\n");
 }
 
 void	ft_free_link_list(t_token *split)

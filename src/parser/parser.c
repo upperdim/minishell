@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 19:34:03 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 20:11:43 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	validate_quotes(char *line)
 {
-	char quote_type;
-	int	len;
-	int	i;
+	char	quote_type;
+	int		len;
+	int		i;
 
 	quote_type = NOT_QUOTE;
 	len = ft_strlen(line);
@@ -41,14 +41,12 @@ int	validate_quotes(char *line)
 
 t_token	*parse(char *line)
 {
-	//t_pvars		pvars;
-	t_token 	*token_list;
+	t_token		*token_list;
 	t_list_int	*tilda_idxs_to_expand;
 	t_list_int	*var_idxs_to_expand;
 
 	if (line == NULL || *line == '\0')
 		return (NULL);
-	// init_parser_vars(&pvars, line);
 	token_list = NULL;
 	if (validate_quotes(line) == FALSE)
 		exit_error("minishell: SyntaxError: unclosed quotes", EXIT_FAILURE);
