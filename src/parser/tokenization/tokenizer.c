@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 11:47:37 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 14:24:44 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	add_numeric_redir_token\
-(t_token **p_head, char redir_type, int single_or_double, char *curr_token_val)
+static void	add_numeric_redir_token(t_token **p_head, char redir_type, int single_or_double, char *curr_token_val)
 {
 	char	*new_val;
 	int		new_type;
 
+	new_type = -1;
 	new_val = NULL;
 	str_append(&new_val, curr_token_val);
 	str_appendc(&new_val, redir_type);
