@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 19:45:08 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:20:11 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,9 @@ int		is_key_valid(char *key);
 t_cmd	*divide_tokens(t_token *token);
 bool	is_builtin(const char *cmd);
 char	**transform_to_array(t_token *token);
+
+char	*find_path_to(char *cmd);
+int		setup_in_pipe(int p_fd[2]);
+int		setup_out_pipe(int p_fd[2]);
 
 #endif

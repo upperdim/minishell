@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 19:31:21 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 14:20:39 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,6 @@ char	*get_env_var(char *var_name);
 
 // Misc
 long	ft_atol(const char *str);
-
-/* ****************************************************************************/
-/*                                 EXECUTION                                  */
-/* ****************************************************************************/
-// TODO: If these are execution, why aren't they in exec.h?
-char	*find_path_to(char *cmd);
-int		setup_in_pipe(int p_fd[2]);
-int		setup_out_pipe(int p_fd[2]);
 
 /* ****************************************************************************/
 /*                                 BUILTINS                                   */
