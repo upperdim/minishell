@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 16:48:39 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 20:11:43 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	validate_quotes(char *line)
 {
-	char quote_type;
-	int	len;
-	int	i;
+	char	quote_type;
+	int		len;
+	int		i;
 
 	quote_type = NOT_QUOTE;
 	len = ft_strlen(line);
@@ -41,14 +41,12 @@ int	validate_quotes(char *line)
 
 t_token	*parse(char *line)
 {
-	//t_pvars		pvars;
-	t_token 	*token_list;
+	t_token		*token_list;
 	t_list_int	*tilda_idxs_to_expand;
 	t_list_int	*var_idxs_to_expand;
 
 	if (line == NULL || *line == '\0')
 		return (NULL);
-	// init_parser_vars(&pvars, line);
 	token_list = NULL;
 	if (validate_quotes(line) == FALSE)
 		exit_error("minishell: SyntaxError: unclosed quotes", EXIT_FAILURE);
@@ -59,7 +57,9 @@ t_token	*parse(char *line)
 	token_list = tokenize(line);
 	if (!check_token_rules(token_list))
 		exit_error("minishell: SyntaxError: invalid tokens", EXIT_FAILURE);
-	expand_tilda(token_list, tilda_idxs_to_expand, list_get_size(tilda_idxs_to_expand));
-	expand_var(token_list, var_idxs_to_expand, list_get_size(var_idxs_to_expand));
+	expand_tilda(token_list, tilda_idxs_to_expand,
+		list_get_size(tilda_idxs_to_expand));
+	expand_var(token_list, var_idxs_to_expand,
+		list_get_size(var_idxs_to_expand));
 	return (token_list);
 }

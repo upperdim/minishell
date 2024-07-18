@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 14:20:39 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 19:46:22 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ int		strlen_null(const char *s);
 char	*str_sub(char *s, int start_idx, int end_idx);
 int		str_is_numeric(char *str);
 int		find_idx_of_nextc(char *s, int search_start_idx, char search_char);
-void	str_replace_section(char **p_str, int start, int end, char *replace_with);
+void	str_replace_section(char **p_str, int start, int end,
+			char *replace_with);
 
 // String append
 void	str_append(char **p_str, char *to_append);
@@ -98,9 +99,6 @@ t_token	*token_list_get_last(t_token *list);
 void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
-
-// Environment
-char	*get_env_var(char *var_name);
 
 // Misc
 long	ft_atol(const char *str);
