@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   divide_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 20:56:57 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/15 02:36:31 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/18 19:53:15 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,5 @@ t_cmd	*divide_tokens(t_token *token)
 				ft_free_link_list((t_token *)head_token), NULL);
 		token = token->next;
 	}
-	return NULL; // TODO: doesn't compile
-	//return (ft_free_link_list((t_token **)&head_token), (t_cmd *)head_cmd);
+	return (ft_free_link_list((t_token *)head_token), (t_cmd *)head_cmd);
 }
