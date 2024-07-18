@@ -38,7 +38,7 @@ EXPANSION = $(addprefix expansion/, $(_EXPANSION))
 _TOKENIZER = tokenizer.c token_rules.c
 TOKENIZER = $(addprefix tokenization/, $(_TOKENIZER))
 
-PARSER_FILES = parser.c $(EXPANSION) $(TOKENIZER)
+PARSER_FILES = parser.c merge_quotes.c $(EXPANSION) $(TOKENIZER)
 PARSER = $(addprefix parser/, $(PARSER_FILES))
 
 _SRC = main.c $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
