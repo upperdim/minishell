@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:24:27 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/19 15:25:09 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:59:32 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,11 @@ void	control_c(int sig)
 		write(1, "\n", 1);
 		rl_redisplay();
 	}
-	if (sig == SIGQUIT)
-	{
-	}
 	return ;
 }
 
 void	set_signal_handlers(void)
 {
 	signal(SIGINT, control_c);
-	signal(SIGQUIT, control_c);
+	signal(SIGQUIT, SIG_IGN);
 }
