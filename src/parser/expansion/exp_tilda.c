@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:26:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 14:34:04 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 19:05:50 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,14 @@ static int	is_eligible_for_exp(char *line, int i, char quote_type)
 	return (TRUE);
 }
 
-void	detect_tilda_expansions(char *line, t_list_int **p_tilda_idxs_to_expand)
+int	detect_tilda_expansions(char *line, int len, t_list_int **p_tilda_idxs_to_expand)
 {
 	char	quote_type;
 	int		tilda_idx;
-	int		len;
 	int		i;
 	
 	quote_type = NOT_QUOTE;
 	tilda_idx = 0;
-	len = ft_strlen(line);
 	i = 0;
 	while (i < len)
 	{
@@ -45,11 +43,13 @@ void	detect_tilda_expansions(char *line, t_list_int **p_tilda_idxs_to_expand)
 		else if (line[i] == '~')
 		{
 			if (is_eligible_for_exp(line, i, quote_type))
-				list_add(p_tilda_idxs_to_expand, tilda_idx);
+				if (!list_add(p_tilda_idxs_to_expand, tilda_idx))
+					return (FAILURE);
 			++tilda_idx;
 		}
 		++i;
 	}
+	return (SUCCESS);
 }
 
 static void	search_token_string(t_token *cur_tok, t_list_int *tld_idxs_to_exp, int list_size, int *idx_ptrs[2])
@@ -67,6 +67,7 @@ static void	search_token_string(t_token *cur_tok, t_list_int *tld_idxs_to_exp, i
 		{
 			if (list_size > *p_idx_idx && *p_tilda_idx == list_get_val_idx(tld_idxs_to_exp, *p_idx_idx))
 			{
+				// TODO: carry allocs to here for freeing
 				str_replace_section(&cur_tok->value, i, i, getenv("HOME"));
 				++(*p_idx_idx);
 			}

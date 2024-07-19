@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:49:08 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/17 07:54:19 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 20:14:47 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,26 +139,6 @@ void	add_token(t_token **head_ptr, t_token_type type, char *val)
 		last->next = new;
 		new->prev = last;
 	}
-}
-
-void	token_list_print(t_token *head)
-{
-	t_token	*iter;
-	char	*enum_names[6] = \
-	{"STRING", "REDIR_TO", "APPEND_TO", "REDIR_FROM", "HERE_DOC", "PIPE"};	
-	
-	if (head == NULL)
-	{
-		printf("<null node>\n");
-		return ;
-	}
-	iter = head;
-	while (iter != NULL)
-	{
-		printf("type = %-12s, val = {%s}\n", enum_names[iter->type], iter->value);
-		iter = iter->next;
-	}
-	printf("\n");
 }
 
 void	ft_free_link_list(t_token *split)

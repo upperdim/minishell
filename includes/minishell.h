@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 18:59:15 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 19:53:05 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,11 @@ void	str_appendc(char **p_str, char char_to_append);
 void	str_append_free(char **p_str, char *to_append_and_free);
 
 // Int list
-void	list_add(t_list_int **head_ptr, int val);
+int		list_add(t_list_int **head_ptr, int val);
 void	list_print(t_list_int *head);
 int		list_get_size(t_list_int *head);
 int		list_get_val_idx(t_list_int *head, int idx);
+void	list_int_free_all(t_list_int *head);
 
 // Token list
 void	add_token(t_token **head_ptr, t_token_type type, char *val);
@@ -101,6 +102,7 @@ t_token	*token_list_get_last(t_token *list);
 void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
+void	exit_free_idx_arrays(t_list_int *tilda_idxs, t_list_int *var_idxs);
 
 // Misc
 long	ft_atol(const char *str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 06:33:24 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 21:12:58 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define PARSER_H
 
 # include <stdbool.h>
+
+# define ERR_MSG_UNCLOSED_QUOTES ("minishell: SyntaxError: unclosed quotes\n")
+# define ERR_MSG_INVALID_TOKENS ("minishell: SyntaxError: invalid tokens\n")
+# define ERR_MSG_MALLOC ("minishell: Error allocating memory: malloc\n")
 
 # define NOT_QUOTE 0
 
@@ -56,8 +60,8 @@ t_token	*tokenize(char *line);
 int		check_token_rules(t_token *head);
 int		merge_quotes(t_token *token_list);
 
-void	detect_tilda_expansions(char *line, t_list_int **p_tild_idxs_to_expand);
-void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_ex, int s);
+int		detect_tilda_expansions(char *line, int len, t_list_int **p_tilda_idxs_to_expand);
+int		detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s);
 
 void	expand_tilda(t_token *token_list, t_list_int *tilda_idxs_to_expand, const int list_size);
 void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand, const int list_size);

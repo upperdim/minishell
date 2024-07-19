@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 18:20:59 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 19:54:09 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	is_eligible_for_exp(char *line, int *s, int *in_quote, int *var_idx)
 	`s` was defined here for norm complience.
 	It's not a real variable, it initially must always be received as 0.
 */
-void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
+int	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 {
 	int	var_idx;
 	int	e;
@@ -58,7 +58,8 @@ void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 			continue ;
 		if (line[s + 1] == '?')
 		{
-			list_add(p_var_idxs_to_exp, var_idx);
+			if (!list_add(p_var_idxs_to_exp, var_idx))
+				return (FAILURE);
 			++s;
 			continue;
 		}
@@ -66,10 +67,14 @@ void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 		while (is_valid_var_exp_char(line[e]))
 			++e;
 		if (e != s + 1)
-			list_add(p_var_idxs_to_exp, var_idx);
+		{
+			if (!list_add(p_var_idxs_to_exp, var_idx))
+				return (FAILURE);
+		}
 		else if (line[e] == '$')
 		{
-			list_add(p_var_idxs_to_exp, var_idx);
+			if (!list_add(p_var_idxs_to_exp, var_idx))
+				return (FAILURE);
 			var_idx += 2;
 			s += 2;
 			continue ;
@@ -77,6 +82,7 @@ void	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 		s = e;
 		++var_idx;
 	}
+	return (SUCCESS);
 }
 
 void	replace_tok_val_section(t_token *tok, int s, int e, char *replace_with, int *p_value_len)
