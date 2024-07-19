@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 17:27:52 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 17:58:00 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 static int	init_minishell(void)
 {
-	extern char	**environ;
-	extern int	errno;
+	extern char		**environ;
+	extern int		errno;
+	struct termios	terminal_config;
 
 	errno = 0;
 	environ = dup_environ();
 	if (environ == NULL)
 		return (EXIT_FAILURE);
+	tcgetattr(STDIN_FILENO, &terminal_config);
+	terminal_config.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, &terminal_config);
 	return (EXIT_SUCCESS);
 }
 
