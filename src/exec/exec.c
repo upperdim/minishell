@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/19 17:06:36 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:26:48 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ pid_t	execute_cmd(t_cmd *cmd)
 	pid_t		pid;
 	int			builtin;
 
+	if (check_if_heredoc(cmd->redirects))
+		return (EXIT_FAILURE);
 	if (cmd->argv == (void *)1)
 		return (BUILTIN_EXECUTED);
 	builtin = is_builtin(cmd->argv[0]);
 	if (builtin == true)
-	{
-		set_last_process_exit_code(exec_builtins(cmd));
-		return (BUILTIN_EXECUTED);
-	}
+		return (set_last_process_exit_code(exec_builtins(cmd)),
+			BUILTIN_EXECUTED);
 	if (builtin == -1)
 		return (ft_printf_fd(2, ERROR_MSG, cmd->argv[0], E_ALLOC),
 			EXIT_FAILURE);

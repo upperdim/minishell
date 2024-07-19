@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 20:50:26 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 15:16:39 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:19:03 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,6 @@ int	do_all_redirections(t_cmd *cmd)
 {
 	int	ret;
 
-	if (check_if_heredoc(cmd->redirects))
-		return (EXIT_FAILURE);
 	if (cmd->pipe[PIPE_FD_READ] != 0)
 	{
 		ret = setup_in_pipe(cmd->pipe);
