@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/19 15:05:59 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 13:44:02 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,6 @@ char	*find_path_to(char *cmd)
 			ft_free_n_null((void **)&test_path);
 		i++;
 	}
+	ft_free_2d_array((void ***)&env_path, FREE_ANY_SIZE);
 	return (abs_path_cmd);
 }
