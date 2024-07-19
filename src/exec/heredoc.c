@@ -49,8 +49,11 @@ int	check_if_heredoc(t_token *redirects)
 			fd = open(HEREDOC_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd == -1)
 				return (1);
+			set_signal_handlers_mode(HEREDOC);
 			line = get_here_doc(redirects->next->value);
-			ft_putstr_fd(line, fd);
+			set_signal_handlers_mode(EXECUTION);
+			if (line)
+				ft_putstr_fd(line, fd);
 			ft_close(&fd);
 		}
 		ft_free_n_null((void **)&line);

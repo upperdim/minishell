@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 18:49:18 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:42:32 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@
 enum e_signal_mode
 {
 	INTERACTIVE,
-	EXECUTION
+	EXECUTION,
+	HEREDOC
 };
 
 void	ft_execve(t_cmd *cmd);

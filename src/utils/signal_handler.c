@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:24:27 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/19 17:30:32 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:52:29 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ void	set_signal_handlers_mode(enum e_signal_mode mode)
 	else if (mode == INTERACTIVE)
 	{
 		signal(SIGINT, interactive_mode_signal_handler);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == HEREDOC)
+	{
+		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}
 }
