@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/19 13:39:03 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 17:06:36 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	ft_execve(t_cmd *cmd)
 pid_t	execute_cmd(t_cmd *cmd)
 {
 	pid_t		pid;
-	int			exit_code;
 	int			builtin;
 
 	if (cmd->argv == (void *)1)
@@ -64,8 +63,7 @@ pid_t	execute_cmd(t_cmd *cmd)
 	builtin = is_builtin(cmd->argv[0]);
 	if (builtin == true)
 	{
-		exit_code = exec_builtins(cmd);
-		set_last_process_exit_code(exit_code);
+		set_last_process_exit_code(exec_builtins(cmd));
 		return (BUILTIN_EXECUTED);
 	}
 	if (builtin == -1)
