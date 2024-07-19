@@ -56,7 +56,8 @@ int	merge_quotes(t_token *token_list)
 {
 	t_token	*iter;
 	size_t	i;
-	
+	int		last_quote_idx;
+
 	iter = token_list;
 	while (iter != NULL)
 	{
