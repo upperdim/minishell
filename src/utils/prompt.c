@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/08 15:06:14 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:11:08 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*get_hostname(void)
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-		exit_error("minishell: hostname: error executing", WEXITSTATUS(status));
+		return (NULL);
 	hostname = get_next_line(pipe_fd[PIPE_FD_READ]);
 	ft_close(&pipe_fd[PIPE_FD_READ]);
 	ft_close(&pipe_fd[PIPE_FD_WRITE]);
