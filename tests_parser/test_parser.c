@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 15:15:18 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 05:27:34 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,25 @@ void test_tokenizer() {
 	}
 }
 
+void test_parser() {
+	#define PARSER_TEST_COUNT 4
+	char *tokenizer_tests[PARSER_TEST_COUNT] = {
+		"cat hello1>file2name 123>file1name123>world<<\" EOF\"",
+		"export VAR=\"echo hi | cat\"",
+		"echo asd << \"\" << file2",
+		"echo hi | cat -e"
+	};
+
+	for (int i = 0; i < PARSER_TEST_COUNT; ++i) {
+		char *test_case = tokenizer_tests[i];
+		printf("test case = {%s}\n", test_case);
+
+		t_token *token_list = parse(test_case);
+		token_list_print(token_list);
+		printf("\n");
+	}
+}
+
 static int	init_minishell(void)
 {
 	extern char	**environ;
@@ -156,4 +175,5 @@ int main() {
 	// test_str_append_appendc();
 	// test_token_list();
 	// test_tokenizer();
+	// test_parser();
 }
