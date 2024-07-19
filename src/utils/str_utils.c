@@ -6,11 +6,19 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 04:55:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 14:39:27 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:52:46 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* Returns 0 if `s` is NULL. */
+int	strlen_null(const char *s)
+{
+	if (s == NULL)
+		return (0);
+	return ((int) ft_strlen(s));
+}
 
 /*
 	Return a substring of `s` from `start_idx` to `end_idx` INCLUSIVE.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merge_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:34:15 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 18:14:54 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:49:46 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	obliterate_quote_symbols(char **p_value, int *i)
 int	merge_quotes(t_token *token_list)
 {
 	t_token	*iter;
-	size_t	i;
+	int		i;
 	int		last_quote_idx;
 
 	iter = token_list;
@@ -64,7 +64,7 @@ int	merge_quotes(t_token *token_list)
 		if (iter->type == STRING)
 		{
 			i = 0;
-			while (i < ft_strlen(iter->value))
+			while (i < strlen_null(iter->value))
 			{
 				last_quote_idx = 1;
 				if (iter->value[i] == '\'' || iter->value[i] == '\"')

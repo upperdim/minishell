@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 14:35:53 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:51:11 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void	handle_quotes(char *line, int *i, int idx_dist_to_quote,
 		exit_error("SyntaxError: unclosed quotes", EXIT_FAILURE);
 	else if (next_quote_idx == *i + idx_dist_to_quote + 1)
 	{
-		if (ft_strlen(*p_curr_token_val) == 0)
+		if (strlen_null(*p_curr_token_val) == 0)
 			add_token(p_head, STRING, "");
 		(*i)++;
 	}
@@ -114,7 +114,7 @@ static int	handle_if_first_char(char *line, int *i, char **p_curr_token_val,
 {
 	if (line[*i] == ' ')
 	{
-		if (ft_strlen(*p_curr_token_val) > 0)
+		if (strlen_null(*p_curr_token_val) > 0)
 		{
 			add_token(p_head, STRING, *p_curr_token_val);
 			*p_curr_token_val[0] = '\0';
@@ -169,7 +169,7 @@ t_token	*tokenize(char *line)
 			handle_quotes(line, &i, 1, &curr_token_val, &head);
 		++i;
 	}
-	if (ft_strlen(curr_token_val) > 0)
+	if (strlen_null(curr_token_val) > 0)
 		add_token(&head, STRING, curr_token_val);
 	if (curr_token_val != NULL)
 		free(curr_token_val);
