@@ -6,25 +6,29 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:34:15 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 06:26:06 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 07:53:10 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-	This fierce quote exorcist will put despicable and ignominious quote pairs
-	through an unrelenting elimintion process, mercilessly eradicating both of
-	them with surgical precision and obliterating them from the face of earth,
-	liberating the string. This unyielding crusader against the oppression
-	of textual boundaries declares a ceaseless battle against the tyranny
-	of quotation marks. The ultimate unquotifier sends quote characters from
-	the string to a godforsaken realm of abyss never to be seen, heard or talked
-	about again, eternally banished into the deepest and darkest of all voids.
-	This is not just a function. It is a mere manifestation of our collective
-	hubris, a reflection of endless quest for the existential resistance and
-	rebellion against entropy that slowly consumes us all, a symbol of eternal
-	struggle for liberation from our inavoidable destiny.
+	This fierce quote exorcist will liberate the string with unwavering 
+	determination by putting despicable and ignominious quote pairs through an
+	unrelenting elimination process, mercilessly eradicating both of them with
+	surgical precision, obliterating them from the face of the earth. This
+	unyielding crusader against the oppression of textual boundaries declares a
+	ceaseless battle of expunging the vestiges against the tyranny of quotation
+	marks. No trace of these textual demarcations shall evade its vigilant
+	gaze as it purges the string with an indomitable resolve. The ultimate
+	unquotifier sends quotation marks from the string to a godforsaken realm of
+	abyss never to be seen, heard or talked about again, eternally banished into
+	the deepest and darkest of all voids. This is not just merely a utilitarian
+	function. It is a profound manifestation of our collective hubris, a
+	reflection of an endless quest for the existential resistance and rebellion
+	against entropy that slowly consumes us all, a symbol of eternal struggle
+	for liberation from our ultimate unavoidable destiny of a cold and slow 
+	decay into homogenized singularity.
 */
 static int	obliterate_quote_symbols(char **p_value, int i)
 {
