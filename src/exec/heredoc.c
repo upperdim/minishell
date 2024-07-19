@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 16:00:51 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/27 16:54:29 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:56:26 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,27 @@ static char	*get_here_doc(char *limiter)
 	char	*line;
 	char	*tmp;
 	char	*line_stdin;
+	int		new_line_index;
 
 	line = NULL;
-	tmp = NULL;
 	line_stdin = NULL;
 	while (1)
 	{
 		ft_free_n_null((void **)&line_stdin);
 		ft_printf("> ");
 		line_stdin = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(line_stdin, limiter, ft_strlen(line_stdin) - 1) == 0)
+		if ((line_stdin == NULL && ft_printf("\n")))
 			break ;
+		new_line_index = ft_strlen(line_stdin) - 1;
+		line_stdin[new_line_index] = '\0';
+		if (ft_strncmp(line_stdin, limiter, ft_strlen(limiter) + 1) == 0)
+			break ;
+		line_stdin[new_line_index] = '\n';
 		tmp = ft_strjoin(line, line_stdin);
 		ft_free_n_null((void **)&line);
 		line = tmp;
 	}
-	ft_free_n_null((void **)&line_stdin);
-	return (line);
+	return (ft_free_n_null((void **)&line_stdin), line);
 }
 
 int	check_if_heredoc(t_token *redirects)
