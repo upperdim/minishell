@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 06:26:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 14:35:53 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:10:22 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*str_join_free(char const *s1, char const *s2)
 	len2 = ft_strlen(s2);
 	if (len1 == 0 && len2 == 0)
 		return (NULL);
-	joint = (char *) malloc((len1 + len2 + 1) * sizeof(char));
+	joint = (char *) ft_calloc((len1 + len2 + 1), sizeof(char));
 	if (joint == NULL)
 	{
 		free((char *) s1);
