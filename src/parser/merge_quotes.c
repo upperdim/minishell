@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merge_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:34:15 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 07:53:10 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:14:54 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,21 @@
 	for liberation from our ultimate unavoidable destiny of a cold and slow 
 	decay into homogenized singularity.
 */
-static int	obliterate_quote_symbols(char **p_value, int i)
+static int	obliterate_quote_symbols(char **p_value, int *i)
 {
 	char	quote_type;
 	int		next_quote_idx;
 	
 	if (*p_value == NULL)
 		return (TRUE);
-	quote_type = (*p_value)[i];
-	next_quote_idx = find_idx_of_nextc(*p_value, i + 1, quote_type);
+	quote_type = (*p_value)[*i];
+	next_quote_idx = find_idx_of_nextc(*p_value, *i + 1, quote_type);
 	if (next_quote_idx == -1)
 		return (FALSE);
-	str_replace_section(p_value, i, i, "");
+	str_replace_section(p_value, *i, *i, "");
 	--next_quote_idx;
 	str_replace_section(p_value, next_quote_idx, next_quote_idx, "");
+	*i = next_quote_idx;
 	return (TRUE);
 }
 
@@ -65,7 +66,7 @@ int	merge_quotes(t_token *token_list)
 			while (i < strlen_null(iter->value))
 			{
 				if (iter->value[i] == '\'' || iter->value[i] == '\"')
-					if (!obliterate_quote_symbols(&iter->value, i))
+					if (!obliterate_quote_symbols(&iter->value, &i))
 						return (FALSE);
 				++i;
 			}
