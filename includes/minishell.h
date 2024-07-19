@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 19:46:22 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:36:35 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ char	**dup_environ(void);
 /*                                   UTILS                                    */
 /* ****************************************************************************/
 // String
-int		strlen_null(const char *s);
 char	*str_sub(char *s, int start_idx, int end_idx);
 int		str_is_numeric(char *str);
 int		find_idx_of_nextc(char *s, int search_start_idx, char search_char);
