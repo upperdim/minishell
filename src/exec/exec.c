@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/18 20:40:00 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 13:39:03 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	error_msg_execve(t_cmd *cmd)
 {
 	struct stat	buf;
 
+	buf.st_mode = 0;
 	stat(cmd->argv[0], &buf);
 	if (S_ISDIR(buf.st_mode))
 		ft_printf_fd(2, ERROR_MSG, cmd->argv[0], "Is a directory");
