@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:34:15 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 14:37:27 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:58:32 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	obliterate_quote_symbols(char **p_value, int i)
 	quote_type = (*p_value)[i];
 	next_quote_idx = find_idx_of_nextc(*p_value, i + 1, quote_type);
 	if (next_quote_idx == -1)
-		return (FALSE);
+		return (-1);
 	str_replace_section(p_value, i, i, "");
 	--next_quote_idx;
 	str_replace_section(p_value, next_quote_idx, next_quote_idx, "");
@@ -67,7 +67,7 @@ int	merge_quotes(t_token *token_list)
 			{
 				if (iter->value[i] == '\'' || iter->value[i] == '\"')
 					last_quote_idx = obliterate_quote_symbols(&iter->value, i);
-				if (last_quote_idx == FALSE)
+				if (last_quote_idx == -1)
 					return (FALSE);
 				i += last_quote_idx;
 			}

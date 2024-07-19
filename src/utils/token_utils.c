@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:49:08 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/18 20:09:00 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:04:19 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ t_token	*dup_token(t_token *token)
 		ft_free_link_list(token);
 		exit_error("minishell: "E_ALLOC, 1);
 	}
-	new_token->value = ft_strdup(token->value);
-	if (new_token->value == NULL)
+	if (token->value != NULL)
+		new_token->value = ft_strdup(token->value);
+	if (new_token->value == NULL && token->value != NULL)
 	{
 		ft_free_n_null((void **)&new_token);
 		ft_free_link_list(token);
