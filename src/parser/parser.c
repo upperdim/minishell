@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 19:34:03 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 06:30:52 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,17 @@ t_token	*parse(char *line)
 	// init_parser_vars(&pvars, line);
 	token_list = NULL;
 	if (validate_quotes(line) == FALSE)
-		exit_error("minishell: SyntaxError: unclosed quotes", EXIT_FAILURE);
+		return (ft_printf("minishell: SyntaxError: unclosed quotes\n"), NULL);
 	tilda_idxs_to_expand = NULL;
 	detect_tilda_expansions(line, &tilda_idxs_to_expand);
 	var_idxs_to_expand = NULL;
 	detect_var_expansions(line, &var_idxs_to_expand, 0);
 	token_list = tokenize(line);
 	if (!check_token_rules(token_list))
-		exit_error("minishell: SyntaxError: invalid tokens", EXIT_FAILURE);
+		return (ft_printf("minishell: SyntaxError: invalid tokens\n"), NULL);
 	expand_tilda(token_list, tilda_idxs_to_expand, list_get_size(tilda_idxs_to_expand));
 	expand_var(token_list, var_idxs_to_expand, list_get_size(var_idxs_to_expand));
-	merge_quotes(token_list);
+	if (!merge_quotes(token_list))
+		return (ft_printf("SyntaxError: unclosed quotes\n"), NULL);
 	return (token_list);
 }
