@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 19:45:52 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:57:30 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	main(void)
 	{
 		input = get_input();
 		if (input == NULL)
-			return (clean_up(), 0);
+			return (exit_bash(1, NULL));
 		token_list = parse(input);
 		if (input == NULL)
 			continue ;

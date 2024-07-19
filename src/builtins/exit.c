@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:39:22 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 09:02:19 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 16:58:14 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	exit_bash(const int argc, t_cmd	*cmd)
 		ft_printf_fd(2, ERROR_MSG_PERROR"%s: %s\n", "exit", cmd->argv[1],
 			"numeric argument required");
 	}
-	free_cmd((t_cmd **)&cmd);
+	if (cmd)
+		free_cmd((t_cmd **)&cmd);
 	clean_up();
 	exit((unsigned char)errno);
 }
