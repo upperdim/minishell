@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 04:55:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 15:15:09 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:45:39 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ int	strlen_null(const char *s)
 
 	if (s == NULL)
 		return (0);
-	i = 0;
-	while (s[i] != '\0')
-		++i;
-	return (i);
+	return ((int)ft_strlen(s));
 }
 
 /*
