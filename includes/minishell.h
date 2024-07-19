@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 14:36:35 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 17:27:52 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,15 @@
 # define TRUE 1
 # define FALSE 0
 
+enum e_signal_mode
+{
+	INTERACTIVE,
+	EXECUTION
+};
+
 void	ft_execve(t_cmd *cmd);
 char	*get_prompt(void);
-void	set_signal_handlers(void);
+void	set_signal_handlers_mode(enum e_signal_mode mode);
 char	**dup_environ(void);
 
 /* ****************************************************************************/

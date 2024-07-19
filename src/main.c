@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 16:57:30 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 17:27:52 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,16 @@ int	main(void)
 		return (EXIT_FAILURE);
 	}
 	input = NULL;
-	set_signal_handlers();
 	while (errno == 0)
 	{
+		set_signal_handlers_mode(INTERACTIVE);
 		input = get_input();
 		if (input == NULL)
 			return (exit_bash(1, NULL));
 		token_list = parse(input);
-		if (input == NULL)
-			continue ;
 		if (ft_strlen(input) > 0)
 			add_history(input);
+		set_signal_handlers_mode(EXECUTION);
 		errno = exec(token_list);
 		ft_free_n_null((void **)&input);
 	}
