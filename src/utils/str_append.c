@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_append.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 06:26:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 06:28:24 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 14:35:53 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static char	*str_join_free(char const *s1, char const *s2)
 	int		len2;
 	char	*joint;
 
-	len1 = strlen_null(s1);
-	len2 = strlen_null(s2);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
 	if (len1 == 0 && len2 == 0)
 		return (NULL);
 	joint = (char *) malloc((len1 + len2 + 1) * sizeof(char));
