@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/19 19:26:48 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 21:25:02 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,28 @@ void	ft_execve(t_cmd *cmd)
 	exit_error(NULL, EXIT_FAILURE);
 }
 
+static void	open_fd(t_token *redir)
+{
+	int	fd;
+
+	while (redir != NULL)
+	{
+		fd = 0;
+		if (redir->type == REDIR_TO)
+			fd = open(redir->next->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (redir->type == APPEND_TO)
+			fd = open(redir->next->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else if (redir->type == REDIR_FROM)
+			fd = open(redir->next->value, O_RDONLY);
+		if (fd == -1)
+			return (ft_printf_fd(2, ERROR_MSG_PERROR, redir->next->value),
+				perror(NULL), (void)ft_close(&fd));
+		if (fd)
+			close(fd);
+		redir = redir->next->next;
+	}
+}
+
 pid_t	execute_cmd(t_cmd *cmd)
 {
 	pid_t		pid;
@@ -61,7 +83,7 @@ pid_t	execute_cmd(t_cmd *cmd)
 	if (check_if_heredoc(cmd->redirects))
 		return (EXIT_FAILURE);
 	if (cmd->argv == (void *)1)
-		return (BUILTIN_EXECUTED);
+		return (open_fd(cmd->redirects), BUILTIN_EXECUTED);
 	builtin = is_builtin(cmd->argv[0]);
 	if (builtin == true)
 		return (set_last_process_exit_code(exec_builtins(cmd)),
