@@ -44,7 +44,7 @@ static int	obliterate_quote_symbols(char **p_value, int i)
 	str_replace_section(p_value, i, i, "");
 	--next_quote_idx;
 	str_replace_section(p_value, next_quote_idx, next_quote_idx, "");
-	return (TRUE);
+	return (next_quote_idx);
 }
 
 /*
@@ -55,7 +55,8 @@ int	merge_quotes(t_token *token_list)
 {
 	t_token	*iter;
 	size_t	i;
-	
+	int		last_quote_idx;
+
 	iter = token_list;
 	while (iter != NULL)
 	{
@@ -65,9 +66,10 @@ int	merge_quotes(t_token *token_list)
 			while (i < ft_strlen(iter->value))
 			{
 				if (iter->value[i] == '\'' || iter->value[i] == '\"')
-					if (!obliterate_quote_symbols(&iter->value, i))
-						return (FALSE);
-				++i;
+					last_quote_idx = obliterate_quote_symbols(&iter->value, i);
+				if (last_quote_idx == FALSE)
+					return (FALSE);
+				i += last_quote_idx;
 			}
 		}
 		iter = iter->next;
