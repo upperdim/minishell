@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 20:19:24 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:20:59 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ int	handle_if_dollar_questionmark(t_token *iter, int i, int *p_idx_idx, int *p_v
 			last_proc_exit_code = getenv("LAST_PROCESS_EXIT_CODE");
 			handle_if_should_fail(iter, "LAST_PROCESS_EXIT_CODE", last_proc_exit_code);
 			str_replace_section(&iter->value, i, i + 1, last_proc_exit_code);
-			free(last_proc_exit_code);
 			*p_value_len = ft_strlen(iter->value);
 		}
 		++(*p_idx_idx);
