@@ -66,6 +66,7 @@ int	merge_quotes(t_token *token_list)
 			i = 0;
 			while (i < ft_strlen(iter->value))
 			{
+				last_quote_idx = 1;
 				if (iter->value[i] == '\'' || iter->value[i] == '\"')
 					if (!obliterate_quote_symbols(&iter->value, &i))
 						return (FALSE);
