@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:34:15 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 14:58:32 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:22:01 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	merge_quotes(t_token *token_list)
 			i = 0;
 			while (i < ft_strlen(iter->value))
 			{
+				last_quote_idx = 1;
 				if (iter->value[i] == '\'' || iter->value[i] == '\"')
 					last_quote_idx = obliterate_quote_symbols(&iter->value, i);
 				if (last_quote_idx == -1)
