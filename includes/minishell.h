@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 14:20:39 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:59:15 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@
 # define TRUE 1
 # define FALSE 0
 
+# define SUCCESS 1
+# define FAILURE 0
+
 void	ft_execve(t_cmd *cmd);
 char	*get_prompt(void);
 void	set_signal_handlers(void);
@@ -98,9 +101,6 @@ t_token	*token_list_get_last(t_token *list);
 void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
-
-// Environment
-char	*get_env_var(char *var_name);
 
 // Misc
 long	ft_atol(const char *str);
