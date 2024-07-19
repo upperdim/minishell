@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:34:15 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 06:07:06 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/19 06:13:42 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 	of textual boundaries declares a ceaseless battle against the tyranny
 	of quotation marks. The ultimate unquotifier sends quote characters from
 	the string to a godforsaken realm of abyss never to be seen, heard or talked
-	about again, banished into the deepest and darkest void.
+	about again, eternally banished into the deepest and darkest of all voids.
 	This is not just a function. It is a mere manifestation of our collective
 	hubris, a reflection of endless quest for the existential resistance and
 	rebellion against entropy that slowly consumes us all, a symbol of eternal
