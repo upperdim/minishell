@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:34:15 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 18:14:54 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/20 23:23:38 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	obliterate_quote_symbols(char **p_value, int *i)
 {
 	char	quote_type;
 	int		next_quote_idx;
-	
+
 	if (*p_value == NULL)
 		return (TRUE);
 	quote_type = (*p_value)[*i];
@@ -54,9 +54,9 @@ static int	obliterate_quote_symbols(char **p_value, int *i)
 */
 int	merge_quotes(t_token *token_list)
 {
-	t_token 		*iter;
-	int	i;
-	
+	t_token	*iter;
+	int		i;
+
 	iter = token_list;
 	while (iter != NULL)
 	{

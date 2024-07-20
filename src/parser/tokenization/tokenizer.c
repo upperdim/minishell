@@ -6,13 +6,14 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 20:58:05 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/20 23:40:40 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	add_numeric_redir_token(t_token **p_head, char redir_type, int single_or_double, char *curr_token_val)
+static void	add_numeric_redir_token(\
+t_token **p_head, char redir_type, int single_or_double, char *curr_token_val)
 {
 	char	*new_val;
 	int		new_type;
@@ -43,7 +44,8 @@ static void	add_numeric_redir_token(t_token **p_head, char redir_type, int singl
 
 // TODO: Do we need to get a pointer to curr_token_val like the other functions?
 // Why does this work while others don't?
-static void	handle_redirs(char *line, int *i, char *curr_token_val, t_token **p_head)
+static void	handle_redirs(\
+char *line, int *i, char *curr_token_val, t_token **p_head)
 {
 	char	redir_type;
 
@@ -83,29 +85,34 @@ static void	handle_redirs(char *line, int *i, char *curr_token_val, t_token **p_
 	- curr_token_val : updated current token value
 	- i              : updated index position in the line  
 */
-static void	handle_quotes(char *line, int *i, int idx_dist_to_quote, char **p_curr_token_val, t_token **p_head)
+static void	handle_quotes(\
+char *line, int *i, int idx_dist_to_quote, char **p_curr_tok_val, t_token **p_head)
 {
-	const char	quote_type = line[*i + idx_dist_to_quote];
-	const int	next_quote_idx = find_idx_of_nextc(line, *i + idx_dist_to_quote + 1, quote_type);
+	char	quote_type;
+	int		next_quote_idx;
 
+	quote_type = line[*i + idx_dist_to_quote];
+	next_quote_idx = (line, *i + idx_dist_to_quote + 1, quote_type);
 	if (next_quote_idx == -1)
 		// Carry here and free every allocation
 		exit_error("SyntaxError: unclosed quotes", EXIT_FAILURE);
 	else if (next_quote_idx == *i + idx_dist_to_quote + 1)
 	{
-		if (strlen_null(*p_curr_token_val) == 0)
+		if (strlen_null(*p_curr_tok_val) == 0)
 			add_token(p_head, STRING, "");
 		(*i) += idx_dist_to_quote + 2;
 	}
 	else
 	{
-		str_append_free(p_curr_token_val, str_sub(line, *i + idx_dist_to_quote, next_quote_idx));
+		str_append_free(p_curr_tok_val, \
+str_sub(line, *i + idx_dist_to_quote, next_quote_idx));
 		(*i) = next_quote_idx;
 	}
 }
 
 /* These checks shall be true only if it's the first char after a token */
-static int	handle_if_first_char(char *line, int *i, char **p_curr_token_val, t_token **p_head)
+static int	handle_if_first_char(\
+char *line, int *i, char **p_curr_token_val, t_token **p_head)
 {
 	if (line[*i] == ' ')
 	{

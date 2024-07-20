@@ -6,10 +6,9 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 19:54:09 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/20 23:33:44 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -49,7 +48,7 @@ int	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 	int	var_idx;
 	int	e;
 	int	is_in_single_quote;
-	
+
 	is_in_single_quote = FALSE;
 	var_idx = 0;
 	while (line[s] != '\0')
@@ -61,7 +60,7 @@ int	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 			if (!list_add(p_var_idxs_to_exp, var_idx))
 				return (FAILURE);
 			++s;
-			continue;
+			continue ;
 		}
 		e = s + 1;
 		while (is_valid_var_exp_char(line[e]))
@@ -85,7 +84,8 @@ int	detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s)
 	return (SUCCESS);
 }
 
-void	replace_tok_val_section(t_token *tok, int s, int e, char *replace_with, int *p_value_len)
+void	replace_tok_val_section(\
+t_token *tok, int s, int e, char *replace_with, int *p_value_len)
 {
 	str_replace_section(&tok->value, s, e, replace_with);
 	free(replace_with);
@@ -101,8 +101,13 @@ int	is_prev_here_doc(t_token *tok)
 	return (FALSE);
 }
 
-/* If env var was not found and previous token was REDIR_TO, REDIR_FROM or APPEND_TO; you should fail */
-void	handle_if_should_fail(t_token *curr_tok, char *env_var_name, char *env_var_result)
+/* 
+	If env var was not found and previous token was 
+	REDIR_TO, REDIR_FROM or APPEND_TO,
+	then you should fail
+*/
+void	handle_if_should_fail(\
+t_token *curr_tok, char *env_var_name, char *env_var_result)
 {
 	if (curr_tok->prev == NULL)
 		return ;
@@ -119,7 +124,8 @@ void	handle_if_should_fail(t_token *curr_tok, char *env_var_name, char *env_var_
 	}
 }
 
-int	handle_if_double_dollar(t_token *iter, int i, int *p_idx_idx, int *p_var_idx, int *p_value_len)
+int	handle_if_double_dollar(\
+t_token *iter, int i, int *p_idx_idx, int *p_var_idx, int *p_value_len)
 {
 	char	*minishell_pid;
 
@@ -139,7 +145,8 @@ int	handle_if_double_dollar(t_token *iter, int i, int *p_idx_idx, int *p_var_idx
 	return (FALSE);
 }
 
-int	handle_if_dollar_questionmark(t_token *iter, int i, int *p_idx_idx, int *p_value_len)
+int	handle_if_dollar_questionmark(\
+t_token *iter, int i, int *p_idx_idx, int *p_value_len)
 {
 	char	*last_proc_exit_code;
 
@@ -148,7 +155,8 @@ int	handle_if_dollar_questionmark(t_token *iter, int i, int *p_idx_idx, int *p_v
 		if (!is_prev_here_doc(iter))
 		{
 			last_proc_exit_code = getenv("LAST_PROCESS_EXIT_CODE");
-			handle_if_should_fail(iter, "LAST_PROCESS_EXIT_CODE", last_proc_exit_code);
+			handle_if_should_fail(\
+			iter, "LAST_PROCESS_EXIT_CODE", last_proc_exit_code);
 			str_replace_section(&iter->value, i, i + 1, last_proc_exit_code);
 			*p_value_len = ft_strlen(iter->value);
 		}
@@ -158,7 +166,8 @@ int	handle_if_dollar_questionmark(t_token *iter, int i, int *p_idx_idx, int *p_v
 	return (FALSE);
 }
 
-void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand, const int list_size)
+void	expand_var(\
+t_token *token_list, t_list_int *var_idxs_to_expand, const int list_size)
 {
 	int		var_idx;
 	int		idx_idx;

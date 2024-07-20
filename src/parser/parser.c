@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 20:37:48 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/20 23:25:28 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static int	validate_quotes(char *line)
 {
-	char quote_type;
-	int	len;
-	int	i;
+	char	quote_type;
+	int		len;
+	int		i;
 
 	quote_type = NOT_QUOTE;
 	len = ft_strlen(line);
@@ -32,37 +32,28 @@ static int	validate_quotes(char *line)
 	return (quote_type == NOT_QUOTE);
 }
 
-// void	init_parser_vars(t_pvars *pvars, char *line)
-// {
-// 	pvars->line = line;
-// 	pvars->len = ft_strlen(line);
-// 	pvars->head = NULL;
-// }
-
 t_token	*parse(char *line)
 {
-	//t_pvars		pvars;
-	t_token 	*token_list;
-	t_list_int	*tilda_idxs_to_expand;
-	t_list_int	*var_idxs_to_expand;
+	t_token		*token_list;
+	t_list_int	*tild_idxs_to_exp;
+	t_list_int	*var_idxs_to_exp;
 
 	if (line == NULL || *line == '\0')
 		return (NULL);
-	// init_parser_vars(&pvars, line);
 	token_list = NULL;
 	if (validate_quotes(line) == FALSE)
 		return (ft_printf_fd(2, ERR_MSG_UNCLOSED_QUOTES), NULL);
-	tilda_idxs_to_expand = NULL;
-	var_idxs_to_expand = NULL;
-	if (!detect_tilda_expansions(line, ft_strlen(line), &tilda_idxs_to_expand))
-		exit_free_idx_arrays(tilda_idxs_to_expand, var_idxs_to_expand);
-	if (!detect_var_expansions(line, &var_idxs_to_expand, 0))
-		exit_free_idx_arrays(tilda_idxs_to_expand, var_idxs_to_expand);
+	tild_idxs_to_exp = NULL;
+	var_idxs_to_exp = NULL;
+	if (!detect_tilda_expansions(line, ft_strlen(line), &tild_idxs_to_exp))
+		exit_free_idx_arrays(tild_idxs_to_exp, var_idxs_to_exp);
+	if (!detect_var_expansions(line, &var_idxs_to_exp, 0))
+		exit_free_idx_arrays(tild_idxs_to_exp, var_idxs_to_exp);
 	token_list = tokenize(line);
 	if (!check_token_rules(token_list))
 		return (ft_printf_fd(2, ERR_MSG_INVALID_TOKENS), NULL);
-	expand_tilda(token_list, tilda_idxs_to_expand, list_get_size(tilda_idxs_to_expand));
-	expand_var(token_list, var_idxs_to_expand, list_get_size(var_idxs_to_expand));
+	expand_tilda(token_list, tild_idxs_to_exp, list_get_size(tild_idxs_to_exp));
+	expand_var(token_list, var_idxs_to_exp, list_get_size(var_idxs_to_exp));
 	if (!merge_quotes(token_list))
 		return (ft_printf_fd(2, ERR_MSG_UNCLOSED_QUOTES), NULL);
 	return (token_list);
