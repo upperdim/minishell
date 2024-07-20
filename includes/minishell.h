@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 19:53:05 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 00:17:58 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	**dup_environ(void);
 int		strlen_null(const char *s);
 char	*str_sub(char *s, int start_idx, int end_idx);
 int		str_is_numeric(char *str);
-int		find_idx_of_nextc(char *s, int search_start_idx, char search_char);
+int		str_findc_idx(char *s, int search_start_idx, char search_char);
 void	str_replace_section(char **p_str, int start, int end, char *replace_with);
 
 // String append

@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/20 23:40:40 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 00:18:25 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,26 +86,26 @@ char *line, int *i, char *curr_token_val, t_token **p_head)
 	- i              : updated index position in the line  
 */
 static void	handle_quotes(\
-char *line, int *i, int idx_dist_to_quote, char **p_curr_tok_val, t_token **p_head)
+char *line, int *i, int idx_dist_to_quot, char **p_curr_tok_val, t_token **p_head)
 {
 	char	quote_type;
 	int		next_quote_idx;
 
-	quote_type = line[*i + idx_dist_to_quote];
-	next_quote_idx = (line, *i + idx_dist_to_quote + 1, quote_type);
+	quote_type = line[*i + idx_dist_to_quot];
+	next_quote_idx = str_findc_idx(line, *i + idx_dist_to_quot + 1, quote_type);
 	if (next_quote_idx == -1)
 		// Carry here and free every allocation
 		exit_error("SyntaxError: unclosed quotes", EXIT_FAILURE);
-	else if (next_quote_idx == *i + idx_dist_to_quote + 1)
+	else if (next_quote_idx == *i + idx_dist_to_quot + 1)
 	{
 		if (strlen_null(*p_curr_tok_val) == 0)
 			add_token(p_head, STRING, "");
-		(*i) += idx_dist_to_quote + 2;
+		(*i) += idx_dist_to_quot + 2;
 	}
 	else
 	{
 		str_append_free(p_curr_tok_val, \
-str_sub(line, *i + idx_dist_to_quote, next_quote_idx));
+str_sub(line, *i + idx_dist_to_quot, next_quote_idx));
 		(*i) = next_quote_idx;
 	}
 }

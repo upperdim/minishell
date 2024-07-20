@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 04:55:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 19:54:32 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 00:17:58 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	str_is_numeric(char *str)
 	Search `search_char` in `s` starting from index `search_start_idx`.
 	Return -1 if not found
 */
-int	find_idx_of_nextc(char *s, int search_start_idx, char search_char)
+int	str_findc_idx(char *s, int search_start_idx, char search_char)
 {
 	int	i;
 

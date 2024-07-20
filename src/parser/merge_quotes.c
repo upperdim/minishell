@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:34:15 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/20 23:23:38 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 00:17:58 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	obliterate_quote_symbols(char **p_value, int *i)
 	if (*p_value == NULL)
 		return (TRUE);
 	quote_type = (*p_value)[*i];
-	next_quote_idx = find_idx_of_nextc(*p_value, *i + 1, quote_type);
+	next_quote_idx = str_findc_idx(*p_value, *i + 1, quote_type);
 	if (next_quote_idx == -1)
 		return (FALSE);
 	str_replace_section(p_value, *i, *i, "");
