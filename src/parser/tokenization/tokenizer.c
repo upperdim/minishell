@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 18:51:11 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:58:05 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static void	handle_quotes(char *line, int *i, int idx_dist_to_quote,
 	{
 		if (strlen_null(*p_curr_token_val) == 0)
 			add_token(p_head, STRING, "");
-		(*i)++;
+		(*i) += idx_dist_to_quote + 2;
 	}
 	else
 	{

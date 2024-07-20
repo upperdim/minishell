@@ -44,6 +44,9 @@ enum e_signal_mode
 	HEREDOC
 };
 
+# define SUCCESS 1
+# define FAILURE 0
+
 void	ft_execve(t_cmd *cmd);
 char	*get_prompt(void);
 void	set_signal_handlers_mode(enum e_signal_mode mode);
@@ -66,10 +69,11 @@ void	str_appendc(char **p_str, char char_to_append);
 void	str_append_free(char **p_str, char *to_append_and_free);
 
 // Int list
-void	list_add(t_list_int **head_ptr, int val);
+int		list_add(t_list_int **head_ptr, int val);
 void	list_print(t_list_int *head);
 int		list_get_size(t_list_int *head);
 int		list_get_val_idx(t_list_int *head, int idx);
+void	list_int_free_all(t_list_int *head);
 
 // Token list
 void	add_token(t_token **head_ptr, t_token_type type, char *val);
@@ -80,6 +84,7 @@ t_token	*token_list_get_last(t_token *list);
 void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
+void	exit_free_idx_arrays(t_list_int *tilda_idxs, t_list_int *var_idxs);
 
 // Misc
 long	ft_atol(const char *str);

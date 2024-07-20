@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_int.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:30:55 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/18 20:00:42 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:39:17 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ static t_list_int	*list_get_last(t_list_int *list)
 	return (iter);
 }
 
-void	list_add(t_list_int **head_ptr, int val)
+int	list_add(t_list_int **head_ptr, int val)
 {
 	t_list_int	*last;
 	t_list_int	*new;
 
 	new = (t_list_int *) malloc(1 * sizeof(t_list_int));
 	if (new == NULL)
-		exit_error("minishell: Error allocating memory: malloc",
-			EXIT_FAILURE);
+		return (FAILURE);
+	
 	new->val = val;
 	new->next = NULL;
 	if (*head_ptr == NULL)
@@ -47,6 +47,7 @@ void	list_add(t_list_int **head_ptr, int val)
 		last->next = new;
 		new->prev = last;
 	}
+	return (SUCCESS);
 }
 
 void	list_print(t_list_int *head)
@@ -105,4 +106,16 @@ int	list_get_val_idx(t_list_int *head, int idx)
 		iter = iter->next;
 	}
 	return (0);
+}
+
+void	list_int_free_all(t_list_int *head)
+{
+	t_list_int	*tmp;
+
+	while (head)
+	{
+		tmp = head;
+		head = head->next;
+		ft_free_n_null((void **)&tmp);
+	}
 }

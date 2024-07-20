@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 04:55:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 18:52:46 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:54:32 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	strlen_null(const char *s)
 {
 	if (s == NULL)
 		return (0);
-	return ((int) ft_strlen(s));
+	return ((int)ft_strlen(s));
 }
 
 /*
@@ -85,6 +85,7 @@ void	str_replace_section(char **p_str, int start, int end,
 	char	*new;
 
 	new = NULL;
+	// TODO: carry here the allocs on exit
 	str_append_free(&new, str_sub(*p_str, 0, start - 1));
 	str_append(&new, replace_with);
 	str_append_free(&new, str_sub(*p_str, end + 1, ft_strlen(*p_str) - 1));
