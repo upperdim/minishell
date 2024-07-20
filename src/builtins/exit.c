@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:39:22 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 16:58:14 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:46:05 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	exit_bash(const int argc, t_cmd	*cmd)
 		errno = ft_atoi(cmd->argv[1]);
 	else if (argc == 2)
 	{
-		errno = 2;
+		errno = 255;
 		ft_printf_fd(2, ERROR_MSG_PERROR"%s: %s\n", "exit", cmd->argv[1],
 			"numeric argument required");
 	}
