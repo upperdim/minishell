@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/19 20:11:08 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:43:39 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,20 @@ static char	*get_directory(void)
 // consts below are only for norminette
 char	*get_prompt(void)
 {
-	const char	*temp = get_hostname();
+	const char	*temp;
+	const char	*host = get_hostname();
 	const char	*directory = get_directory();
-	const char	*host = ft_strjoin(CYAN"", temp);
 	char		*prompt;
 
-	if (!temp || !directory || !host)
-		return (ft_free_n_null((void **)&temp),
-			ft_free_n_null((void **)&directory),
+	if (!directory || !host)
+		return (ft_free_n_null((void **)&directory),
 			ft_free_n_null((void **)&host), NULL);
-	ft_free_n_null((void **)&temp);
 	temp = ft_strjoin(host, directory);
 	ft_free_n_null((void **)&host);
 	ft_free_n_null((void **)&directory);
 	if (!temp)
 		return (NULL);
-	directory = ft_strjoin(temp, BLUE" ");
+	directory = ft_strjoin(temp, " ");
 	ft_free_n_null((void **)&temp);
 	if (!directory)
 		return (NULL);
@@ -115,6 +113,6 @@ char	*get_prompt(void)
 	ft_free_n_null((void **)&directory);
 	if (!temp)
 		return (NULL);
-	prompt = ft_strjoin(temp, "$ "WHITE);
+	prompt = ft_strjoin(temp, "$ ");
 	return (ft_free_n_null((void **)&temp), prompt);
 }
