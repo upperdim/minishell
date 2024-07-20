@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:28:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/11 14:44:48 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:17:00 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ int	cd(const int argc, char **argv)
 	if (argc > 2)
 		return (ft_printf_fd(2, ERROR_MSG, "cd", "too many arguments"),
 			EXIT_FAILURE);
-	if (argc == 1 || ft_strncmp(argv[1], "~\0", 2) == 0)
+	if (argc == 1)
 		status = chdir(getenv("HOME"));
-	if (ft_strncmp(argv[1], "-\0", 2) == 0)
+	else if (ft_strncmp(argv[1], "-\0", 2) == 0)
 		status = cd_oldpwd();
 	else
 		status = chdir(argv[1]);
