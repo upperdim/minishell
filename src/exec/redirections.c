@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 20:50:26 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/19 19:19:03 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:21:28 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	set_other_redirections(t_token *redir)
 		else if (redir->type == HERE_DOC)
 			fd = open(HEREDOC_FILE, O_RDONLY, 0644);
 		if (fd == -1)
-			return (ft_putstr_fd("minishell: Error opening file\n", 2), 1);
+			return (ft_printf_fd(2, ERROR_MSG_PERROR, file), perror(NULL), 1);
 		if (dup2(fd, original_fd) == -1)
 			return (ft_printf_fd(2, "minishell: %d: Bad file descriptor\n",
 					original_fd), ft_close(&fd), 1);
