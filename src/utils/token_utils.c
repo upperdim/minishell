@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:49:08 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/19 15:04:19 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:15:26 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,37 +41,40 @@ t_token	*dup_token(t_token *token)
 	new_token = ft_calloc(1, sizeof(t_token));
 	if (new_token == NULL)
 	{
-		ft_free_link_list(token);
-		exit_error("minishell: "E_ALLOC, 1);
+		free_tokens(token);
+		return (ft_printf_fd(2, "minishell: %s\n", E_ALLOC), NULL);
 	}
 	if (token->value != NULL)
 		new_token->value = ft_strdup(token->value);
 	if (new_token->value == NULL && token->value != NULL)
 	{
 		ft_free_n_null((void **)&new_token);
-		ft_free_link_list(token);
-		exit_error("minishell: "E_ALLOC, 1);
+		free_tokens(token);
+		return (ft_printf_fd(2, "minishell: %s\n", E_ALLOC), NULL);
 	}
 	new_token->type = token->type;
 	return (new_token);
 }
 
-void	add_token_last(t_token **head, t_token **new)
+int	add_token_last(t_token **head, t_token **new)
 {
 	t_token	*last;
 	t_token	*new_token;
 
 	new_token = dup_token(*new);
+	if (new_token == NULL)
+		return (EXIT_FAILURE);
 	if (*head == NULL)
 	{
 		*head = new_token;
-		return ;
+		return (EXIT_SUCCESS);
 	}
 	last = *head;
 	while (last->next != NULL)
 		last = last->next;
 	last->next = new_token;
 	new_token->prev = last;
+	return (EXIT_SUCCESS);
 }
 
 /* Get a pointer to the last element of the token list */
@@ -163,7 +166,7 @@ void	token_list_print(t_token *head)
 	ft_printf("\n");
 }
 
-void	ft_free_link_list(t_token *split)
+void	free_tokens(t_token *split)
 {
 	t_token	*tmp;
 

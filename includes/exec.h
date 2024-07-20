@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/18 19:46:44 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:15:26 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ typedef struct s_cmd
 // Token utilities
 t_token	*dup_token(t_token *token);
 t_token	*isolate_token(t_token **token);
-void	add_token_last(t_token **head, t_token **new);
+int		add_token_last(t_token **head, t_token **new);
 
 // Parsing utilities
-void	ft_free_link_list(t_token *split);
+void	free_tokens(t_token *split);
 
 // Execution utilities
 int		count_strs_in_array(char **argv);
