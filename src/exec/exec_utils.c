@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/21 17:02:52 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:23:11 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,16 @@ char	*find_path_to(char *cmd)
 	}
 	ft_free_2d_array((void ***)&env_path, FREE_ANY_SIZE);
 	return (abs_path_cmd);
+}
+
+void	wait_and_set_exit_status(pid_t pid, t_cmd *cmd)
+{
+	int	status;
+
+	if (waitpid(pid, &status, WUNTRACED) == -1)
+		return (free_cmd(&cmd), exit_perror(WEXITSTATUS(status)));
+	if (WIFEXITED(status))
+		set_last_process_exit_code(WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		set_last_process_exit_code(WTERMSIG(status) + 128);
 }

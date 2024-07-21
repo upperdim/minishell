@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/21 14:21:32 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:24:30 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ int	exec(t_token *token)
 	const t_cmd	*head_cmd = divide_tokens(token);
 	t_cmd		*cmd;
 	pid_t		pid;
-	int			status;
 
 	if (head_cmd == NULL)
 		return (exit_perror(errno), 1);
@@ -125,14 +124,10 @@ int	exec(t_token *token)
 		if (cmd->argv == NULL)
 			return (free_cmd(&cmd), EXIT_FAILURE);
 		pid = execute_cmd(cmd);
-		if (pid != BUILTIN_EXECUTED && pid == EXIT_FAILURE)
+		if (pid == EXIT_FAILURE)
 			return (free_cmd(&cmd), EXIT_FAILURE);
-		if (pid != BUILTIN_EXECUTED && waitpid(pid, &status, WUNTRACED) == -1)
-			return (free_cmd(&cmd), exit_perror(WEXITSTATUS(status)), 1);
-		if (pid != BUILTIN_EXECUTED && WIFEXITED(status))
-			set_last_process_exit_code(WEXITSTATUS(status));
-		else if (pid != BUILTIN_EXECUTED && WIFSIGNALED(status))
-			set_last_process_exit_code(WTERMSIG(status) + 128);
+		if (pid != BUILTIN_EXECUTED)
+			wait_and_set_exit_status(pid, cmd);
 		cmd = cmd->next;
 	}
 	return (unlink(HEREDOC_FILE), free_cmd((t_cmd **)&head_cmd), EXIT_SUCCESS);
