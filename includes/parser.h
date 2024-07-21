@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 03:06:44 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 03:48:11 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,24 @@ typedef struct s_pvars
 	t_token	*head;
 }	t_pvars;
 
+typedef struct s_exp_idxs
+{
+	t_list_int	*tld_idxs;
+	t_list_int	*var_idxs;
+}	t_exp_idxs;
+
+typedef struct s_tokenizer_vars
+{
+	char		*line;
+	int			i;
+	char		*curr_token_val;
+	t_token		**p_head;
+	t_exp_idxs	*free_on_err;
+}	t_tokenizer_vars;
+
 // Parsing
 t_token	*parse(char *line);
-t_token	*tokenize(char *line);
+t_token	*tokenize(char *line, int i, t_exp_idxs *exp_idxs);
 int		check_token_rules(t_token *head);
 int		merge_quotes(t_token *token_list);
 

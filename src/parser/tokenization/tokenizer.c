@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 00:18:25 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 04:18:37 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,38 +142,49 @@ char *line, int *i, char **p_curr_token_val, t_token **p_head)
 	return (FALSE);
 }
 
-// TODO: Carry vars into a struct & create an initializer function?
-t_token	*tokenize(char *line)
+static void	tokenizer_vars_init(\
+t_tokenizer_vars *v, char *line, t_token **p_head, t_exp_idxs *free_on_err)
 {
-	t_token	*head;
-	int		i;
-	char	*curr_token_val;
+	v->line = line;
+	v->i = 0;
+	v->curr_token_val = NULL;
+	*p_head = NULL;
+	v->p_head = p_head;
+	v->free_on_err = free_on_err;
+}
 
-	i = 0;
-	head = NULL;
-	curr_token_val = NULL;
+/* Do after checks and memory cleanup */
+static void	after_checks(t_tokenizer_vars *v)
+{
+	if (strlen_null(v->curr_token_val) > 0)
+		add_token(v->p_head, STRING, v->curr_token_val);
+	if (v->curr_token_val != NULL)
+		free(v->curr_token_val);
+}
+
+// TODO: Carry vars into a struct & create an initializer function?
+t_token	*tokenize(char *line, int i, t_exp_idxs	*free_on_err)
+{
+	t_tokenizer_vars v;
+	t_token *head;
+
+	tokenizer_vars_init(&v, line, &head, free_on_err);
 	while (line[i] != '\0')
 	{
-		if (handle_if_first_char(line, &i, &curr_token_val, &head))
+		if (!handle_if_first_char(line, &i, &curr_token_val, &head))
 		{
-			++i;
-			continue ;
+			str_appendc(&curr_token_val, line[i]);
+			if (line[i + 1] == '\0' || line[i + 1] == ' ' || line[i + 1] == '|')
+			{
+				add_token(&head, STRING, curr_token_val);
+				curr_token_val[0] = '\0';
+			}
+			else if (line[i + 1] == '>' || line[i + 1] == '<')
+				handle_redirs(line, &i, curr_token_val, &head);
+			else if (line[i + 1] == '\"' || line[i + 1] == '\'')
+				handle_quotes(line, &i, 1, &curr_token_val, &head);
 		}
-		str_appendc(&curr_token_val, line[i]);
-		if (line[i + 1] == '\0' || line[i + 1] == ' ' || line[i + 1] == '|')
-		{
-			add_token(&head, STRING, curr_token_val);
-			curr_token_val[0] = '\0';
-		}
-		else if (line[i + 1] == '>' || line[i + 1] == '<')
-			handle_redirs(line, &i, curr_token_val, &head);
-		else if (line[i + 1] == '\"' || line[i + 1] == '\'')
-			handle_quotes(line, &i, 1, &curr_token_val, &head);
 		++i;
 	}
-	if (strlen_null(curr_token_val) > 0)
-		add_token(&head, STRING, curr_token_val);
-	if (curr_token_val != NULL)
-		free(curr_token_val);
-	return (head);
+	return (after_checks(&v), head);
 }

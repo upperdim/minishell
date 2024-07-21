@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 03:08:46 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 03:44:44 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,20 @@ static int	validate_quotes(char *line)
 t_token	*parse(char *line)
 {
 	t_token		*token_list;
-	t_list_int	*tild_idxs_to_exp;
-	t_list_int	*var_idxs_to_exp;
+	t_exp_idxs	exp_idxs;
 
 	if (line == NULL || *line == '\0')
 		return (NULL);
 	token_list = NULL;
 	if (validate_quotes(line) == FALSE)
 		return (ft_printf_fd(2, ERR_MSG_UNCLOSED_QUOTES), NULL);
-	tild_idxs_to_exp = NULL;
-	var_idxs_to_exp = NULL;
-	if (detect_tld_exp(line, ft_strlen(line), &tild_idxs_to_exp) == FAILURE)
-		exit_free_idx_arrays(tild_idxs_to_exp, var_idxs_to_exp);
-	if (detect_var_exp(line, &var_idxs_to_exp, 0, 0) == FAILURE)
-		exit_free_idx_arrays(tild_idxs_to_exp, var_idxs_to_exp);
-	token_list = tokenize(line);
+	exp_idxs.tld_idxs = NULL;
+	exp_idxs.var_idxs = NULL;
+	if (detect_tld_exp(line, ft_strlen(line), &exp_idxs.tld_idxs) == FAILURE)
+		exit_free_idx_arrays(exp_idxs.tld_idxs, exp_idxs.var_idxs);
+	if (detect_var_exp(line, &exp_idxs.var_idxs, 0, 0) == FAILURE)
+		exit_free_idx_arrays(exp_idxs.tld_idxs, exp_idxs.var_idxs);
+	token_list = tokenize(line, 0, &exp_idxs);
 	if (!check_token_rules(token_list))
 		return (ft_printf_fd(2, ERR_MSG_INVALID_TOKENS), NULL);
 	expand_tilda(token_list, tild_idxs_to_exp, list_get_size(tild_idxs_to_exp));
