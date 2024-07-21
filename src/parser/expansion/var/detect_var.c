@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 00:07:23 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 03:02:09 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 03:08:24 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ char *line, int *p_s, int *p_var_idx, t_list_int **p_var_idxs_to_exp)
 {
 	if (line[(*p_s) + 1] == '?')
 	{
-		if (!list_add(p_var_idxs_to_exp, *p_var_idx))
+		if (list_add(p_var_idxs_to_exp, *p_var_idx) == FAILURE)
 			return (FAILURE);
 		++(*p_s);
 		return (TRUE);
 	}
 	else if (line[(*p_s) + 1] == '$')
 	{
-		if (!list_add(p_var_idxs_to_exp, *p_var_idx))
+		if (list_add(p_var_idxs_to_exp, *p_var_idx) == FAILURE)
 			return (FAILURE);
 		*p_var_idx += 2;
 		(*p_s) += 2;
@@ -59,7 +59,7 @@ char *line, int *p_s, int *p_var_idx, t_list_int **p_var_idxs_to_exp)
 	`s` was defined here for norm complience.
 	It's not a real variable, it initially must always be received as 0.
 */
-int	detect_var_expansions(\
+int	detect_var_exp(\
 char *line, t_list_int **p_var_idxs_to_exp, int s, int var_idx)
 {
 	int	e;
@@ -80,7 +80,7 @@ char *line, t_list_int **p_var_idxs_to_exp, int s, int var_idx)
 		while (is_valid_var_exp_char(line[e]))
 			++e;
 		if (e != s + 1)
-			if (!list_add(p_var_idxs_to_exp, var_idx))
+			if (list_add(p_var_idxs_to_exp, var_idx) == FAILURE)
 				return (FAILURE);
 		s = e;
 		++var_idx;

@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 02:28:47 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 03:06:44 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ int		check_token_rules(t_token *head);
 int		merge_quotes(t_token *token_list);
 
 // Expansion detections
-int		detect_tilda_expansions(char *line, int len, t_list_int **p_tld_idxs);
-int		detect_var_expansions(\
+int		detect_tld_exp(char *line, int len, t_list_int **p_tld_idxs);
+int		detect_var_exp(\
 char *line, t_list_int **p_var_idxs, int s, int var_idx);
 
 // Expansions

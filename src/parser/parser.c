@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 02:28:38 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 03:08:46 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ t_token	*parse(char *line)
 		return (ft_printf_fd(2, ERR_MSG_UNCLOSED_QUOTES), NULL);
 	tild_idxs_to_exp = NULL;
 	var_idxs_to_exp = NULL;
-	if (!detect_tilda_expansions(line, ft_strlen(line), &tild_idxs_to_exp))
+	if (detect_tld_exp(line, ft_strlen(line), &tild_idxs_to_exp) == FAILURE)
 		exit_free_idx_arrays(tild_idxs_to_exp, var_idxs_to_exp);
-	if (!detect_var_expansions(line, &var_idxs_to_exp, 0, 0))
+	if (detect_var_exp(line, &var_idxs_to_exp, 0, 0) == FAILURE)
 		exit_free_idx_arrays(tild_idxs_to_exp, var_idxs_to_exp);
 	token_list = tokenize(line);
 	if (!check_token_rules(token_list))

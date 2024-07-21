@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 00:05:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 00:05:11 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 03:06:34 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	is_eligible_for_exp(char *line, int i, char quote_type)
 	return (TRUE);
 }
 
-int	detect_tilda_expansions(char *line, int len, t_list_int **p_tld_idxs_to_exp)
+int	detect_tld_exp(char *line, int len, t_list_int **p_tld_idxs_to_exp)
 {
 	char	quote_type;
 	int		tilda_idx;
@@ -43,7 +43,7 @@ int	detect_tilda_expansions(char *line, int len, t_list_int **p_tld_idxs_to_exp)
 		else if (line[i] == '~')
 		{
 			if (is_eligible_for_exp(line, i, quote_type))
-				if (!list_add(p_tld_idxs_to_exp, tilda_idx))
+				if (list_add(p_tld_idxs_to_exp, tilda_idx) == FAILURE)
 					return (FAILURE);
 			++tilda_idx;
 		}
