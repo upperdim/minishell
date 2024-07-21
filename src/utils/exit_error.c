@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:44:04 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/19 21:12:29 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 18:44:37 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	clean_up(void)
 	extern char	**environ;
 
 	ft_free_2d_array((void ***)&environ, -1);
+	rl_clear_history();
+	rl_replace_line("", 1);
 }
 
 void	exit_error(char *error_msg, int exit_status)
@@ -34,8 +36,8 @@ void	exit_perror(int exit_status)
 	exit_error(NULL, exit_status);
 }
 
-void	exit_free_idx_arrays\
-(t_list_int *tilda_idxs_to_exp, t_list_int *var_idxs_to_exp)
+void	exit_free_idx_arrays(t_list_int *tilda_idxs_to_exp,
+		t_list_int *var_idxs_to_exp)
 {
 	list_int_free_all(tilda_idxs_to_exp);
 	list_int_free_all(var_idxs_to_exp);
