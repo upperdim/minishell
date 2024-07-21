@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:38:29 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/20 21:37:14 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:05:22 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static pid_t	execute_hostname(int pipe_fd[2])
 		setup_out_pipe(pipe_fd);
 		ft_close(&pipe_fd[PIPE_FD_READ]);
 		execve(find_path_to("hostname"), (char *[]){"hostname", NULL}, environ);
+		ft_free_2d_array((void ***)&environ, -1);
 	}
 	return (pid);
 }
