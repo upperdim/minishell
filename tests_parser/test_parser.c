@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 20:15:26 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 02:53:31 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void test_expansion_detection_variable() {
 		printf("test case %d = {%s}\n", i + 1, test_case);
 
 		t_list_int *actual = NULL;
-		detect_var_expansions(test_case, &actual, 0);
+		detect_var_expansions(test_case, &actual, 0, 0);
 		
 		list_print(actual);
 		printf("\n");

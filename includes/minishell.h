@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 00:17:58 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 01:07:58 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,8 @@
 
 # define TRUE 1
 # define FALSE 0
-
-# define SUCCESS 1
-# define FAILURE 0
+# define SUCCESS 2
+# define FAILURE -1
 
 void	ft_execve(t_cmd *cmd);
 char	*get_prompt(void);
