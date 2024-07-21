@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/21 17:23:16 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:12:37 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,17 @@ enum	e_fd
 	ORIGINAL_STDIN,
 	ORIGINAL_STDOUT,
 	ORIGINAL_STDERR
+};
+
+enum	e_builtin
+{
+	CD,
+	ECHO_BUILTIN,
+	ENV,
+	EXPORT,
+	PWD,
+	EXIT,
+	UNSET
 };
 
 typedef struct s_cmd
