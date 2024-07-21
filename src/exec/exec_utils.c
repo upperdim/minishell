@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/21 13:34:29 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:20:35 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ static char	**format_path(char *no_format_path)
 	char	*tmp;
 	int		i;
 
+	if (!no_format_path)
+		return (NULL);
 	i = 0;
 	env_path = ft_split(no_format_path, ':');
 	if (!env_path)
@@ -117,6 +119,8 @@ char	*find_path_to(char *cmd)
 	i = 0;
 	abs_path_cmd = NULL;
 	env_path = format_path(getenv("PATH"));
+	if (!env_path)
+		return (NULL);
 	while (env_path[i] && !abs_path_cmd)
 	{
 		test_path = ft_strjoin(env_path[i], cmd);
