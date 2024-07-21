@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 15:46:15 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:32:19 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,16 @@ static char	*get_input(void)
 	ft_free_n_null((void **)&prompt);
 	return (input);
 }
+// !USE for testing
+	// if (isatty(fileno(stdin)))
+	// 	input = readline(prompt);
+	// else
+	// {
+	// 	char	*line;
+	// 	line = get_next_line(fileno(stdin));
+	// 	input = ft_strtrim(line, "\n");
+	// 	free(line);
+	// }
 
 int	main(void)
 {
