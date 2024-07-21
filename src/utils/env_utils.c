@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:16:47 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/21 13:08:47 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:47:56 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	add_env_var(char *var)
 	if (key == NULL)
 		return (EXIT_FAILURE);
 	i = -1;
-	while (environ[++i])
+	while (environ[++i] && ft_strchr(var, '=') != NULL)
 	{
 		if (have_same_key(key, environ[i]) == true)
 		{
@@ -92,7 +92,8 @@ int	add_env_var(char *var)
 			break ;
 		}
 	}
-	if (getenv(key) == NULL && environ[i] == NULL)
+	if (getenv(key) == NULL
+		&& (environ[i] == NULL || ft_strchr(var, '=') == NULL))
 		return (ft_free_n_null((void **)&key), make_env_bigger(var));
 	return (ft_free_n_null((void **)&key), EXIT_SUCCESS);
 }
