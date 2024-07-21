@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/20 14:15:26 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 13:34:29 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,7 @@ static char	**format_path(char *no_format_path)
 	int		i;
 
 	i = 0;
-	tmp = ft_substr(no_format_path, 5, ft_strlen(no_format_path) - 5);
-	if (!tmp)
-		return (ft_printf_fd(2, ERROR_MSG, "exec", E_ALLOC), NULL);
-	env_path = ft_split(tmp, ':');
-	ft_free_n_null((void **)&tmp);
+	env_path = ft_split(no_format_path, ':');
 	if (!env_path)
 		return (ft_printf_fd(2, ERROR_MSG, "exec", E_ALLOC), NULL);
 	while (env_path[i])
