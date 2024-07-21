@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:16:47 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/21 14:47:56 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:00:37 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**dup_environ(void)
 	{
 		new_env[env_var_count] = ft_strdup(environ[env_var_count]);
 		if (!new_env[env_var_count])
-			return (ft_free_2d_array((void ***)&new_env, -1), NULL);
+			return (ft_free_2d_array((void ***)&new_env, FREE_ANY_SIZE), NULL);
 		env_var_count++;
 	}
 	return (new_env);
@@ -48,7 +48,8 @@ static int	make_env_bigger(char *var)
 		new_environ[i] = environ[i];
 	new_environ[i] = ft_strdup(var);
 	if (new_environ[i] == NULL)
-		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), EXIT_FAILURE);
+		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC),
+			ft_free_2d_array((void ***)&new_environ, -1), EXIT_FAILURE);
 	ft_free_n_null((void **)&environ);
 	environ = new_environ;
 	return (EXIT_SUCCESS);
