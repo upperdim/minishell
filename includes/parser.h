@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 21:12:58 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 17:30:22 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 # include <stdbool.h>
 
-# define ERR_MSG_UNCLOSED_QUOTES ("minishell: SyntaxError: unclosed quotes\n")
-# define ERR_MSG_INVALID_TOKENS ("minishell: SyntaxError: invalid tokens\n")
-# define ERR_MSG_MALLOC ("minishell: Error allocating memory: malloc\n")
+# define ERR_MSG_UNCLOSED_QUOTES "minishell: SyntaxError: unclosed quotes\n"
+# define ERR_MSG_INVALID_TOKENS "minishell: SyntaxError: invalid tokens\n"
+# define ERR_MSG_MALLOC "minishell: Error allocating memory: malloc\n"
 
 # define NOT_QUOTE 0
 
@@ -45,7 +45,6 @@ typedef struct s_list_int
 	struct s_list_int	*next;
 	struct s_list_int	*prev;
 }	t_list_int;
-
 
 /* Parser variables */
 typedef struct s_pvars
