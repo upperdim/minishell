@@ -6,35 +6,52 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/20 15:13:20 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:46:15 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	init_minishell(void)
+static int	init_pwd(void)
 {
-	extern char		**environ;
-	extern int		errno;
-	struct termios	terminal_config;
-	const char		*cwd = getcwd(NULL, 0);
-	char			*pwd_env_var;
+	extern char	**environ;
+	const char	*cwd = getcwd(NULL, 0);
+	char		*pwd_env_var;
 
-	errno = 0;
 	if (cwd == NULL)
 		return (EXIT_FAILURE);
-	environ = dup_environ();
-	if (environ == NULL)
-		return (EXIT_FAILURE);
-	tcgetattr(STDIN_FILENO, &terminal_config);
-	terminal_config.c_lflag &= ~(ECHOCTL);
-	tcsetattr(STDIN_FILENO, TCSANOW, &terminal_config);
 	pwd_env_var = ft_strjoin("PWD=", cwd);
 	ft_free_n_null((void **)&cwd);
 	if (pwd_env_var == NULL)
 		return (ft_free_2d_array((void ***)&environ, -1), EXIT_FAILURE);
 	add_env_var(pwd_env_var);
 	ft_free_n_null((void **)&pwd_env_var);
+	return (EXIT_SUCCESS);
+}
+
+static int	init_terminal_options(void)
+{
+	struct termios	terminal_config;
+
+	tcgetattr(STDIN_FILENO, &terminal_config);
+	terminal_config.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, &terminal_config);
+	return (EXIT_SUCCESS);
+}
+
+static int	init_minishell(void)
+{
+	extern char		**environ;
+	extern int		errno;
+
+	errno = 0;
+	environ = dup_environ();
+	if (environ == NULL)
+		return (EXIT_FAILURE);
+	if (init_pwd())
+		return (EXIT_FAILURE);
+	if (init_terminal_options())
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
