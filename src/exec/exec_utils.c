@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/21 14:20:35 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:02:52 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,6 @@ void	free_cmd(t_cmd **cmd)
 		ft_close(&tmp->pipe[PIPE_FD_WRITE]);
 		ft_free_n_null((void **)&tmp);
 	}
-}
-
-bool	is_builtin(const char *cmd)
-{
-	const char	*builtins[] = {"cd", "echo", "env", "exit", "export",
-		"pwd", "unset", NULL};
-	const char	*lowercase_cmd = dup_in_lowercase(cmd);
-	int			i;
-
-	if (lowercase_cmd == NULL)
-		return (-1);
-	i = -1;
-	while (builtins[++i] != NULL)
-	{
-		if (ft_strncmp(lowercase_cmd, builtins[i], ft_strlen(builtins[i]) + 1)
-			== 0)
-		{
-			ft_free_n_null((void **)&lowercase_cmd);
-			return (true);
-		}
-	}
-	ft_free_n_null((void **)&lowercase_cmd);
-	return (false);
 }
 
 char	**transform_to_array(t_token *token)

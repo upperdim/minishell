@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:18:58 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 15:23:20 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:03:00 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,27 @@ char	*dup_in_lowercase(const char *str)
 	while (lower[++i])
 		lower[i] = ft_tolower(lower[i]);
 	return (lower);
+}
+
+bool	is_builtin(const char *cmd)
+{
+	const char	*builtins[] = {"cd", "echo", "env", "exit", "export",
+		"pwd", "unset", NULL};
+	const char	*lowercase_cmd = dup_in_lowercase(cmd);
+	int			i;
+
+	if (lowercase_cmd == NULL)
+		return (-1);
+	i = -1;
+	while (builtins[++i] != NULL)
+	{
+		if (ft_strncmp(lowercase_cmd, builtins[i], ft_strlen(builtins[i]) + 1)
+			== 0)
+		{
+			ft_free_n_null((void **)&lowercase_cmd);
+			return (true);
+		}
+	}
+	ft_free_n_null((void **)&lowercase_cmd);
+	return (false);
 }
