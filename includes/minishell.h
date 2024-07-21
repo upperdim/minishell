@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 01:07:58 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 00:14:50 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int		strlen_null(const char *s);
 char	*str_sub(char *s, int start_idx, int end_idx);
 int		str_is_numeric(char *str);
 int		str_findc_idx(char *s, int search_start_idx, char search_char);
-void	str_replace_section(char **p_str, int start, int end, char *replace_with);
+void	str_replace_section(\
+char **p_str, int start, int end, char *replace_with);
 
 // String append
 void	str_append(char **p_str, char *to_append);
@@ -93,7 +94,8 @@ int		list_get_val_idx(t_list_int *head, int idx);
 void	list_int_free_all(t_list_int *head);
 
 // Token list
-void	add_token(t_token **head_ptr, t_token_type type, char *val);
+void	add_token(\
+t_token **head_ptr, t_token_type type, char *val, t_exp_idxs *free_on_err);
 void	token_list_print(t_token *head);
 t_token	*token_list_get_last(t_token *list);
 
@@ -101,7 +103,9 @@ t_token	*token_list_get_last(t_token *list);
 void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
-void	exit_free_idx_arrays(t_list_int *tilda_idxs, t_list_int *var_idxs);
+void	exit_free_idx_arrays(\
+char *err_msg, t_list_int *tilda_idxs_to_exp, t_list_int *var_idxs_to_exp);
+void	exit_free_exp_idxs(char *err_msg, t_exp_idxs *exp_idx_pair_to_free);
 
 // Misc
 long	ft_atol(const char *str);

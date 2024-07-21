@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:44:04 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/19 21:12:29 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/21 22:41:05 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,17 @@ void	exit_perror(int exit_status)
 	exit_error(NULL, exit_status);
 }
 
-void	exit_free_idx_arrays\
-(t_list_int *tilda_idxs_to_exp, t_list_int *var_idxs_to_exp)
+void	exit_free_idx_arrays(\
+char *err_msg, t_list_int *tilda_idxs_to_exp, t_list_int *var_idxs_to_exp)
 {
 	list_int_free_all(tilda_idxs_to_exp);
 	list_int_free_all(var_idxs_to_exp);
-	exit_error(ERR_MSG_MALLOC, EXIT_FAILURE);
+	exit_error(err_msg, EXIT_FAILURE);
+}
+
+void	exit_free_exp_idxs(\
+char *err_msg, t_exp_idxs *exp_idx_pair_to_free)
+{
+	exit_free_idx_arrays(\
+err_msg, exp_idx_pair_to_free->tld_idxs, exp_idx_pair_to_free->var_idxs);
 }

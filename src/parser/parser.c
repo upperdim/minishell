@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 03:44:44 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 00:08:32 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,15 @@ t_token	*parse(char *line)
 	exp_idxs.tld_idxs = NULL;
 	exp_idxs.var_idxs = NULL;
 	if (detect_tld_exp(line, ft_strlen(line), &exp_idxs.tld_idxs) == FAILURE)
-		exit_free_idx_arrays(exp_idxs.tld_idxs, exp_idxs.var_idxs);
+		exit_free_exp_idxs(ERR_MSG_MALLOC, &exp_idxs);
 	if (detect_var_exp(line, &exp_idxs.var_idxs, 0, 0) == FAILURE)
-		exit_free_idx_arrays(exp_idxs.tld_idxs, exp_idxs.var_idxs);
-	token_list = tokenize(line, 0, &exp_idxs);
+		exit_free_exp_idxs(ERR_MSG_MALLOC, &exp_idxs);
+	token_list = tokenize(line, &exp_idxs);
 	if (!check_token_rules(token_list))
 		return (ft_printf_fd(2, ERR_MSG_INVALID_TOKENS), NULL);
-	expand_tilda(token_list, tild_idxs_to_exp, list_get_size(tild_idxs_to_exp));
-	expand_var(token_list, var_idxs_to_exp, list_get_size(var_idxs_to_exp));
+	expand_tilda(\
+token_list, exp_idxs.tld_idxs, list_get_size(exp_idxs.tld_idxs));
+	expand_var(token_list, exp_idxs.var_idxs, list_get_size(exp_idxs.var_idxs));
 	if (!merge_quotes(token_list))
 		return (ft_printf_fd(2, ERR_MSG_UNCLOSED_QUOTES), NULL);
 	return (token_list);

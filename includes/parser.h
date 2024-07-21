@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 03:48:11 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 00:15:57 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 # include <stdbool.h>
 
-# define ERR_MSG_UNCLOSED_QUOTES ("minishell: SyntaxError: unclosed quotes\n")
-# define ERR_MSG_INVALID_TOKENS ("minishell: SyntaxError: invalid tokens\n")
-# define ERR_MSG_MALLOC ("minishell: Error allocating memory: malloc\n")
+# define ERR_MSG_UNCLOSED_QUOTES "minishell: SyntaxError: unclosed quotes\n"
+# define ERR_MSG_INVALID_TOKENS "minishell: SyntaxError: invalid tokens\n"
+# define ERR_MSG_MALLOC "minishell: Error allocating memory: malloc\n"
 
 # define NOT_QUOTE 0
 
@@ -46,7 +46,6 @@ typedef struct s_list_int
 	struct s_list_int	*prev;
 }	t_list_int;
 
-
 /* Parser variables */
 typedef struct s_pvars
 {
@@ -72,7 +71,7 @@ typedef struct s_tokenizer_vars
 
 // Parsing
 t_token	*parse(char *line);
-t_token	*tokenize(char *line, int i, t_exp_idxs *exp_idxs);
+t_token	*tokenize(char *line, t_exp_idxs *exp_idxs);
 int		check_token_rules(t_token *head);
 int		merge_quotes(t_token *token_list);
 
@@ -88,7 +87,7 @@ void	expand_var(t_token *tok_lst, t_list_int *var_idxs, const int lst_siz);
 // Variable expansion utils
 int		is_valid_var_exp_char(char c);
 int		is_prev_here_doc(t_token *tok);
-void	replace_tok_val_section\
-(t_token *tok, int s, int e, char *replace_with, int *p_value_len);
+void	replace_tok_val_section(\
+t_token *tok, int s, int e, char *replace_with, int *p_value_len);
 
 #endif
