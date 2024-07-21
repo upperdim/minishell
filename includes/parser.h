@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 17:30:22 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:34:21 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,14 @@ t_token	*tokenize(char *line);
 int		check_token_rules(t_token *head);
 int		merge_quotes(t_token *token_list);
 
-int		detect_tilda_expansions(char *line, int len, t_list_int **p_tilda_idxs_to_expand);
-int		detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp, int s);
+int		detect_tilda_expansions(char *line, int len,
+			t_list_int **p_tilda_idxs_to_expand);
+int		detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp,
+			int s);
 
-void	expand_tilda(t_token *token_list, t_list_int *tilda_idxs_to_expand, const int list_size);
-void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand, const int list_size);
+void	expand_tilda(t_token *token_list, t_list_int *tilda_idxs_to_expand,
+			const int list_size);
+void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand,
+			const int list_size);
 
 #endif
