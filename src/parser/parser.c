@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 00:08:32 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 00:22:34 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ static int	validate_quotes(char *line)
 		++i;
 	}
 	return (quote_type == NOT_QUOTE);
+}
+
+static void	free_expansion_idxs(t_exp_idxs *exp_idxs)
+{
+	list_int_free_all(exp_idxs->tld_idxs);
+	list_int_free_all(exp_idxs->var_idxs);
 }
 
 t_token	*parse(char *line)
@@ -56,5 +62,5 @@ token_list, exp_idxs.tld_idxs, list_get_size(exp_idxs.tld_idxs));
 	expand_var(token_list, exp_idxs.var_idxs, list_get_size(exp_idxs.var_idxs));
 	if (!merge_quotes(token_list))
 		return (ft_printf_fd(2, ERR_MSG_UNCLOSED_QUOTES), NULL);
-	return (token_list);
+	return (free_expansion_idxs(&exp_idxs), token_list);
 }
