@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:30:55 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 19:39:17 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 06:49:18 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	list_get_size(t_list_int *head)
 	Caller must check if `idx` is in the range of list by using
 	`list_get_size()` utility before using this.
 */
-int	list_get_val_idx(t_list_int *head, int idx)
+int	list_get_idx(t_list_int *head, int idx)
 {
 	t_list_int	*iter;
 	int			i;

@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 04:55:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 05:38:06 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 06:52:33 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,18 @@ int	str_findc_idx(char *s, int search_start_idx, char search_char)
 	Replace string pointed by `p_str` 
 	from `start` index to `end` index inclusive with `replace_with`.
 */
-void	str_replace_section(char **p_str, int start, int end, char *replace_with)
+int	str_replace_section(char **p_str, int start, int end, char *replace_with)
 {
 	char	*new;
 
 	new = NULL;
-	// TODO: carry here the allocs on exit
-	str_append_free(&new, str_sub(*p_str, 0, start - 1));
-	str_append(&new, replace_with);
-	str_append_free(&new, str_sub(*p_str, end + 1, ft_strlen(*p_str) - 1));
+	if (str_append_free(&new, str_sub(*p_str, 0, start - 1)) == FAILURE)
+		return (FAILURE);
+	if (str_append(&new, replace_with) == FAILURE)
+		return (FAILURE);
+	if (str_append_free(&new, str_sub(*p_str, end + 1, ft_strlen(*p_str) - 1)) == FAILURE)
+		return (FAILURE);
 	free(*p_str);
 	*p_str = new;
+	return (SUCCESS);
 }

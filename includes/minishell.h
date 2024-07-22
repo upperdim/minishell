@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 05:58:12 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 06:56:57 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		strlen_null(const char *s);
 char	*str_sub(char *s, int start_idx, int end_idx);
 int		str_is_numeric(char *str);
 int		str_findc_idx(char *s, int search_start_idx, char search_char);
-void	str_replace_section(\
+int		str_replace_section(\
 char **p_str, int start, int end, char *replace_with);
 
 // String append
@@ -90,7 +90,7 @@ int		str_append_free(char **p_str, char *to_append_and_free);
 int		list_add(t_list_int **head_ptr, int val);
 void	list_print(t_list_int *head);
 int		list_get_size(t_list_int *head);
-int		list_get_val_idx(t_list_int *head, int idx);
+int		list_get_idx(t_list_int *head, int idx);
 void	list_int_free_all(t_list_int *head);
 
 // Token list
@@ -103,8 +103,6 @@ t_token	*token_list_get_last(t_token *list);
 void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
-void	exit_free_exp_idxs(char *err_msg, t_exp_idxs *exp_idxs);
-void	exit_free_tokenizer(char *err_msg, t_tokenizer_vars *v);
 
 // Misc
 long	ft_atol(const char *str);

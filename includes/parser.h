@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 06:12:50 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 07:01:20 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		detect_var_exp(\
 char *line, t_list_int **p_var_idxs, int s, int var_idx);
 
 // Expansions
-void	expand_tilda(t_token *tok_lst, t_list_int *tld_idxs, const int lst_siz);
+void	expand_tilda(t_token *tok_lst, t_exp_idxs *exp_idxs, const int lst_siz);
 void	expand_var(t_token *tok_lst, t_list_int *var_idxs, const int lst_siz);
 
 // Variable expansion utils
@@ -101,5 +101,10 @@ void	str_append_tok(char **p_str, char *to_append, t_tokenizer_vars *v);
 void	str_appendc_tok(char **p_str, char char_to_append, t_tokenizer_vars *v);
 void	str_append_free_tok(\
 char **p_str, char *to_append_and_free, t_tokenizer_vars *v);
+
+// Error management
+void	exit_free_exp_idxs(char *err_msg, t_exp_idxs *exp_idxs);
+void	exit_free_tokenizer(char *err_msg, t_tokenizer_vars *v);
+void	exit_free_toklst_exp_idxs(t_token *tok_lst, t_exp_idxs *exp_idxs);
 
 #endif

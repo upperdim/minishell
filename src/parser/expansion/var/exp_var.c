@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 00:10:22 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 06:49:18 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_token *token_list, t_list_int *var_idxs_to_expand, const int list_size)
 						;
 					else if (handle_if_dollar_questionmark(iter, i, &idx_idx, &value_len))
 						;
-					else if (list_size > idx_idx && var_idx == list_get_val_idx(var_idxs_to_expand, idx_idx))
+					else if (list_size > idx_idx && var_idx == list_get_idx(var_idxs_to_expand, idx_idx))
 					{
 						e = i + 1;
 						while (iter->value[e] != '\0' && is_valid_var_exp_char(iter->value[e]))

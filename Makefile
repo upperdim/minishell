@@ -19,6 +19,7 @@ PARSER_FILES	= parser.c\
 					tokenization/tokenizer_quotes_redirs.c \
 					tokenization/token_rules.c \
 					tokenization/str_append_tok.c \
+					exit_error.c \
 					merge_quotes.c
 
 BUILTINS		= $(addprefix builtins/, $(BUILTIN_FILES))
