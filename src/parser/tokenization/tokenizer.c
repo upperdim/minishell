@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 06:10:44 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 19:57:12 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	create_token_if_curr_tok_val_is_not_empty(t_tokenizer_vars *v)
 {
 	if (strlen_null(v->curr_token_val) > 0)
 	{
-		add_token(v->p_head, STRING, v->curr_token_val, v->free_on_err);
+		add_token(v->p_head, STRING, v->curr_token_val, v);
 		v->curr_token_val[0] = '\0';
 	}
 }
@@ -27,21 +27,18 @@ static int	handle_if_first_char(t_tokenizer_vars *v)
 	if (v->line[v->i] == ' ')
 		return (create_token_if_curr_tok_val_is_not_empty(v), TRUE);
 	else if (v->line[v->i] == '|')
-		return (add_token(v->p_head, PIPE, "|", v->free_on_err), TRUE);
+		return (add_token(v->p_head, PIPE, "|", v), TRUE);
 	else if (v->line[v->i] == '<')
 	{
 		if (v->line[(v->i) + 1] != '<')
-			return (add_token(\
-v->p_head, REDIR_FROM, "<", v->free_on_err), TRUE);
-		return ((v->i)++, add_token(\
-v->p_head, HERE_DOC, "<<", v->free_on_err), TRUE);
+			return (add_token(v->p_head, REDIR_FROM, "<", v), TRUE);
+		return ((v->i)++, add_token(v->p_head, HERE_DOC, "<<", v), TRUE);
 	}
 	else if (v->line[v->i] == '>')
 	{
 		if (v->line[(v->i) + 1] != '>')
-			return (add_token(v->p_head, REDIR_TO, ">", v->free_on_err), TRUE);
-		return ((v->i)++, add_token(\
-v->p_head, APPEND_TO, ">>", v->free_on_err), TRUE);
+			return (add_token(v->p_head, REDIR_TO, ">", v), TRUE);
+		return ((v->i)++, add_token(v->p_head, APPEND_TO, ">>", v), TRUE);
 	}
 	else if (v->line[v->i] == '\"' || v->line[v->i] == '\'')
 		return (handle_quotes(v, 0), TRUE);
@@ -63,7 +60,7 @@ t_tokenizer_vars *v, char *line, t_token **p_head, t_exp_idxs *free_on_err)
 static void	after_checks(t_tokenizer_vars *v)
 {
 	if (strlen_null(v->curr_token_val) > 0)
-		add_token(v->p_head, STRING, v->curr_token_val, v->free_on_err);
+		add_token(v->p_head, STRING, v->curr_token_val, v);
 	if (v->curr_token_val != NULL)
 		free(v->curr_token_val);
 }
@@ -83,7 +80,7 @@ t_token	*tokenize(char *line, t_exp_idxs	*free_on_err)
 			if (v.line[v.i + 1] == '\0'
 				|| v.line[v.i + 1] == ' ' || v.line[v.i + 1] == '|')
 			{
-				add_token(&head, STRING, v.curr_token_val, v.free_on_err);
+				add_token(&head, STRING, v.curr_token_val, &v);
 				v.curr_token_val[0] = '\0';
 			}
 			else if (v.line[v.i + 1] == '>' || v.line[v.i + 1] == '<')

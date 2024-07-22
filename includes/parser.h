@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 08:11:39 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 20:30:49 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,20 @@ typedef struct	s_var_exp_vars
 	t_exp_idxs	*exp_idxs;
 }	t_var_exp_vars;
 
+typedef struct	s_merge_quote_vars
+{
+	int			i;
+	t_token		*token_list;
+	t_token		*iter;
+	t_exp_idxs	*exp_idxs;
+	char		*line;
+}	t_merge_quotes_vars;
+
 // Parsing
 t_token	*parse(char *line);
 t_token	*tokenize(char *line, t_exp_idxs *exp_idxs);
 int		check_token_rules(t_token *head);
-int		merge_quotes(t_token *token_list, t_exp_idxs *exp_idxs);
+int		merge_quotes(t_token *token_list, t_exp_idxs *exp_idxs, char *line);
 
 // Tokenizer helper functions
 void	handle_quotes(t_tokenizer_vars *v, int idx_dist_to_quot);
@@ -102,7 +111,7 @@ int		detect_var_exp(\
 char *line, t_list_int **p_var_idxs, int s, int var_idx);
 
 // Expansions
-void	expand_tilda(t_token *tok_lst, t_exp_idxs *exp_idxs);
+void	expand_tilda(t_token *token_list, t_exp_idxs *exp_idxs, char *line);
 void	expand_var(t_token *tok_lst, t_exp_idxs *exp_idxs);
 
 // Variable expansion utils
@@ -118,8 +127,9 @@ void	str_append_free_tok(\
 char **p_str, char *to_append_and_free, t_tokenizer_vars *v);
 
 // Error management
-void	exit_free_exp_idxs(char *err_msg, t_exp_idxs *exp_idxs);
+void	exit_free_exp_idxs(char *err_msg, t_exp_idxs *exp_idxs, char *line);
 void	exit_free_tokenizer(char *err_msg, t_tokenizer_vars *v);
-void	exit_free_toklst_exp_idxs(t_token *tok_lst, t_exp_idxs *exp_idxs);
+void	exit_free_toklst_exp_idxs(\
+t_token *tok_lst, t_exp_idxs *exp_idxs, char *line);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 06:11:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 06:11:43 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 19:48:38 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_tokenizer_vars *v, char redir_type, int single_or_double)
 		else if (single_or_double == 2)
 			new_type = HERE_DOC;
 	}
-	add_token(v->p_head, new_type, new_val, v->free_on_err);
+	add_token(v->p_head, new_type, new_val, v);
 	free(new_val);
 }
 
@@ -49,13 +49,13 @@ void	handle_redirs(t_tokenizer_vars *v)
 	redir_type = v->line[v->i + 1];
 	if (!str_is_numeric(v->curr_token_val))
 	{
-		add_token(v->p_head, STRING, v->curr_token_val, v->free_on_err);
+		add_token(v->p_head, STRING, v->curr_token_val, v);
 		v->curr_token_val[0] = '\0';
 		return ;
 	}
 	if (ft_atol(v->curr_token_val) > INT_MAX || ft_atol(v->curr_token_val) < 0)
 	{
-		add_token(v->p_head, STRING, v->curr_token_val, v->free_on_err);
+		add_token(v->p_head, STRING, v->curr_token_val, v);
 		v->curr_token_val[0] = '\0';
 		return ;
 	}
@@ -96,7 +96,7 @@ v->line, v->i + idx_dist_to_quot + 1, quote_type);
 	else if (next_quote_idx == v->i + idx_dist_to_quot + 1)
 	{
 		if (strlen_null(v->curr_token_val) == 0)
-			add_token(v->p_head, STRING, "", v->free_on_err);
+			add_token(v->p_head, STRING, "", v);
 		(v->i) += idx_dist_to_quot + 2;
 	}
 	else

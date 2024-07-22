@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 00:03:09 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 20:27:01 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,10 @@ void test_tokenizer() {
 		char *test_case = tokenizer_tests[i];
 		printf("test case %d = {%s}\n", i + 1, test_case);
 
-		t_token *token_list = tokenize(test_case, NULL);
+		char *allocated_test_case = strdup(test_case);
+		t_token *token_list = tokenize(allocated_test_case, NULL);
 		token_list_print(token_list);
+		free(allocated_test_case);
 		printf("\n");
 	}
 }
@@ -183,8 +185,10 @@ void test_parser() {
 		char *test_case = tokenizer_tests[i];
 		printf("test case %d = {%s}\n", i + 1, test_case);
 
-		t_token *token_list = parse(test_case);
+		char *allocated_test_case = strdup(test_case);
+		t_token *token_list = parse(allocated_test_case);
 		token_list_print(token_list);
+		free(allocated_test_case);
 		printf("\n");
 	}
 }

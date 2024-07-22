@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 06:56:57 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 19:42:41 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	list_int_free_all(t_list_int *head);
 
 // Token list
 void	add_token(\
-t_token **head_ptr, t_token_type type, char *val, t_exp_idxs *free_on_err);
+t_token **head_ptr, t_token_type type, char *val, t_tokenizer_vars *v);
 void	token_list_print(t_token *head);
 t_token	*token_list_get_last(t_token *list);
 

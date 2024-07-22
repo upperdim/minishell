@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:34:15 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 07:33:36 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 20:16:26 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,53 +30,60 @@
 	for liberation from our ultimate unavoidable destiny of a cold and slow 
 	decay into homogenized singularity.
 */
-static int	obliterate_quote_symbols(\
-char **p_value, int *i, t_token *token_list, t_exp_idxs *exp_idxs)
+static int	obliterate_quote_symbols(t_merge_quotes_vars *v)
 {
 	char	quote_type;
 	int		next_quote_idx;
 
-	if (*p_value == NULL)
+	if (v->iter->value == NULL)
 		return (TRUE);
-	quote_type = (*p_value)[*i];
-	next_quote_idx = str_findc_idx(*p_value, *i + 1, quote_type);
+	quote_type = v->iter->value[v->i];
+	next_quote_idx = str_findc_idx(v->iter->value, v->i + 1, quote_type);
 	if (next_quote_idx == -1)
 		return (FALSE);
-	if (str_replace_section(p_value, *i, *i, "") == FAILURE)
-		exit_free_toklst_exp_idxs(token_list, exp_idxs);
+	if (str_replace_section(&v->iter->value, v->i, v->i, "") == FAILURE)
+		exit_free_toklst_exp_idxs(v->token_list, v->exp_idxs, v->line);
 	--next_quote_idx;
 	if (str_replace_section(\
-p_value, next_quote_idx, next_quote_idx, "") == FAILURE)
-		exit_free_toklst_exp_idxs(token_list, exp_idxs);
-	*i = next_quote_idx;
+&v->iter->value, next_quote_idx, next_quote_idx, "") == FAILURE)
+		exit_free_toklst_exp_idxs(v->token_list, v->exp_idxs, v->line);
+	v->i = next_quote_idx;
 	return (TRUE);
+}
+
+void	init_merge_quote_vars(\
+t_merge_quotes_vars *v, t_token *token_list, t_exp_idxs *exp_idxs, char *line)
+{
+	v->i = 0;
+	v->token_list = token_list;
+	v->iter = token_list;
+	v->exp_idxs = exp_idxs;
+	v->line = line;
 }
 
 /*
 	Merge sections enclosed by quotes into respective tokens.
 	Return TRUE upon success, FALSE upon encountering unclosed quotes.
 */
-int	merge_quotes(t_token *token_list, t_exp_idxs *exp_idxs)
+int	merge_quotes(t_token *token_list, t_exp_idxs *exp_idxs, char *line)
 {
-	t_token	*iter;
-	int		i;
+	t_merge_quotes_vars	v;
 
-	iter = token_list;
-	while (iter != NULL)
+	init_merge_quote_vars(&v, token_list, exp_idxs, line);
+	while (v.iter != NULL)
 	{
-		if (iter->type == STRING)
+		if (v.iter->type == STRING)
 		{
-			i = 0;
-			while (i < strlen_null(iter->value))
+			v.i = 0;
+			while (v.i < strlen_null(v.iter->value))
 			{
-				if (iter->value[i] == '\'' || iter->value[i] == '\"')
-					if (!obliterate_quote_symbols(\
-&iter->value, &i, token_list, exp_idxs))
+				if (v.iter->value[v.i] == '\'' || v.iter->value[v.i] == '\"')
+					if (!obliterate_quote_symbols(&v))
 						return (FALSE);
-				++i;
+				++v.i;
 			}
 		}
-		iter = iter->next;
+		v.iter = v.iter->next;
 	}
 	return (TRUE);
 }

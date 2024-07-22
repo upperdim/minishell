@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:26:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 07:41:39 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 19:51:39 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_token *cur_tok, t_exp_idxs *exp_idxs, int list_size, int *idx_ptrs[2])
 }
 
 void	expand_tilda(\
-t_token *token_list, t_exp_idxs	*exp_idxs)
+t_token *token_list, t_exp_idxs	*exp_idxs, char *line)
 {
 	int		tilda_idx;
 	int		idx_idx;
@@ -56,7 +56,7 @@ t_token *token_list, t_exp_idxs	*exp_idxs)
 		if (iter->type == STRING)
 			if (search_token_string(iter, exp_idxs, list_get_size(\
 exp_idxs->tld_idxs), ((int *[2]){&idx_idx, &tilda_idx})) == FAILURE)
-				exit_free_toklst_exp_idxs(token_list, exp_idxs);
+				exit_free_toklst_exp_idxs(token_list, exp_idxs, line);
 		iter = iter->next;
 	}
 }
