@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 06:04:42 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 06:12:50 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,12 @@ t_token	*parse(char *line);
 t_token	*tokenize(char *line, t_exp_idxs *exp_idxs);
 int		check_token_rules(t_token *head);
 int		merge_quotes(t_token *token_list);
+
+// Tokenizer helper functions
+void	handle_quotes(t_tokenizer_vars *v, int idx_dist_to_quot);
+void	handle_redirs(t_tokenizer_vars *v);
+void	add_numeric_redir_token(\
+t_tokenizer_vars *v, char redir_type, int single_or_double);
 
 // Expansion detections
 int		detect_tld_exp(char *line, int len, t_list_int **p_tld_idxs);

@@ -16,6 +16,7 @@ PARSER_FILES	= parser.c\
 					expansion/var/detect_var.c\
 					expansion/var/var_utils.c\
 					tokenization/tokenizer.c \
+					tokenization/tokenizer_quotes_redirs.c \
 					tokenization/token_rules.c \
 					tokenization/str_append_tok.c \
 					merge_quotes.c
