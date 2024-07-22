@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 07:25:55 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 07:42:00 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		detect_var_exp(\
 char *line, t_list_int **p_var_idxs, int s, int var_idx);
 
 // Expansions
-void	expand_tilda(t_token *tok_lst, t_exp_idxs *exp_idxs, const int lst_siz);
+void	expand_tilda(t_token *tok_lst, t_exp_idxs *exp_idxs);
 void	expand_var(t_token *tok_lst, t_list_int *var_idxs, const int lst_siz);
 
 // Variable expansion utils
