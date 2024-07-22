@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 07:01:20 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 07:25:55 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_tokenizer_vars
 t_token	*parse(char *line);
 t_token	*tokenize(char *line, t_exp_idxs *exp_idxs);
 int		check_token_rules(t_token *head);
-int		merge_quotes(t_token *token_list);
+int		merge_quotes(t_token *token_list, t_exp_idxs *exp_idxs);
 
 // Tokenizer helper functions
 void	handle_quotes(t_tokenizer_vars *v, int idx_dist_to_quot);

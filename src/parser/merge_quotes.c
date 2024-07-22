@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:34:15 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 00:17:58 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 07:33:36 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 	for liberation from our ultimate unavoidable destiny of a cold and slow 
 	decay into homogenized singularity.
 */
-static int	obliterate_quote_symbols(char **p_value, int *i)
+static int	obliterate_quote_symbols(\
+char **p_value, int *i, t_token *token_list, t_exp_idxs *exp_idxs)
 {
 	char	quote_type;
 	int		next_quote_idx;
@@ -41,9 +42,12 @@ static int	obliterate_quote_symbols(char **p_value, int *i)
 	next_quote_idx = str_findc_idx(*p_value, *i + 1, quote_type);
 	if (next_quote_idx == -1)
 		return (FALSE);
-	str_replace_section(p_value, *i, *i, "");
+	if (str_replace_section(p_value, *i, *i, "") == FAILURE)
+		exit_free_toklst_exp_idxs(token_list, exp_idxs);
 	--next_quote_idx;
-	str_replace_section(p_value, next_quote_idx, next_quote_idx, "");
+	if (str_replace_section(\
+p_value, next_quote_idx, next_quote_idx, "") == FAILURE)
+		exit_free_toklst_exp_idxs(token_list, exp_idxs);
 	*i = next_quote_idx;
 	return (TRUE);
 }
@@ -52,7 +56,7 @@ static int	obliterate_quote_symbols(char **p_value, int *i)
 	Merge sections enclosed by quotes into respective tokens.
 	Return TRUE upon success, FALSE upon encountering unclosed quotes.
 */
-int	merge_quotes(t_token *token_list)
+int	merge_quotes(t_token *token_list, t_exp_idxs *exp_idxs)
 {
 	t_token	*iter;
 	int		i;
@@ -66,7 +70,8 @@ int	merge_quotes(t_token *token_list)
 			while (i < strlen_null(iter->value))
 			{
 				if (iter->value[i] == '\'' || iter->value[i] == '\"')
-					if (!obliterate_quote_symbols(&iter->value, &i))
+					if (!obliterate_quote_symbols(\
+&iter->value, &i, token_list, exp_idxs))
 						return (FALSE);
 				++i;
 			}
