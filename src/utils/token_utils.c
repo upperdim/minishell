@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:49:08 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/21 23:13:46 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 05:16:58 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,13 @@ t_token	*token_list_get_last(t_token *list)
 // 	return (TRUE);
 // }
 
+static void	add_token_handle_failure(\
+t_token **head_ptr, t_exp_idxs *free_on_err)
+{
+	ft_free_link_list(*head_ptr);
+	exit_free_exp_idxs(ERR_MSG_MALLOC, free_on_err);
+}
+
 void	add_token(\
 t_token **head_ptr, t_token_type type, char *val, t_exp_idxs *free_on_err)
 {
@@ -120,9 +127,11 @@ t_token **head_ptr, t_token_type type, char *val, t_exp_idxs *free_on_err)
 
 	new = (t_token *) malloc(1 * sizeof(t_token));
 	if (new == NULL)
-		exit_free_exp_idxs(ERR_MSG_MALLOC, free_on_err);
+		add_token_handle_failure(head_ptr, free_on_err);
 	new->type = type;
 	new->value = ft_strdup(val);
+	if (new->value == NULL)
+		add_token_handle_failure(head_ptr, free_on_err);
 	new->next = NULL;
 	if (*head_ptr == NULL)
 	{
