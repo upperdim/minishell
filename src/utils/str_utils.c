@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 04:55:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 06:52:33 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 07:20:46 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	strlen_null(const char *s)
 /*
 	Return a substring of `s` from `start_idx` to `end_idx` INCLUSIVE.
 	Uses allocation so return string must be freed by the caller.
-	TODO: clean and exit upon alloc error.
+	Returns NULL upon allocation error.
 */
 char	*str_sub(char *s, int start_idx, int end_idx)
 {
@@ -87,13 +87,21 @@ int	str_findc_idx(char *s, int search_start_idx, char search_char)
 int	str_replace_section(char **p_str, int start, int end, char *replace_with)
 {
 	char	*new;
+	char	*new_beginning;
+	char	*new_ending;
 
 	new = NULL;
-	if (str_append_free(&new, str_sub(*p_str, 0, start - 1)) == FAILURE)
+	new_beginning = str_sub(*p_str, 0, start - 1);
+	if (new_beginning == NULL)
+		return (FAILURE);
+	if (str_append_free(&new, new_beginning) == FAILURE)
 		return (FAILURE);
 	if (str_append(&new, replace_with) == FAILURE)
 		return (FAILURE);
-	if (str_append_free(&new, str_sub(*p_str, end + 1, ft_strlen(*p_str) - 1)) == FAILURE)
+	new_ending = str_sub(*p_str, end + 1, ft_strlen(*p_str) - 1);
+	if (new_ending == NULL)
+		return (FAILURE);
+	if (str_append_free(&new, new_ending) == FAILURE)
 		return (FAILURE);
 	free(*p_str);
 	*p_str = new;
