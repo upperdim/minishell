@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 00:22:34 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 06:18:31 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ static void	free_expansion_idxs(t_exp_idxs *exp_idxs)
 	list_int_free_all(exp_idxs->var_idxs);
 }
 
+static void	free_tok_lst_exp_idxs(t_token *token_list, t_exp_idxs *exp_idxs)
+{
+	ft_free_link_list(token_list);
+	free_expansion_idxs(exp_idxs);
+}
+
 t_token	*parse(char *line)
 {
 	t_token		*token_list;
@@ -56,7 +62,8 @@ t_token	*parse(char *line)
 		exit_free_exp_idxs(ERR_MSG_MALLOC, &exp_idxs);
 	token_list = tokenize(line, &exp_idxs);
 	if (!check_token_rules(token_list))
-		return (ft_printf_fd(2, ERR_MSG_INVALID_TOKENS), NULL);
+		return (free_tok_lst_exp_idxs(token_list, &exp_idxs), \
+ft_printf_fd(2, ERR_MSG_INVALID_TOKENS), NULL);
 	expand_tilda(\
 token_list, exp_idxs.tld_idxs, list_get_size(exp_idxs.tld_idxs));
 	expand_var(token_list, exp_idxs.var_idxs, list_get_size(exp_idxs.var_idxs));
