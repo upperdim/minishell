@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 06:49:18 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 08:05:30 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,100 +35,104 @@ t_token *curr_tok, char *env_var_name, char *env_var_result)
 	}
 }
 
-int	handle_if_double_dollar(\
-t_token *iter, int i, int *p_idx_idx, int *p_var_idx, int *p_value_len)
+int	handle_if_double_dollar(t_var_exp_vars *v)
 {
 	char	*minishell_pid;
 
-	if (iter->value[i + 1] == '$')
+	if (v->iter->value[v->i + 1] == '$')
 	{
-		if (!is_prev_here_doc(iter))
+		if (!is_prev_here_doc(v->iter))
 		{
 			minishell_pid = ft_itoa(getpid());
-			str_replace_section(&iter->value, i, i + 1, minishell_pid);
+			str_replace_section(&v->iter->value, v->i, v->i + 1, minishell_pid);
 			free(minishell_pid);
-			*p_value_len = ft_strlen(iter->value);
+			v->env_var_val_len = ft_strlen(v->iter->value);
 		}
-		++(*p_idx_idx);
-		++(*p_var_idx);
+		++(v->idx_idx);
+		++(v->var_idx);
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
-int	handle_if_dollar_questionmark(\
-t_token *iter, int i, int *p_idx_idx, int *p_value_len)
+int	handle_if_dollar_questionmark(t_var_exp_vars *v)
 {
 	char	*last_proc_exit_code;
 
-	if (iter->value[i + 1] == '?')
+	if (v->iter->value[v->i + 1] == '?')
 	{
-		if (!is_prev_here_doc(iter))
+		if (!is_prev_here_doc(v->iter))
 		{
 			last_proc_exit_code = getenv("LAST_PROCESS_EXIT_CODE");
 			handle_if_should_fail(\
-			iter, "LAST_PROCESS_EXIT_CODE", last_proc_exit_code);
-			str_replace_section(&iter->value, i, i + 1, last_proc_exit_code);
-			*p_value_len = ft_strlen(iter->value);
+			v->iter, "LAST_PROCESS_EXIT_CODE", last_proc_exit_code);
+			str_replace_section(&(v->iter->value), v->i, v->i + 1, last_proc_exit_code);
+			v->env_var_val_len = ft_strlen(v->iter->value);
 		}
-		++(*p_idx_idx);
+		++(v->idx_idx);
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
-void	expand_var(\
-t_token *token_list, t_list_int *var_idxs_to_expand, const int list_size)
+static void	var_expansion_vars_init(\
+t_var_exp_vars *v, t_token *token_list, t_exp_idxs	*exp_idxs)
 {
-	int		var_idx;
-	int		idx_idx;
-	int		i;
-	int		e;
-	char	*var_name;
-	char	*env_var_val;
-	int		value_len;
-	t_token *iter;
+	v->var_idx = 0;
+	v->idx_idx = 0;
+	v->i = 0;
+	v->e = 0;
+	v->env_var_name = NULL;
+	v->env_var_val = NULL;
+	v->env_var_val_len = 0;
+	v->iter = token_list;
+	v->token_list_head = token_list;
+	v->exp_idxs = exp_idxs;
+	v->list_size = list_get_size(exp_idxs->var_idxs);
+}
 
-	var_idx = 0;
-	idx_idx = 0;
-	iter = token_list;
-	while (iter != NULL)
+void	expand_var(t_token *token_list, t_exp_idxs	*exp_idxs)
+{
+	t_var_exp_vars v;
+
+	var_expansion_vars_init(&v, token_list, exp_idxs);
+	while (v.iter != NULL)
 	{
-		if (iter->type == STRING)
+		if (v.iter->type == STRING)
 		{
-			value_len = ft_strlen(iter->value);
-			i = 0;
-			while (i < value_len)
+			v.env_var_val_len = ft_strlen(v.iter->value);
+			v.i = 0;
+			while (v.i < v.env_var_val_len)
 			{
-				if (iter->value[i] == '$')
+				if (v.iter->value[v.i] == '$')
 				{
-					if (handle_if_double_dollar(iter, i, &idx_idx, &var_idx, &value_len))
+					if (handle_if_double_dollar(&v))
 						;
-					else if (handle_if_dollar_questionmark(iter, i, &idx_idx, &value_len))
+					else if (handle_if_dollar_questionmark(&v))
 						;
-					else if (list_size > idx_idx && var_idx == list_get_idx(var_idxs_to_expand, idx_idx))
+					else if (v.list_size > v.idx_idx && v.var_idx == list_get_idx(v.exp_idxs->var_idxs, v.idx_idx))
 					{
-						e = i + 1;
-						while (iter->value[e] != '\0' && is_valid_var_exp_char(iter->value[e]))
-							++e;
-						if (!is_prev_here_doc(iter))
+						v.e = v.i + 1;
+						while (v.iter->value[v.e] != '\0' && is_valid_var_exp_char(v.iter->value[v.e]))
+							++v.e;
+						if (!is_prev_here_doc(v.iter))
 						{
-							var_name = str_sub(iter->value, i + 1, e - 1);
-							env_var_val = getenv(var_name);
-							handle_if_should_fail(iter, var_name, env_var_val);
+							v.env_var_name = str_sub(v.iter->value, v.i + 1, v.e - 1);
+							v.env_var_val = getenv(v.env_var_name);
+							handle_if_should_fail(v.iter, v.env_var_name, v.env_var_val);
 							// Sussy wussy (removed -1)
 							// str_replace_section(&iter->value, i, e - 1, env_var_val);
-							str_replace_section(&iter->value, i, e - 1, env_var_val);
-							free(var_name);
-							value_len = ft_strlen(iter->value);
+							str_replace_section(&(v.iter->value), v.i, v.e - 1, v.env_var_val);
+							free(v.env_var_name);
+							v.env_var_val_len = ft_strlen(v.iter->value);
 						}
-						++idx_idx;
+						++v.idx_idx;
 					}
-					++var_idx;
+					++v.var_idx;
 				}
-				++i;
+				++v.i;
 			}
 		}
-		iter = iter->next;
+		v.iter = v.iter->next;
 	}
 }

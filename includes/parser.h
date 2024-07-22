@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 07:42:00 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 08:04:34 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,21 @@ typedef struct s_tokenizer_vars
 	t_exp_idxs	*free_on_err;
 }	t_tokenizer_vars;
 
+typedef struct	s_var_exp_vars
+{
+	int			list_size;
+	int			var_idx;
+	int			idx_idx;
+	int			i;
+	int			e;
+	char		*env_var_name;
+	char		*env_var_val;
+	int			env_var_val_len;
+	t_token		*iter;
+	t_token		*token_list_head;
+	t_exp_idxs	*exp_idxs;
+}	t_var_exp_vars;
+
 // Parsing
 t_token	*parse(char *line);
 t_token	*tokenize(char *line, t_exp_idxs *exp_idxs);
@@ -88,7 +103,7 @@ char *line, t_list_int **p_var_idxs, int s, int var_idx);
 
 // Expansions
 void	expand_tilda(t_token *tok_lst, t_exp_idxs *exp_idxs);
-void	expand_var(t_token *tok_lst, t_list_int *var_idxs, const int lst_siz);
+void	expand_var(t_token *tok_lst, t_exp_idxs *exp_idxs);
 
 // Variable expansion utils
 int		is_valid_var_exp_char(char c);
