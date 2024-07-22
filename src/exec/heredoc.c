@@ -12,29 +12,38 @@
 
 #include "minishell.h"
 
+static bool	check_limiter(char *line_stdin, char *limiter)
+{
+	int	new_line_index;
+
+	new_line_index = ft_strlen(line_stdin) - 1;
+	line_stdin[new_line_index] = '\0';
+	if (ft_strncmp(line_stdin, limiter, ft_strlen(limiter) + 1) == 0)
+		return (true);
+	line_stdin[new_line_index] = '\n';
+	return (false);
+}
+
 static char	*get_here_doc(char *limiter)
 {
 	char	*line;
 	char	*tmp;
 	char	*line_stdin;
-	int		new_line_index;
 
 	line = NULL;
-	line_stdin = NULL;
 	while (1)
 	{
-		ft_free_n_null((void **)&line_stdin);
 		ft_printf("> ");
 		line_stdin = get_next_line(STDIN_FILENO);
 		if ((line_stdin == NULL && ft_printf("\n")))
 			break ;
-		new_line_index = ft_strlen(line_stdin) - 1;
-		line_stdin[new_line_index] = '\0';
-		if (ft_strncmp(line_stdin, limiter, ft_strlen(limiter) + 1) == 0)
+		if (check_limiter(line_stdin, limiter) == true)
 			break ;
-		line_stdin[new_line_index] = '\n';
 		tmp = ft_strjoin(line, line_stdin);
+		ft_free_n_null((void **)&line_stdin);
 		ft_free_n_null((void **)&line);
+		if (tmp == NULL)
+			return (ft_printf_fd(2, ERROR_MSG, "heredoc", E_ALLOC), NULL);
 		line = tmp;
 	}
 	return (ft_free_n_null((void **)&line_stdin), line);
