@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 22:54:48 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/23 01:57:32 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	handle_if_dollar_questionmark(t_var_exp_vars *v)
 			v->iter, "LAST_PROCESS_EXIT_CODE", last_proc_exit_code) == FAILURE)
 				return (FAILURE);
 			if (str_replace_section(&(v->iter->value), v->i, v->i + 1, last_proc_exit_code) == FAILURE)
-				; // TODO: free everything and exit ALLOC ERROR
+				exit_free_toklst_exp_idxs(v->token_list_head, v->exp_idxs, v->line);
 			v->tok_val_len = ft_strlen(v->iter->value);
 		}
 		++(v->idx_idx);
@@ -83,11 +83,18 @@ int	handle_if_dollar_questionmark(t_var_exp_vars *v)
 	return (FALSE);
 }
 
-void	handle_if_will_be_expanded(t_var_exp_vars *v)
+void	exit_error_env_var(t_var_exp_vars *v)
+{
+	if (v->env_var_name != NULL)
+		free(v->env_var_name);
+	exit_free_toklst_exp_idxs(v->token_list_head, v->exp_idxs, v->line);
+}
+
+int	handle_if_will_be_expanded(t_var_exp_vars *v)
 {
 	if (!(v->list_size > v->idx_idx) 
 		|| v->var_idx != list_get_idx(v->exp_idxs->var_idxs, v->idx_idx))
-		return ;
+		return (FALSE);
 	v->e = v->i + 1;
 	while (v->iter->value[v->e] != '\0' && is_valid_var_exp_char(v->iter->value[v->e]))
 		++v->e;
@@ -95,16 +102,17 @@ void	handle_if_will_be_expanded(t_var_exp_vars *v)
 	{
 		v->env_var_name = str_sub(v->iter->value, v->i + 1, v->e - 1);
 		if (v->env_var_name == NULL)
-			; // TODO: free everything and exit ALLOC ERROR
+			exit_error_env_var(v);
 		v->env_var_val = getenv(v->env_var_name);
 		if (handle_if_should_fail(v->iter, v->env_var_name, v->env_var_val) == FAILURE)
 			return (FAILURE);
 		if (str_replace_section(&(v->iter->value), v->i, v->e - 1, v->env_var_val) == FAILURE)
-			; // TODO: free everything and exit ALLOC ERROR
+			exit_error_env_var(v);
 		free(v->env_var_name);
 		v->tok_val_len = ft_strlen(v->iter->value);
 	}
 	++v->idx_idx;
+	return (TRUE);
 }
 
 int	handle_if_special_case(t_var_exp_vars *v)
