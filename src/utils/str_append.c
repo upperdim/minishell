@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 06:26:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 06:52:20 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 07:30:53 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static char	*str_join_free(char const *s1, char const *s2)
 	int		len2;
 	char	*joint;
 
+	if (s1 == NULL && s2 == NULL)
+		return (NULL);
 	len1 = strlen_null(s1);
 	len2 = strlen_null(s2);
-	if (len1 == 0 && len2 == 0)
-		return (NULL);
 	joint = (char *) malloc((len1 + len2 + 1) * sizeof(char));
 	if (joint == NULL)
 	{
