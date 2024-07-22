@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 00:15:57 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 06:04:42 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,11 @@ int		is_valid_var_exp_char(char c);
 int		is_prev_here_doc(t_token *tok);
 void	replace_tok_val_section(\
 t_token *tok, int s, int e, char *replace_with, int *p_value_len);
+
+// String append wrappers for tokenization
+void	str_append_tok(char **p_str, char *to_append, t_tokenizer_vars *v);
+void	str_appendc_tok(char **p_str, char char_to_append, t_tokenizer_vars *v);
+void	str_append_free_tok(\
+char **p_str, char *to_append_and_free, t_tokenizer_vars *v);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:53:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 00:12:30 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 05:49:15 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ t_tokenizer_vars *v, char redir_type, int single_or_double)
 
 	new_type = -1;
 	new_val = NULL;
-	str_append(&new_val, v->curr_token_val);
-	str_appendc(&new_val, redir_type);
+	str_append_tok(&new_val, v->curr_token_val, v);
+	str_appendc_tok(&new_val, redir_type, v);
 	if (single_or_double == 2)
-		str_appendc(&new_val, redir_type);
+		str_appendc_tok(&new_val, redir_type, v);
 	if (redir_type == '>')
 	{
 		if (single_or_double == 1)
@@ -88,12 +88,13 @@ static void	handle_quotes(t_tokenizer_vars *v, int idx_dist_to_quot)
 {
 	char	quote_type;
 	int		next_quote_idx;
+	char	*sub;
 
 	quote_type = v->line[v->i + idx_dist_to_quot];
 	next_quote_idx = str_findc_idx(\
 v->line, v->i + idx_dist_to_quot + 1, quote_type);
 	if (next_quote_idx == -1)
-		exit_free_exp_idxs(ERR_MSG_UNCLOSED_QUOTES, v->free_on_err);
+		exit_free_tokenizer(ERR_MSG_UNCLOSED_QUOTES, v);
 	else if (next_quote_idx == v->i + idx_dist_to_quot + 1)
 	{
 		if (strlen_null(v->curr_token_val) == 0)
@@ -102,8 +103,10 @@ v->line, v->i + idx_dist_to_quot + 1, quote_type);
 	}
 	else
 	{
-		str_append_free(&v->curr_token_val, \
-str_sub(v->line, v->i + idx_dist_to_quot, next_quote_idx));
+		sub = str_sub(v->line, v->i + idx_dist_to_quot, next_quote_idx);
+		if (sub == NULL)
+			exit_free_tokenizer(ERR_MSG_MALLOC, v);
+		str_append_free_tok(&v->curr_token_val, sub, v);
 		(v->i) = next_quote_idx;
 	}
 }
@@ -175,7 +178,7 @@ t_token	*tokenize(char *line, t_exp_idxs	*free_on_err)
 	{
 		if (!handle_if_first_char(&v))
 		{
-			str_appendc(&v.curr_token_val, v.line[v.i]);
+			str_appendc_tok(&v.curr_token_val, v.line[v.i], &v);
 			if (v.line[v.i + 1] == '\0'
 				|| v.line[v.i + 1] == ' ' || v.line[v.i + 1] == '|')
 			{

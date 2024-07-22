@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 04:55:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 00:17:58 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 05:38:06 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@ int	strlen_null(const char *s)
 */
 char	*str_sub(char *s, int start_idx, int end_idx)
 {
-	return (ft_substr(s, start_idx, end_idx - start_idx + 1));
+	char	*sub;
+
+	sub = ft_substr(s, start_idx, end_idx - start_idx + 1);
+	if (sub == NULL)
+		return (NULL);
+	return (sub);
 }
 
 /* Return whether string only consists of digits or not. */

@@ -10,10 +10,14 @@ UTILS_FILES		= signal_handler.c prompt.c exit_error.c env_utils.c \
 					
 EXEC_FILES		= exec.c exec_utils.c heredoc.c divide_tokens.c redirections.c
 PARSER_FILES	= parser.c\
-					expansion/tilda/exp_tilda.c expansion/tilda/detect_tilda.c\
-					expansion/var/exp_var.c expansion/var/detect_var.c\
+					expansion/tilda/exp_tilda.c \
+					expansion/tilda/detect_tilda.c\
+					expansion/var/exp_var.c \
+					expansion/var/detect_var.c\
 					expansion/var/var_utils.c\
-					tokenization/tokenizer.c tokenization/token_rules.c \
+					tokenization/tokenizer.c \
+					tokenization/token_rules.c \
+					tokenization/str_append_tok.c \
 					merge_quotes.c
 
 BUILTINS		= $(addprefix builtins/, $(BUILTIN_FILES))

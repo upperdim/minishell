@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_append.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 06:26:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/17 06:28:24 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 06:06:40 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,24 @@ static char	*str_join_free(char const *s1, char const *s2)
 
 /*
    Append `to_append` to string pointed by `p_str`.
-   TODO: clean and exit upon alloc error.
+   Return FAILURE upon allocation error.
 */
-void	str_append(char **p_str, char *to_append)
+int	str_append(char **p_str, char *to_append)
 {
 	char	*joint_str;
 
 	joint_str = str_join_free(*p_str, to_append);
+	if (joint_str == NULL)
+		return (FAILURE);
 	*p_str = joint_str;
+	return (TRUE);
 }
 
 /*
    Append `char_to_append` to string pointed by `p_str`.
-   TODO: clean and exit upon alloc error.
+   Return FAILURE upon allocation error.
 */
-void	str_appendc(char **p_str, char char_to_append)
+int	str_appendc(char **p_str, char char_to_append)
 {
 	char	*joint_str;
 	char	append[2];
@@ -68,18 +71,27 @@ void	str_appendc(char **p_str, char char_to_append)
 	append[0] = char_to_append;
 	append[1] = '\0';
 	joint_str = str_join_free(*p_str, append);
+	if (joint_str == NULL)
+		return (FAILURE);
 	*p_str = joint_str;
+	return (TRUE);
 }
 
 /*
    Append `to_append_and_free` to string pointed by `p_str`.
-   TODO: clean and exit upon alloc error.
+   Return FAILURE upon allocation error.
 */
-void	str_append_free(char **p_str, char *to_append_and_free)
+int	str_append_free(char **p_str, char *to_append_and_free)
 {
 	char	*joint_str;
 
 	joint_str = str_join_free(*p_str, to_append_and_free);
+	if (joint_str == NULL)
+	{
+		free(to_append_and_free);
+		return (FAILURE);
+	}
 	*p_str = joint_str;
 	free(to_append_and_free);
+	return (TRUE);
 }

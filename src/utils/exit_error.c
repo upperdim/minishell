@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:44:04 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/21 22:41:05 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 05:47:07 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,16 @@ void	exit_perror(int exit_status)
 	exit_error(NULL, exit_status);
 }
 
-void	exit_free_idx_arrays(\
-char *err_msg, t_list_int *tilda_idxs_to_exp, t_list_int *var_idxs_to_exp)
+void	exit_free_exp_idxs(char *err_msg, t_exp_idxs *exp_idxs)
 {
-	list_int_free_all(tilda_idxs_to_exp);
-	list_int_free_all(var_idxs_to_exp);
+	list_int_free_all(exp_idxs->tld_idxs);
+	list_int_free_all(exp_idxs->var_idxs);
 	exit_error(err_msg, EXIT_FAILURE);
 }
 
-void	exit_free_exp_idxs(\
-char *err_msg, t_exp_idxs *exp_idx_pair_to_free)
+/* Free token list, tilda index list, and variable index list before exiting */
+void	exit_free_tokenizer(char *err_msg, t_tokenizer_vars *v)
 {
-	exit_free_idx_arrays(\
-err_msg, exp_idx_pair_to_free->tld_idxs, exp_idx_pair_to_free->var_idxs);
+	ft_free_link_list(*v->p_head);
+	exit_free_exp_idxs(err_msg, v->free_on_err);
 }
