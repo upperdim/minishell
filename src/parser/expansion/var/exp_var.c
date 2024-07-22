@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 08:05:30 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 08:11:39 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	handle_if_double_dollar(t_var_exp_vars *v)
 			minishell_pid = ft_itoa(getpid());
 			str_replace_section(&v->iter->value, v->i, v->i + 1, minishell_pid);
 			free(minishell_pid);
-			v->env_var_val_len = ft_strlen(v->iter->value);
+			v->tok_val_len = ft_strlen(v->iter->value);
 		}
 		++(v->idx_idx);
 		++(v->var_idx);
@@ -67,7 +67,7 @@ int	handle_if_dollar_questionmark(t_var_exp_vars *v)
 			handle_if_should_fail(\
 			v->iter, "LAST_PROCESS_EXIT_CODE", last_proc_exit_code);
 			str_replace_section(&(v->iter->value), v->i, v->i + 1, last_proc_exit_code);
-			v->env_var_val_len = ft_strlen(v->iter->value);
+			v->tok_val_len = ft_strlen(v->iter->value);
 		}
 		++(v->idx_idx);
 		return (TRUE);
@@ -84,7 +84,7 @@ t_var_exp_vars *v, t_token *token_list, t_exp_idxs	*exp_idxs)
 	v->e = 0;
 	v->env_var_name = NULL;
 	v->env_var_val = NULL;
-	v->env_var_val_len = 0;
+	v->tok_val_len = 0;
 	v->iter = token_list;
 	v->token_list_head = token_list;
 	v->exp_idxs = exp_idxs;
@@ -100,9 +100,9 @@ void	expand_var(t_token *token_list, t_exp_idxs	*exp_idxs)
 	{
 		if (v.iter->type == STRING)
 		{
-			v.env_var_val_len = ft_strlen(v.iter->value);
+			v.tok_val_len = ft_strlen(v.iter->value);
 			v.i = 0;
-			while (v.i < v.env_var_val_len)
+			while (v.i < v.tok_val_len)
 			{
 				if (v.iter->value[v.i] == '$')
 				{
@@ -124,7 +124,7 @@ void	expand_var(t_token *token_list, t_exp_idxs	*exp_idxs)
 							// str_replace_section(&iter->value, i, e - 1, env_var_val);
 							str_replace_section(&(v.iter->value), v.i, v.e - 1, v.env_var_val);
 							free(v.env_var_name);
-							v.env_var_val_len = ft_strlen(v.iter->value);
+							v.tok_val_len = ft_strlen(v.iter->value);
 						}
 						++v.idx_idx;
 					}

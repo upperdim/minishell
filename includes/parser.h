@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 08:04:34 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 08:11:39 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct	s_var_exp_vars
 	int			e;
 	char		*env_var_name;
 	char		*env_var_val;
-	int			env_var_val_len;
+	int			tok_val_len;
 	t_token		*iter;
 	t_token		*token_list_head;
 	t_exp_idxs	*exp_idxs;
