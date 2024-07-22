@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 06:26:39 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 06:06:40 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 06:52:20 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	str_append(char **p_str, char *to_append)
 	if (joint_str == NULL)
 		return (FAILURE);
 	*p_str = joint_str;
-	return (TRUE);
+	return (SUCCESS);
 }
 
 /*
@@ -74,7 +74,7 @@ int	str_appendc(char **p_str, char char_to_append)
 	if (joint_str == NULL)
 		return (FAILURE);
 	*p_str = joint_str;
-	return (TRUE);
+	return (SUCCESS);
 }
 
 /*
@@ -93,5 +93,5 @@ int	str_append_free(char **p_str, char *to_append_and_free)
 	}
 	*p_str = joint_str;
 	free(to_append_and_free);
-	return (TRUE);
+	return (SUCCESS);
 }
