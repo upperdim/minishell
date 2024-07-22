@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 20:30:49 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 22:55:14 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ typedef struct	s_var_exp_vars
 	t_token		*iter;
 	t_token		*token_list_head;
 	t_exp_idxs	*exp_idxs;
+	char		*line;
+	int			ret;
 }	t_var_exp_vars;
 
 typedef struct	s_merge_quote_vars
@@ -112,7 +114,7 @@ char *line, t_list_int **p_var_idxs, int s, int var_idx);
 
 // Expansions
 void	expand_tilda(t_token *token_list, t_exp_idxs *exp_idxs, char *line);
-void	expand_var(t_token *tok_lst, t_exp_idxs *exp_idxs);
+int		expand_var(t_token *token_list, t_exp_idxs	*exp_idxs, char *line);
 
 // Variable expansion utils
 int		is_valid_var_exp_char(char c);

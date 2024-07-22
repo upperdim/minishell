@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 08:31:23 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 22:54:48 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,21 @@
 	REDIR_TO, REDIR_FROM or APPEND_TO,
 	then you should fail
 */
-void	handle_if_should_fail(\
+int	handle_if_should_fail(\
 t_token *curr_tok, char *env_var_name, char *env_var_result)
 {
 	if (curr_tok->prev == NULL)
-		return ;
+		return (SUCCESS);
 	if (env_var_result != NULL)
-		return ;
+		return (SUCCESS);
 	if (curr_tok->prev->type == REDIR_TO
 		|| curr_tok->prev->type == REDIR_FROM
 		|| curr_tok->prev->type == APPEND_TO)
 	{
-		// TODO: freeing stuff
-		ft_putstr_fd("minishell: $", 2);
-		ft_putstr_fd(env_var_name, 2);
-		exit_error(": ambiguous redirect", EXIT_FAILURE);
+		ft_printf_fd(2, "minishell: $%s: ambiguous redirect\n", env_var_name);
+		return (FAILURE);
 	}
+	return (SUCCESS);
 }
 
 // int	handle_if_double_dollar(t_var_exp_vars *v)
@@ -71,9 +70,11 @@ int	handle_if_dollar_questionmark(t_var_exp_vars *v)
 		if (!is_prev_here_doc(v->iter))
 		{
 			last_proc_exit_code = getenv("LAST_PROCESS_EXIT_CODE");
-			handle_if_should_fail(\
-			v->iter, "LAST_PROCESS_EXIT_CODE", last_proc_exit_code);
-			str_replace_section(&(v->iter->value), v->i, v->i + 1, last_proc_exit_code);
+			if (handle_if_should_fail(\
+			v->iter, "LAST_PROCESS_EXIT_CODE", last_proc_exit_code) == FAILURE)
+				return (FAILURE);
+			if (str_replace_section(&(v->iter->value), v->i, v->i + 1, last_proc_exit_code) == FAILURE)
+				; // TODO: free everything and exit ALLOC ERROR
 			v->tok_val_len = ft_strlen(v->iter->value);
 		}
 		++(v->idx_idx);
@@ -82,8 +83,52 @@ int	handle_if_dollar_questionmark(t_var_exp_vars *v)
 	return (FALSE);
 }
 
+void	handle_if_will_be_expanded(t_var_exp_vars *v)
+{
+	if (!(v->list_size > v->idx_idx) 
+		|| v->var_idx != list_get_idx(v->exp_idxs->var_idxs, v->idx_idx))
+		return ;
+	v->e = v->i + 1;
+	while (v->iter->value[v->e] != '\0' && is_valid_var_exp_char(v->iter->value[v->e]))
+		++v->e;
+	if (!is_prev_here_doc(v->iter))
+	{
+		v->env_var_name = str_sub(v->iter->value, v->i + 1, v->e - 1);
+		if (v->env_var_name == NULL)
+			; // TODO: free everything and exit ALLOC ERROR
+		v->env_var_val = getenv(v->env_var_name);
+		if (handle_if_should_fail(v->iter, v->env_var_name, v->env_var_val) == FAILURE)
+			return (FAILURE);
+		if (str_replace_section(&(v->iter->value), v->i, v->e - 1, v->env_var_val) == FAILURE)
+			; // TODO: free everything and exit ALLOC ERROR
+		free(v->env_var_name);
+		v->tok_val_len = ft_strlen(v->iter->value);
+	}
+	++v->idx_idx;
+}
+
+int	handle_if_special_case(t_var_exp_vars *v)
+{
+	if (!handle_if_double_dollar(v))
+	{
+		++v->i;
+		++v->var_idx;
+		return (TRUE);
+	}
+	v->ret = handle_if_dollar_questionmark(v);
+	if (v->ret == FAILURE)
+		return (FAILURE);
+	else if (v->ret == TRUE)
+	{
+		++v->i;
+		++v->var_idx;
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
 static void	var_expansion_vars_init(\
-t_var_exp_vars *v, t_token *token_list, t_exp_idxs	*exp_idxs)
+t_var_exp_vars *v, t_token *token_list, t_exp_idxs	*exp_idxs, char *line)
 {
 	v->var_idx = 0;
 	v->idx_idx = 0;
@@ -95,51 +140,35 @@ t_var_exp_vars *v, t_token *token_list, t_exp_idxs	*exp_idxs)
 	v->iter = token_list;
 	v->token_list_head = token_list;
 	v->exp_idxs = exp_idxs;
+	v->line = line;
 	v->list_size = list_get_size(exp_idxs->var_idxs);
 }
 
-void	expand_var(t_token *token_list, t_exp_idxs	*exp_idxs)
+int	expand_var(t_token *token_list, t_exp_idxs	*exp_idxs, char *line)
 {
 	t_var_exp_vars v;
 
-	var_expansion_vars_init(&v, token_list, exp_idxs);
+	var_expansion_vars_init(&v, token_list, exp_idxs, line);
 	while (v.iter != NULL)
 	{
 		if (v.iter->type == STRING)
 		{
 			v.tok_val_len = ft_strlen(v.iter->value);
-			v.i = 0;
-			while (v.i < v.tok_val_len)
+			v.i = -1;
+			while (++(v.i) < v.tok_val_len)
 			{
 				if (v.iter->value[v.i] == '$')
 				{
-					if (handle_if_double_dollar(&v))
-						;
-					else if (handle_if_dollar_questionmark(&v))
-						;
-					else if (v.list_size > v.idx_idx && v.var_idx == list_get_idx(v.exp_idxs->var_idxs, v.idx_idx))
-					{
-						v.e = v.i + 1;
-						while (v.iter->value[v.e] != '\0' && is_valid_var_exp_char(v.iter->value[v.e]))
-							++v.e;
-						if (!is_prev_here_doc(v.iter))
-						{
-							v.env_var_name = str_sub(v.iter->value, v.i + 1, v.e - 1);
-							v.env_var_val = getenv(v.env_var_name);
-							handle_if_should_fail(v.iter, v.env_var_name, v.env_var_val);
-							// Sussy wussy (removed -1)
-							// str_replace_section(&iter->value, i, e - 1, env_var_val);
-							str_replace_section(&(v.iter->value), v.i, v.e - 1, v.env_var_val);
-							free(v.env_var_name);
-							v.tok_val_len = ft_strlen(v.iter->value);
-						}
-						++v.idx_idx;
-					}
+					v.ret = handle_if_special_case(&v);
+					if (v.ret == FAILURE)
+						return (FAILURE);
+					else if (v.ret == FALSE)
+						handle_if_will_be_expanded(&v);
 					++v.var_idx;
 				}
-				++v.i;
 			}
 		}
 		v.iter = v.iter->next;
 	}
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 20:27:51 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 22:55:24 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ t_token	*parse(char *line)
 		return (free_tok_lst_exp_idxs(token_list, &exp_idxs), \
 ft_printf_fd(2, ERR_MSG_INVALID_TOKENS), NULL);
 	expand_tilda(token_list, &exp_idxs, line);
-	expand_var(token_list, &exp_idxs);
+	if (expand_var(token_list, &exp_idxs, line) == FAILURE)
+		return ();
 	if (!merge_quotes(token_list, &exp_idxs, line))
 		return (ft_printf_fd(2, ERR_MSG_UNCLOSED_QUOTES), NULL);
 	return (parser_cleanup(&exp_idxs), token_list);

@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 04:55:54 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 07:20:46 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 22:49:07 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	str_findc_idx(char *s, int search_start_idx, char search_char)
 /*
 	Replace string pointed by `p_str` 
 	from `start` index to `end` index inclusive with `replace_with`.
+	Returns FAILURE upon allocation error
 */
 int	str_replace_section(char **p_str, int start, int end, char *replace_with)
 {
