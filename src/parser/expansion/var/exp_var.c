@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 08:11:39 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 08:31:23 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,30 @@ t_token *curr_tok, char *env_var_name, char *env_var_result)
 	}
 }
 
+// int	handle_if_double_dollar(t_var_exp_vars *v)
+// {
+// 	char	*minishell_pid;
+
+// 	if (v->iter->value[v->i + 1] == '$')
+// 	{
+// 		if (!is_prev_here_doc(v->iter))
+// 		{
+// 			minishell_pid = ft_itoa(getpid());
+// 			str_replace_section(&v->iter->value, v->i, v->i + 1, minishell_pid);
+// 			free(minishell_pid);
+// 			v->tok_val_len = ft_strlen(v->iter->value);
+// 		}
+// 		++(v->idx_idx);
+// 		++(v->var_idx);
+// 		return (TRUE);
+// 	}
+// 	return (FALSE);
+// }
+
 int	handle_if_double_dollar(t_var_exp_vars *v)
 {
-	char	*minishell_pid;
-
 	if (v->iter->value[v->i + 1] == '$')
-	{
-		if (!is_prev_here_doc(v->iter))
-		{
-			minishell_pid = ft_itoa(getpid());
-			str_replace_section(&v->iter->value, v->i, v->i + 1, minishell_pid);
-			free(minishell_pid);
-			v->tok_val_len = ft_strlen(v->iter->value);
-		}
-		++(v->idx_idx);
-		++(v->var_idx);
 		return (TRUE);
-	}
 	return (FALSE);
 }
 

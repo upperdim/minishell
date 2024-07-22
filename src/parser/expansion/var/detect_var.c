@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 00:07:23 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 03:08:24 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 08:32:34 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,27 @@ static int	is_eligible_for_exp(char *line, int *s, int *in_quote, int *var_idx)
 	return (TRUE);
 }
 
+// static int	handle_if_special_case(
+// char *line, int *p_s, int *p_var_idx, t_list_int **p_var_idxs_to_exp)
+// {
+// 	if (line[(*p_s) + 1] == '?')
+// 	{
+// 		if (list_add(p_var_idxs_to_exp, *p_var_idx) == FAILURE)
+// 			return (FAILURE);
+// 		++(*p_s);
+// 		return (TRUE);
+// 	}
+// 	else if (line[(*p_s) + 1] == '$')
+// 	{
+// 		if (list_add(p_var_idxs_to_exp, *p_var_idx) == FAILURE)
+// 			return (FAILURE);
+// 		*p_var_idx += 2;
+// 		(*p_s) += 2;
+// 		return (TRUE);
+// 	}
+// 	return (FALSE);
+// }
+
 static int	handle_if_special_case(\
 char *line, int *p_s, int *p_var_idx, t_list_int **p_var_idxs_to_exp)
 {
@@ -46,10 +67,8 @@ char *line, int *p_s, int *p_var_idx, t_list_int **p_var_idxs_to_exp)
 	}
 	else if (line[(*p_s) + 1] == '$')
 	{
-		if (list_add(p_var_idxs_to_exp, *p_var_idx) == FAILURE)
-			return (FAILURE);
-		*p_var_idx += 2;
-		(*p_s) += 2;
+		*p_var_idx += 1;
+		(*p_s) += 1;
 		return (TRUE);
 	}
 	return (FALSE);
