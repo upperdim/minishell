@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 06:11:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/23 02:14:21 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/23 03:04:04 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void	handle_redirs(t_tokenizer_vars *v)
 	Inputs:
 	- line              : input line
 	- i                 : current index in the line
-	- idx_dist_to_quote : adding this to `i` should give index of the opening quote
+	- idx_dist_to_quote : adding this to `i` should give index of the opening 
+	quote
 
 	Outputs:
 	- curr_token_val : updated current token value
