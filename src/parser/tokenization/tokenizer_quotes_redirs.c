@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 06:11:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 19:48:38 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/23 02:14:21 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ t_tokenizer_vars *v, char redir_type, int single_or_double)
 		else if (single_or_double == 2)
 			new_type = HERE_DOC;
 	}
-	add_token(v->p_head, new_type, new_val, v);
-	free(new_val);
+	add_token_free_val(v->p_head, new_type, new_val, v);
 }
 
 void	handle_redirs(t_tokenizer_vars *v)

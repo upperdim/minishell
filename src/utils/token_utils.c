@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:49:08 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/22 19:41:58 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/23 02:15:30 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,43 @@ t_token **head_ptr, t_token_type type, char *val, t_tokenizer_vars *v)
 		last->next = new;
 		new->prev = last;
 	}
+}
+
+static void	add_tok_free_val_handle_failure(\
+t_token **head_ptr, t_exp_idxs *free_on_err, char *line, char *val)
+{
+	if (val != NULL)
+		free(val);
+	ft_free_link_list(*head_ptr);
+	exit_free_exp_idxs(ERR_MSG_MALLOC, free_on_err, line);
+}
+
+void	add_token_free_val(\
+t_token **head_ptr, t_token_type type, char *val, t_tokenizer_vars *v)
+{
+	t_token	*last;
+	t_token	*new;
+
+	new = (t_token *) malloc(1 * sizeof(t_token));
+	if (new == NULL)
+		add_tok_free_val_handle_failure(head_ptr, v->free_on_err, v->line, val);
+	new->type = type;
+	new->value = ft_strdup(val);
+	if (new->value == NULL)
+		add_tok_free_val_handle_failure(head_ptr, v->free_on_err, v->line, val);
+	new->next = NULL;
+	if (*head_ptr == NULL)
+	{
+		*head_ptr = new;
+		new->prev = NULL;
+	}
+	else
+	{
+		last = token_list_get_last(*head_ptr);
+		last->next = new;
+		new->prev = last;
+	}
+	free(val);
 }
 
 void	ft_free_link_list(t_token *split)
