@@ -6,13 +6,13 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/23 02:43:51 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/23 02:50:36 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_if_special_case(t_var_exp_vars *v)
+static int	handle_if_special_case(t_var_exp_vars *v)
 {
 	if (handle_if_double_dollar(v))
 	{
@@ -28,6 +28,29 @@ int	handle_if_special_case(t_var_exp_vars *v)
 		return (TRUE);
 	}
 	return (FALSE);
+}
+
+static int	handle_string(t_var_exp_vars *v)
+{
+	v->tok_val_len = ft_strlen(v->iter->value);
+	v->i = -1;
+	while (++(v->i) < v->tok_val_len)
+	{
+		if (v->iter->value[v->i] == '$')
+		{
+			v->ret = handle_if_special_case(v);
+			if (v->ret == FAILURE)
+				return (FAILURE);
+			else if (v->ret == FALSE)
+			{
+				v->ret = handle_if_will_be_expanded(v);
+				if (v->ret == FAILURE)
+					return (FAILURE);
+			}
+			++v->var_idx;
+		}
+	}
+	return (SUCCESS);
 }
 
 static void	var_expansion_vars_init(\
@@ -56,20 +79,8 @@ int	expand_var(t_token *token_list, t_exp_idxs	*exp_idxs, char *line)
 	{
 		if (v.iter->type == STRING)
 		{
-			v.tok_val_len = ft_strlen(v.iter->value);
-			v.i = -1;
-			while (++(v.i) < v.tok_val_len)
-			{
-				if (v.iter->value[v.i] == '$')
-				{
-					v.ret = handle_if_special_case(&v);
-					if (v.ret == FAILURE)
-						return (FAILURE);
-					else if (v.ret == FALSE)
-						handle_if_will_be_expanded(&v);
-					++v.var_idx;
-				}
-			}
+			if (handle_string(&v) == FAILURE)
+				return (FAILURE);
 		}
 		v.iter = v.iter->next;
 	}
