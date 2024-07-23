@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/21 18:12:37 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:56:31 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,6 @@ int		setup_in_pipe(int p_fd[2]);
 int		setup_out_pipe(int p_fd[2]);
 void	wait_and_set_exit_status(pid_t pid, t_cmd *cmd);
 int		exec(t_token *token);
+char	*expand_heredoc(char *line);
 
 #endif

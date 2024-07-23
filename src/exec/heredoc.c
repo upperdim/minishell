@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 16:00:51 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/19 20:56:26 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:03:21 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,16 @@ static char	*get_here_doc(char *limiter)
 			break ;
 		if (check_limiter(line_stdin, limiter) == true)
 			break ;
-		tmp = ft_strjoin(line, line_stdin);
+		tmp = expand_heredoc(line_stdin);
 		ft_free_n_null((void **)&line_stdin);
-		ft_free_n_null((void **)&line);
 		if (tmp == NULL)
+			return (ft_free_n_null((void **)&line), NULL);
+		line_stdin = ft_strjoin(line, tmp);
+		ft_free_n_null((void **)&tmp);
+		ft_free_n_null((void **)&line);
+		if (line_stdin == NULL)
 			return (ft_printf_fd(2, ERROR_MSG, "heredoc", E_ALLOC), NULL);
-		line = tmp;
+		line = line_stdin;
 	}
 	return (ft_free_n_null((void **)&line_stdin), line);
 }

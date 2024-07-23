@@ -29,7 +29,8 @@ UTILS_FILES = signal_handler.c prompt.c exit_error.c env_utils.c token_utils.c\
 	list_int.c str_utils.c str_append.c ft_atol.c
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 
-EXEC_FILES = exec.c exec_utils.c heredoc.c divide_tokens.c redirections.c
+EXEC_FILES = exec.c exec_utils.c heredoc.c divide_tokens.c redirections.c\
+	heredoc_expansion.c
 EXEC = $(addprefix exec/, $(EXEC_FILES))
 
 _EXPANSION = exp_tilda.c exp_var.c
