@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 22:55:14 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/23 02:33:06 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_tokenizer_vars
 	t_exp_idxs	*free_on_err;
 }	t_tokenizer_vars;
 
-typedef struct	s_var_exp_vars
+typedef struct s_var_exp_vars
 {
 	int			list_size;
 	int			var_idx;
@@ -86,7 +86,7 @@ typedef struct	s_var_exp_vars
 	int			ret;
 }	t_var_exp_vars;
 
-typedef struct	s_merge_quote_vars
+typedef struct s_merge_quote_vars
 {
 	int			i;
 	t_token		*token_list;
@@ -116,11 +116,16 @@ char *line, t_list_int **p_var_idxs, int s, int var_idx);
 void	expand_tilda(t_token *token_list, t_exp_idxs *exp_idxs, char *line);
 int		expand_var(t_token *token_list, t_exp_idxs	*exp_idxs, char *line);
 
+int		handle_if_should_fail(\
+t_token	*curr_tok, char *env_var_name, char *env_var_result);
+int		handle_if_double_dollar(t_var_exp_vars *v);
+int		handle_if_dollar_questionmark(t_var_exp_vars *v);
+void	exit_error_env_var(t_var_exp_vars *v);
+int		handle_if_will_be_expanded(t_var_exp_vars *v);
+
 // Variable expansion utils
 int		is_valid_var_exp_char(char c);
 int		is_prev_here_doc(t_token *tok);
-void	replace_tok_val_section(\
-t_token *tok, int s, int e, char *replace_with, int *p_value_len);
 
 // String append wrappers for tokenization
 void	str_append_tok(char **p_str, char *to_append, t_tokenizer_vars *v);

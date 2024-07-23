@@ -13,6 +13,7 @@ PARSER_FILES	= parser.c\
 					expansion/tilda/exp_tilda.c \
 					expansion/tilda/detect_tilda.c\
 					expansion/var/exp_var.c \
+					expansion/var/exp_var2.c \
 					expansion/var/detect_var.c\
 					expansion/var/var_utils.c\
 					tokenization/tokenizer.c \
