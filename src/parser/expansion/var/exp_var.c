@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 03:06:31 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/23 02:30:05 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/23 02:43:51 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int	handle_if_special_case(t_var_exp_vars *v)
 {
-	if (!handle_if_double_dollar(v))
+	if (handle_if_double_dollar(v))
 	{
-		++v->i;
-		++v->var_idx;
 		return (TRUE);
 	}
 	v->ret = handle_if_dollar_questionmark(v);
