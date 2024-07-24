@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:18:14 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 15:19:49 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:11:46 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,33 @@ static int	print_env(void)
 	return (EXIT_SUCCESS);
 }
 
+static char	*handle_plus_equals(char *arg)
+{
+	char		*plus_sign;
+	char		*equal_sign;
+	char		*value;
+	char		*new_value;
+	char		*new_arg;
+
+	plus_sign = ft_strchr(arg, '+');
+	equal_sign = ft_strchr(arg, '=');
+	if (plus_sign == NULL || plus_sign[1] != '=' || equal_sign < plus_sign)
+		return (arg);
+	plus_sign[0] = '\0';
+	value = getenv(arg);
+	new_value = ft_strjoin(value, plus_sign + 2);
+	if (new_value == NULL)
+		return (ft_printf_fd(2, ERROR_MSG, "export", E_ALLOC), NULL);
+	plus_sign[0] = '=';
+	plus_sign[1] = '\0';
+	new_arg = ft_strjoin(arg, new_value);
+	ft_free_n_null((void **)&new_value);
+	ft_free_n_null((void **)&arg);
+	if (new_arg == NULL)
+		return (ft_printf_fd(2, ERROR_MSG, "export", E_ALLOC), NULL);
+	return (new_arg);
+}
+
 int	export(const int argc, char **argv)
 {
 	int		i;
@@ -86,8 +113,11 @@ int	export(const int argc, char **argv)
 			exit_status = EXIT_FAILURE;
 		}
 		else
-			if (add_env_var(argv[i]) == EXIT_FAILURE)
+		{
+			argv[i] = handle_plus_equals(argv[i]);
+			if (argv[i] == NULL || add_env_var(argv[i]) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
+		}
 	}
 	return (exit_status);
 }
