@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/24 19:48:58 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:14:22 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,9 @@ char	**transform_to_array(t_token *token);
 char	*find_path_to(char *cmd);
 int		setup_in_pipe(int p_fd[2]);
 int		setup_out_pipe(int p_fd[2]);
-void	wait_and_set_exit_status(pid_t pid, t_cmd *cmd);
+void	wait_and_set_exit_status(t_cmd *cmd);
 int		exec(t_token *token);
 char	*expand_heredoc(char *line);
+void	close_innecessary_pipes(t_cmd *cmd);
 
 #endif

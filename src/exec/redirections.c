@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 20:50:26 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/20 16:21:28 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:14:15 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,7 @@ int	do_all_redirections(t_cmd *cmd)
 	}
 	if (set_other_redirections(cmd->redirects))
 		return (EXIT_FAILURE);
+	if (is_builtin(cmd->argv[0]) == false)
+		close_innecessary_pipes(cmd);
 	return (EXIT_SUCCESS);
 }

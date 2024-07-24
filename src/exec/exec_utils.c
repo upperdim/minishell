@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/24 18:43:21 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:56:44 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,16 +113,21 @@ char	*find_path_to(char *cmd)
 	return (abs_path_cmd);
 }
 
-void	wait_and_set_exit_status(pid_t pid, t_cmd *cmd)
+void	wait_and_set_exit_status(t_cmd *cmd)
 {
-	int	status;
+	int			status;
+	extern int	errno;
 
-	if (waitpid(pid, &status, WUNTRACED) == -1)
-		return (free_cmd(&cmd), exit_perror(WEXITSTATUS(status)));
-	if (WIFEXITED(status))
-		set_last_process_exit_code(WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-		set_last_process_exit_code(WTERMSIG(status) + 128);
-	ft_close(&cmd->pipe[PIPE_FD_READ]);
-	ft_close(&cmd->pipe[PIPE_FD_WRITE]);
+	while (cmd != NULL)
+	{
+		if (waitpid(-1, &status, WUNTRACED) == -1 && errno != ECHILD)
+			return (free_cmd(&cmd), exit_perror(WEXITSTATUS(status)));
+		if (errno == ECHILD)
+			break ;
+		if (WIFEXITED(status))
+			set_last_process_exit_code(WEXITSTATUS(status));
+		else if (WIFSIGNALED(status))
+			set_last_process_exit_code(WTERMSIG(status) + 128);
+		cmd = cmd->next;
+	}
 }
