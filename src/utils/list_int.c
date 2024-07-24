@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_int.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:30:55 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 06:49:18 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/24 16:30:23 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	list_add(t_list_int **head_ptr, int val)
 	new = (t_list_int *) malloc(1 * sizeof(t_list_int));
 	if (new == NULL)
 		return (FAILURE);
-	
 	new->val = val;
 	new->next = NULL;
 	if (*head_ptr == NULL)
@@ -48,24 +47,6 @@ int	list_add(t_list_int **head_ptr, int val)
 		new->prev = last;
 	}
 	return (SUCCESS);
-}
-
-void	list_print(t_list_int *head)
-{
-	t_list_int	*iter;
-
-	if (head == NULL)
-	{
-		printf("<null node>\n");
-		return ;
-	}
-	iter = head;
-	while (iter != NULL)
-	{
-		printf("%d ", iter->val);
-		iter = iter->next;
-	}
-	printf("\n");
 }
 
 /* Return number of elements the list has. */
