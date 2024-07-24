@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/23 02:33:06 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/24 19:04:18 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,18 @@ typedef struct s_merge_quote_vars
 	char		*line;
 }	t_merge_quotes_vars;
 
+typedef struct s_detect_var_exp_vars
+{
+	char		*line;
+	t_list_int	**p_var_idxs;
+	int			s;
+	int			e;
+	int			var_idx;
+	int			in_single_quote;
+	int			in_double_quote;
+	int			ret;
+}	t_detect_var_exp_vars;
+
 // Parsing
 t_token	*parse(char *line);
 t_token	*tokenize(char *line, t_exp_idxs *exp_idxs);
@@ -109,8 +121,7 @@ t_tokenizer_vars *v, char redir_type, int single_or_double);
 
 // Expansion detections
 int		detect_tld_exp(char *line, int len, t_list_int **p_tld_idxs);
-int		detect_var_exp(\
-char *line, t_list_int **p_var_idxs, int s, int var_idx);
+int		detect_var_exp(char *line, t_list_int **p_var_idxs);
 
 // Expansions
 void	expand_tilda(t_token *token_list, t_exp_idxs *exp_idxs, char *line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/24 16:19:00 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:04:55 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_token	*parse(char *line)
 	exp_idxs.var_idxs = NULL;
 	if (detect_tld_exp(line, ft_strlen(line), &exp_idxs.tld_idxs) == FAILURE)
 		exit_free_exp_idxs(ERR_MSG_MALLOC, &exp_idxs, line);
-	if (detect_var_exp(line, &exp_idxs.var_idxs, 0, 0) == FAILURE)
+	if (detect_var_exp(line, &exp_idxs.var_idxs) == FAILURE)
 		exit_free_exp_idxs(ERR_MSG_MALLOC, &exp_idxs, line);
 	token_list = tokenize(line, &exp_idxs);
 	if (!check_token_rules(token_list))

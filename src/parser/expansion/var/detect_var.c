@@ -6,56 +6,41 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 00:07:23 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 08:32:34 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/24 19:17:41 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_eligible_for_exp(char *line, int *s, int *in_quote, int *var_idx)
+static int	is_eligible_for_exp(t_detect_var_exp_vars *v)
 {
-	if (line[*s] == '\'')
+	if (v->line[v->s] == '\'')
 	{
-		*in_quote = !(*in_quote);
-		return (++(*s), FALSE);
+		v->in_single_quote = !(v->in_single_quote);
+		return (v->s++, FALSE);
 	}
-	if (line[*s] != '$')
-		return (++(*s), FALSE);
-	if (*in_quote)
+	if (v->line[v->s] == '\"')
 	{
-		++(*var_idx);
-		return (++(*s), FALSE);
+		v->in_double_quote = !(v->in_double_quote);
+		return (v->s++, FALSE);
 	}
-	if (ft_isdigit(line[*s + 1]))
+	if (v->line[v->s] != '$')
+		return (v->s++, FALSE);
+	if (!v->in_double_quote && v->in_single_quote)
 	{
-		(*s) += 2;
-		return (++(*var_idx), FALSE);
+		v->var_idx++;
+		return (v->s++, FALSE);
+	}
+	if (ft_isdigit(v->line[v->s + 1]))
+	{
+		(v->s) += 2;
+		return (v->var_idx++, FALSE);
 	}
 	return (TRUE);
 }
 
-// static int	handle_if_special_case(
-// char *line, int *p_s, int *p_var_idx, t_list_int **p_var_idxs_to_exp)
-// {
-// 	if (line[(*p_s) + 1] == '?')
-// 	{
-// 		if (list_add(p_var_idxs_to_exp, *p_var_idx) == FAILURE)
-// 			return (FAILURE);
-// 		++(*p_s);
-// 		return (TRUE);
-// 	}
-// 	else if (line[(*p_s) + 1] == '$')
-// 	{
-// 		if (list_add(p_var_idxs_to_exp, *p_var_idx) == FAILURE)
-// 			return (FAILURE);
-// 		*p_var_idx += 2;
-// 		(*p_s) += 2;
-// 		return (TRUE);
-// 	}
-// 	return (FALSE);
-// }
-
-static int	handle_if_special_case(\
+/*
+static int	handle_if_special_case(
 char *line, int *p_s, int *p_var_idx, t_list_int **p_var_idxs_to_exp)
 {
 	if (line[(*p_s) + 1] == '?')
@@ -67,42 +52,69 @@ char *line, int *p_s, int *p_var_idx, t_list_int **p_var_idxs_to_exp)
 	}
 	else if (line[(*p_s) + 1] == '$')
 	{
-		*p_var_idx += 1;
-		(*p_s) += 1;
+		if (list_add(p_var_idxs_to_exp, *p_var_idx) == FAILURE)
+			return (FAILURE);
+		*p_var_idx += 2;
+		(*p_s) += 2;
+		return (TRUE);
+	}
+	return (FALSE);
+}
+*/
+
+static int	handle_if_special_case(t_detect_var_exp_vars *v)
+{
+	if (v->line[v->s + 1] == '?')
+	{
+		if (list_add(v->p_var_idxs, v->var_idx) == FAILURE)
+			return (FAILURE);
+		v->s++;
+		return (TRUE);
+	}
+	else if (v->line[v->s + 1] == '$')
+	{
+		v->var_idx++;
+		v->s++;
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
-/*
-	`s` was defined here for norm complience.
-	It's not a real variable, it initially must always be received as 0.
-*/
-int	detect_var_exp(\
-char *line, t_list_int **p_var_idxs_to_exp, int s, int var_idx)
+static void	init_vars(\
+t_detect_var_exp_vars *v, char *line, t_list_int **p_var_idxs)
 {
-	int	e;
-	int	is_in_single_quote;
-	int	ret;
+	v->line = line;
+	v->p_var_idxs = p_var_idxs;
+	v->s = 0;
+	v->e = 0;
+	v->var_idx = 0;
+	v->in_single_quote = FALSE;
+	v->in_double_quote = FALSE;
+	v->ret = 0;
+}
 
-	is_in_single_quote = FALSE;
-	while (line[s] != '\0')
+int	detect_var_exp(char *line, t_list_int **p_var_idxs_to_exp)
+{
+	t_detect_var_exp_vars	v;
+
+	init_vars(&v, line, p_var_idxs_to_exp);
+	while (v.line[v.s] != '\0')
 	{
-		if (!is_eligible_for_exp(line, &s, &is_in_single_quote, &var_idx))
+		if (!is_eligible_for_exp(&v))
 			continue ;
-		ret = handle_if_special_case(line, &s, &var_idx, p_var_idxs_to_exp);
-		if (ret == FAILURE)
+		v.ret = handle_if_special_case(&v);
+		if (v.ret == FAILURE)
 			return (FAILURE);
-		else if (ret == TRUE)
+		else if (v.ret == TRUE)
 			continue ;
-		e = s + 1;
-		while (is_valid_var_exp_char(line[e]))
-			++e;
-		if (e != s + 1)
-			if (list_add(p_var_idxs_to_exp, var_idx) == FAILURE)
+		v.e = v.s + 1;
+		while (is_valid_var_exp_char(v.line[v.e]))
+			v.e++;
+		if (v.e != v.s + 1)
+			if (list_add(v.p_var_idxs, v.var_idx) == FAILURE)
 				return (FAILURE);
-		s = e;
-		++var_idx;
+		v.s = v.e;
+		v.var_idx++;
 	}
 	return (SUCCESS);
 }
