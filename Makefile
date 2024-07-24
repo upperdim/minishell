@@ -30,7 +30,7 @@ UTILS_FILES = signal_handler.c prompt.c exit_error.c env_utils.c token_utils.c\
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 
 EXEC_FILES = exec.c exec_utils.c heredoc.c divide_tokens.c redirections.c\
-	heredoc_expansion.c
+	heredoc_expansion.c redirection_utils.c
 EXEC = $(addprefix exec/, $(EXEC_FILES))
 
 _EXPANSION_TILDA = detect_tilda.c exp_tilda.c

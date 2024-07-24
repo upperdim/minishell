@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/24 18:33:17 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:09:40 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,10 @@ int	exec(t_token *token)
 		pid = execute_cmd(cmd);
 		if (pid == EXIT_FAILURE)
 			return (free_cmd(&cmd), EXIT_FAILURE);
-		if (pid != BUILTIN_EXECUTED)
-			wait_and_set_exit_status(pid, cmd);
+		ft_close(&cmd->pipe[PIPE_FD_READ]);
+		ft_close(&cmd->pipe[PIPE_FD_WRITE]);
 		cmd = cmd->next;
 	}
+	wait_and_set_exit_status((t_cmd *)head_cmd);
 	return (unlink(HEREDOC_FILE), free_cmd((t_cmd **)&head_cmd), EXIT_SUCCESS);
 }
