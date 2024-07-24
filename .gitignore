@@ -23,3 +23,5 @@ tests/logs/minishell_builtins_results.log
 tests/logs/result_parser.log
 tests/logs/valgrind_*.log
 mstest/
+readline.supp
+tests_parser/*
