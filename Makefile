@@ -26,7 +26,7 @@ BUILTIN_FILES = cd.c pwd.c echo.c env.c export.c unset.c exit.c builtins.c\
 BUILTINS = $(addprefix builtins/, $(BUILTIN_FILES))
 
 UTILS_FILES = signal_handler.c prompt.c exit_error.c env_utils.c token_utils.c\
-	list_int.c str_utils.c str_append.c ft_atol.c
+	list_int.c str_utils.c str_append.c ft_atol.c add_token_utils.c
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 
 EXEC_FILES = exec.c exec_utils.c heredoc.c divide_tokens.c redirections.c\
