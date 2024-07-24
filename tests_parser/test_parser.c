@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 20:27:01 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/24 18:53:31 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,24 @@ void	token_list_print(t_token *head)
 	while (iter != NULL)
 	{
 		printf("type = %-12s, val = {%s}\n", enum_names[iter->type], iter->value);
+		iter = iter->next;
+	}
+	printf("\n");
+}
+
+void	list_print(t_list_int *head)
+{
+	t_list_int	*iter;
+
+	if (head == NULL)
+	{
+		printf("<null node>\n");
+		return ;
+	}
+	iter = head;
+	while (iter != NULL)
+	{
+		printf("%d ", iter->val);
 		iter = iter->next;
 	}
 	printf("\n");
