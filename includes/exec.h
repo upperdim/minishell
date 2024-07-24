@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/23 12:56:31 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:48:58 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 # define HEREDOC_FILE ".here_doc.tmp"
 # define E_ALLOC "Error allocating memory"
-# define E_EXPORT "minishell: export: %s: not a valid identifier\n"
+# define E_EXPORT "minishell: export: `%s': not a valid identifier\n"
 
 /*
 ERROR_MSG_PERROR is meant to be used with ft_printf_fd and expects one string to
