@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:26:29 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/23 01:50:11 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/24 16:19:00 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	parser_cleanup(t_exp_idxs *exp_idxs)
 static void	free_tok_lst_exp_idxs(\
 t_token *token_list, t_exp_idxs *exp_idxs)
 {
-	ft_free_link_list(token_list);
+	free_tokens(token_list);
 	parser_cleanup(exp_idxs);
 }
 

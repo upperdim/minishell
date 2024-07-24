@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:49:08 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/23 02:15:30 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/24 16:23:25 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_token	*token_list_get_last(t_token *list)
 static void	add_token_handle_failure(\
 t_token **head_ptr, t_exp_idxs *free_on_err, char *line)
 {
-	ft_free_link_list(*head_ptr);
+	free_tokens(*head_ptr);
 	exit_free_exp_idxs(ERR_MSG_MALLOC, free_on_err, line);
 }
 
@@ -155,7 +155,7 @@ t_token **head_ptr, t_exp_idxs *free_on_err, char *line, char *val)
 {
 	if (val != NULL)
 		free(val);
-	ft_free_link_list(*head_ptr);
+	free_tokens(*head_ptr);
 	exit_free_exp_idxs(ERR_MSG_MALLOC, free_on_err, line);
 }
 

@@ -33,13 +33,20 @@ EXEC_FILES = exec.c exec_utils.c heredoc.c divide_tokens.c redirections.c\
 	heredoc_expansion.c
 EXEC = $(addprefix exec/, $(EXEC_FILES))
 
-_EXPANSION = exp_tilda.c exp_var.c
+_EXPANSION_TILDA = detect_tilda.c exp_tilda.c
+EXPANSION_TILDA = $(addprefix tilda/, $(_EXPANSION_TILDA))
+
+_EXPANSION_VAR = exp_var.c exp_var2.c var_utils.c detect_var.c
+EXPANSION_VAR = $(addprefix var/, $(_EXPANSION_VAR))
+
+_EXPANSION = $(EXPANSION_TILDA) $(EXPANSION_VAR)
 EXPANSION = $(addprefix expansion/, $(_EXPANSION))
 
-_TOKENIZER = tokenizer.c token_rules.c
+_TOKENIZER = tokenizer.c token_rules.c tokenizer_quotes_redirs.c\
+	str_append_tok.c
 TOKENIZER = $(addprefix tokenization/, $(_TOKENIZER))
 
-PARSER_FILES = parser.c merge_quotes.c $(EXPANSION) $(TOKENIZER)
+PARSER_FILES = parser.c merge_quotes.c exit_error.c $(EXPANSION) $(TOKENIZER)
 PARSER = $(addprefix parser/, $(PARSER_FILES))
 
 _SRC = main.c $(EXEC) $(PARSER) $(BUILTINS) $(UTILS)
@@ -54,7 +61,8 @@ OBJ = $(SRC:src/%.c=bin/%.o)
 bin:
 	@mkdir -p bin/builtins\
 		bin/exec\
-		bin/parser/expansion\
+		bin/parser/expansion/tilda\
+		bin/parser/expansion/var\
 		bin/parser/tokenization\
 		bin/utils
 
