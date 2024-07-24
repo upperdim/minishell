@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/21 17:24:30 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:46:29 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_execve(t_cmd *cmd)
 		exit_error(NULL, 0);
 	cmd_path = cmd->argv[0];
 	if (access (cmd->argv[0], F_OK) || (ft_strncmp(cmd->argv[0], "./", 2 != 0)
-			&& ft_strncmp(cmd->argv[0], "../", 3) != 0))
+			&& ft_strncmp(cmd->argv[0], "../", 3) != 0 && **cmd->argv != '/'))
 		cmd_path = find_path_to(cmd->argv[0]);
 	if (ft_strnstr(cmd->argv[0], "./minishell", ft_strlen(cmd->argv[0])))
 		set_signal_handlers_mode(HEREDOC);
