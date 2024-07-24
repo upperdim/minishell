@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:20:20 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 19:45:08 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:14:22 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 # define HEREDOC_FILE ".here_doc.tmp"
 # define E_ALLOC "Error allocating memory"
-# define E_EXPORT "minishell: export: %s: not a valid identifier\n"
+# define E_EXPORT "minishell: export: `%s': not a valid identifier\n"
 
 /*
 ERROR_MSG_PERROR is meant to be used with ft_printf_fd and expects one string to
@@ -53,6 +53,17 @@ enum	e_fd
 	ORIGINAL_STDERR
 };
 
+enum	e_builtin
+{
+	CD,
+	ECHO_BUILTIN,
+	ENV,
+	EXPORT,
+	PWD,
+	EXIT,
+	UNSET
+};
+
 typedef struct s_cmd
 {
 	char			**argv;
@@ -67,10 +78,10 @@ typedef struct s_cmd
 // Token utilities
 t_token	*dup_token(t_token *token);
 t_token	*isolate_token(t_token **token);
-void	add_token_last(t_token **head, t_token **new);
+int		add_token_last(t_token **head, t_token **new);
 
 // Parsing utilities
-void	ft_free_link_list(t_token *split);
+void	free_tokens(t_token *split);
 
 // Execution utilities
 int		count_strs_in_array(char **argv);
@@ -84,5 +95,13 @@ int		is_key_valid(char *key);
 t_cmd	*divide_tokens(t_token *token);
 bool	is_builtin(const char *cmd);
 char	**transform_to_array(t_token *token);
+
+char	*find_path_to(char *cmd);
+int		setup_in_pipe(int p_fd[2]);
+int		setup_out_pipe(int p_fd[2]);
+void	wait_and_set_exit_status(t_cmd *cmd);
+int		exec(t_token *token);
+char	*expand_heredoc(char *line);
+void	close_innecessary_pipes(t_cmd *cmd);
 
 #endif

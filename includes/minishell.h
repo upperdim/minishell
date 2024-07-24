@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/10 15:01:08 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/23 02:14:10 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,51 +29,70 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 # include <errno.h>
-
-# ifdef COLOR
-
-#  ifndef CYAN
-#   define CYAN "\x1b[38;5;14m"
-#  endif
-#  ifndef BLUE
-#   define BLUE "\x1b[38;5;32m"
-#  endif
-#  ifndef WHITE
-#   define WHITE "\x1b[0m"
-#  endif
-
-# else
-
-#  ifndef CYAN
-#   define CYAN ""
-#  endif
-#  ifndef BLUE
-#   define BLUE ""
-#  endif
-#  ifndef WHITE
-#   define WHITE ""
-#  endif
-
-# endif 
+# include <limits.h>
 
 /* ft_free_2d_arrays frees arrays of any size with this argument */
 # define FREE_ANY_SIZE -1
 
-// ** ---------------------------- FUNCTIONS ---------------------------- ** //
+# define TRUE 1
+# define FALSE 0
+# define SUCCESS 2
+# define FAILURE -1
+
+enum e_signal_mode
+{
+	INTERACTIVE,
+	EXECUTION,
+	HEREDOC
+};
 
 void	ft_execve(t_cmd *cmd);
 char	*get_prompt(void);
-void	set_signal_handlers(void);
+void	set_signal_handlers_mode(enum e_signal_mode mode);
+char	**dup_environ(void);
+
+/* ****************************************************************************/
+/*                                   UTILS                                    */
+/* ****************************************************************************/
+// String
+int		strlen_null(const char *s);
+char	*str_sub(char *s, int start_idx, int end_idx);
+int		str_is_numeric(char *str);
+int		str_findc_idx(char *s, int search_start_idx, char search_char);
+int		str_replace_section(\
+char **p_str, int start, int end, char *replace_with);
+
+// String append
+int		str_append(char **p_str, char *to_append);
+int		str_appendc(char **p_str, char char_to_append);
+int		str_append_free(char **p_str, char *to_append_and_free);
+
+// Int list
+int		list_add(t_list_int **head_ptr, int val);
+void	list_print(t_list_int *head);
+int		list_get_size(t_list_int *head);
+int		list_get_idx(t_list_int *head, int idx);
+void	list_int_free_all(t_list_int *head);
+
+// Token list
+void	add_token(\
+t_token **head_ptr, t_token_type type, char *val, t_tokenizer_vars *v);
+void	add_token_free_val(\
+t_token **head_ptr, t_token_type type, char *val, t_tokenizer_vars *v);
+void	token_list_print(t_token *head);
+t_token	*token_list_get_last(t_token *list);
+
+// Error management
 void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
-char	**dup_environ(void);
 
-// EXEC
-char	*find_path_to(char *cmd);
-int		setup_in_pipe(int p_fd[2]);
-int		setup_out_pipe(int p_fd[2]);
-// BUILTINS
+// Misc
+long	ft_atol(const char *str);
+
+/* ****************************************************************************/
+/*                                 BUILTINS                                   */
+/* ****************************************************************************/
 int		exec_builtins(t_cmd *cmd);
 int		echo(char **input);
 int		env(const int argc);

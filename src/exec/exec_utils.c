@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 19:40:11 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:56:44 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,37 +22,14 @@ void	free_cmd(t_cmd **cmd)
 	{
 		tmp = *cmd;
 		*cmd = (*cmd)->next;
-		if (tmp->argv)
+		if (tmp->argv && tmp->argv != (void *)1)
 			ft_free_2d_array((void ***)&tmp->argv, FREE_ANY_SIZE);
-		ft_free_link_list(tmp->strs);
-		ft_free_link_list(tmp->redirects);
+		free_tokens(tmp->strs);
+		free_tokens(tmp->redirects);
 		ft_close(&tmp->pipe[PIPE_FD_READ]);
 		ft_close(&tmp->pipe[PIPE_FD_WRITE]);
 		ft_free_n_null((void **)&tmp);
 	}
-}
-
-bool	is_builtin(const char *cmd)
-{
-	const char	*builtins[] = {"cd", "echo", "env", "exit", "export",
-		"pwd", "unset", NULL};
-	const char	*lowercase_cmd = dup_in_lowercase(cmd);
-	int			i;
-
-	if (lowercase_cmd == NULL)
-		return (-1);
-	i = -1;
-	while (builtins[++i] != NULL)
-	{
-		if (ft_strncmp(lowercase_cmd, builtins[i], ft_strlen(builtins[i]) + 1)
-			== 0)
-		{
-			ft_free_n_null((void **)&lowercase_cmd);
-			return (true);
-		}
-	}
-	ft_free_n_null((void **)&lowercase_cmd);
-	return (false);
 }
 
 char	**transform_to_array(t_token *token)
@@ -61,6 +38,8 @@ char	**transform_to_array(t_token *token)
 	int		argc;
 
 	argc = 1;
+	if (token == NULL)
+		return ((void *)1);
 	while (token->next != NULL && ++argc)
 		token = token->next;
 	argv = ft_calloc(argc + 1, sizeof(char *));
@@ -71,7 +50,10 @@ char	**transform_to_array(t_token *token)
 	argc = 0;
 	while (token != NULL)
 	{
-		argv[argc++] = ft_strdup(token->value);
+		if (token->value != NULL)
+			argv[argc++] = ft_strdup(token->value);
+		else
+			argv[argc++] = ft_strdup("");
 		token = token->next;
 	}
 	return (argv);
@@ -83,12 +65,10 @@ static char	**format_path(char *no_format_path)
 	char	*tmp;
 	int		i;
 
+	if (!no_format_path)
+		return (NULL);
 	i = 0;
-	tmp = ft_substr(no_format_path, 5, ft_strlen(no_format_path) - 5);
-	if (!tmp)
-		return (ft_printf_fd(2, ERROR_MSG, "exec", E_ALLOC), NULL);
-	env_path = ft_split(tmp, ':');
-	ft_free_n_null((void **)&tmp);
+	env_path = ft_split(no_format_path, ':');
 	if (!env_path)
 		return (ft_printf_fd(2, ERROR_MSG, "exec", E_ALLOC), NULL);
 	while (env_path[i])
@@ -116,6 +96,8 @@ char	*find_path_to(char *cmd)
 	i = 0;
 	abs_path_cmd = NULL;
 	env_path = format_path(getenv("PATH"));
+	if (!env_path)
+		return (NULL);
 	while (env_path[i] && !abs_path_cmd)
 	{
 		test_path = ft_strjoin(env_path[i], cmd);
@@ -127,5 +109,25 @@ char	*find_path_to(char *cmd)
 			ft_free_n_null((void **)&test_path);
 		i++;
 	}
+	ft_free_2d_array((void ***)&env_path, FREE_ANY_SIZE);
 	return (abs_path_cmd);
+}
+
+void	wait_and_set_exit_status(t_cmd *cmd)
+{
+	int			status;
+	extern int	errno;
+
+	while (cmd != NULL)
+	{
+		if (waitpid(-1, &status, WUNTRACED) == -1 && errno != ECHILD)
+			return (free_cmd(&cmd), exit_perror(WEXITSTATUS(status)));
+		if (errno == ECHILD)
+			break ;
+		if (WIFEXITED(status))
+			set_last_process_exit_code(WEXITSTATUS(status));
+		else if (WIFSIGNALED(status))
+			set_last_process_exit_code(WTERMSIG(status) + 128);
+		cmd = cmd->next;
+	}
 }

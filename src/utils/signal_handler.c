@@ -3,32 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 13:24:27 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/19 15:25:09 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:52:29 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	control_c(int sig)
+static void	interactive_mode_signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		write(1, "\n", 1);
+		ft_printf("\n");
 		rl_redisplay();
-	}
-	if (sig == SIGQUIT)
-	{
 	}
 	return ;
 }
 
-void	set_signal_handlers(void)
+static void	execution_signal_handler(int sig)
 {
-	signal(SIGINT, control_c);
-	signal(SIGQUIT, control_c);
+	if (sig == SIGINT)
+		ft_printf("\n");
+	if (sig == SIGQUIT)
+		ft_printf_fd(2, "Quit: 3\n");
+}
+
+void	set_signal_handlers_mode(enum e_signal_mode mode)
+{
+	if (mode == EXECUTION)
+	{
+		signal(SIGINT, execution_signal_handler);
+		signal(SIGQUIT, execution_signal_handler);
+	}
+	else if (mode == INTERACTIVE)
+	{
+		signal(SIGINT, interactive_mode_signal_handler);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == HEREDOC)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
 }

@@ -6,35 +6,11 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:39:22 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/06 19:34:43 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:46:05 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* Return whether string only consists of digits or not. */
-static int	str_is_numeric(char *str)
-{
-	size_t			i;
-	const size_t	len = ft_strlen(str);
-
-	if (str == NULL || len == 0)
-		return (0);
-	i = 0;
-	if (str[i] == '-')
-	{
-		if (len == 1)
-			return (0);
-		i ++;
-	}
-	while (str[i] != '\0')
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		++i;
-	}
-	return (1);
-}
 
 int	exit_bash(const int argc, t_cmd	*cmd)
 {
@@ -51,11 +27,12 @@ int	exit_bash(const int argc, t_cmd	*cmd)
 		errno = ft_atoi(cmd->argv[1]);
 	else if (argc == 2)
 	{
-		errno = 2;
+		errno = 255;
 		ft_printf_fd(2, ERROR_MSG_PERROR"%s: %s\n", "exit", cmd->argv[1],
 			"numeric argument required");
 	}
-	free_cmd((t_cmd **)&cmd);
+	if (cmd)
+		free_cmd((t_cmd **)&cmd);
 	clean_up();
 	exit((unsigned char)errno);
 }

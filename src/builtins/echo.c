@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:57:51 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/11 13:52:22 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:37:42 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ static int	check_for_n_flag(char **input)
 	if (ft_strncmp(input[1], "-n", 2) == 0)
 	{
 		i = 2;
-		while (input[1][i++] == 'n')
-			option_n = 1;
+		option_n = 1;
+		while (input[1][i] == 'n')
+			i++;
 		if (input[1][i] != '\0')
 			return (0);
 	}

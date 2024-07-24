@@ -6,28 +6,61 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/09 15:18:59 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:45:26 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	init_minishell(void)
+static int	init_pwd(void)
 {
 	extern char	**environ;
-	extern int	errno;
+	const char	*cwd = getcwd(NULL, 0);
+	char		*pwd_env_var;
+
+	if (cwd == NULL)
+		return (EXIT_FAILURE);
+	pwd_env_var = ft_strjoin("PWD=", cwd);
+	ft_free_n_null((void **)&cwd);
+	if (pwd_env_var == NULL)
+		return (ft_free_2d_array((void ***)&environ, -1), EXIT_FAILURE);
+	add_env_var(pwd_env_var);
+	ft_free_n_null((void **)&pwd_env_var);
+	return (EXIT_SUCCESS);
+}
+
+static int	init_terminal_options(void)
+{
+	struct termios	terminal_config;
+
+	tcgetattr(STDIN_FILENO, &terminal_config);
+	terminal_config.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, &terminal_config);
+	return (EXIT_SUCCESS);
+}
+
+static int	init_minishell(void)
+{
+	extern char		**environ;
+	extern int		errno;
 
 	errno = 0;
 	environ = dup_environ();
 	if (environ == NULL)
+		return (EXIT_FAILURE);
+	if (init_pwd())
+		return (EXIT_FAILURE);
+	if (init_terminal_options())
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
 static char	*get_input(void)
 {
-	char	*prompt;
-	char	*input;
+	extern char	**environ;
+	char		**prevent_leak;
+	char		*prompt;
+	char		*input;
 
 	prompt = get_prompt();
 	if (prompt == NULL)
@@ -37,7 +70,10 @@ static char	*get_input(void)
 			exit_error("minishell: Error allocating memory: malloc",
 				EXIT_FAILURE);
 	}
+	prevent_leak = environ;
 	input = readline(prompt);
+	if (prevent_leak != environ)
+		ft_free_n_null((void **)&prevent_leak);
 	ft_free_n_null((void **)&prompt);
 	return (input);
 }
@@ -46,6 +82,7 @@ int	main(void)
 {
 	char		*input;
 	extern int	errno;
+	t_token		*token_list;
 
 	if (init_minishell())
 	{
@@ -53,17 +90,17 @@ int	main(void)
 		return (EXIT_FAILURE);
 	}
 	input = NULL;
-	set_signal_handlers();
-	while (1)
+	while (errno == 0)
 	{
+		set_signal_handlers_mode(INTERACTIVE);
 		input = get_input();
 		if (input == NULL)
-			return (clean_up(), 0);
-		// parse_line(input);
-		if (input == NULL)
-			continue ;
+			return (exit_bash(1, NULL));
+		token_list = parse(input);
 		if (ft_strlen(input) > 0)
 			add_history(input);
+		set_signal_handlers_mode(EXECUTION);
+		errno = exec(token_list);
 		ft_free_n_null((void **)&input);
 	}
 	return (clean_up(), errno);

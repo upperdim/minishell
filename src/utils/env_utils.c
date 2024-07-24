@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:16:47 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 15:13:11 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:00:37 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ char	**dup_environ(void)
 	int			env_var_count;
 	char		**new_env;
 
-	env_var_count = 0;
-	while (environ[env_var_count])
-		env_var_count++;
+	env_var_count = count_strs_in_array(environ);
 	new_env = ft_calloc(env_var_count + 1, sizeof(char *));
 	if (!new_env)
 		return (NULL);
@@ -29,7 +27,7 @@ char	**dup_environ(void)
 	{
 		new_env[env_var_count] = ft_strdup(environ[env_var_count]);
 		if (!new_env[env_var_count])
-			return (ft_free_2d_array((void ***)&new_env, -1), NULL);
+			return (ft_free_2d_array((void ***)&new_env, FREE_ANY_SIZE), NULL);
 		env_var_count++;
 	}
 	return (new_env);
@@ -50,7 +48,8 @@ static int	make_env_bigger(char *var)
 		new_environ[i] = environ[i];
 	new_environ[i] = ft_strdup(var);
 	if (new_environ[i] == NULL)
-		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC), EXIT_FAILURE);
+		return (ft_printf_fd(2, ERROR_MSG, "env", E_ALLOC),
+			ft_free_2d_array((void ***)&new_environ, -1), EXIT_FAILURE);
 	ft_free_n_null((void **)&environ);
 	environ = new_environ;
 	return (EXIT_SUCCESS);
@@ -79,10 +78,8 @@ int	add_env_var(char *var)
 
 	if (key == NULL)
 		return (EXIT_FAILURE);
-	if (getenv(key) == NULL)
-		return (ft_free_n_null((void **)&key), make_env_bigger(var));
 	i = -1;
-	while (environ[++i])
+	while (environ[++i] && ft_strchr(var, '=') != NULL)
 	{
 		if (have_same_key(key, environ[i]) == true)
 		{
@@ -96,6 +93,9 @@ int	add_env_var(char *var)
 			break ;
 		}
 	}
+	if (getenv(key) == NULL
+		&& (environ[i] == NULL || ft_strchr(var, '=') == NULL))
+		return (ft_free_n_null((void **)&key), make_env_bigger(var));
 	return (ft_free_n_null((void **)&key), EXIT_SUCCESS);
 }
 

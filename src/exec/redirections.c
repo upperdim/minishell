@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 20:50:26 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 15:16:39 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:14:15 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	set_other_redirections(t_token *redir)
 		else if (redir->type == HERE_DOC)
 			fd = open(HEREDOC_FILE, O_RDONLY, 0644);
 		if (fd == -1)
-			return (ft_putstr_fd("minishell: Error opening file\n", 2), 1);
+			return (ft_printf_fd(2, ERROR_MSG_PERROR, file), perror(NULL), 1);
 		if (dup2(fd, original_fd) == -1)
 			return (ft_printf_fd(2, "minishell: %d: Bad file descriptor\n",
 					original_fd), ft_close(&fd), 1);
@@ -97,8 +97,6 @@ int	do_all_redirections(t_cmd *cmd)
 {
 	int	ret;
 
-	if (check_if_heredoc(cmd->redirects))
-		return (EXIT_FAILURE);
 	if (cmd->pipe[PIPE_FD_READ] != 0)
 	{
 		ret = setup_in_pipe(cmd->pipe);
@@ -113,5 +111,7 @@ int	do_all_redirections(t_cmd *cmd)
 	}
 	if (set_other_redirections(cmd->redirects))
 		return (EXIT_FAILURE);
+	if (is_builtin(cmd->argv[0]) == false)
+		close_innecessary_pipes(cmd);
 	return (EXIT_SUCCESS);
 }

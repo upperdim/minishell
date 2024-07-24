@@ -6,11 +6,25 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:41:50 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/10 15:19:29 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:35:18 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static bool	is_key_present(char *key)
+{
+	extern char	**environ;
+	int			i;
+
+	if (getenv(key) != NULL)
+		return (true);
+	i = -1;
+	while (environ[++i])
+		if (have_same_key(key, environ[i]) == true)
+			return (true);
+	return (false);
+}
 
 static int	unset_env(char *key)
 {
@@ -19,7 +33,7 @@ static int	unset_env(char *key)
 	char		**new_environ;
 	int			i;
 
-	if (getenv(key) == NULL)
+	if (is_key_present(key) == false)
 		return (EXIT_SUCCESS);
 	new_environ = ft_calloc(sizeof(char *), (environ_size));
 	if (new_environ == NULL)
