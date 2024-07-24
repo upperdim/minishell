@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merge_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:34:15 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/22 20:16:26 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/24 17:23:34 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@
 static int	obliterate_quote_symbols(t_merge_quotes_vars *v)
 {
 	char	quote_type;
+	int		initial_next_q_idx;
 	int		next_quote_idx;
 
 	if (v->iter->value == NULL)
 		return (TRUE);
 	quote_type = v->iter->value[v->i];
 	next_quote_idx = str_findc_idx(v->iter->value, v->i + 1, quote_type);
+	initial_next_q_idx = next_quote_idx;
 	if (next_quote_idx == -1)
 		return (FALSE);
 	if (str_replace_section(&v->iter->value, v->i, v->i, "") == FAILURE)
@@ -47,7 +49,7 @@ static int	obliterate_quote_symbols(t_merge_quotes_vars *v)
 	if (str_replace_section(\
 &v->iter->value, next_quote_idx, next_quote_idx, "") == FAILURE)
 		exit_free_toklst_exp_idxs(v->token_list, v->exp_idxs, v->line);
-	v->i = next_quote_idx;
+	v->i = initial_next_q_idx - 2;
 	return (TRUE);
 }
 

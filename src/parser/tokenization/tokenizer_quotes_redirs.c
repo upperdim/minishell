@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 06:11:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/23 03:04:04 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/24 17:24:49 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ v->line, v->i + idx_dist_to_quot + 1, quote_type);
 	{
 		if (strlen_null(v->curr_token_val) == 0)
 			add_token(v->p_head, STRING, "", v);
-		(v->i) += idx_dist_to_quot + 2;
+		(v->i) += idx_dist_to_quot + 1;
 	}
 	else
 	{
