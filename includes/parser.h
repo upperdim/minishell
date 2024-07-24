@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 14:11:30 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/21 17:34:21 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/23 02:33:06 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,89 @@ typedef struct s_pvars
 	t_token	*head;
 }	t_pvars;
 
+typedef struct s_exp_idxs
+{
+	t_list_int	*tld_idxs;
+	t_list_int	*var_idxs;
+}	t_exp_idxs;
+
+typedef struct s_tokenizer_vars
+{
+	char		*line;
+	int			i;
+	char		*curr_token_val;
+	t_token		**p_head;
+	t_exp_idxs	*free_on_err;
+}	t_tokenizer_vars;
+
+typedef struct s_var_exp_vars
+{
+	int			list_size;
+	int			var_idx;
+	int			idx_idx;
+	int			i;
+	int			e;
+	char		*env_var_name;
+	char		*env_var_val;
+	int			tok_val_len;
+	t_token		*iter;
+	t_token		*token_list_head;
+	t_exp_idxs	*exp_idxs;
+	char		*line;
+	int			ret;
+}	t_var_exp_vars;
+
+typedef struct s_merge_quote_vars
+{
+	int			i;
+	t_token		*token_list;
+	t_token		*iter;
+	t_exp_idxs	*exp_idxs;
+	char		*line;
+}	t_merge_quotes_vars;
+
+// Parsing
 t_token	*parse(char *line);
-t_token	*tokenize(char *line);
+t_token	*tokenize(char *line, t_exp_idxs *exp_idxs);
 int		check_token_rules(t_token *head);
-int		merge_quotes(t_token *token_list);
+int		merge_quotes(t_token *token_list, t_exp_idxs *exp_idxs, char *line);
 
-int		detect_tilda_expansions(char *line, int len,
-			t_list_int **p_tilda_idxs_to_expand);
-int		detect_var_expansions(char *line, t_list_int **p_var_idxs_to_exp,
-			int s);
+// Tokenizer helper functions
+void	handle_quotes(t_tokenizer_vars *v, int idx_dist_to_quot);
+void	handle_redirs(t_tokenizer_vars *v);
+void	add_numeric_redir_token(\
+t_tokenizer_vars *v, char redir_type, int single_or_double);
 
-void	expand_tilda(t_token *token_list, t_list_int *tilda_idxs_to_expand,
-			const int list_size);
-void	expand_var(t_token *token_list, t_list_int *var_idxs_to_expand,
-			const int list_size);
+// Expansion detections
+int		detect_tld_exp(char *line, int len, t_list_int **p_tld_idxs);
+int		detect_var_exp(\
+char *line, t_list_int **p_var_idxs, int s, int var_idx);
+
+// Expansions
+void	expand_tilda(t_token *token_list, t_exp_idxs *exp_idxs, char *line);
+int		expand_var(t_token *token_list, t_exp_idxs	*exp_idxs, char *line);
+
+int		handle_if_should_fail(\
+t_token	*curr_tok, char *env_var_name, char *env_var_result);
+int		handle_if_double_dollar(t_var_exp_vars *v);
+int		handle_if_dollar_questionmark(t_var_exp_vars *v);
+void	exit_error_env_var(t_var_exp_vars *v);
+int		handle_if_will_be_expanded(t_var_exp_vars *v);
+
+// Variable expansion utils
+int		is_valid_var_exp_char(char c);
+int		is_prev_here_doc(t_token *tok);
+
+// String append wrappers for tokenization
+void	str_append_tok(char **p_str, char *to_append, t_tokenizer_vars *v);
+void	str_appendc_tok(char **p_str, char char_to_append, t_tokenizer_vars *v);
+void	str_append_free_tok(\
+char **p_str, char *to_append_and_free, t_tokenizer_vars *v);
+
+// Error management
+void	exit_free_exp_idxs(char *err_msg, t_exp_idxs *exp_idxs, char *line);
+void	exit_free_tokenizer(char *err_msg, t_tokenizer_vars *v);
+void	exit_free_toklst_exp_idxs(\
+t_token *tok_lst, t_exp_idxs *exp_idxs, char *line);
 
 #endif

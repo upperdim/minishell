@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:43:00 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/20 14:40:20 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/23 02:14:10 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 
 # define TRUE 1
 # define FALSE 0
+# define SUCCESS 2
+# define FAILURE -1
 
 enum e_signal_mode
 {
@@ -43,9 +45,6 @@ enum e_signal_mode
 	EXECUTION,
 	HEREDOC
 };
-
-# define SUCCESS 1
-# define FAILURE 0
 
 void	ft_execve(t_cmd *cmd);
 char	*get_prompt(void);
@@ -59,24 +58,27 @@ char	**dup_environ(void);
 int		strlen_null(const char *s);
 char	*str_sub(char *s, int start_idx, int end_idx);
 int		str_is_numeric(char *str);
-int		find_idx_of_nextc(char *s, int search_start_idx, char search_char);
-void	str_replace_section(char **p_str, int start, int end,
-			char *replace_with);
+int		str_findc_idx(char *s, int search_start_idx, char search_char);
+int		str_replace_section(\
+char **p_str, int start, int end, char *replace_with);
 
 // String append
-void	str_append(char **p_str, char *to_append);
-void	str_appendc(char **p_str, char char_to_append);
-void	str_append_free(char **p_str, char *to_append_and_free);
+int		str_append(char **p_str, char *to_append);
+int		str_appendc(char **p_str, char char_to_append);
+int		str_append_free(char **p_str, char *to_append_and_free);
 
 // Int list
 int		list_add(t_list_int **head_ptr, int val);
 void	list_print(t_list_int *head);
 int		list_get_size(t_list_int *head);
-int		list_get_val_idx(t_list_int *head, int idx);
+int		list_get_idx(t_list_int *head, int idx);
 void	list_int_free_all(t_list_int *head);
 
 // Token list
-void	add_token(t_token **head_ptr, t_token_type type, char *val);
+void	add_token(\
+t_token **head_ptr, t_token_type type, char *val, t_tokenizer_vars *v);
+void	add_token_free_val(\
+t_token **head_ptr, t_token_type type, char *val, t_tokenizer_vars *v);
 void	token_list_print(t_token *head);
 t_token	*token_list_get_last(t_token *list);
 
@@ -84,7 +86,6 @@ t_token	*token_list_get_last(t_token *list);
 void	exit_perror(int exit_status);
 void	exit_error(char *error_msg, int exit_status);
 void	clean_up(void);
-void	exit_free_idx_arrays(t_list_int *tilda_idxs, t_list_int *var_idxs);
 
 // Misc
 long	ft_atol(const char *str);

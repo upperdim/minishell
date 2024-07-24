@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:44:04 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/21 18:44:37 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/22 06:55:43 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,4 @@ void	exit_perror(int exit_status)
 	ft_putstr_fd("minishell: ", 2);
 	perror(NULL);
 	exit_error(NULL, exit_status);
-}
-
-void	exit_free_idx_arrays(t_list_int *tilda_idxs_to_exp,
-		t_list_int *var_idxs_to_exp)
-{
-	list_int_free_all(tilda_idxs_to_exp);
-	list_int_free_all(var_idxs_to_exp);
-	exit_error(ERR_MSG_MALLOC, EXIT_FAILURE);
 }

@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_rules.c                                      :+:      :+:    :+:   */
+/*   var_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 11:17:05 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/20 23:36:27 by tunsal           ###   ########.fr       */
+/*   Created: 2024/07/21 00:08:46 by tunsal            #+#    #+#             */
+/*   Updated: 2024/07/23 02:33:03 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Return whether token list obeys rules or not */
-int	check_token_rules(t_token *head)
+int	is_valid_var_exp_char(char c)
 {
-	t_token	*iter;
+	return (ft_isalnum(c) || c == '_');
+}
 
-	iter = head;
-	while (iter != NULL)
-	{
-		if (iter->type == PIPE && (iter->prev == NULL || iter->next == NULL || \
-		iter->next->type != STRING))
-			return (FALSE);
-		else if (iter->type != STRING
-			&& (iter->next == NULL || iter->next->type != STRING))
-			return (FALSE);
-		iter = iter->next;
-	}
-	return (TRUE);
+int	is_prev_here_doc(t_token *tok)
+{
+	if (tok->prev == NULL)
+		return (FALSE);
+	if (tok->prev->type == HERE_DOC)
+		return (TRUE);
+	return (FALSE);
 }

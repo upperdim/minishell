@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 01:26:25 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/19 20:15:26 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/22 20:27:01 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void interactive() {
 }
 
 void test_ll_add_when_null() {
-	printf("================================================================\n");
-	printf("                      Int Linked List                           \n");
-	printf("================================================================\n");
+	printf("===============================================================\n");
+	printf("                      Int Linked List                          \n");
+	printf("===============================================================\n");
 	t_list_int *head = NULL;
 	list_add(&head, 42);
 	printf("value of newly added node = %d\n", head->val);
@@ -66,9 +66,9 @@ void test_ll_add_when_null() {
 }
 
 void test_expansion_detection_variable() {
-	printf("================================================================\n");
-	printf("              Variable Expansion Detection                      \n");
-	printf("================================================================\n");
+	printf("===============================================================\n");
+	printf("              Variable Expansion Detection                     \n");
+	printf("===============================================================\n");
 	#define EXP_VAR_DET_TEST_COUNT 8
 	char *var_expansion_detection_tests[EXP_VAR_DET_TEST_COUNT] = {
 		" $$$ ",
@@ -86,7 +86,7 @@ void test_expansion_detection_variable() {
 		printf("test case %d = {%s}\n", i + 1, test_case);
 
 		t_list_int *actual = NULL;
-		detect_var_expansions(test_case, &actual, 0);
+		detect_var_exp(test_case, &actual, 0, 0);
 		
 		list_print(actual);
 		printf("\n");
@@ -94,9 +94,9 @@ void test_expansion_detection_variable() {
 }
 
 void test_expansion_detection_tilda() {
-	printf("================================================================\n");
-	printf("              Tilda Expansion Detection                         \n");
-	printf("================================================================\n");
+	printf("===============================================================\n");
+	printf("              Tilda Expansion Detection                        \n");
+	printf("===============================================================\n");
 	#define EXP_TLD_DET_TEST_COUNT 8
 	char *tilda_expansion_detection_tests[EXP_TLD_DET_TEST_COUNT] = {
 		"~",
@@ -114,7 +114,7 @@ void test_expansion_detection_tilda() {
 		printf("test case %d = {%s}\n", i + 1, test_case);
 
 		t_list_int *actual = NULL;
-		detect_tilda_expansions(test_case, ft_strlen(test_case), &actual);
+		detect_tld_exp(test_case, ft_strlen(test_case), &actual);
 		
 		list_print(actual);
 		printf("\n");
@@ -122,9 +122,9 @@ void test_expansion_detection_tilda() {
 }
 
 void test_str_append_appendc() {
-	printf("================================================================\n");
-	printf("              str_append()   str_appendc()                      \n");
-	printf("================================================================\n");
+	printf("===============================================================\n");
+	printf("              str_append()   str_appendc()                     \n");
+	printf("===============================================================\n");
 	char *s1 = NULL;
 	char *s2 = "hello world";
 	printf("s1 initially         = %s\n", s1);
@@ -135,20 +135,20 @@ void test_str_append_appendc() {
 }
 
 void test_token_list() {
-	printf("================================================================\n");
-	printf("                           Token List                           \n");
-	printf("================================================================\n");
+	printf("===============================================================\n");
+	printf("                           Token List                          \n");
+	printf("===============================================================\n");
 	t_token *head = NULL;
-	add_token(&head, STRING, "hello there");
+	add_token(&head, STRING, "hello there", NULL);
 	token_list_print(head);
-	add_token(&head, APPEND_TO, ">>");
+	add_token(&head, APPEND_TO, ">>", NULL);
 	token_list_print(head);
 }
 
 void test_tokenizer() {
-	printf("================================================================\n");
-	printf("                            Tokenizer                           \n");
-	printf("================================================================\n");
+	printf("===============================================================\n");
+	printf("                            Tokenizer                          \n");
+	printf("===============================================================\n");
 	#define TOKENIZER_TEST_COUNT 4
 	char *tokenizer_tests[TOKENIZER_TEST_COUNT] = {
 		"cat hello1>file2name 123>file1name123>world<<\" EOF\"",
@@ -161,16 +161,18 @@ void test_tokenizer() {
 		char *test_case = tokenizer_tests[i];
 		printf("test case %d = {%s}\n", i + 1, test_case);
 
-		t_token *token_list = tokenize(test_case);
+		char *allocated_test_case = strdup(test_case);
+		t_token *token_list = tokenize(allocated_test_case, NULL);
 		token_list_print(token_list);
+		free(allocated_test_case);
 		printf("\n");
 	}
 }
 
 void test_parser() {
-	printf("================================================================\n");
-	printf("                            Parser                              \n");
-	printf("================================================================\n");
+	printf("===============================================================\n");
+	printf("                            Parser                             \n");
+	printf("===============================================================\n");
 	#define PARSER_TEST_COUNT 4
 	char *tokenizer_tests[PARSER_TEST_COUNT] = {
 		"cat hello1>file2name 123>file1name123>world<<\" EOF\"",
@@ -183,8 +185,10 @@ void test_parser() {
 		char *test_case = tokenizer_tests[i];
 		printf("test case %d = {%s}\n", i + 1, test_case);
 
-		t_token *token_list = parse(test_case);
+		char *allocated_test_case = strdup(test_case);
+		t_token *token_list = parse(allocated_test_case);
 		token_list_print(token_list);
+		free(allocated_test_case);
 		printf("\n");
 	}
 }
