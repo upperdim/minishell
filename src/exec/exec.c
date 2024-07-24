@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/24 17:46:29 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:28:23 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ void	ft_execve(t_cmd *cmd)
 	if (access (cmd->argv[0], F_OK) || (ft_strncmp(cmd->argv[0], "./", 2 != 0)
 			&& ft_strncmp(cmd->argv[0], "../", 3) != 0 && **cmd->argv != '/'))
 		cmd_path = find_path_to(cmd->argv[0]);
-	if (ft_strnstr(cmd->argv[0], "./minishell", ft_strlen(cmd->argv[0])))
-		set_signal_handlers_mode(HEREDOC);
 	if (!cmd_path)
 	{
 		error_msg_execve(cmd);
@@ -123,6 +121,8 @@ int	exec(t_token *token)
 		cmd->argv = transform_to_array(cmd->strs);
 		if (cmd->argv == NULL)
 			return (free_cmd(&cmd), EXIT_FAILURE);
+		if (ft_strnstr(cmd->argv[0], "./minishell", ft_strlen(cmd->argv[0])))
+			set_signal_handlers_mode(HEREDOC);
 		pid = execute_cmd(cmd);
 		if (pid == EXIT_FAILURE)
 			return (free_cmd(&cmd), EXIT_FAILURE);
