@@ -6,7 +6,7 @@
 /*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 00:07:23 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/24 19:17:41 by tunsal           ###   ########.fr       */
+/*   Updated: 2024/07/24 19:11:18 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 static int	is_eligible_for_exp(t_detect_var_exp_vars *v)
 {
-	if (v->line[v->s] == '\'')
+	if (!v->in_double_quote && v->line[v->s] == '\'')
 	{
 		v->in_single_quote = !(v->in_single_quote);
 		return (v->s++, FALSE);
 	}
-	if (v->line[v->s] == '\"')
+	if (!v->in_single_quote && v->line[v->s] == '\"')
 	{
 		v->in_double_quote = !(v->in_double_quote);
 		return (v->s++, FALSE);
 	}
 	if (v->line[v->s] != '$')
 		return (v->s++, FALSE);
-	if (!v->in_double_quote && v->in_single_quote)
+	if (v->in_single_quote)
 	{
 		v->var_idx++;
 		return (v->s++, FALSE);
