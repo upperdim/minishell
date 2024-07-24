@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:01:28 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/24 19:28:23 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:32:36 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,8 @@ int	exec(t_token *token)
 		cmd->argv = transform_to_array(cmd->strs);
 		if (cmd->argv == NULL)
 			return (free_cmd(&cmd), EXIT_FAILURE);
-		if (ft_strnstr(cmd->argv[0], "./minishell", ft_strlen(cmd->argv[0])))
+		if (cmd-argv != (void *)1
+			&& ft_strnstr(cmd->argv[0], "./minishell", ft_strlen(cmd->argv[0])))
 			set_signal_handlers_mode(HEREDOC);
 		pid = execute_cmd(cmd);
 		if (pid == EXIT_FAILURE)
