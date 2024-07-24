@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:15:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/07/21 17:23:11 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:43:21 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,6 @@ void	wait_and_set_exit_status(pid_t pid, t_cmd *cmd)
 		set_last_process_exit_code(WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
 		set_last_process_exit_code(WTERMSIG(status) + 128);
+	ft_close(&cmd->pipe[PIPE_FD_READ]);
+	ft_close(&cmd->pipe[PIPE_FD_WRITE]);
 }
