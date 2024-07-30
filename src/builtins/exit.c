@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:39:22 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/25 14:21:04 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:42:01 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,17 @@ static bool	is_in_llong_range(const char *str)
 int	exit_bash(const int argc, t_cmd	*cmd)
 {
 	extern int	errno;
-	const bool	is_numeric
-		= str_is_numeric(cmd->argv[1]) & is_in_llong_range(cmd->argv[1]);
+	bool		is_numeric;
 
+	is_numeric = false;
+	if (cmd->argv == NULL)
+		is_numeric = str_is_numeric(cmd->argv[1])
+			& is_in_llong_range(cmd->argv[1]);
 	ft_printf("exit\n");
 	if (argc > 2 && is_numeric)
 	{
 		errno = 1;
-		ft_printf_fd(2, ERROR_MSG, "exit", "too many arguments");
-		return (EXIT_FAILURE);
+		return (ft_printf_fd(2, ERROR_MSG, "exit", "too many arguments"), 1);
 	}
 	if (argc == 2 && is_numeric)
 		errno = ft_atoi(cmd->argv[1]);
@@ -64,20 +66,3 @@ int	exit_bash(const int argc, t_cmd	*cmd)
 	clean_up();
 	exit((unsigned char)errno);
 }
-// exit is unsigned char, so it can only be 0-255
-
-// Test "exit      " should return 0. strlen check shouldn't fail)
-// Test "exit -1" should return 255, it should overflow unsigned char)
-
-// bash-3.2$ exit 123x123
-// exit
-// bash: exit: 123x123: numeric argument required
-
-// bash-3.2$ exit     123x123      52    
-// exit
-// bash: exit: 123x123: numeric argument required
-
-// bash-3.2$ exit     123123      52    
-// exit
-// bash: exit: too many arguments
-// DOESN'T EXIT BASH!
