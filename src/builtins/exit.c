@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: tunsal <tunsal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:39:22 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/25 14:21:04 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/08/03 09:17:09 by tunsal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,17 @@ static bool	is_in_llong_range(const char *str)
 int	exit_bash(const int argc, t_cmd	*cmd)
 {
 	extern int	errno;
-	const bool	is_numeric
-		= str_is_numeric(cmd->argv[1]) & is_in_llong_range(cmd->argv[1]);
-
+	bool	is_numeric;
+	
+	is_numeric = false;
+	if (cmd->argv == NULL)
+		is_numeric = str_is_numeric(cmd->argv[1]) 
+			& is_in_llong_range(cmd->argv[1]);
 	ft_printf("exit\n");
 	if (argc > 2 && is_numeric)
 	{
 		errno = 1;
-		ft_printf_fd(2, ERROR_MSG, "exit", "too many arguments");
-		return (EXIT_FAILURE);
+		return (ft_printf_fd(2, ERROR_MSG, "exit", "too many arguments"), 1);
 	}
 	if (argc == 2 && is_numeric)
 		errno = ft_atoi(cmd->argv[1]);
