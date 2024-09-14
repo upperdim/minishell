@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:39:22 by tunsal            #+#    #+#             */
-/*   Updated: 2024/07/30 13:42:01 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/09/14 20:26:14 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	exit_bash(const int argc, t_cmd	*cmd)
 	bool		is_numeric;
 
 	is_numeric = false;
-	if (cmd->argv == NULL)
+	if (cmd != NULL)
 		is_numeric = str_is_numeric(cmd->argv[1])
 			& is_in_llong_range(cmd->argv[1]);
 	ft_printf("exit\n");
