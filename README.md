@@ -29,7 +29,7 @@ Some key rules of the format:
 - Functions can have at most 4 parameters.
 - Maximum of 5 functions per file.
 
-# Examples
+## Examples
 
 - Redirections
 
