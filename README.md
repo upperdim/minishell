@@ -13,11 +13,11 @@ Minishell is an operating system shell, providing a complete command line interf
 
 ## Code formatting
 
-Code was formatted in compliance with the Norm format.
+Code was formatted in compliance with the [Norm](https://github.com/42school/norminette/blob/8d40e425ac66101c0fc7a60b03ab037bc04c92ad/pdf/en.norm.pdf).
 
 This is a highly unconventional format and does not reflect our own preference.
 
-Some rules of the format:
+Some key rules of the format:
 
 - All source files must have the "42 header".
 - Strict 80 column limit for all lines.
